@@ -1,0 +1,8 @@
+vue-router: A front end router solution
+npm install vue-router@4
+
+element plus: Vue 3 Component Library
+npm install element-plus --save
+
+pinia: next generation cross-component data transmit tool
+npm install pinia
