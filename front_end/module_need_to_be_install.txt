@@ -1,8 +1,11 @@
 vue-router: A front end router solution
 npm install vue-router@4
 
-element plus: Vue 3 Component Library
-npm install element-plus --save
+naive-ui: Vue 3 Component Library
+npm i -D naive-ui
 
 pinia: next generation cross-component data transmit tool
 npm install pinia
+
+unplugin-icons: Customise icons in any supported component libraries
+npm i -D unplugin-icons
