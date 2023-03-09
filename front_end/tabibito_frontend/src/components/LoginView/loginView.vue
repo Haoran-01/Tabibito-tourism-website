@@ -77,14 +77,18 @@
 
   </div>
 
+  <footer-view></footer-view>
+
+
 </template>
 
 <script>
 
 import navigationBar from "../GeneralComponents/navigationBar.vue";
+import FooterView from "../GeneralComponents/footerView.vue";
 
 export default {
-  components: {navigationBar},
+  components: {FooterView, navigationBar},
   name: "loginView"
 }
 </script>
@@ -101,7 +105,9 @@ export default {
 
   /*background-image: url("../../assets/loginBg.jpg");*/
   background-repeat: no-repeat;
-  height: 100vh;
+  /*height: 100vh;*/
+  min-height: 975px;
+
   background-size: 100% 100%;
 
   font-family: myFont;
@@ -121,7 +127,7 @@ export default {
 
   height: 740px;
 
-  top: 80px;
+  top: 120px;
 
   /*display: flex;*/
   /*align-items: center;*/
