@@ -1,5 +1,5 @@
 <template>
-<navigation-bar></navigation-bar>
+  <navigation-bar></navigation-bar>
 
   <div class="bg">
 
@@ -9,11 +9,22 @@
 
         <div class="border">
 
-          <h1 class="font_login">Welcome back</h1>
-          <p class="font_acc">Don't have an account yet?
-            <a href="#" class="font_blue">Sign up for free</a></p>
+          <h1 class="font_login">Sign in or create an account
+          </h1>
+          <p class="font_acc">Already have an account?
+            <a href="#" class="font_blue">Log in</a></p>
 
-<!--          账号部分-->
+          <!--          name部分-->
+          <div class="input_border">
+
+            <div class="input_form">
+              <input type="text" required>
+              <label class="input_label">Username</label>
+            </div>
+
+          </div>
+
+          <!--          账号部分-->
           <div class="input_border">
 
             <div class="input_form">
@@ -23,7 +34,7 @@
 
           </div>
 
-<!--          密码部分-->
+          <!--          密码部分-->
           <div class="input_border">
 
             <div class="input_form">
@@ -33,12 +44,27 @@
 
           </div>
 
-<!--          忘记密码-->
+          <!--          确认密码部分-->
           <div class="input_border">
-            <a href="#" class="forget_link">Forgot your password?</a>
+
+            <div class="input_form">
+              <input type="password" required>
+              <label class="input_label">Confirm Password</label>
+            </div>
+
           </div>
 
-<!--          按钮-->
+          <!--          验证码部分-->
+          <div class="input_border">
+
+            <div class="input_form">
+              <input type="text" required>
+              <label class="input_label">Verification Code</label>
+            </div>
+
+          </div>
+
+          <!--          按钮-->
           <div class="input_border">
 
             <a href="#" class="login_btn">
@@ -47,7 +73,7 @@
 
           </div>
 
-<!--          其他登陆方式-->
+          <!--          其他登陆方式-->
           <div class="input_border">
             <div class="text_center">or sign in with</div>
 
@@ -60,9 +86,8 @@
 
           <div class="input_border">
 
-            <div class="text_note">By creating an account, you agree to our Terms of Service and Privacy Statement.</div>
-
-
+            <div class="text_note">By signing in, I agree to Tabibito Terms of Use and Privacy Policy.
+            </div>
 
           </div>
 
@@ -98,7 +123,6 @@ export default {
 
 .bg{
   background-image: url("../../assets/img.png");
-
   /*background-image: url("../../assets/loginBg.jpg");*/
   background-repeat: no-repeat;
   height: 100vh;
@@ -119,7 +143,7 @@ export default {
 
   /*height: calc(100vh - 300px);*/
 
-  height: 740px;
+  height: 860px;
 
   top: 80px;
 
@@ -145,7 +169,7 @@ export default {
 .font_acc{
   margin-top: 25px !important;
   color: #757272;
-  font-size: 15px;
+  font-size: 16px;
 }
 
 .font_blue{
@@ -156,7 +180,7 @@ export default {
 .input_border{
   flex:0 0 auto;
   width:100%;
-  margin-top: 30px;
+  margin-top: 20px;
 }
 
 .input_form{
@@ -200,14 +224,9 @@ export default {
   transform: translateY(-10px);
 }
 
-.forget_link{
-  font-size: 15px !important;
-  font-weight: 500;
-  color: #3554D1;
-  text-decoration: underline;
-}
 
 .login_btn{
+  margin-top: 35px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -249,6 +268,7 @@ export default {
 
 .text_center{
   text-align: center;
+  margin-top: 40px;
   font-size: 17px;
 }
 
