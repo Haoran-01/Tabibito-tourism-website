@@ -8,76 +8,96 @@
      <div class="menu"></div>
    </div>-->
    <div class="logoArea">
-     <div class="logoIcon"></div>
+     <div class="logoIcon">
+     </div>
      <div class="logoText"></div>
    </div>
    <div class="actions">
      <div class="simpleSettings">
-       <n-dropdown :options="options">
-         <div class="actionButton currencyButton">
-           <div class="actionIcon"></div>
-           <div class="actionText">USD</div>
-         </div>
-<!--         <template #dropdown>
-           <el-dropdown-menu>
-             <el-dropdown-item class="dropdownItem" disabled>
-               <el-icon><IconUsdCircle/></el-icon>USD</el-dropdown-item>
-             <el-dropdown-item class="dropdownItem" divided command="test">
-               <el-icon><CurrencyCnyLine/></el-icon>CNY</el-dropdown-item>
-             <el-dropdown-item class="dropdownItem">
-               <el-icon><EuroCircle/></el-icon>EUR
-             </el-dropdown-item>
-           </el-dropdown-menu>
-         </template>-->
-       </n-dropdown>
+       <div class="actionButton currencyButton" @mouseenter="currency_is_shown = true" @mouseleave="currency_is_shown = false">
+         <div class="actionIcon" id="currencyIcon" :style="currencyIcon"></div>
+         <div class="actionText" id="currencyText">{{currencyText}}</div>
+       </div>
+       <transition name="fade">
+         <drop-down
+             @mouseenter="currency_is_shown = true"
+             @mouseleave="currency_is_shown = false"
+             :dropdown_item="currency_item"
+             v-show="currency_is_shown"
+             style="position: absolute; left: 10px; top: 60px"
+             @change-currency="handleCurrencyChange"
+         ></drop-down>
+       </transition>
        <div class="divider"></div>
        <div class="actionButton languageButton">
          <div class="actionIcon"></div>
          <div class="actionText">English</div>
        </div>
      </div>
-     <div class="accountButton"></div>
+     <div class="accountButton" @mouseenter="user_is_shown = true" @mouseleave="user_is_shown = false">
+       <transition name="fade">
+         <drop-down
+             @mouseenter="user_is_shown = true"
+             @mouseleave="user_is_shown = false"
+             :dropdown_item="login_item"
+             v-show="user_is_shown"
+             style="position: absolute; right: 100px; top: 90px"
+             @change-currency="handleCurrencyChange"
+         ></drop-down>
+       </transition>
+     </div>
    </div>
+
  </header>
+
 </template>
 
 <script>
-import usdCircle from '@iconify-icons/uil/usd-circle';
-import euroCircle from '@iconify-icons/uil/euro-circle';
-import CurrencyCnyLine from '@iconify-icons/mingcute/currency-cny-line';
-import { h, defineComponent } from "vue";
-import { NIcon } from "naive-ui";
-
-const renderIcon = (icon) => {
-  return () => {
-    return h(NIcon, null, {
-      default: () => h(icon)
-    });
-  };
-};
-
-
+import {h, defineComponent, ref} from "vue";
+import DropDown from "./dropDown.vue";
 export default defineComponent({
+  components: {DropDown},
   setup() {
+    let currency_is_shown = ref(false);
+    let user_is_shown = ref(false);
+    let user_is_logged_in = ref(true);
+    let currencyIcon = ref("background-image:url('src/assets/USD.svg')");
+    let currencyText = ref('USD');
     return {
-      options: [
-        {
-          label: "用户资料",
-          key: "profile",
-          icon: renderIcon(usdCircle)
-        },
-        {
-          label: "编辑用户资料",
-          key: "editProfile",
-          icon: renderIcon(CurrencyCnyLine)
-        },
-        {
-          label: "退出登录",
-          key: "logout",
-          icon: renderIcon(euroCircle)
-        }
-      ]
+      currency_is_shown,
+      user_is_shown,
+      currencyIcon,
+      currencyText,
+      user_is_logged_in,
+      handleSelect(key){
+        console.log("key")
+      }
     };
+  },
+  data(){
+    return{
+      currency_item: [
+        {icon: "background-image:url('src/assets/USD.svg')", text: 'USD'},
+        {icon: "background-image:url('src/assets/CNY.svg')", text: 'CNY'},
+        {icon: "background-image:url('src/assets/EUR.svg')", text: 'EUR'},
+      ],
+      user_item: [
+        {
+
+        }
+      ],
+      login_item: [
+        {icon: "background-image:url('src/assets/login.svg')", text: 'Log In'},
+        {icon: "background-image:url('src/assets/signup.svg')", text: 'Sign Up'}
+      ]
+    }
+  },
+  methods: {
+    handleCurrencyChange(icon, text){
+      console.log(text)
+      this.currencyIcon = icon;
+      this.currencyText = text;
+    },
   }
 });
 
@@ -86,14 +106,16 @@ export default defineComponent({
 
 <style scoped>
 .header{
-  width: calc(100vw - 60px);
+  width: 100vw;
   height: 90px;
-  background-color: rgba(0, 0, 0, 0);
+  /*background-color: #13357B;*/
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-left: 30px;
-  margin-right: 30px;
+  box-sizing: border-box;
+  padding-left: 30px;
+  padding-right: 30px;
+
 }
 .leftHeader{
   width: auto;
@@ -113,7 +135,6 @@ export default defineComponent({
 }
 .actions{
   height: 100%;
-  background-color: blue;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -126,7 +147,7 @@ export default defineComponent({
   grid-template-rows: 1fr;
   align-items: center;
   box-sizing: border-box;
-
+  position: relative;
 }
 .actionButton{
   width: calc(100% - 20px);
@@ -136,17 +157,17 @@ export default defineComponent({
   align-items: center;
 
   transition: .1s ease-in;
-  border-radius: var(--el-border-radius-small);
+  border-radius: var(--border-radius);
   padding: 3px;
   cursor: pointer;
   outline: none;
 }
 .actionButton:hover{
   transition: .1s ease-out;
-  background-color: aqua;
+  background-color: rgba(46, 51, 56, .09);
 }
 .actionIcon{
-  background-image: url("../../assets/USD.svg");
+  background-image: url('../../assets/USD.svg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
@@ -154,7 +175,6 @@ export default defineComponent({
   height: 24px;
 }
 .actionText{
-  color: white;
   font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
 }
 .currencyButton{
@@ -163,11 +183,39 @@ export default defineComponent({
 .languageButton{
   margin-right: 10px;
 }
+.languageButton .actionIcon{
+  background-image: url('../../assets/language.svg');
+}
+.accountButton{
+  width: 36px;
+  height: 36px;
+  border-radius: 400px;
+  box-sizing: border-box;
+  background-image: url("../../assets/user.svg");
+  background-size: 70%;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+}
+.accountButton:hover{
+  background-color: rgba(46, 51, 56, .09);
+  transition: .1s ease-out;
+}
 .divider{
   margin-left: 5px;
   margin-right: 5px;
   height: 80%;
   width: 1px;
-  background-color: var(--el-border-color);
+  background-color: var(--border-color);
 }
+.fade-enter-active{
+  transition:height .25s;
+}
+.fade-leave-active{
+transition:opacity .25s
+}
+.fade-enter{
+  height: 0;
+}
+.fade-leave-to {opacity:0}
 </style>
