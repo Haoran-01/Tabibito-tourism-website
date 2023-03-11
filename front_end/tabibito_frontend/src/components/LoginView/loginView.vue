@@ -13,7 +13,9 @@
           <p class="font_acc">Don't have an account yet?
             <a href="#" class="font_blue">Sign up for free</a></p>
 
-<!--          账号部分-->
+          <form id="uploadForm" method="post" autocomplete="off" role="form" action="/login" >
+
+          <!--          账号部分-->
           <div class="input_border">
 
             <div class="input_form">
@@ -46,6 +48,8 @@
             </a>
 
           </div>
+
+          </form>
 
 <!--          其他登陆方式-->
           <div class="input_border">
