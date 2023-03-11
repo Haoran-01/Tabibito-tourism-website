@@ -17,9 +17,29 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    # SQLALCHEMY_DATABASE_URI = \
-    #     "sqlite:///" + os.path.join(basedir, 'data.sqlite')
-    # SQLALCHEMY_TRACK_MODIFICATIONS = True
+    # 数据库的配置变量
+    HOSTNAME = '127.0.0.1'
+    PORT = '3306'
+    DATABASE = 'tabibito'
+    USERNAME = 'root'
+    PASSWORD = ''
+    DB_URI = 'mysql+pymysql://{}:{}@{}:{}/{}?charset=utf8'.format(USERNAME, PASSWORD, HOSTNAME, PORT, DATABASE)
+    SQLALCHEMY_DATABASE_URI = DB_URI
+    SQLALCHEMY_TRACK_MODIFICATIONS = True
+    # SQLALCHEMY_POOL_RECYCLE = 28800
+
+    SECRET_KEY = 'mou107b6vsfxor82bbc4bzf4mcu7'
+
+    # email config
+    # use 163 email
+    MAIL_SERVER = "smtp.163.com"
+    MAIL_PORT = 465
+    MAIL_USE_TLS = False
+    MAIL_USE_SSL = True
+    MAIL_DEBUG = True
+    MAIL_USERNAME = "tabibito_1@163.com"
+    MAIL_PASSWORD = "INKSISDGQFZCIQLS"
+    MAIL_DEFAULT_SENDER = "tabibito_1@163.com"
 
 
 class TestingConfig(Config):
