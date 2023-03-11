@@ -167,6 +167,8 @@ export default {
   flex:0 0 auto;
   width:100%;
   margin-top: 30px;
+  display: inline-block;
+
 }
 
 .input_form{
@@ -292,6 +294,11 @@ export default {
 
   margin-top: 10px !important;
 }
+
+.other_login_btn:hover .google_icon{
+  background-image: url("../../assets/google_white.svg");
+}
+
 
 .other_login_btn:hover{
   background-color: #ce2821;

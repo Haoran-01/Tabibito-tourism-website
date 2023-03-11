@@ -29,9 +29,22 @@
             <div class="input_border">
 
               <div class="input_form">
-                <input type="password" required>
-                <label class="input_label">Verification Code</label>
+
+                <div class="half_1">
+                  <input type="password" required>
+                  <label class="input_label">Verification Code</label>
+                </div>
+
+                <div class="half_2">
+                  <!--          验证码按钮-->
+                  <a class="login_btn verify"  @click="startCountdown" v-show="!countingDown">
+                    Send Verification Code
+                  </a>
+                  <a class="login_btn verify" v-if="countingDown">{{ remainingTime }} s </a>
+                </div>
               </div>
+
+
 
             </div>
 
@@ -39,8 +52,9 @@
             <!--          按钮-->
             <div class="input_border">
 
-              <a href="#" class="login_btn">
-                Send Verification Code<div class="icon_login"></div>
+              <a href="#" class="login_btn c">
+                Continue
+<!--                <div class="icon_login"></div>-->
               </a>
 
             </div>
@@ -88,7 +102,29 @@ import FooterView from "../GeneralComponents/footerView.vue";
 
 export default {
   components: {FooterView, navigationBar},
-  name: "loginView"
+  name: "loginView",
+  data() {
+    return {
+      countingDown: false,
+      remainingTime: 60,
+      countdownInterval: null
+    };
+  },
+  methods: {
+    startCountdown() {
+      this.countingDown = true;
+      this.remainingTime = 60; // add this line to reset remainingTime to 60
+      this.countdownInterval = setInterval(() => {
+        if (this.remainingTime > 0) {
+          this.remainingTime--;
+        } else {
+          clearInterval(this.countdownInterval);
+          this.countingDown = false;
+        }
+      }, 1000);
+    }
+  }
+
 }
 </script>
 
@@ -128,9 +164,6 @@ export default {
 
   top: 120px;
 
-  /*display: flex;*/
-  /*align-items: center;*/
-
   background-color: #ffffff;
 }
 
@@ -162,6 +195,23 @@ export default {
   flex:0 0 auto;
   width:100%;
   margin-top: 40px;
+}
+
+.half_1{
+  display: inline-block;
+
+
+  width: 50%;
+}
+
+.half_2{
+
+  display: inline-block;
+
+  margin-left: 60px;
+  /*margin-top: -10px;*/
+
+  width: 40%;
 }
 
 .input_form{
@@ -213,13 +263,14 @@ export default {
 }
 
 .login_btn{
+
   display: flex;
   align-items: center;
   justify-content: center;
   vertical-align: middle;
   text-align: center;
   font-weight: 500;
-  font-size: 17px;
+  font-size: 19px;
   line-height: 1.2;
   border-radius: 4px;
   border: 1px solid transparent;
@@ -234,7 +285,38 @@ export default {
   color: #FFFFFF;
 
   text-decoration:none;
+}
 
+.login_btn.c:after{
+  content: '»';
+  opacity: 0;
+  margin-left: 20px;
+  transition: 0.5s;
+  font-size: 23px;
+}
+
+
+.login_btn.c:hover:after {
+  opacity: 1;
+  right: 0;
+  padding-left: 20px;
+
+}
+
+.login_btn.verify{
+  background-color: #ffffff !important;
+  color: #3554D1;
+
+  border: 1.2px solid #3554D1;
+
+  margin-top: 5px;
+  font-size: 17px;
+}
+
+.login_btn.verify:hover{
+  border-color:  #3d61f1;
+  background-color: #3d61f1 !important;
+  color: white !important;
 }
 
 .login_btn:hover{
@@ -294,6 +376,10 @@ export default {
   background-color: #ce2821;
   border-color: transparent;
   color: white !important;
+}
+
+.other_login_btn:hover .google_icon{
+  background-image: url("../../assets/google_white.svg");
 }
 
 .google_icon{
