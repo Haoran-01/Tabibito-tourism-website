@@ -2,11 +2,11 @@ import random
 import string
 
 
-from flask import Blueprint, request, render_template, redirect, url_for, jsonify, g
-from webdir.forms import LoginFrom, RegisterForm, EmailCaptchaModel, ForgetFormPassword
+from flask import Blueprint, request, render_template, jsonify, g
+from forms import LoginFrom, RegisterForm, EmailCaptchaModel, ForgetFormPassword
 from flask_login import login_user, logout_user, login_required
-from webdir.models import User
-from webdir.exts import db, mail
+from models import User
+from exts import db, mail
 from flask_mail import Message
 from datetime import datetime
 from werkzeug.security import generate_password_hash

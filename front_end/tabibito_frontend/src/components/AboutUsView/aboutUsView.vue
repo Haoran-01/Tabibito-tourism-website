@@ -76,14 +76,20 @@
     </div>
   </div>
   <n-divider />
+  <our-team-view></our-team-view>
+  <overheard-from-travelers-view></overheard-from-travelers-view>
+  <footer-view></footer-view>
 </template>
 
 <script>
 import NavigationBar from "../GeneralComponents/navigationBar.vue";
 import {ref} from "vue";
+import OurTeamView from "./ourTeamView.vue";
+import OverheardFromTravelersView from "./overheardFromTravelersView.vue";
+import FooterView from "../GeneralComponents/footerView.vue";
 export default {
   name: "aboutUsView",
-  components: {NavigationBar},
+  components: {FooterView, OverheardFromTravelersView, OurTeamView, NavigationBar},
   setup() {
     const numberAnimationInstRef = ref(null);
     return {
@@ -233,7 +239,7 @@ export default {
   margin-top: 60px;
 }
 .statistics{
-  margin: 60px auto auto 40px;
+  margin: 60px auto 40px auto;
   max-width: 1140px;
   box-sizing: border-box;
   padding-left: 15px;

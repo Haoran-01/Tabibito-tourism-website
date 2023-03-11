@@ -150,7 +150,7 @@ export default {
 <style scoped>
 
 @font-face {
-  font-family: myFont;
+  font-family: Jost;
   src: url("../../assets/fonts/Jost-Regular.ttf");
 }
 
@@ -163,7 +163,7 @@ export default {
 
   background-size: 100% 100%;
 
-  font-family: myFont;
+  font-family: Jost;
 }
 
 .container{
