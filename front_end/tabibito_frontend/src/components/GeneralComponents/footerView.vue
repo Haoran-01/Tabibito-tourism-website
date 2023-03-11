@@ -53,36 +53,36 @@
           <div class="col-xl col-lg col-sm">
             <h5 class="footer-h">Company</h5>
             <div class="contact-title">
-              <a href="#">About Us</a>
-              <a href="#">Careers</a>
-              <a href="#">Blog</a>
-              <a href="#">Press</a>
-              <a href="#">Gift Cards</a>
-              <a href="#">Magazine</a>
+              <a href="#" class="link">About Us</a>
+              <a href="#" class="link">Careers</a>
+              <a href="#" class="link">Blog</a>
+              <a href="#" class="link">Press</a>
+              <a href="#" class="link">Gift Cards</a>
+              <a href="#" class="link">Magazine</a>
             </div>
           </div>
 
           <div class="col-xl col-lg col-sm">
             <h5 class="footer-h">Support</h5>
             <div class="contact-title">
-              <a href="#">Contact</a>
-              <a href="#">Legal Notice</a>
-              <a href="#">Privacy Policy</a>
-              <a href="#">Terms and Conditions</a>
-              <a href="#">Sitemap</a>
+              <a href="#" class="link">Contact</a>
+              <a href="#" class="link">Legal Notice</a>
+              <a href="#" class="link">Privacy Policy</a>
+              <a href="#" class="link">Terms and Conditions</a>
+              <a href="#" class="link">Sitemap</a>
             </div>
           </div>
 
           <div class="col-xl col-lg col-sm">
             <h5 class="footer-h">Other Services</h5>
             <div class="contact-title">
-              <a href="#">Car hire</a>
-              <a href="#">Activity Finder</a>
-              <a href="#">Tour List</a>
-              <a href="#">Flight finder</a>
-              <a href="#">Cruise Ticket</a>
-              <a href="#">Holiday Rental</a>
-              <a href="#">Travel Agents</a>
+              <a href="#" class="link">Car hire</a>
+              <a href="#" class="link">Activity Finder</a>
+              <a href="#" class="link">Tour List</a>
+              <a href="#" class="link">Flight finder</a>
+              <a href="#" class="link">Cruise Ticket</a>
+              <a href="#" class="link">Holiday Rental</a>
+              <a href="#" class="link">Travel Agents</a>
             </div>
           </div>
 
@@ -168,6 +168,14 @@ export default {
 </script>
 
 <style scoped>
+.link {
+  text-decoration: none;
+  color: #000000;
+}
+
+.link:hover {
+  color: #428bca;
+}
 
 .layout-journey-bg {
   background-color: #0D2857 !important;
