@@ -27,10 +27,11 @@ def logout():
 def register_check():
     data = request.get_json(silent=True)
     user_email = data["email"]
-    user_first_name = data["userFirstName"]
-    user_last_name = data["userLastName"]
+    user_first_name = data["first"]
+    user_last_name = data["last"]
     user_password = data["password"]
-    captcha = data["captcha"]
+    user_password_confirm = data["confirm"]
+    captcha = data["code"]
     register_form = RegisterForm(user_email=user_email, user_first_name=user_first_name, user_last_name=user_last_name,
                                  user_password=user_password, captcha=captcha)
     if register_form.validate():
@@ -127,13 +128,13 @@ def email_check():
 
 
 # 忘记密码功能-密码更改
-@bp.route("/forget_form_password", methods=['POST', 'GET'])
+@bp.route("/reset_password", methods=['POST', 'GET'])
 def password_check():
 
     email = getattr(g, 'forget_email')
     data = request.get_json(silent=True)
-    user_password = data["password"]
-    confirm = data["confirm"]
+    user_password = data["p1"]
+    confirm = data["p2"]
     password_form = ForgetFormPassword(user_password=user_password, confirm=confirm)
     if password_form.validate():
         new_password = user_password
