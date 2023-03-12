@@ -266,4 +266,170 @@ export default {
   line-height: 1.4;
   font-weight: 400;
 }
+
+@media screen and (max-width: 750px) {
+  .cover{
+    width: 100vw;
+    height: 200px;
+    background-image: url("../../assets/aboutus_cover.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: flex;
+  }
+  .coverSlogans{
+    margin: auto;
+  }
+  .mainSlogan{
+    font-weight: 600;
+    font-size: 40px;
+    color: white;
+    margin: 0;
+  }
+  .subSlogan{
+    color: white;
+    margin-top: 15px;
+    font-size: 16px;
+    text-align: center;
+  }
+  .whyChooseUsSection{
+    margin-top: 40px;
+    margin-bottom: 60px;
+    max-width: 1140px;
+    box-sizing: border-box;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  .whyChooseTextContainer{
+    display: flex;
+  }
+  .whyChooseTextArea{
+    margin-left: auto;
+    margin-right: auto;
+    width: auto;
+    text-align: center;
+  }
+  .whyChooseTitle{
+    font-size: 30px;
+    margin: 0;
+  }
+  .whyChooseSlogan{
+    margin-top: 5px;
+    color: var(--secondary-text-color);
+  }
+  .advantages{
+    margin-top: -20px;
+    margin-bottom: -20px;
+    box-sizing: border-box;
+    flex-direction: column;
+    padding-top: 50px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .advantage{
+    padding: 20px 15px 20px 15px;
+    box-sizing: border-box;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .advantageIcon{
+    width: 70px;
+    height: 70px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  .shieldIcon{
+    background-image: url("../../assets/shield.svg");
+  }
+  .bookingIcon{
+    background-image: url("../../assets/easy_booking.svg");
+  }
+  .careIcon{
+    background-image: url("../../assets/care.svg");
+  }
+  .advantageName{
+    margin: 30px 0 0 0;
+    text-align: center;
+    font-weight: 500;
+    font-size: 18px;
+  }
+  .advantageText{
+    font-size: 15px;
+    margin-top: 10px;
+    color: var(--secondary-text-color);
+    text-align: center;
+  }
+  .companyIntroSection{
+    margin-top: 60px;
+    max-width: 1140px;
+    padding-left: 15px;
+    padding-right: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .companyIntroTexts{
+    padding: 15px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .companyIntroImage{
+    margin-top: 10px;
+    padding: 15px;
+    box-sizing: border-box;
+    width: 100%;
+    border-radius: 4px;
+    background-image: url("../../assets/mountain-fuji.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height:390px;
+  }
+  .companyIntroTitle{
+    margin: 0;
+    font-weight: 600;
+    font-size: 30px;
+  }
+  .companyIntroSlogan{
+    color: var(--secondary-text-color);
+    margin-top: 5px;
+  }
+  .companyIntroDescription{
+    color: var(--text-color-dark);
+    margin-top: 30px;
+  }
+  .statistics{
+    margin: 20px auto 10px auto;
+    max-width: 1140px;
+    box-sizing: border-box;
+    padding-left: 15px;
+    padding-right: 15px;
+    display: flex;
+    justify-content: center;
+  }
+  .figure{
+    padding: 15px;
+    box-sizing: border-box;
+    width: 25%;
+    text-align: center;
+    font-weight: 600;
+    line-height: 1.3;
+    font-size: 40px;
+  }
+  .figureName{
+    font-size: 14px;
+    color: var(--secondary-text-color);
+    margin-top: 5px;
+    line-height: 1.4;
+    font-weight: 400;
+  }
+}
 </style>

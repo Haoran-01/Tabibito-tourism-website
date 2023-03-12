@@ -7,7 +7,7 @@ import resetView from "./components/ForgetPasswordView/resetView.vue";
 
 
 const routes = [
-    { path: '/', component: aboutUsView },
+    { path: '/', component: loginView },
     { path: '/register', component: registerView },
     { path: '/forget', component: forgetPasswordView},
     { path: '/about', component: aboutUsView},
