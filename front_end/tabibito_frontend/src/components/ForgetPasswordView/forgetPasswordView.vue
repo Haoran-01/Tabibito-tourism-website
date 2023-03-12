@@ -31,7 +31,7 @@
               <div class="input_form">
 
                 <div class="half_1">
-                  <input type="password" required>
+                  <input type="text" v-model="code">
                   <label class="input_label">Verification Code</label>
                 </div>
 
@@ -45,17 +45,16 @@
               </div>
 
 
-
             </div>
 
 
             <!--          按钮-->
             <div class="input_border">
 
-              <a href="#" class="login_btn c">
+              <button  type="submit" class="login_btn c" @click="verify">
                 Continue
 <!--                <div class="icon_login"></div>-->
-              </a>
+              </button>
 
             </div>
 
@@ -110,7 +109,8 @@ export default {
       remainingTime: 60,
       countdownInterval: null,
 
-      inputE: ''
+      inputE: '',
+      code:''
     };
   },
   methods: {
@@ -148,8 +148,32 @@ export default {
       }).catch(function (error) {
         console.log(error);
       });
+    },
 
+    verify(){
+      let emailValue = this.inputE;
+      let codeValue = this.code;
+
+
+      axios.post('http://127.0.0.1:5000/forget_form_email', {
+        email: emailValue,
+        verifyCode: codeValue
+
+      }).then(function (response){
+        let code=response.data['code'];
+        let message=response.data['message'];
+        if (code === 200){
+        } else if (code === 400){
+          if (message === 'verifyCode'){
+            this.toast.error("The verification code is not correctly");
+          }
+        }
+      }).catch(function (error) {
+        console.log(error);
+      });
     }
+
+
   }
 
 }
@@ -305,6 +329,7 @@ export default {
 
   margin-top: 70px;
 
+  width: 100%;
   padding-top: 20px !important;
   padding-bottom: 20px !important;
 

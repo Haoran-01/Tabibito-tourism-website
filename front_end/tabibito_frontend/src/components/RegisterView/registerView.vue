@@ -180,7 +180,7 @@ export default {
 
       let emailValue = this.inputEmail1;
 
-      axios.post('http://127.0.0.1:5000/', {
+      axios.post('http://127.0.0.1:5000/captcha', {
         email: emailValue,
 
       }).then(function (response){
