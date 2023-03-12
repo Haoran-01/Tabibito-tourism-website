@@ -17,17 +17,17 @@
       <div class="advantage">
         <div class="advantageIcon shieldIcon"></div>
         <h4 class="advantageName">Precise Info Guarantee</h4>
-        <div class="advantageText">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+        <div class="advantageText">We are trying our best to provide precise information about the trips.</div>
       </div>
       <div class="advantage">
         <div class="advantageIcon bookingIcon"></div>
         <h4 class="advantageName">Easy & Quick Reserving</h4>
-        <div class="advantageText">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+        <div class="advantageText">By only a few steps, you can reserve a new trip easily.</div>
       </div>
       <div class="advantage">
         <div class="advantageIcon careIcon"></div>
         <div class="advantageName">Customer Care 24/7</div>
-        <div class="advantageText">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+        <div class="advantageText">Every customer can access to our customer service staffs.</div>
       </div>
     </div>
   </div>
@@ -35,13 +35,15 @@
     <div class="companyIntroTexts">
       <h2 class="companyIntroTitle">About Tabibito</h2>
       <div class="companyIntroSlogan">These popular destinations have a lot to offer</div>
-      <div class="companyIntroDescription">London is a shining example of a metropolis at
-        the highest peak of modernity and boasts an economy and cultural diversity that’s
-        the envy of other global superpowers.<br/><br/>
-        Take the opportunity to acquaint yourself with its fascinating history chronicled
-        by institutions like the British Museum as well as see how far it has come by simply
-        riding the Tube and passing by celebrated landmarks like Buckingham Palace, Westminster
-        Abbey, and marvels like Big Ben, the London Eye, and the Tower Bridge. </div>
+      <div class="companyIntroDescription">Welcome to Tabibito, your one-stop travel agency for all your vacation needs. Our name means "traveler" in Japanese, and we take pride in helping our customers explore the world with ease and comfort.<br/><br/>
+
+        At Tabibito, we understand that planning a vacation can be overwhelming. That's why we offer Precise Info Guarantee - we provide you with accurate and up-to-date information about your destination, so you can make informed decisions about your itinerary. We also offer Easy & Quick Reserving, allowing you to book your trip hassle-free and with confidence.
+
+        <br/><br/>Our commitment to customer satisfaction is unwavering, and we provide Customer Care 24/7 to ensure that your trip goes smoothly. Whether you need assistance with your booking, have questions about your itinerary, or need help while you're on the go, our team is always here to help.
+
+        <br/><br/>We offer a wide range of travel services, including flights, accommodations, tours, and more. Our expert travel consultants can help you plan the perfect vacation based on your preferences and budget.
+
+        Tabibito is dedicated to providing our customers with unforgettable travel experiences. Let us help you embark on your next adventure - contact us today to start planning your dream vacation. </div>
     </div>
     <div class="companyIntroImage"></div>
   </div>
@@ -49,28 +51,28 @@
     <div class="figure">
       <n-number-animation show-separator
                           :from="0"
-                          :to="10000"
+                          :to="0"
                           class="mainFigure"></n-number-animation>
       <div class="figureName">Reviews</div>
     </div>
     <div class="figure">
       <n-number-animation show-separator
                           :from="0"
-                          :to="10000"
+                          :to="0"
                           class="mainFigure"></n-number-animation>
       <div class="figureName">Travel Projects</div>
     </div>
     <div class="figure">
       <n-number-animation show-separator
                           :from="0"
-                          :to="10000"
+                          :to="0"
                           class="mainFigure"></n-number-animation>
       <div class="figureName">Happy customers</div>
     </div>
     <div class="figure">
       <n-number-animation show-separator
                           :from="0"
-                          :to="10000"
+                          :to="0"
                           class="mainFigure"></n-number-animation>
       <div class="figureName">Monthly Income</div>
     </div>
@@ -215,15 +217,16 @@ export default {
   box-sizing: border-box;
 }
 .companyIntroImage{
+  margin-top: 150px;
   padding: 15px;
   box-sizing: border-box;
-  max-width: 50%;
+  width: 50%;
   border-radius: 4px;
-  background-image: url("../../assets/");
+  background-image: url("../../assets/mountain-fuji.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  height: 630px;
+  height:630px;
 }
 .companyIntroTitle{
   margin: 0;
