@@ -13,39 +13,40 @@
           <p class="font_acc">Don't have an account yet?
             <a href="#" class="font_blue">Sign up for free</a></p>
 
-          <form id="uploadForm" method="post" autocomplete="off" role="form" action="/login" >
+          <form autocomplete="off"   >
 
-          <!--          账号部分-->
+          <!--账号部分-->
           <div class="input_border">
 
             <div class="input_form">
-              <input type="text" required>
+              <input type="text" v-model="inputEmail">
               <label class="input_label">Email</label>
             </div>
 
           </div>
 
-<!--          密码部分-->
+          <!--密码部分-->
           <div class="input_border">
 
             <div class="input_form">
-              <input type="password" required>
+              <input type="password" v-model="inputPassword" required>
               <label class="input_label">Password</label>
             </div>
 
           </div>
 
-<!--          忘记密码-->
+          <!--忘记密码-->
           <div class="input_border">
             <a href="#" class="forget_link">Forgot your password?</a>
           </div>
 
-<!--          按钮-->
+          <!--按钮-->
           <div class="input_border">
 
-            <a href="#" class="login_btn">
-              Sign In <div class="icon_login"></div>
-            </a>
+            <button type="submit" class="login_btn"  @click="checkLogin">
+              Sign In
+              <div class="icon_login"></div>
+            </button>
 
           </div>
 
@@ -90,10 +91,73 @@
 
 import navigationBar from "../GeneralComponents/navigationBar.vue";
 import FooterView from "../GeneralComponents/footerView.vue";
+import axios from 'axios';
+
+import { useToast } from "vue-toastification";
+
+
 
 export default {
+  setup() {
+    // Get toast interface
+    const toast = useToast();
+
+    // or with options
+    // toast.success("My toast content", {
+    //   timeout: 2000
+    // });
+
+    // These options will override the options defined in the "app.use" plugin registration for this specific toast
+
+    // Make it available inside methods
+    return { toast }
+  },
   components: {FooterView, navigationBar},
-  name: "loginView"
+  name: "loginView",
+  data(){
+    return {
+      inputEmail: '',
+      inputPassword:'',
+    };
+  },
+  methods: {
+
+    checkLogin() {
+      if (this.inputEmail === ''){
+        this.toast.error("Email can't be blank");
+      }
+      if (this.inputPassword === ''){
+        this.toast.error("Password can't be blank");
+      }
+      if (this.inputEmail === '' || this.inputPassword === ''){
+      } else {
+        let emailValue = this.inputEmail;
+        let passwordValue = this.inputPassword;
+        axios.post('http://127.0.0.1:5000/', {
+          email: emailValue,
+          password: passwordValue
+        })
+            .then(function (response){
+              let code=response.data['code'];
+              let message=response.data['message'];
+              if (code === 200){
+
+              } else if (code === 400){
+                if (message === 'email'){
+                  this.toast.error("Email is not correct");
+
+                }else if (message === 'password'){
+                  this.toast.error("Password is not correct");
+                }
+              }
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+      }
+
+    }
+  }
 }
 </script>
 
@@ -232,6 +296,8 @@ export default {
 
   background-color: #3554D1 !important;
   color: #FFFFFF;
+
+  width:100%;
 
   text-decoration:none;
 

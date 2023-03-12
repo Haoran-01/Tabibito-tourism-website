@@ -14,12 +14,23 @@
           <p class="font_acc">Already have an account?
             <a href="#" class="font_blue">Log in</a></p>
 
+          <form autocomplete="off" >
+
           <!--          name部分-->
           <div class="input_border">
 
             <div class="input_form">
-              <input type="text" required>
-              <label class="input_label">Username</label>
+              <input type="text" v-model="inputFirst">
+              <label class="input_label">First Name</label>
+            </div>
+
+          </div>
+
+          <div class="input_border">
+
+            <div class="input_form">
+              <input type="text" v-model="inputLast">
+              <label class="input_label">Last Name</label>
             </div>
 
           </div>
@@ -28,7 +39,7 @@
           <div class="input_border">
 
             <div class="input_form">
-              <input type="text" required>
+              <input type="text" v-model="inputEmail1">
               <label class="input_label">Email</label>
             </div>
 
@@ -38,7 +49,7 @@
           <div class="input_border">
 
             <div class="input_form">
-              <input type="password" required>
+              <input type="password" v-model="inputPassword1">
               <label class="input_label">Password</label>
             </div>
 
@@ -48,7 +59,7 @@
           <div class="input_border">
 
             <div class="input_form">
-              <input type="password" required>
+              <input type="password" v-model="inputConfirm">
               <label class="input_label">Confirm Password</label>
             </div>
 
@@ -59,7 +70,7 @@
 
             <div class="input_form">
               <div class="half_1">
-                <input type="text" required>
+                <input type="text" v-model="inputCode">
                 <label class="input_label">Verification Code</label>
               </div>
 
@@ -77,11 +88,13 @@
           <!--          按钮-->
           <div class="input_border">
 
-            <a href="#" class="login_btn">
+            <button type="submit" class="login_btn" @click="checkRegister">
               Sign In <div class="icon_login"></div>
-            </a>
+            </button>
 
           </div>
+
+          </form>
 
           <!--          其他登陆方式-->
           <div class="input_border">
@@ -118,15 +131,38 @@
 
 import navigationBar from "../GeneralComponents/navigationBar.vue";
 import FooterView from "../GeneralComponents/footerView.vue";
+import {useToast} from "vue-toastification";
+import axios from "axios";
 
 export default {
+  setup() {
+    // Get toast interface
+    const toast = useToast();
+
+    // or with options
+    // toast.success("My toast content", {
+    //   timeout: 2000
+    // });
+
+    // These options will override the options defined in the "app.use" plugin registration for this specific toast
+
+    // Make it available inside methods
+    return { toast }
+  },
   components: {FooterView, navigationBar},
   name: "loginView",
   data() {
     return {
       countingDown: false,
       remainingTime: 60,
-      countdownInterval: null
+      countdownInterval: null,
+
+      inputFirst: '',
+      inputLast:'',
+      inputEmail1: '',
+      inputPassword1:'',
+      inputConfirm:'',
+      inputCode:'',
     };
   },
   methods: {
@@ -141,7 +177,91 @@ export default {
           this.countingDown = false;
         }
       }, 1000);
+
+      let emailValue = this.inputEmail1;
+
+      axios.post('http://127.0.0.1:5000/', {
+        email: emailValue,
+
+      }).then(function (response){
+        let code=response.data['code'];
+        let message=response.data['message'];
+        if (code === 200){
+        } else if (code === 400){
+          if (message === 'email'){
+            this.toast.error("Email is already registered");
+          }
+        }
+      }).catch(function (error) {
+            console.log(error);
+          });
+    },
+    checkRegister() {
+      if (this.inputFirst === ''){
+        this.toast.error("First name can't be blank");
+      }
+      const tester = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+      if (!tester.test(this.inputEmail1)){
+        this.toast.error("This email is not valid");
+      }
+
+      if (this.inputLast === ''){
+        this.toast.error("Last name can't be blank");
+      }
+      if (this.inputEmail1 === ''){
+        this.toast.error("Email can't be blank");
+      }
+      if (this.inputPassword1 === ''){
+        this.toast.error("Password can't be blank");
+      }
+      if (this.inputPassword1.length > 20){
+        this.toast.error("Your password is too long");
+      }
+      if (this.inputConfirm === ''){
+        this.toast.error("Please confirm your password");
+      }
+      if (this.inputCode === ''){
+        this.toast.error("Please verify your email first");
+      }
+      if (this.inputPassword1 !== this.inputConfirm){
+        this.toast.error("The passwords can't be the same");
+      }
+      if (this.inputEmail1 === '' || this.inputPassword1 === '' || this.inputFirst === '' || this.inputLast === '' || this.inputConfirm === '' || this.inputCode === ''){
+      } else {
+        let firstValue = this.inputFirst;
+        let lastValue = this.inputLast;
+        let emailValue = this.inputEmail1;
+        let passwordValue = this.inputPassword1;
+        let confirmValue = this.inputConfirm;
+        let codeValue = this.inputCode;
+        axios.post('http://127.0.0.1:5000/', {
+          first: firstValue,
+          last: lastValue,
+          email: emailValue,
+          password: passwordValue,
+          confirm: confirmValue,
+          code: codeValue,
+        })
+            .then(function (response){
+              let code=response.data['code'];
+              let message=response.data['message'];
+              if (code === 200){
+
+              } else if (code === 400){
+                if (message === 'email'){
+                  this.toast.error("Email is already registered");
+                } else if (message === 'code'){
+                  this.toast.error("The Verification Code is not correct");
+                }
+              }
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+      }
+
     }
+
   }
 
 }
@@ -159,7 +279,7 @@ export default {
   /*background-image: url("../../assets/loginBg.jpg");*/
   background-repeat: no-repeat;
   /*height: 100vh;*/
-  min-height: 1100px;
+  min-height: 1200px;
 
   background-size: 100% 100%;
 
@@ -178,7 +298,7 @@ export default {
 
   /*height: calc(100vh - 300px);*/
 
-  height: 900px;
+  height: 970px;
 
   top: 120px;
 
@@ -297,6 +417,8 @@ export default {
   background-color: #3554D1 !important;
   color: #FFFFFF;
 
+  width: 100%;
+
   text-decoration:none;
 
 }
@@ -362,7 +484,9 @@ export default {
   border: 1px solid #D93025;
   transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
 
-  flex:0 0 auto;width:100%;
+  flex:0 0 auto;
+
+  width:100%;
 
   padding-top: 15px !important;
   padding-bottom: 15px !important;

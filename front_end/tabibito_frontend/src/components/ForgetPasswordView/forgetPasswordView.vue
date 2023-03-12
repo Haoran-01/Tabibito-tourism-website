@@ -19,7 +19,7 @@
             <div class="input_border">
 
               <div class="input_form">
-                <input type="text" required>
+                <input type="text" v-model="inputE">
                 <label class="input_label">Email</label>
               </div>
 
@@ -99,6 +99,7 @@
 
 import navigationBar from "../GeneralComponents/navigationBar.vue";
 import FooterView from "../GeneralComponents/footerView.vue";
+import axios from "axios";
 
 export default {
   components: {FooterView, navigationBar},
@@ -107,7 +108,9 @@ export default {
     return {
       countingDown: false,
       remainingTime: 60,
-      countdownInterval: null
+      countdownInterval: null,
+
+      inputE: ''
     };
   },
   methods: {
@@ -122,6 +125,30 @@ export default {
           this.countingDown = false;
         }
       }, 1000);
+
+      const tester = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+      if (!tester.test(this.inputEmail1)){
+        this.toast.error("This email is not valid");
+      }
+
+      let emailValue = this.inputE;
+
+      axios.post('http://127.0.0.1:5000/', {
+        email: emailValue,
+
+      }).then(function (response){
+        let code=response.data['code'];
+        let message=response.data['message'];
+        if (code === 200){
+        } else if (code === 400){
+          if (message === 'email'){
+            this.toast.error("Email is not registered");
+          }
+        }
+      }).catch(function (error) {
+        console.log(error);
+      });
+
     }
   }
 

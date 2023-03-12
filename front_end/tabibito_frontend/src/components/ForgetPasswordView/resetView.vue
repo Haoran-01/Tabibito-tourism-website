@@ -13,13 +13,13 @@
           <p class="font_acc">Remembered the password?
             <a href="#" class="font_blue">Login in Now</a></p>
 
-          <form id="Form" method="post" autocomplete="off" role="form" action="/login" >
+          <form id="Form" method="post" autocomplete="off"  >
 
             <!--          账号部分-->
             <div class="input_border">
 
               <div class="input_form">
-                <input type="password" required>
+                <input type="password" v-model="p1">
                 <label class="input_label">Enter your new password</label>
               </div>
 
@@ -30,7 +30,7 @@
 
               <div class="input_form">
 
-                  <input type="password" required>
+                  <input type="password" v-model="p2">
                   <label class="input_label">Confirm your password</label>
               </div>
             </div>
@@ -39,10 +39,10 @@
             <!--          按钮-->
             <div class="input_border">
 
-              <a href="#" class="login_btn c">
+              <div class="login_btn c" @click="reset">
                 Reset Password
                 <!--                <div class="icon_login"></div>-->
-              </a>
+              </div>
 
             </div>
 
@@ -86,6 +86,7 @@
 
 import navigationBar from "../GeneralComponents/navigationBar.vue";
 import FooterView from "../GeneralComponents/footerView.vue";
+import axios from "axios";
 
 export default {
   components: {FooterView, navigationBar},
@@ -94,22 +95,33 @@ export default {
     return {
       countingDown: false,
       remainingTime: 60,
-      countdownInterval: null
+      countdownInterval: null,
+
+      p1:'',
+      p2:'',
     };
   },
   methods: {
-    startCountdown() {
-      this.countingDown = true;
-      this.remainingTime = 60; // add this line to reset remainingTime to 60
-      this.countdownInterval = setInterval(() => {
-        if (this.remainingTime > 0) {
-          this.remainingTime--;
-        } else {
-          clearInterval(this.countdownInterval);
-          this.countingDown = false;
-        }
-      }, 1000);
+    reset(){
+      if (this.p1 === ''){
+        this.toast.error("Password name can't be blank");
+      }
+      if (this.p2 === ''){
+        this.toast.error("Please confirm your password");
+      }
+      if (this.p1 !== this.p2){
+        this.toast.error("The passwords are not the same");
+      }
+
+      let passwordValue = this.p1;
+      let confirmValue = this.p2;
+      axios.post('http://127.0.0.1:5000/', {
+        password: passwordValue,
+        confirm: confirmValue
+
+      })
     }
+
   }
 
 }
@@ -262,6 +274,7 @@ export default {
   border-radius: 4px;
   border: 1px solid transparent;
   transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  width: 100%;
 
   margin-top: 70px;
 
