@@ -122,7 +122,7 @@
         </n-carousel-item>
       </n-carousel>
 
-      <div class="row sectionOverheardAnalysis pt40 smallPt20">
+<!--      <div class="row sectionOverheardAnalysis pt40 smallPt20">
         <div class="columAnalysis">
           <div class="row analysisRow">
             <div class="analysisColumn">
@@ -180,7 +180,7 @@
 
           </div>
         </div>
-      </div>
+      </div>-->
     </div>
 
   </section>

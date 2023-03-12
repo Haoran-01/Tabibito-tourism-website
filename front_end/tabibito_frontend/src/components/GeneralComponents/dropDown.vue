@@ -11,11 +11,15 @@
 
 <script>
 export default {
-  props: ['dropdown_item'],
+  props: ['is_currency', 'dropdown_item'],
   name: "dropDown.vue",
   methods:{
     handleClick(item){
-      this.$emit('changeCurrency', item.icon, item.text);
+      if (this.is_currency){
+        this.$emit('changeCurrency', item.icon, item.text);
+      }else {
+        this.$router.push(item.path)
+      }
     }
   },
   emits: ['changeCurrency']

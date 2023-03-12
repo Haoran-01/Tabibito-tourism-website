@@ -23,6 +23,7 @@
              @mouseenter="currency_is_shown = true"
              @mouseleave="currency_is_shown = false"
              :dropdown_item="currency_item"
+             :is_currency="true"
              v-show="currency_is_shown"
              style="position: absolute; left: 10px; top: 60px"
              @change-currency="handleCurrencyChange"
@@ -40,6 +41,7 @@
              @mouseenter="user_is_shown = true"
              @mouseleave="user_is_shown = false"
              :dropdown_item="login_item"
+             :is_currency="false"
              v-show="user_is_shown"
              style="position: absolute; right: 100px; top: 90px"
              @change-currency="handleCurrencyChange"
@@ -87,8 +89,8 @@ export default defineComponent({
         }
       ],
       login_item: [
-        {icon: "background-image:url('src/assets/login.svg')", text: 'Log In'},
-        {icon: "background-image:url('src/assets/signup.svg')", text: 'Sign Up'}
+        {icon: "background-image:url('src/assets/login.svg')", text: 'Log In', path: '/'},
+        {icon: "background-image:url('src/assets/signup.svg')", text: 'Sign Up', path: '/register'}
       ]
     }
   },

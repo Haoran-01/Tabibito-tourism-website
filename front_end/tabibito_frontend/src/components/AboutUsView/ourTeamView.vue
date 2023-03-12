@@ -112,7 +112,9 @@
 </template>
 
 <script>
+import {ArrowBack, ArrowForward} from '@vicons/ionicons5'
 export default {
+  components: {ArrowBack, ArrowForward},
   name: "ourTeamView"
 }
 </script>
