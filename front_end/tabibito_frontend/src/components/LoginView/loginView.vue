@@ -133,7 +133,7 @@ export default {
       } else {
         let emailValue = this.inputEmail;
         let passwordValue = this.inputPassword;
-        axios.post('http://127.0.0.1:5000/login_form', {
+        axios.post('http://127.0.0.1:5000/user/login_form', {
           email: emailValue,
           password: passwordValue
         })

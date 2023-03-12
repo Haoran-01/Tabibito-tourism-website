@@ -180,7 +180,7 @@ export default {
 
       let emailValue = this.inputEmail1;
 
-      axios.post('http://127.0.0.1:5000/captcha', {
+      axios.post('http://127.0.0.1:5000/user/captcha', {
         email: emailValue,
 
       }).then(function (response){
@@ -234,7 +234,7 @@ export default {
         let passwordValue = this.inputPassword1;
         let confirmValue = this.inputConfirm;
         let codeValue = this.inputCode;
-        axios.post('http://127.0.0.1:5000/register_form', {
+        axios.post('http://127.0.0.1:5000/user/register_form', {
           first: firstValue,
           last: lastValue,
           email: emailValue,

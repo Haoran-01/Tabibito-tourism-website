@@ -133,7 +133,7 @@ export default {
 
       let emailValue = this.inputE;
 
-      axios.post('http://127.0.0.1:5000/captcha', {
+      axios.post('http://127.0.0.1:5000/user/captcha', {
         email: emailValue,
 
       }).then(function (response){
@@ -155,7 +155,7 @@ export default {
       let codeValue = this.code;
 
 
-      axios.post('http://127.0.0.1:5000/forget_form_email', {
+      axios.post('http://127.0.0.1:5000/user/forget_form_email', {
         email: emailValue,
         verifyCode: codeValue
 
