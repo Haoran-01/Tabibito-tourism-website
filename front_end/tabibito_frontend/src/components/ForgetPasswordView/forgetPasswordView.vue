@@ -13,7 +13,7 @@
           <p class="font_acc">Remembered the password?
             <a href="#" class="font_blue">Login in Now</a></p>
 
-          <form id="Form" method="post" autocomplete="off">
+          <form autocomplete="off">
 
             <!--          账号部分-->
             <div class="input_border">
