@@ -9,7 +9,7 @@ import chooseTourTypes from "./components/HomePageView/chooseTourTypes.vue";
 
 
 const routes = [
-    { path: '/', component: chooseTourTypes },
+    { path: '/', component: homepageView },
     { path: '/login', component: loginView },
     { path: '/register', component: registerView },
     { path: '/forget', component: forgetPasswordView},
