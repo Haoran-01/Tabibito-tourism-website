@@ -11,7 +11,7 @@
 
           <h1 class="font_login">Reset Your Password</h1>
           <p class="font_acc">Remembered the password?
-            <a href="#" class="font_blue">Login in Now</a></p>
+            <router-link to="/login" class="font_blue">Login in Now</router-link></p>
 
           <form autocomplete="off">
 
@@ -19,19 +19,19 @@
             <div class="input_border">
 
               <div class="input_form">
-                <input type="text" v-model="inputE">
+                <input type="text" v-model="inputE" required>
                 <label class="input_label">Email</label>
               </div>
 
             </div>
 
-            <!--          密码部分-->
+            <!--          验证码部分-->
             <div class="input_border">
 
               <div class="input_form">
 
                 <div class="half_1">
-                  <input type="text" v-model="code">
+                  <input type="text" v-model="code" required>
                   <label class="input_label">Verification Code</label>
                 </div>
 
@@ -148,6 +148,7 @@ export default {
         let code=response.data['code'];
         let message=response.data['message'];
         if (code === 200){
+
         } else if (code === 400){
           if (message === 'email'){
             this.toast.error("Email is not registered");
@@ -162,6 +163,14 @@ export default {
       let emailValue = this.inputE;
       let codeValue = this.code;
 
+      if (this.inputE === ''){
+        this.toast.error("The email can't be blank");
+      }
+
+      const tester = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+      if (!tester.test(this.inputEmail1)){
+        this.toast.error("This email is not valid");
+      }
 
       axios.post('http://127.0.0.1:5000/user/forget_form_email', {
         email: emailValue,
@@ -171,6 +180,7 @@ export default {
         let code=response.data['code'];
         let message=response.data['message'];
         if (code === 200){
+          this.$router.push('/reset');
         } else if (code === 400){
           if (message === 'verifyCode'){
             this.toast.error("The verification code is not correctly");

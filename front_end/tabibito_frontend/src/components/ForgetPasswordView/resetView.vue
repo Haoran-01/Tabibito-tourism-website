@@ -11,15 +11,15 @@
 
           <h1 class="font_login">Reset Your Password</h1>
           <p class="font_acc">Remembered the password?
-            <a href="#" class="font_blue">Login in Now</a></p>
+            <router-link to="/login" class="font_blue">Login in Now</router-link></p>
 
-          <form id="Form" method="post" autocomplete="off"  >
+          <form autocomplete="off"  >
 
             <!--          账号部分-->
             <div class="input_border">
 
               <div class="input_form">
-                <input type="password" v-model="p1">
+                <input type="password" v-model="p1" required>
                 <label class="input_label">Enter your new password</label>
               </div>
 
@@ -30,7 +30,7 @@
 
               <div class="input_form">
 
-                  <input type="password" v-model="p2">
+                  <input type="password" v-model="p2" required>
                   <label class="input_label">Confirm your password</label>
               </div>
             </div>
@@ -118,8 +118,20 @@ export default {
       axios.post('http://127.0.0.1:5000/user/reset_password', {
         password: passwordValue,
         confirm: confirmValue
+      }).then(function (response){
+        let code=response.data['code'];
+        let message=response.data['message'];
+        if (code === 200){
+          this.$router.push('/login');
+        } else if (code === 400){
+          if (message === 'email'){
+            this.toast.error("Email is not registered");
+          }
+        }
+      }).catch(function (error) {
+        console.log(error);
+      });
 
-      })
     }
 
   }

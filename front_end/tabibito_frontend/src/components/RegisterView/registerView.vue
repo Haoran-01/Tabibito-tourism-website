@@ -12,7 +12,7 @@
           <h1 class="font_login">Sign in or create an account
           </h1>
           <p class="font_acc">Already have an account?
-            <a href="#" class="font_blue">Log in</a></p>
+            <router-link to="/login" class="font_blue">Log in</router-link></p>
 
           <form autocomplete="off" >
 
@@ -20,7 +20,7 @@
           <div class="input_border">
 
             <div class="input_form">
-              <input type="text" v-model="inputFirst">
+              <input type="text" v-model="inputFirst" required>
               <label class="input_label">First Name</label>
             </div>
 
@@ -29,7 +29,7 @@
           <div class="input_border">
 
             <div class="input_form">
-              <input type="text" v-model="inputLast">
+              <input type="text" v-model="inputLast" required>
               <label class="input_label">Last Name</label>
             </div>
 
@@ -39,7 +39,7 @@
           <div class="input_border">
 
             <div class="input_form">
-              <input type="text" v-model="inputEmail1">
+              <input type="text" v-model="inputEmail1" required>
               <label class="input_label">Email</label>
             </div>
 
@@ -49,7 +49,7 @@
           <div class="input_border">
 
             <div class="input_form">
-              <input type="password" v-model="inputPassword1">
+              <input type="password" v-model="inputPassword1" required>
               <label class="input_label">Password</label>
             </div>
 
@@ -59,7 +59,7 @@
           <div class="input_border">
 
             <div class="input_form">
-              <input type="password" v-model="inputConfirm">
+              <input type="password" v-model="inputConfirm" required>
               <label class="input_label">Confirm Password</label>
             </div>
 
@@ -70,7 +70,7 @@
 
             <div class="input_form">
               <div class="half_1">
-                <input type="text" v-model="inputCode">
+                <input type="text" v-model="inputCode" required>
                 <label class="input_label">Verification Code</label>
               </div>
 
@@ -247,7 +247,7 @@ export default {
               let code=response.data['code'];
               let message=response.data['message'];
               if (code === 200){
-
+                this.$router.push('/login');
               } else if (code === 400){
                 if (message === 'email'){
                   this.toast.error("Email is already registered");
