@@ -17,7 +17,7 @@
           effect="card"
           prev-slide-style="transform: translateX(-150%) translateZ(-800px);"
           next-slide-style="transform: translateX(50%) translateZ(-800px);"
-          style="height: 240px"
+          id="carousel"
           :show-dots="false"
       >
         <n-carousel-item :style="{ width: '50%'}">
@@ -194,6 +194,14 @@ export default {
 </script>
 
 <style scoped>
+#carousel {
+  height: 240px;
+}
+@media screen and (max-width: 500px) {
+  #carousel {
+    height: 500px;
+  }
+}
 .commentName {
   font-size: 15px !important;
   font-weight: 500;
@@ -222,7 +230,7 @@ export default {
 }
 
 .commentText {
-  line-height: 1.8 !important;
+  line-height: 1.8;
   font-weight: 500;
   color: #051036;
 }
@@ -232,6 +240,15 @@ export default {
   font-weight: 500;
   color: #3554D1;
   margin-bottom: 20px !important;
+}
+
+@media screen and (max-width: 500px) {
+  .commentText {
+    line-height: 1.5;
+  }
+  .commentTitle {
+
+  }
 }
 
 @media (min-width:768px) {

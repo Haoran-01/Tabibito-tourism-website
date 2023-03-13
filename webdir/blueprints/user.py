@@ -32,9 +32,11 @@ def register_check():
     user_password = data["password"]
     user_password_confirm = data["confirm"]
     captcha = data["code"]
+    print(user_email, user_first_name, user_last_name, user_password, user_password_confirm, captcha)
     register_form = RegisterForm(user_email=user_email, user_first_name=user_first_name, user_last_name=user_last_name,
                                  user_password=user_password, captcha=captcha)
     if register_form.validate():
+        print("成功")
         # 密码md5加密
         hash_password = generate_password_hash(register_form.user_password.data)
         # 构建user模型
@@ -49,12 +51,20 @@ def register_check():
         return jsonify({"code": 200, "message": "Sign up successfully!"})
     else:
         if register_form.errors.get("user_email"):
+            print(1)
             return jsonify({"code":400,"message": "invalidSignUpEmail"})
         elif register_form.errors.get("captcha"):
+            print(2)
             return jsonify({"code":400, "message": "invalidSignUpCaptcha"})
-        elif register_form.errors.get("user_name"):
+
+        elif register_form.errors.get("user_first_name"):
+            print(3)
             return jsonify({"code":400,"message":"invalidSignUpUserName"})
+        elif register_form.errors.get("user_last_name"):
+            print(4)
+            return jsonify({"code":400,"message":"invalidSignUpUserLastName"})
         else:
+            print(5)
             return jsonify({"code":400,"message":"invalidSignUpPassword"})
 
 
@@ -71,6 +81,7 @@ def login_check():
     if login_form.validate():
         user = User.query.filter_by(user_email=user_email).first()
         login_user(user)
+        print("chenggong")
         return jsonify({"code":200})
     else:
         if login_form.errors.get("user_email"):
@@ -88,7 +99,7 @@ def my_mail():
         letters = string.ascii_letters + string.digits
         captcha = "".join(random.sample(letters, 6))
         message = Message(
-            subject="Cyan Pine 验证码",
+            subject="Tabibito verification",
             recipients=[email],
             html=render_template("email.html", email_captcha=captcha)
         )

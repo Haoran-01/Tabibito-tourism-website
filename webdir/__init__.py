@@ -15,7 +15,7 @@ def create_app(config_name):
     app = Flask(__name__, template_folder="templates", static_folder="static", static_url_path="")
     app.config.from_object(config[config_name])
     config[config_name].init_app(app)
-    CORS(app, supports_credentials=True)
+    CORS(app, resources=r'/*')
     return app
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')

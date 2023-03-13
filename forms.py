@@ -27,8 +27,9 @@ class LoginFrom(wtforms.Form):
 
 class RegisterForm(wtforms.Form):
     user_email = wtforms.StringField(validators=[DataRequired("email cannot be none"), email()])
-    user_name = wtforms.StringField(validators=[DataRequired("username cannot be none"), length(min=3, max=20)])
-    user_password = wtforms.StringField(validators=[DataRequired("password cannot be none"), length(min=3, max=20)])
+    user_first_name = wtforms.StringField(validators=[DataRequired("username cannot be none"), length(min=1, max=30)])
+    user_last_name = wtforms.StringField(validators=[DataRequired("username cannot be none"), length(min=1, max=30)])
+    user_password = wtforms.StringField(validators=[DataRequired("password cannot be none"), length(min=6, max=40)])
     captcha = wtforms.StringField(validators=[length(min=6, max=6)])
 
 
