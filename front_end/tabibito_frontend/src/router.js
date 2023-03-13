@@ -5,10 +5,11 @@ import aboutUsView from "./components/AboutUsView/aboutUsView.vue";
 import forgetPasswordView from "./components/ForgetPasswordView/forgetPasswordView.vue";
 import resetView from "./components/ForgetPasswordView/resetView.vue";
 import homepageView from "./components/HomepageView/HomepageView.vue";
+import chooseTourTypes from "./components/HomePageView/chooseTourTypes.vue";
 
 
 const routes = [
-    { path: '/', component: homepageView },
+    { path: '/', component: chooseTourTypes },
     { path: '/login', component: loginView },
     { path: '/register', component: registerView },
     { path: '/forget', component: forgetPasswordView},
