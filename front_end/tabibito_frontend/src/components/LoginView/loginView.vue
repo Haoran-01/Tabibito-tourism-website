@@ -379,7 +379,212 @@ export default {
   height: 20px;
 }
 
+@media screen and (max-width: 700px) {
+  .bg{
+    background-image: url("../../assets/img.png");
 
+    /*background-image: url("../../assets/loginBg.jpg");*/
+    background-repeat: no-repeat;
+    /*height: 100vh;*/
+    min-height: 730px;
+
+    background-size: 100% 100%;
+
+    font-family: Jost;
+  }
+
+  .container{
+    display: flex;
+
+    justify-content: center;
+  }
+
+  .card{
+
+    width: 90%;
+    padding: 0;
+    /*height: calc(100vh - 300px);*/
+
+    height: 630px;
+
+    top: 50px;
+
+    /*display: flex;*/
+    /*align-items: center;*/
+
+    background-color: #ffffff;
+  }
+
+  .font_login{
+    font-size: 23px !important;
+
+    margin-top: -10px;
+    margin-bottom: -10px;
+    font-weight: 600;
+    flex:0 0 auto;width:100%
+  }
+
+  .border{
+    margin: 30px 0px;
+  }
+
+  .font_acc{
+    margin-top: 25px !important;
+    color: #757272;
+    font-size: 15px;
+  }
+
+  .font_blue{
+    color: #3554D1;
+    text-decoration:none;
+  }
+
+  .input_border{
+    flex:0 0 auto;
+    width:100%;
+    margin-top: 20px;
+  }
+
+  .input_form{
+    position: relative;
+    transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+    display: flex;
+  }
+
+  .input_label{
+    line-height: 1 !important;
+    font-size: 14px !important;
+    color: #697488;
+  }
+
+  .input_form label {
+    position: absolute;
+    top: 26px;
+    padding: 0 15px;
+    pointer-events: none;
+    font-size: 14px;
+    transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+  }
+
+  .input_form input {
+    border: 1px solid #DDDDDD;
+    width: 100%;
+    font-size: 15px;
+    border-radius: 4px;
+    /*padding: 0 15px;*/
+    padding-top: 20px;
+    padding-left: 15px;
+    min-height: 38px;
+    transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+  }
+
+  .input_form input:focus {
+    outline: 2px solid #000000 !important;
+  }
+
+  .input_form input:focus ~ label, .input_form input:valid ~ label {
+    transform: translateY(-10px);
+  }
+
+  .forget_link{
+    font-size: 15px !important;
+    font-weight: 500;
+    color: #3554D1;
+    text-decoration: underline;
+  }
+
+  .login_btn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    text-align: center;
+    font-weight: 500;
+    font-size: 17px;
+    line-height: 1.2;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+
+    background-color: #3554D1 !important;
+    color: #FFFFFF;
+
+    text-decoration:none;
+
+
+  }
+
+  .login_btn:hover{
+    border-color:  #051036;
+    background-color: #051036 !important;
+    color: white !important;
+  }
+
+  .icon_login{
+    background-image: url("../../assets/arrow.svg");
+    margin-left: 15px !important;
+
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 20px;
+    height: 20px;
+  }
+
+  .text_center{
+    text-align: center;
+    font-size: 17px;
+  }
+
+  .text_note{
+    text-align: center;
+    font-size: 16px;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+  }
+
+  .other_login_btn{
+    background-color: #FFFFFF;
+    color: #D93025;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    text-align: center;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.2;
+    border: 1px solid #D93025;
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+
+    flex:0 0 auto;width:100%;
+
+    padding-top: 15px !important;
+    padding-bottom: 15px !important;
+
+    border-radius: 8px;
+
+    margin-top: 10px !important;
+  }
+
+  .other_login_btn:hover{
+    background-color: #ce2821;
+    border-color: transparent;
+    color: white !important;
+  }
+
+  .google_icon{
+    background-image: url("../../assets/google.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+
+    margin-right: 10px !important;
+
+    width: 20px;
+    height: 20px;
+  }
+}
 
 
 

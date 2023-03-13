@@ -1,5 +1,5 @@
 <template>
-  <body>
+  <body style="overflow: hidden">
 
   <section class="layout-journey-start-pt layout-journey-start-pb layout-journey-bg">
     <div class="container">
@@ -11,23 +11,23 @@
             </div>
 
             <div class="col-auto">
-              <h4 class="journey-start-title">Your Travel Journey Starts Here</h4>
+              <div class="journey-start-title">Your Travel Journey Starts Here</div>
               <div class="journey-start-text">Sign up and we'll send the best deals to you</div>
             </div>
           </div>
         </div>
 
-        <div class="col-auto">
-          <div class="single-field -w-410 journey-start-right">
-            <div>
-              <input class="journey-start-right-input" type="text" placeholder="Your Email">
-            </div>
+<!--        <div class="col-auto">-->
+<!--          <div class="single-field -w-410 journey-start-right">-->
+<!--            <div>-->
+<!--              <input class="journey-start-right-input" type="text" placeholder="Your Email">-->
+<!--            </div>-->
 
-            <div>
-              <button class="button -md button-else">Subscribe</button>
-            </div>
-          </div>
-        </div>
+<!--            <div>-->
+<!--              <button class="button -md button-else">Subscribe</button>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
       </div>
     </div>
   </section>
@@ -193,17 +193,19 @@ export default {
   width:100%;
   padding-right:var(--bs-gutter-x,15px);
   padding-left:var(--bs-gutter-x,15px);
-  margin-right:auto;margin-left:auto
+  margin-right:auto;
+  margin-left:auto;
 }
 
 .row {
   --bs-gutter-x:30px;
   --bs-gutter-y:0;
+  width: 100%;
   display:flex;
   flex-wrap:wrap;
   margin-top:calc(var(--bs-gutter-y)*-1);
-  margin-right:calc(var(--bs-gutter-x)*-0.5);
-  margin-left:calc(var(--bs-gutter-x)*-0.5)
+  margin-right:calc(var(--bs-gutter-x)*0.5);
+  margin-left:calc(var(--bs-gutter-x)*0.5)
 }
 
 .journey-start-nav {
@@ -221,18 +223,22 @@ export default {
 .journey-start-left {
   margin-top: -10px;
   margin-bottom: -10px;
+  margin-right: 10px;
   flex-wrap: wrap;
   align-items: center !important;
 }
 
 .journey-start-title {
-  font-size: 26px !important;
+  margin-top: 20px;
+  font-size: 26px;
   color: #FFFFFF;
   font-weight: 600;
+
 }
 
 .journey-start-text {
   color: #FFFFFF;
+  margin-bottom: 20px;
 }
 
 .journey-start-right {
@@ -481,10 +487,15 @@ export default {
   }
 }
 
-@media (min-width: 1200px) {
-  .col-xl {
+.col-sm {
+  flex: 0 0 auto;
+  width: 100%;
+}
+
+@media (min-width: 576px) {
+  .col-sm {
     flex: 0 0 auto;
-    width: 16.66667%;
+    width: 50%;
   }
 }
 
@@ -495,16 +506,23 @@ export default {
   }
 }
 
-@media (min-width: 576px) {
-  .col-sm {
+
+@media (min-width: 1200px) {
+  .col-xl {
     flex: 0 0 auto;
-    width: 50%;
+    width: 16.66667%;
   }
 }
 
 @media (max-width: 1199px) {
   .xl\:justify-start {
     justify-content: flex-start !important;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .journey-start-title {
+    font-size: 24px;
   }
 }
 

@@ -228,6 +228,11 @@ export default {
   margin-top: 5px !important;
 }
 
+@media screen and (max-width: 580px) {
+  .sectionTitle__text {
+    margin-left: 30px;
+  }
+}
 .our-team-contents {
   overflow: hidden !important;
   padding-top: 40px !important;
@@ -270,6 +275,7 @@ export default {
 @media (max-width: 767px) {
   .sectionTitle-our-team .sectionTitle__title {
     font-size: 26px;
+    margin-left: 30px;
   }
 }
 
