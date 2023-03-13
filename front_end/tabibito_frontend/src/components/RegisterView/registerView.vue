@@ -196,6 +196,7 @@ export default {
             console.log(error);
           });
     },
+
     checkRegister() {
       if (this.inputFirst === ''){
         this.toast.error("First name can't be blank");
@@ -224,7 +225,7 @@ export default {
         this.toast.error("Please verify your email first");
       }
       if (this.inputPassword1 !== this.inputConfirm){
-        this.toast.error("The passwords can't be the same");
+        this.toast.error("The passwords are not the same");
       }
       if (this.inputEmail1 === '' || this.inputPassword1 === '' || this.inputFirst === '' || this.inputLast === '' || this.inputConfirm === '' || this.inputCode === ''){
       } else {

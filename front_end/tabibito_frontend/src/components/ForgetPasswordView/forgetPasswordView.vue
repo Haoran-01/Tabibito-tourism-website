@@ -13,7 +13,7 @@
           <p class="font_acc">Remembered the password?
             <a href="#" class="font_blue">Login in Now</a></p>
 
-          <form id="Form" method="post" autocomplete="off" role="form" action="/login" >
+          <form id="Form" method="post" autocomplete="off">
 
             <!--          账号部分-->
             <div class="input_border">
@@ -51,7 +51,7 @@
             <!--          按钮-->
             <div class="input_border">
 
-              <button  type="submit" class="login_btn c" @click="verify">
+              <button type="submit" class="login_btn c" @click="verify">
                 Continue
 <!--                <div class="icon_login"></div>-->
               </button>
@@ -99,10 +99,18 @@
 import navigationBar from "../GeneralComponents/navigationBar.vue";
 import FooterView from "../GeneralComponents/footerView.vue";
 import axios from "axios";
+import {useToast} from "vue-toastification";
 
 export default {
+  setup() {
+    // Get toast interface
+    const toast = useToast();
+
+    // Make it available inside methods
+    return { toast }
+  },
   components: {FooterView, navigationBar},
-  name: "loginView",
+  name: "forgetPasswordView",
   data() {
     return {
       countingDown: false,
