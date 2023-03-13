@@ -11,15 +11,15 @@
 
           <h1 class="font_login">Welcome back</h1>
           <p class="font_acc">Don't have an account yet?
-            <a href="#" class="font_blue">Sign up for free</a></p>
+            <router-link to="/register" class="font_blue">Sign up for free</router-link></p>
 
-          <form autocomplete="off"   >
+          <form autocomplete="off">
 
           <!--账号部分-->
           <div class="input_border">
 
             <div class="input_form">
-              <input type="text" v-model="inputEmail">
+              <input type="text" v-model="inputEmail" required>
               <label class="input_label">Email</label>
             </div>
 
@@ -37,7 +37,7 @@
 
           <!--忘记密码-->
           <div class="input_border">
-            <a href="#" class="forget_link">Forgot your password?</a>
+            <router-link to="/forget" class="forget_link">Forgot your password?</router-link>
           </div>
 
           <!--按钮-->
@@ -141,7 +141,7 @@ export default {
               let code=response.data['code'];
               let message=response.data['message'];
               if (code === 200){
-
+                this.$router.push('/homepage');
               } else if (code === 400){
                 if (message === 'email'){
                   this.toast.error("Email is not correct");
