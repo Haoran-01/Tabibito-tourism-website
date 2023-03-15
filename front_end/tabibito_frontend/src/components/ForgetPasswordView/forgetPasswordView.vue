@@ -124,6 +124,8 @@ export default {
   },
   methods: {
     startCountdown() {
+      let self = this;
+
       this.countingDown = true;
       this.remainingTime = 60; // add this line to reset remainingTime to 60
       this.countdownInterval = setInterval(() => {
@@ -152,7 +154,7 @@ export default {
 
         } else if (code === 400){
           if (message === 'email'){
-            this.toast.error("Email is not registered");
+            self.toast.error("Email is not registered");
           }
         }
       }).catch(function (error) {

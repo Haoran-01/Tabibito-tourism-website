@@ -123,6 +123,8 @@ export default {
   methods: {
 
     checkLogin() {
+      let self = this;
+
       if (this.inputEmail === ''){
         this.toast.error("Email can't be blank");
       }
@@ -136,18 +138,16 @@ export default {
         axios.post('http://127.0.0.1:5000/user/login_form', {
           email: emailValue,
           password: passwordValue
-        })
-            .then(function (response){
+        }).then(function (response){
               let code=response.data['code'];
               let message=response.data['message'];
               if (code === 200){
-                this.$router.push('/homepage');
+                self.$router.push('/homepage');
               } else if (code === 400){
                 if (message === 'email'){
-                  this.toast.error("Email is not correct");
-
+                  self.toast.error("Email is not correct");
                 }else if (message === 'password'){
-                  this.toast.error("Password is not correct");
+                  self.toast.error("Password is not correct");
                 }
               }
             })
