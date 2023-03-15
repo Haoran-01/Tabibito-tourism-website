@@ -167,6 +167,8 @@ export default {
   },
   methods: {
     startCountdown() {
+      let self = this;
+
       this.countingDown = true;
       this.remainingTime = 60; // add this line to reset remainingTime to 60
       this.countdownInterval = setInterval(() => {
@@ -189,7 +191,7 @@ export default {
         if (code === 200){
         } else if (code === 400){
           if (message === 'email'){
-            this.toast.error("Email is already registered");
+            self.toast.error("Email is already registered");
           }
         }
       }).catch(function (error) {
@@ -198,6 +200,8 @@ export default {
     },
 
     checkRegister() {
+      let self = this;
+
       if (this.inputFirst === ''){
         this.toast.error("First name can't be blank");
       }
@@ -247,12 +251,12 @@ export default {
               let code=response.data['code'];
               let message=response.data['message'];
               if (code === 200){
-                this.$router.push('/login');
+                self.$router.push('/login');
               } else if (code === 400){
                 if (message === 'email'){
-                  this.toast.error("Email is already registered");
+                  self.toast.error("Email is already registered");
                 } else if (message === 'code'){
-                  this.toast.error("The Verification Code is not correct");
+                  self.toast.error("The Verification Code is not correct");
                 }
               }
             })

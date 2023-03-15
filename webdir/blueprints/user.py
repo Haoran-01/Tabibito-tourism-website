@@ -2,7 +2,7 @@ import random
 import string
 
 
-from flask import Blueprint, request, render_template, jsonify, g
+from flask import Blueprint, request, render_template, jsonify, g, session
 from forms import LoginFrom, RegisterForm, EmailCaptchaModel, ForgetFormPassword
 from flask_login import login_user, logout_user, login_required
 from models import User
@@ -125,12 +125,15 @@ def my_mail():
 def email_check():
     data = request.get_json(silent=True)
     email = data["email"]
-    captcha = data["captcha"]
+    captcha = data["verifyCode"]
     email_model = EmailCaptchaModel.query.filter_by(email=email).first()
     captcha_model = EmailCaptchaModel.query.filter_by(email=email).first()
+
     if email_model:
         if captcha_model.captcha == captcha:
             setattr(g, 'forget_email', email_model.email)
+            session['forget_email'] = email_model.email
+            print(session.get("forget_email"))
             return {"code": 200}
         else:
             return {"code": 400, "message": "captcha"}
@@ -142,16 +145,19 @@ def email_check():
 @bp.route("/reset_password", methods=['POST', 'GET'])
 def password_check():
 
-    email = getattr(g, 'forget_email')
+    print(session.get("forget_email"))
+    email = g.forget_email
+    print(email)
     data = request.get_json(silent=True)
-    user_password = data["p1"]
-    confirm = data["p2"]
+    user_password = data["password"]
+    confirm = data["confirm"]
     password_form = ForgetFormPassword(user_password=user_password, confirm=confirm)
     if password_form.validate():
         new_password = user_password
         user_model = User.query.filter_by(user_email=email).first()
         user_model.user_password = generate_password_hash(new_password)
         db.session.commit()
+        session['forget_email'] = None
         return {"code": 200}
     else:
         return {"code": 400}

@@ -99,6 +99,7 @@
 import navigationBar from "../GeneralComponents/navigationBar.vue";
 import FooterView from "../GeneralComponents/footerView.vue";
 import axios from "axios";
+axios.defaults.withCredentials = true;
 import {useToast} from "vue-toastification";
 
 export default {
@@ -123,6 +124,8 @@ export default {
   },
   methods: {
     startCountdown() {
+      let self = this;
+
       this.countingDown = true;
       this.remainingTime = 60; // add this line to reset remainingTime to 60
       this.countdownInterval = setInterval(() => {
@@ -134,10 +137,10 @@ export default {
         }
       }, 1000);
 
-      const tester = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
-      if (!tester.test(this.inputEmail1)){
-        this.toast.error("This email is not valid");
-      }
+      // const tester = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+      // if (!tester.test(this.inputEmail1)){
+      //   this.toast.error("This email is not valid");
+      // }
 
       let emailValue = this.inputE;
 
@@ -151,7 +154,7 @@ export default {
 
         } else if (code === 400){
           if (message === 'email'){
-            this.toast.error("Email is not registered");
+            self.toast.error("Email is not registered");
           }
         }
       }).catch(function (error) {
@@ -160,6 +163,7 @@ export default {
     },
 
     verify(){
+      let self = this;
       let emailValue = this.inputE;
       let codeValue = this.code;
 
@@ -180,7 +184,8 @@ export default {
         let code=response.data['code'];
         let message=response.data['message'];
         if (code === 200){
-          this.$router.push('/reset');
+          console.log("code")
+          self.$router.push('/reset');
         } else if (code === 400){
           if (message === 'verifyCode'){
             this.toast.error("The verification code is not correctly");
