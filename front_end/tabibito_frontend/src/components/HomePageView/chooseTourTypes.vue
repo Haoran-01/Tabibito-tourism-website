@@ -92,6 +92,27 @@
               </div>
             </a>
           </n-card>
+
+          <template #arrow="{ prev, next }">
+            <div class="custom-arrow">
+              <button type="button" class="custom-arrow--left" @click="prev">
+                <n-icon><ArrowBack /></n-icon>
+              </button>
+              <button type="button" class="custom-arrow--right" @click="next">
+                <n-icon><ArrowForward /></n-icon>
+              </button>
+            </div>
+          </template>
+          <template #dots="{ total, currentIndex, to }">
+            <ul class="custom-dots">
+              <li
+                  v-for="index of total"
+                  :key="index"
+                  :class="{ ['is-active']: currentIndex === index - 1 }"
+                  @click="to(index - 1)"
+              />
+            </ul>
+          </template>
         </n-carousel>
       </div>
     </div>
@@ -100,12 +121,81 @@
 </template>
 
 <script>
+import { ArrowBack, ArrowForward } from '@vicons/ionicons5'
+import { defineComponent } from 'vue'
 export default {
-  name: "chooseTourTypes"
+  components: {
+    ArrowBack,
+    ArrowForward
+  },
+  name: "mostPopularTours"
 }
 </script>
 
 <style scoped>
+.custom-arrow--right {
+  display: flex;
+  position: absolute;
+  top: 10px;
+  left: 180px;
+}
+
+.custom-arrow--left {
+  display: flex;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+.custom-dots {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: 20px;
+  left: 50px;
+}
+
+.custom-arrow button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  margin-right: 12px;
+  color: #000;
+  background-color: #fff;
+  border-width: 0;
+  border-radius: 8px;
+  transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.custom-arrow button:hover {
+  color: rebeccapurple;
+}
+
+.custom-arrow button:active {
+  transform: scale(0.95);
+  transform-origin: center;
+}
+
+.custom-dots li {
+  display: inline-block;
+  width: 12px;
+  height: 4px;
+  margin: 0 3px;
+  border-radius: 4px;
+  background-color: gainsboro;
+  transition: width 0.3s, background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.custom-dots li.is-active {
+  width: 40px;
+  background: #3d61f1;
+}
+
 .cardHref {
   text-decoration: none;
 }
