@@ -11,7 +11,7 @@ import footerView from "./components/GeneralComponents/footerView.vue";
 
 
 const routes = [
-    { path: '/', component: aboutUsView },
+    { path: '/', component: mostPopularTours },
     { path: '/login', component: loginView },
     { path: '/register', component: registerView },
     { path: '/forget', component: forgetPasswordView},
