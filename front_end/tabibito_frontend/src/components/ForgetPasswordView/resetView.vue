@@ -87,6 +87,7 @@
 import navigationBar from "../GeneralComponents/navigationBar.vue";
 import FooterView from "../GeneralComponents/footerView.vue";
 import axios from "axios";
+axios.defaults.withCredentials = true;
 
 export default {
   components: {FooterView, navigationBar},
@@ -103,6 +104,7 @@ export default {
   },
   methods: {
     reset(){
+      let self = this;
       if (this.p1 === ''){
         this.toast.error("Password name can't be blank");
       }
@@ -122,10 +124,10 @@ export default {
         let code=response.data['code'];
         let message=response.data['message'];
         if (code === 200){
-          this.$router.push('/login');
+          self.$router.push('/login');
         } else if (code === 400){
           if (message === 'email'){
-            this.toast.error("Email is not registered");
+            self.toast.error("Email is not registered");
           }
         }
       }).catch(function (error) {

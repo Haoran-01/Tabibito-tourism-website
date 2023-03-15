@@ -46,6 +46,7 @@ def validation_error(e):
 @app.before_request
 def before_request():
     forget_email = session.get("forget_email")
+    print("before", forget_email)
     if forget_email:
         print("reset", forget_email)
         user = User.query.filter_by(user_email=forget_email)
@@ -62,9 +63,9 @@ def context_processor():
 @app.after_request
 def af_req(resp):  #解决跨域session丢失
     resp = make_response(resp)
-    resp.headers['Access-Control-Allow-Origin'] = 'http://localhost:5173'
+    resp.headers['Access-Control-Allow-Origin'] = 'http://127.0.0.1:5173'
     resp.headers['Access-Control-Allow-Methods'] = 'PUT,POST,GET,DELETE,OPTIONS'
-    #resp.headers['Access-Control-Allow-Headers'] = 'x-requested-with,content-type'
+    resp.headers['Access-Control-Allow-Headers'] = 'x-requested-with,content-type'
     resp.headers['Access-Control-Allow-Headers'] = 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild'
     resp.headers['Access-Control-Allow-Credentials'] = 'true'
 

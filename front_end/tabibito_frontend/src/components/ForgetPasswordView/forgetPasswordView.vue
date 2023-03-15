@@ -99,6 +99,7 @@
 import navigationBar from "../GeneralComponents/navigationBar.vue";
 import FooterView from "../GeneralComponents/footerView.vue";
 import axios from "axios";
+axios.defaults.withCredentials = true;
 import {useToast} from "vue-toastification";
 
 export default {

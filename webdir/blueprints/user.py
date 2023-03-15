@@ -128,10 +128,9 @@ def email_check():
     captcha = data["verifyCode"]
     email_model = EmailCaptchaModel.query.filter_by(email=email).first()
     captcha_model = EmailCaptchaModel.query.filter_by(email=email).first()
-    print(email, captcha)
+
     if email_model:
         if captcha_model.captcha == captcha:
-
             setattr(g, 'forget_email', email_model.email)
             session['forget_email'] = email_model.email
             print(session.get("forget_email"))
