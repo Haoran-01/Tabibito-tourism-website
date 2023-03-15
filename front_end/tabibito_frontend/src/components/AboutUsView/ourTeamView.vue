@@ -11,8 +11,8 @@
           </div>
         </div>
 
-        <div class="our-team-contents js-section-slider" data-gap="30" data-slider-cols="xl-5 lg-4 md-2 sm-2 base-1" data-nav-prev="js-team-prev" data-pagination="js-team-pag" data-nav-next="js-team-next">
-          <n-carousel :slides-per-view="3" :space-between="20" :loop="false" draggable show-arrow autoplay>
+        <div class="our-team-contents">
+          <n-carousel :slides-per-view="4" :space-between="20" :loop="false" autoplay show-arrow>
 
             <div>
               <img
@@ -121,9 +121,41 @@ export default {
 
 <style scoped>
 .carousel-img {
-  width: 100%;
-  height: 240px;
+  width: 234px;
+  height: 300px;
   object-fit: cover;
+}
+
+@media (max-width: 1080px) {
+  .carousel-img {
+    width: 175px;
+    height: 225px;
+  }
+  .our-team-name {
+    font-size: 14px !important;
+    line-height: 1.125 !important;
+    font-weight: 375;
+  }
+  .our-team-job {
+    font-size: 11px !important;
+    line-height: 1.125 !important;
+  }
+}
+
+@media (max-width: 800px) {
+  .carousel-img {
+    width: 117px;
+    height: 150px;
+  }
+  .our-team-name {
+    font-size: 9px !important;
+    line-height: 0.75 !important;
+    font-weight: 250;
+  }
+  .our-team-job {
+    font-size: 7px !important;
+    line-height: 0.75 !important;
+  }
 }
 
 .custom-arrow {
@@ -240,14 +272,14 @@ export default {
 }
 
 .our-team-name {
-  font-size: 18px !important;
-  line-height: 1.5 !important;
+  font-size: 18px;
+  line-height: 1.5;
   font-weight: 500;
 }
 
 .our-team-job {
-  font-size: 14px !important;
-  line-height: 1.5 !important;
+  font-size: 14px;
+  line-height: 1.5;
 }
 
 .name-bar-our-team {
