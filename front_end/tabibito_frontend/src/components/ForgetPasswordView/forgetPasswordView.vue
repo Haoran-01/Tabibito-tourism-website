@@ -134,10 +134,10 @@ export default {
         }
       }, 1000);
 
-      const tester = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
-      if (!tester.test(this.inputEmail1)){
-        this.toast.error("This email is not valid");
-      }
+      // const tester = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+      // if (!tester.test(this.inputEmail1)){
+      //   this.toast.error("This email is not valid");
+      // }
 
       let emailValue = this.inputE;
 
@@ -160,6 +160,7 @@ export default {
     },
 
     verify(){
+      let self = this;
       let emailValue = this.inputE;
       let codeValue = this.code;
 
@@ -180,7 +181,8 @@ export default {
         let code=response.data['code'];
         let message=response.data['message'];
         if (code === 200){
-          this.$router.push('/reset');
+          console.log("code")
+          self.$router.push('/reset');
         } else if (code === 400){
           if (message === 'verifyCode'){
             this.toast.error("The verification code is not correctly");

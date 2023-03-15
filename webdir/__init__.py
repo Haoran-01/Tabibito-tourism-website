@@ -1,11 +1,11 @@
 import os
-from flask import jsonify
+from flask import jsonify, make_response
 from wtforms import ValidationError
 from flask_login import LoginManager
 from flask_migrate import Migrate
 from models import User
 
-from flask import Flask
+from flask import Flask, g, session
 from config import config
 from exts import mail, db
 from webdir.blueprints import user_bp
@@ -15,7 +15,7 @@ def create_app(config_name):
     app = Flask(__name__, template_folder="templates", static_folder="static", static_url_path="")
     app.config.from_object(config[config_name])
     config[config_name].init_app(app)
-    CORS(app, resources=r'/*')
+    CORS(app, supports_credentials=True)
     return app
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
@@ -42,3 +42,32 @@ def load_user(user_email):
 @app.errorhandler(ValidationError)
 def validation_error(e):
     return jsonify({"code": 400, "message": e.args})
+
+@app.before_request
+def before_request():
+    forget_email = session.get("forget_email")
+    if forget_email:
+        print("reset", forget_email)
+        user = User.query.filter_by(user_email=forget_email)
+        if user:
+            g.forget_email = forget_email
+
+@app.context_processor
+def context_processor():
+    if hasattr(g, "forget_email"):
+        return {"forget_email": g.forget_email}
+    else:
+        return {}
+
+@app.after_request
+def af_req(resp):  #解决跨域session丢失
+    resp = make_response(resp)
+    resp.headers['Access-Control-Allow-Origin'] = 'http://localhost:5173'
+    resp.headers['Access-Control-Allow-Methods'] = 'PUT,POST,GET,DELETE,OPTIONS'
+    #resp.headers['Access-Control-Allow-Headers'] = 'x-requested-with,content-type'
+    resp.headers['Access-Control-Allow-Headers'] = 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild'
+    resp.headers['Access-Control-Allow-Credentials'] = 'true'
+
+    resp.headers['X-Powered-By'] = '3.2.1'
+    resp.headers['Content-Type'] = 'application/json;charset=utf-8'
+    return resp
