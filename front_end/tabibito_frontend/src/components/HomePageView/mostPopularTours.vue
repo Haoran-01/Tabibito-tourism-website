@@ -716,6 +716,169 @@ export default {
 </script>
 
 <style scoped>
+.carousel-img {
+  border-radius: 8px;
+  width: 450px;
+  height: 450px;
+  object-fit: cover;
+}
+.custom-arrow--right {
+  display: flex;
+  position: absolute;
+  bottom: 225px;
+  right: 10px;
+}
+.custom-arrow--left {
+  display: flex;
+  position: absolute;
+  bottom: 225px;
+  left: 10px;
+}
+
+@media (max-width: 1410px) {
+  .carousel-img {
+    width: 350px;
+    height: 350px;
+  }
+  .custom-arrow--left {
+    bottom: 175px;
+    left: 7.5px;
+  }
+  .custom-arrow--right {
+    bottom: 175px;
+    right: 7.5px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .carousel-img {
+    width: 300px;
+    height: 300px;
+  }
+  .custom-arrow--left {
+    bottom: 150px;
+    left: 7.5px;
+  }
+  .custom-arrow--right {
+    bottom: 150px;
+    right: 7.5px;
+  }
+}
+
+@media (max-width: 1000px) {
+  .carousel-img {
+    width: 250px;
+    height: 250px;
+  }
+  .custom-arrow--left {
+    bottom: 125px;
+    left: 7.5px;
+  }
+  .custom-arrow--right {
+    bottom: 125px;
+    right: 7.5px;
+  }
+}
+
+@media (max-width: 780px) {
+  .carousel-img {
+    width: 200px;
+    height: 200px;
+  }
+  .custom-arrow--left {
+    bottom: 100px;
+    left: 7.5px;
+  }
+  .custom-arrow--right {
+    bottom: 100px;
+    right: 7.5px;
+  }
+  .hours {
+    font-size: 7px !important;
+    color: #697488;
+  }
+  .dot {
+    flex-shrink: 0;
+    width: 1.5px;
+    height: 1.5px;
+    background-color: #697488 !important;
+    border-radius: 100%;
+    margin-left: 10px !important;
+    margin-right: 10px !important;
+
+  }
+  .days {
+    font-size: 7px !important;
+    color: #697488;
+  }
+  .tourCardTitle {
+    color: #051036;
+    font-size: 9px !important;
+    line-height: 1.6 !important;
+    font-weight: 500;
+  }
+  .tourCardText {
+    color: #697488;
+    line-height: 1.4 !important;
+    font-size: 7px !important;
+    margin-top: 5px !important;
+  }
+
+}
+
+.custom-arrow button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  margin-right: 12px;
+  color: #000;
+  background-color: #fff;
+  border-width: 0;
+  border-radius: 8px;
+  transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.custom-arrow button:hover {
+  background-color: #3554D1;
+}
+
+.custom-arrow button:hover {
+  color: #fff;
+}
+
+.custom-arrow button:active {
+  transform: scale(0.95);
+  transform-origin: center;
+}
+
+.custom-dots {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+.custom-dots li {
+  display: inline-block;
+  width: 12px;
+  height: 4px;
+  margin: 0 3px;
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.4);
+  transition: width 0.3s, background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.custom-dots li.is-active {
+  width: 40px;
+  background: #fff;
+}
+
 .row {
   --bs-gutter-x:30px;
   --bs-gutter-y:0;
@@ -738,7 +901,7 @@ export default {
 }
 
 .hours {
-  font-size: 14px !important;
+  font-size: 14px;
   color: #697488;
 }
 
@@ -754,13 +917,13 @@ export default {
 }
 
 .days {
-  font-size: 14px !important;
+  font-size: 14px;
   color: #697488;
 }
 
 .tourCardTitle {
   color: #051036;
-  font-size: 18px !important;
+  font-size: 18px;
   line-height: 1.6 !important;
   font-weight: 500;
 }
@@ -768,7 +931,7 @@ export default {
 .tourCardText {
   color: #697488;
   line-height: 1.4 !important;
-  font-size: 14px !important;
+  font-size: 14px;
   margin-top: 5px !important;
 }
 
@@ -816,69 +979,6 @@ export default {
 .most-popular-contents {
   overflow: hidden !important;
   padding-top: 40px !important;
-}
-
-.carousel-img {
-  border-radius: 8px;
-  width: 100%;
-  height: 300px;
-  object-fit: cover;
-}
-
-.custom-arrow {
-  display: flex;
-  position: absolute;
-  bottom: 250px;
-  right: 10px;
-}
-
-.custom-arrow button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  margin-right: 12px;
-  color: #fff;
-  background-color: rgba(255, 255, 255, 0.1);
-  border-width: 0;
-  border-radius: 8px;
-  transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: pointer;
-}
-
-.custom-arrow button:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-}
-
-.custom-arrow button:active {
-  transform: scale(0.95);
-  transform-origin: center;
-}
-
-.custom-dots {
-  display: flex;
-  margin: 0;
-  padding: 0;
-  position: absolute;
-  top: 20px;
-  left: 20px;
-}
-
-.custom-dots li {
-  display: inline-block;
-  width: 12px;
-  height: 4px;
-  margin: 0 3px;
-  border-radius: 4px;
-  background-color: rgba(255, 255, 255, 0.4);
-  transition: width 0.3s, background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: pointer;
-}
-
-.custom-dots li.is-active {
-  width: 40px;
-  background: #fff;
 }
 
 .mostPopularLayout-pt {
