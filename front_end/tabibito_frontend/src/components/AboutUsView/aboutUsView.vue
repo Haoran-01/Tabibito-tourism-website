@@ -1,5 +1,5 @@
 <template>
-  <navigation-bar></navigation-bar>
+  <navigation-bar :is-ini-text-white="true" :is-transparent="true"></navigation-bar>
  <div class="cover">
    <div class="coverSlogans">
      <h1 class="mainSlogan">Looking for joy?</h1>
@@ -85,10 +85,11 @@
 
 <script>
 import NavigationBar from "../GeneralComponents/navigationBar.vue";
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import OurTeamView from "./ourTeamView.vue";
 import OverheardFromTravelersView from "./overheardFromTravelersView.vue";
 import FooterView from "../GeneralComponents/footerView.vue";
+
 export default {
   name: "aboutUsView",
   components: {FooterView, OverheardFromTravelersView, OurTeamView, NavigationBar},

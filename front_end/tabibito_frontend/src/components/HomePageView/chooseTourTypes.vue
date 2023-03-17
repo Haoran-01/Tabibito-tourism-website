@@ -135,7 +135,7 @@ export default {
     ArrowBack,
     ArrowForward
   },
-  name: "mostPopularTours"
+  name: "chooseTourTypes"
 }
 </script>
 
