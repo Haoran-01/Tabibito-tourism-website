@@ -22,6 +22,15 @@ body {
 }
 @font-face {
   font-family: Jost;
-  src: url("assets/fonts/Jost-Regular.ttf");
+  src: url("assets/fonts/Jost-VariableFont_wght.ttf");
+}
+@font-face {
+  font-family: JostBlod;
+  src: url("assets/fonts/Jost-Medium.ttf");
+}
+
+@font-face {
+  font-family: JostLight;
+  src: url("assets/fonts/Jost-Light.ttf");
 }
 </style>
