@@ -129,18 +129,20 @@
 
   </section>
 
-  <customer-review></customer-review>
-  <inspiration></inspiration>
+<!--  <customer-review></customer-review>-->
+<!--  <inspiration></inspiration>-->
+<!--  <not-a-member></not-a-member>-->
 
 </template>
 
 <script>
 import CustomerReview from "./customerReview.vue";
 import Inspiration from "./inspiration.vue";
+import NotAMember from "./notAMember.vue";
 
 export default {
 name: "hotLocation",
-  components: {Inspiration, CustomerReview}
+  components: {NotAMember, Inspiration, CustomerReview}
 }
 </script>
 
