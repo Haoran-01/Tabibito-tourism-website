@@ -117,14 +117,6 @@
                   © 2022 GoTrip LLC All rights reserved.
                 </div>
               </div>
-
-              <div class="col-auto">
-                <div class="contact-foot-att">
-                  <a href="#">Privacy</a>
-                  <a href="#">Terms</a>
-                  <a href="#">Site Map</a>
-                </div>
-              </div>
             </div>
           </div>
 
@@ -413,6 +405,8 @@ export default {
   font-weight: 500;
   color: #051036;
   margin-right: 10px !important;
+  border: none;
+  background: none;
 }
 
 .contact-foot-sub2-icon {
@@ -430,6 +424,8 @@ export default {
   font-size: 14px !important;
   font-weight: 500;
   color: #051036;
+  border: none;
+  background: none;
 }
 
 .contact-foot-icons {

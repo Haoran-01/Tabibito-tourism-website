@@ -30,19 +30,16 @@
             <h4 class="commentTitle">Hotel Equatorial Melaka</h4>
 
             <p class="commentText"> "Our family was traveling via bullet train between cities in Japan with our luggage the location for this hotel made that so easy. Agoda price was fantastic!"</p>
-            <template #footer>
-                <div class="commentFooter">
-                  <div class="col-auto">
-                    <img class="commentAvatar" src="../../assets/avatars/1.png" alt="image">
-                  </div>
+            <div class="commentFooter">
+              <div class="col-auto">
+                <img class="commentAvatar" src="../../assets/avatars/1.png" alt="image">
+              </div>
 
-                  <div class="col-auto">
-                    <div class="commentName">Courtney Henry</div>
-                    <div class="commentJob">Web Designer</div>
-                  </div>
-                </div>
-
-            </template>
+              <div class="col-auto">
+                <div class="commentName">Courtney Henry</div>
+                <div class="commentJob">Web Designer</div>
+              </div>
+            </div>
           </n-card>
         </n-carousel-item>
         <n-carousel-item :style="{ width: '50%' }">
@@ -55,19 +52,16 @@
             <h4 class="commentTitle">Hotel Equatorial Melaka</h4>
 
             <p class="commentText"> "Our family was traveling via bullet train between cities in Japan with our luggage the location for this hotel made that so easy. Agoda price was fantastic!"</p>
-            <template #footer>
-              <div class="commentFooter">
-                <div class="col-auto">
-                  <img class="commentAvatar" src="../../assets/avatars/1.png" alt="image">
-                </div>
-
-                <div class="col-auto">
-                  <div class="commentName">Courtney Henry</div>
-                  <div class="commentJob">Web Designer</div>
-                </div>
+            <div class="commentFooter">
+              <div class="col-auto">
+                <img class="commentAvatar" src="../../assets/avatars/1.png" alt="image">
               </div>
 
-            </template>
+              <div class="col-auto">
+                <div class="commentName">Courtney Henry</div>
+                <div class="commentJob">Web Designer</div>
+              </div>
+            </div>
           </n-card>
         </n-carousel-item>
         <n-carousel-item :style="{ width: '50%' }">
@@ -80,19 +74,16 @@
             <h4 class="commentTitle">Hotel Equatorial Melaka</h4>
 
             <p class="commentText"> "Our family was traveling via bullet train between cities in Japan with our luggage the location for this hotel made that so easy. Agoda price was fantastic!"</p>
-            <template #footer>
-              <div class="commentFooter">
-                <div class="col-auto">
-                  <img class="commentAvatar" src="../../assets/avatars/1.png" alt="image">
-                </div>
-
-                <div class="col-auto">
-                  <div class="commentName">Courtney Henry</div>
-                  <div class="commentJob">Web Designer</div>
-                </div>
+            <div class="commentFooter">
+              <div class="col-auto">
+                <img class="commentAvatar" src="../../assets/avatars/1.png" alt="image">
               </div>
 
-            </template>
+              <div class="col-auto">
+                <div class="commentName">Courtney Henry</div>
+                <div class="commentJob">Web Designer</div>
+              </div>
+            </div>
           </n-card>
         </n-carousel-item>
         <n-carousel-item :style="{ width: '50%' }">
@@ -105,19 +96,16 @@
             <h4 class="commentTitle">Hotel Equatorial Melaka</h4>
 
             <p class="commentText"> "Our family was traveling via bullet train between cities in Japan with our luggage the location for this hotel made that so easy. Agoda price was fantastic!"</p>
-            <template #footer>
-              <div class="commentFooter">
-                <div class="col-auto">
-                  <img class="commentAvatar" src="../../assets/avatars/1.png" alt="image">
-                </div>
-
-                <div class="col-auto">
-                  <div class="commentName">Courtney Henry</div>
-                  <div class="commentJob">Web Designer</div>
-                </div>
+            <div class="commentFooter">
+              <div class="col-auto">
+                <img class="commentAvatar" src="../../assets/avatars/1.png" alt="image">
               </div>
 
-            </template>
+              <div class="col-auto">
+                <div class="commentName">Courtney Henry</div>
+                <div class="commentJob">Web Designer</div>
+              </div>
+            </div>
           </n-card>
         </n-carousel-item>
       </n-carousel>
@@ -197,6 +185,20 @@ export default {
 #carousel {
   height: 240px;
 }
+@media(max-width: 1000px) {
+  .commentName {
+    font-size: 0 !important;
+  }
+
+  .commentJob {
+    font-size: 0 !important;
+  }
+
+  .commentAvatar {
+    visibility: hidden;
+  }
+}
+
 @media screen and (max-width: 500px) {
   #carousel {
     height: 500px;

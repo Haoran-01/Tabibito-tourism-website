@@ -6,6 +6,8 @@ import forgetPasswordView from "./components/ForgetPasswordView/forgetPasswordVi
 import resetView from "./components/ForgetPasswordView/resetView.vue";
 import homepageView from "./components/HomepageView/HomepageView.vue";
 import chooseTourTypes from "./components/HomePageView/chooseTourTypes.vue";
+import mostPopularTours from "./components/HomePageView/mostPopularTours.vue";
+import footerView from "./components/GeneralComponents/footerView.vue";
 
 
 const routes = [

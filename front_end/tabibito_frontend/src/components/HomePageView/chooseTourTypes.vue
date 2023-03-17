@@ -12,6 +12,7 @@
       <div class="chooseCards">
         <n-carousel :slides-per-view="5" :space-between="20" :loop="false" show-arrow>
           <n-card title="" class="tourTypeCard">
+            <div class="cardContent">
             <a href="tour-single.html" class="cardHref">
               <div class="tourTypeCardContent">
                 <i class="icon-nature icon"></i>
@@ -19,79 +20,106 @@
                 <p class="cardPrice">5 Tours From 550$</p>
               </div>
             </a>
+            </div>
           </n-card>
           <n-card title="" class="tourTypeCard">
-            <a href="tour-single.html" class="cardHref">
-              <div class="tourTypeCardContent">
-                <i class="icon-nature icon"></i>
-                <h4 class="cardText">Wildlife Tour</h4>
-                <p class="cardPrice">5 Tours From 550$</p>
-              </div>
-            </a>
+            <div class="cardContent">
+              <a href="tour-single.html" class="cardHref">
+                <div class="tourTypeCardContent">
+                  <i class="icon-nature icon"></i>
+                  <h4 class="cardText">Wildlife Tour</h4>
+                  <p class="cardPrice">5 Tours From 550$</p>
+                </div>
+              </a>
+            </div>
           </n-card>
           <n-card title="" class="tourTypeCard">
-            <a href="tour-single.html" class="cardHref">
-              <div class="tourTypeCardContent">
-                <i class="icon-nature icon"></i>
-                <h4 class="cardText">Wildlife Tour</h4>
-                <p class="cardPrice">5 Tours From 550$</p>
-              </div>
-            </a>
+            <div class="cardContent">
+              <a href="tour-single.html" class="cardHref">
+                <div class="tourTypeCardContent">
+                  <i class="icon-nature icon"></i>
+                  <h4 class="cardText">Wildlife Tour</h4>
+                  <p class="cardPrice">5 Tours From 550$</p>
+                </div>
+              </a>
+            </div>
           </n-card>
           <n-card title="" class="tourTypeCard">
-            <a href="tour-single.html" class="cardHref">
-              <div class="tourTypeCardContent">
-                <i class="icon-nature icon"></i>
-                <h4 class="cardText">Wildlife Tour</h4>
-                <p class="cardPrice">5 Tours From 550$</p>
-              </div>
-            </a>
+            <div class="cardContent">
+              <a href="tour-single.html" class="cardHref">
+                <div class="tourTypeCardContent">
+                  <i class="icon-nature icon"></i>
+                  <h4 class="cardText">Wildlife Tour</h4>
+                  <p class="cardPrice">5 Tours From 550$</p>
+                </div>
+              </a>
+            </div>
           </n-card>
           <n-card title="" class="tourTypeCard">
-            <a href="tour-single.html" class="cardHref">
-              <div class="tourTypeCardContent">
-                <i class="icon-nature icon"></i>
-                <h4 class="cardText">Wildlife Tour</h4>
-                <p class="cardPrice">5 Tours From 550$</p>
-              </div>
-            </a>
+            <div class="cardContent">
+              <a href="tour-single.html" class="cardHref">
+                <div class="tourTypeCardContent">
+                  <i class="icon-nature icon"></i>
+                  <h4 class="cardText">Wildlife Tour</h4>
+                  <p class="cardPrice">5 Tours From 550$</p>
+                </div>
+              </a>
+            </div>
           </n-card>
           <n-card title="" class="tourTypeCard">
-            <a href="tour-single.html" class="cardHref">
-              <div class="tourTypeCardContent">
-                <i class="icon-nature icon"></i>
-                <h4 class="cardText">Wildlife Tour</h4>
-                <p class="cardPrice">5 Tours From 550$</p>
-              </div>
-            </a>
+            <div class="cardContent">
+              <a href="tour-single.html" class="cardHref">
+                <div class="tourTypeCardContent">
+                  <i class="icon-nature icon"></i>
+                  <h4 class="cardText">Wildlife Tour</h4>
+                  <p class="cardPrice">5 Tours From 550$</p>
+                </div>
+              </a>
+            </div>
           </n-card>
           <n-card title="" class="tourTypeCard">
-            <a href="tour-single.html" class="cardHref">
-              <div class="tourTypeCardContent">
-                <i class="icon-nature icon"></i>
-                <h4 class="cardText">Wildlife Tour</h4>
-                <p class="cardPrice">5 Tours From 550$</p>
-              </div>
-            </a>
+            <div class="cardContent">
+              <a href="tour-single.html" class="cardHref">
+                <div class="tourTypeCardContent">
+                  <i class="icon-nature icon"></i>
+                  <h4 class="cardText">Wildlife Tour</h4>
+                  <p class="cardPrice">5 Tours From 550$</p>
+                </div>
+              </a>
+            </div>
           </n-card>
           <n-card title="" class="tourTypeCard">
-            <a href="tour-single.html" class="cardHref">
-              <div class="tourTypeCardContent">
-                <i class="icon-nature icon"></i>
-                <h4 class="cardText">Wildlife Tour</h4>
-                <p class="cardPrice">5 Tours From 550$</p>
-              </div>
-            </a>
+            <div class="cardContent">
+              <a href="tour-single.html" class="cardHref">
+                <div class="tourTypeCardContent">
+                  <i class="icon-nature icon"></i>
+                  <h4 class="cardText">Wildlife Tour</h4>
+                  <p class="cardPrice">5 Tours From 550$</p>
+                </div>
+              </a>
+            </div>
           </n-card>
-          <n-card title="" class="tourTypeCard">
-            <a href="tour-single.html" class="cardHref">
-              <div class="tourTypeCardContent">
-                <i class="icon-nature icon"></i>
-                <h4 class="cardText">Wildlife Tour</h4>
-                <p class="cardPrice">5 Tours From 550$</p>
-              </div>
-            </a>
-          </n-card>
+
+          <template #arrow="{ prev, next }">
+            <div class="custom-arrow">
+              <button type="button" class="custom-arrow--left" @click="prev">
+                <n-icon><ArrowBack /></n-icon>
+              </button>
+              <button type="button" class="custom-arrow--right" @click="next">
+                <n-icon><ArrowForward /></n-icon>
+              </button>
+            </div>
+          </template>
+          <template #dots="{ total, currentIndex, to }">
+            <ul class="custom-dots">
+              <li
+                  v-for="index of total"
+                  :key="index"
+                  :class="{ ['is-active']: currentIndex === index - 1 }"
+                  @click="to(index - 1)"
+              />
+            </ul>
+          </template>
         </n-carousel>
       </div>
     </div>
@@ -100,37 +128,193 @@
 </template>
 
 <script>
+import { ArrowBack, ArrowForward } from '@vicons/ionicons5'
+import { defineComponent } from 'vue'
 export default {
-  name: "chooseTourTypes"
+  components: {
+    ArrowBack,
+    ArrowForward
+  },
+  name: "mostPopularTours"
 }
 </script>
 
 <style scoped>
-.cardHref {
-  text-decoration: none;
+.cardContent {
+  width: 200px;
+  height: 200px;
+}
+
+.tourTypeCardContent {
+  text-align: center;
+  padding-top: 60px;
+  padding-bottom: 24px;
+  padding-right: 75px;
+}
+
+@media (max-width: 1050px) {
+  .cardContent {
+    width: 150px;
+    height: 150px;
+  }
+
+  .tourTypeCardContent {
+    padding-top: 40px;
+    padding-bottom: 24px;
+    padding-right: 75px;
+  }
+  .cardText {
+    color: #051036;
+    font-size: 10px;
+    font-weight: 300;
+    margin-top: 50px;
+  }
+  .cardPrice {
+    color: #697488;
+    line-height: 1.4;
+    font-size: 8px;
+    margin-top: 5px;
+  }
+}
+
+@media (max-width: 775px) {
+  .cardContent {
+    width: 100px;
+    height: 100px;
+  }
+
+  .tourTypeCardContent {
+    padding-top: 40px;
+    padding-bottom: 24px;
+    padding-right: 75px;
+  }
+  .cardText {
+    color: #051036;
+    font-size: 8px;
+    font-weight: 300;
+    margin-top: 50px;
+  }
+  .cardPrice {
+    color: #697488;
+    line-height: 1.4;
+    font-size: 5px;
+    margin-top: 5px;
+  }
 }
 
 .cardText {
   color: #051036;
-  font-size: 18px !important;
+  font-size: 18px;
   font-weight: 500;
-  margin-top: 50px !important;
+  margin-top: 50px;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 575px) {
+  .cardContent {
+    width: 75px;
+    height: 75px;
+  }
+
+  .tourTypeCardContent {
+    padding-top: 0px;
+    padding-bottom: 24px;
+    padding-right: 25px;
+  }
   .cardText {
     color: #051036;
-    font-size: 18px !important;
-    font-weight: 500;
-    margin-top: 30px !important;
+    font-size: 8px;
+    font-weight: 300;
+    margin-top: 20px;
+  }
+  .cardPrice {
+    color: #697488;
+    line-height: 1.4;
+    font-size: 5px;
+    margin-top: 5px;
   }
 }
 
+.cardText {
+  color: #051036;
+  font-size: 18px;
+  font-weight: 500;
+  margin-top: 50px;
+}
+
+
+
 .cardPrice {
   color: #697488;
-  line-height: 1.4 !important;
-  font-size: 14px !important;
-  margin-top: 5px !important;
+  line-height: 1.4;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.custom-arrow--right {
+  display: flex;
+  position: absolute;
+  top: 10px;
+  left: 180px;
+}
+
+.custom-arrow--left {
+  display: flex;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+.custom-dots {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: 20px;
+  left: 50px;
+}
+
+.custom-arrow button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  margin-right: 12px;
+  color: #000;
+  background-color: #fff;
+  border-width: 0;
+  border-radius: 8px;
+  transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.custom-arrow button:hover {
+  color: rebeccapurple;
+}
+
+.custom-arrow button:active {
+  transform: scale(0.95);
+  transform-origin: center;
+}
+
+.custom-dots li {
+  display: inline-block;
+  width: 12px;
+  height: 4px;
+  margin: 0 3px;
+  border-radius: 4px;
+  background-color: gainsboro;
+  transition: width 0.3s, background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.custom-dots li.is-active {
+  width: 40px;
+  background: #3d61f1;
+}
+
+.cardHref {
+  text-decoration: none;
 }
 
 .icon {
@@ -143,14 +327,6 @@ export default {
     font-size: 40px !important;
     color: #3554D1;
   }
-}
-
-.tourTypeCardContent {
-  text-align: center;
-  padding-top: 60px !important;
-  padding-bottom: 24px !important;
-  padding-left: 30px !important;
-  padding-right: 30px !important;
 }
 
 .tourTypeCard {
