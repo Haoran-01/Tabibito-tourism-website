@@ -1,6 +1,6 @@
 <template>
 
-  <section class="chooseLayout-pt chooseLayout-pb">
+  <section class="chooseLayout-pt chooseLayout-pb" style="overflow: hidden">
     <div class="container">
       <div class="row chooseHead">
         <div class="col-auto">
@@ -10,7 +10,7 @@
       </div>
 
       <div class="chooseCards">
-        <n-carousel :slides-per-view="5" :space-between="20" :loop="false" show-arrow>
+        <n-carousel :slides-per-view=slides_per_view :space-between=space_between :loop="false" show-arrow>
           <n-card title="" class="tourTypeCard">
             <div class="cardContent">
             <a href="tour-single.html" class="cardHref">
@@ -129,14 +129,80 @@
 
 <script>
 import { ArrowBack, ArrowForward } from '@vicons/ionicons5'
-import { defineComponent } from 'vue'
+import {defineComponent, onMounted, ref} from 'vue'
 export default {
   components: {
     ArrowBack,
     ArrowForward
   },
-  name: "chooseTourTypes"
+  name: "chooseTourTypes",
+  data() {
+    return {
+      windowWidth: document.documentElement.clientWidth,
+    }
+  },
+  setup() {
+    let slides_per_view= ref(5);
+    let space_between = ref(20);
+    window.fullWidth = document.documentElement.clientWidth;
+    if (window.fullWidth < 500) {
+      slides_per_view.value = 2;
+      space_between.value = 7;
+    } else if (window.fullWidth < 400) {
+      slides_per_view.value = 2;
+      space_between.value = 10;
+    } else if (window.fullWidth < 500) {
+      slides_per_view.value = 3;
+      space_between.value = 10;
+    } else if (window.fullWidth < 700) {
+      slides_per_view.value = 3;
+      space_between.value = 15;
+    } else if (window.fullWidth < 900) {
+      slides_per_view.value = 4;
+      space_between.value = 15;
+    } else if (window.fullWidth < 1100) {
+      slides_per_view.value = 4;
+      space_between.value = 20;
+    } else if (window.fullWidth >= 1100) {
+      slides_per_view.value = 5;
+      space_between.value = 20;
+    }
+    onMounted(()=>{
+      window.onresize = () => {
+        window.fullWidth = document.documentElement.clientWidth;
+        // that.windowWidth = window.fullWidth; // 宽
+        if (window.fullWidth < 500) {
+          slides_per_view.value = 2;
+          space_between.value = 7;
+        } else if (window.fullWidth < 400) {
+          slides_per_view.value = 2;
+          space_between.value = 10;
+        } else if (window.fullWidth < 500) {
+          slides_per_view.value = 3;
+          space_between.value = 10;
+        } else if (window.fullWidth < 700) {
+          slides_per_view.value = 3;
+          space_between.value = 15;
+        } else if (window.fullWidth < 900) {
+          slides_per_view.value = 4;
+          space_between.value = 15;
+        } else if (window.fullWidth < 1100) {
+          slides_per_view.value = 4;
+          space_between.value = 20;
+        } else if (window.fullWidth >= 1100) {
+          slides_per_view.value = 5;
+          space_between.value = 20;
+        }
+      };
+    })
+    return{
+      slides_per_view,
+      space_between
+    }
+  },
+
 }
+
 </script>
 
 <style scoped>
@@ -384,6 +450,7 @@ export default {
 
 @media (min-width:576px){
   .container{
+    width: 95%;
     max-width:540px
   }
 }
@@ -447,6 +514,9 @@ export default {
 @media (max-width: 575px) {
   .sectionText {
     font-size: 0px;
+  }
+  .sectionTitle {
+    margin-left: 20px;
   }
 }
 
