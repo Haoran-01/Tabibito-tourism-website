@@ -1,5 +1,5 @@
 <template>
-  <navigation-bar :is-transparent="true"></navigation-bar>
+<!--  <navigation-bar :is-transparent="true"></navigation-bar>-->
   <section class="specialPart">
       <div class="specialBackgroundLeft"></div>
       <div class="specialPartCore">
@@ -11,8 +11,7 @@
               </span>
             </span>
           </h1>
-          <p class="specialSlogan">Experience the various exciting tour and travel packages and Make hotel reservations, find
-            <br/>vacation packages, search cheap hotels and events</p>
+          <p class="specialSlogan">Experience the various exciting tour and travel packages and Make hotel reservations, find vacation packages, search cheap hotels and events</p>
           <div class="searchBar">
             <div class="search">
               <div class="locationOption">
@@ -54,86 +53,89 @@
       </div>
       <div class="specialBackgroundRight"></div>
     </section>
-  <choose-tour-types></choose-tour-types>
-  <most-popular-tours></most-popular-tours>
-  <section class="discountPart">
-    <div class="discountTitleArea">
-      <div class="discountTitle">Deals & Discounts</div>
-      <div class="discountSlogan">We provide following discounts for you</div>
-    </div>
-    <div class="discountMain">
-      <div class="discountCover">
-        <div class="discountCoverTextArea">
-          <div class="discountCoverTitle1">Enjoy Spring Deals</div>
-          <div class="discountCoverTitle2">Book Early to Save</div>
-          <div class="discountCoverBookButton">Book Now</div>
-        </div>
-      </div>
-      <discount-items></discount-items>
-    </div>
-  </section>
-  <section class="statistics">
-    <div class="figure">
-      <n-number-animation show-separator
-                          :from="0"
-                          :to="10"
-                          class="mainFigure"></n-number-animation>
-      <div class="figureName">Reviews</div>
-    </div>
-    <div class="figure">
-      <n-number-animation show-separator
-                          :from="0"
-                          :to="10"
-                          class="mainFigure"></n-number-animation>
-      <div class="figureName">Travel Projects</div>
-    </div>
-    <div class="figure">
-      <n-number-animation show-separator
-                          :from="0"
-                          :to="10"
-                          class="mainFigure"></n-number-animation>
-      <div class="figureName">Happy customers</div>
-    </div>
-    <div class="figure">
-      <n-number-animation show-separator
-                          :from="0"
-                          :to="10"
-                          class="mainFigure"></n-number-animation>
-      <div class="figureName">Monthly Income</div>
-    </div>
-  </section>
-  <section class="whyChooseUsSection">
-    <div class="whyChooseImg"></div>
-    <div class="whyChooseCore">
-      <div class="whyChooseContent">
-        <h2 class="whyChooseTitle">Why Choose Us</h2>
-        <div class="whyChooseSlogan">These popular destinations have a lot to offer</div>
-        <div class="whyChooseFeatures">
-          <div class="whyChooseFeature">
-            <div class="featureIcon shieldIcon"></div>
-            <div class="featureTextArea">
-              <h4 class="featureName">Precise Info Guarantee</h4>
-              <div class="featureText">We are trying our best to provide precise information about the trips.</div>
-            </div>
-          </div>
-          <div class="whyChooseFeature">
-            <div class="featureIcon bookingIcon"></div>
-            <div class="featureTextArea">
-              <h4 class="featureName">Easy & Quick Reserving</h4>
-              <div class="featureText">By only a few steps, you can reserve a new trip easily.</div>
-            </div>
-          </div>
-          <div class="whyChooseFeature">
-            <div class="featureIcon careIcon"></div>
-            <div class="featureTextArea">
-              <h4 class="featureName">Customer Care 24/7</h4>
-              <div class="featureText">Every customer can access to our customer service staffs.</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+<!--  <choose-tour-types></choose-tour-types>-->
+<!--  <most-popular-tours></most-popular-tours>-->
+
+<!--  <section class="discountPart" style="overflow: hidden">-->
+<!--    <div class="discountTitleArea">-->
+<!--      <div class="discountTitle">Deals & Discounts</div>-->
+<!--      <div class="discountSlogan">We provide following discounts for you</div>-->
+<!--    </div>-->
+<!--    <div class="discountMain">-->
+<!--      <div class="discountCover">-->
+<!--        <div class="discountCoverTextArea">-->
+<!--          <div class="discountCoverTitle1">Enjoy Spring Deals</div>-->
+<!--          <div class="discountCoverTitle2">Book Early to Save</div>-->
+<!--          <div class="discountCoverBookButton">Book Now</div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <discount-items></discount-items>-->
+<!--    </div>-->
+<!--  </section>-->
+
+<!--  <section class="statistics">-->
+<!--    <div class="figure">-->
+<!--      <n-number-animation show-separator-->
+<!--                          :from="0"-->
+<!--                          :to="10"-->
+<!--                          class="mainFigure"></n-number-animation>-->
+<!--      <div class="figureName">Reviews</div>-->
+<!--    </div>-->
+<!--    <div class="figure">-->
+<!--      <n-number-animation show-separator-->
+<!--                          :from="0"-->
+<!--                          :to="10"-->
+<!--                          class="mainFigure"></n-number-animation>-->
+<!--      <div class="figureName">Travel Projects</div>-->
+<!--    </div>-->
+<!--    <div class="figure">-->
+<!--      <n-number-animation show-separator-->
+<!--                          :from="0"-->
+<!--                          :to="10"-->
+<!--                          class="mainFigure"></n-number-animation>-->
+<!--      <div class="figureName">Happy customers</div>-->
+<!--    </div>-->
+<!--    <div class="figure">-->
+<!--      <n-number-animation show-separator-->
+<!--                          :from="0"-->
+<!--                          :to="10"-->
+<!--                          class="mainFigure"></n-number-animation>-->
+<!--      <div class="figureName">Monthly Income</div>-->
+<!--    </div>-->
+<!--  </section>-->
+
+<!--  <section class="whyChooseUsSection">-->
+<!--    <div class="whyChooseImg"></div>-->
+<!--    <div class="whyChooseCore">-->
+<!--      <div class="whyChooseContent">-->
+<!--        <h2 class="whyChooseTitle">Why Choose Us</h2>-->
+<!--        <div class="whyChooseSlogan">These popular destinations have a lot to offer</div>-->
+<!--        <div class="whyChooseFeatures">-->
+<!--          <div class="whyChooseFeature">-->
+<!--            <div class="featureIcon shieldIcon"></div>-->
+<!--            <div class="featureTextArea">-->
+<!--              <h4 class="featureName">Precise Info Guarantee</h4>-->
+<!--              <div class="featureText">We are trying our best to provide precise information about the trips.</div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="whyChooseFeature">-->
+<!--            <div class="featureIcon bookingIcon"></div>-->
+<!--            <div class="featureTextArea">-->
+<!--              <h4 class="featureName">Easy & Quick Reserving</h4>-->
+<!--              <div class="featureText">By only a few steps, you can reserve a new trip easily.</div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="whyChooseFeature">-->
+<!--            <div class="featureIcon careIcon"></div>-->
+<!--            <div class="featureTextArea">-->
+<!--              <h4 class="featureName">Customer Care 24/7</h4>-->
+<!--              <div class="featureText">Every customer can access to our customer service staffs.</div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </section>-->
 </template>
 
 <script>
@@ -340,6 +342,69 @@ export default {
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
+  }
+
+  @media screen and (max-width: 1200px) {
+    .specialPart{
+      padding-top: 150px;
+      padding-bottom: 150px;
+    }
+    .specialCoreContainer{
+      width: 80%;
+      margin-left: 50px;
+    }
+  }
+
+  @media screen and (max-width: 1050px) {
+    .specialPart{
+      padding-top: 100px;
+    }
+    .specialCoreContainer{
+      width: 75%;
+      margin: auto;
+    }
+    .specialTitle{
+      font-size: 40px;
+    }
+    .search{
+      grid-template-columns: 1fr;
+      margin-left: 20px;
+    }
+    .locationOption{
+      padding: 20px 0px;
+    }
+    .optionName{
+
+    }
+    .durationOption{
+      padding: 20px 0px;
+      border-left: 0px;
+      border-top: 1px solid #DDDDDD;
+    }
+    .tagOption{
+      padding: 20px 0px;
+      border-left: 0px;
+      border-top: 1px solid #DDDDDD;
+    }
+    .searchButton{
+    }
+  }
+
+  @media screen and (max-width: 500px) {
+    .specialBackgroundLeft{
+      width: 100%;
+    }
+    .specialPart{
+      padding-top: 50px;
+      padding-bottom: 20px;
+    }
+    .specialCoreContainer {
+      margin: auto;
+      width: 95%;
+    }
+    .specialTitle{
+      font-size: 30px;
+    }
   }
   .optionName{
     font-weight: 500;

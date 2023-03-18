@@ -1,5 +1,6 @@
 <template>
-  <navigation-bar :is-ini-text-white="true" :is-transparent="true"></navigation-bar>
+  <navigation-bar :is-ini-text-white="false" :is-transparent="false"></navigation-bar>
+  <div style="height: 91px; z-index: -100"></div>
  <div class="cover">
    <div class="coverSlogans">
      <h1 class="mainSlogan">Looking for joy?</h1>

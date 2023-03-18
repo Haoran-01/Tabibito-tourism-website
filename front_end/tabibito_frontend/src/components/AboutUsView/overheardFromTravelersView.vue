@@ -1,6 +1,6 @@
 <template>
 
-  <section class="sectionBg layoutPt layoutPb">
+  <section class="sectionBg layoutPt layoutPb" style="overflow: hidden">
     <div class="sectionItemBg sectionMx"></div>
 
     <div class="container">

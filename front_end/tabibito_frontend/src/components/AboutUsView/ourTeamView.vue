@@ -1,5 +1,5 @@
 <template>
-  <body>
+  <body style="overflow: hidden">
     <section class="layout-our-team-pt layout-our-team-pb">
       <div class="container">
         <div class="row our-team-nav">

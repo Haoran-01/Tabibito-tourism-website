@@ -8,4 +8,4 @@ pinia: next generation cross-component data transmit tool
 npm install pinia
 
 unplugin-icons: Customise icons in any supported component libraries
-npm i -D unplugin-icons
+npm i -D unplugin-iconsnp
