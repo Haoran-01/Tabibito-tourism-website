@@ -171,10 +171,7 @@ export default {
       window.onresize = () => {
         window.fullWidth = document.documentElement.clientWidth;
         // that.windowWidth = window.fullWidth; // 宽
-        if (window.fullWidth < 500) {
-          slides_per_view.value = 2;
-          space_between.value = 7;
-        } else if (window.fullWidth < 400) {
+        if (window.fullWidth < 400) {
           slides_per_view.value = 2;
           space_between.value = 10;
         } else if (window.fullWidth < 500) {

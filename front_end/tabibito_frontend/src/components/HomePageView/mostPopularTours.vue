@@ -18,9 +18,9 @@
     </div>
 
     <div class="most-popular-contents" data-gap="30" data-slider-cols="xl-5 lg-4 md-2 sm-2 base-1" data-nav-prev="js-team-prev" data-pagination="js-team-pag" data-nav-next="js-team-next">
-      <n-carousel :slides-per-view="3" :space-between="20" :loop="false" show-arrow>
+      <n-carousel :slides-per-view=slides_per_view :space-between=space_between :loop="false" show-arrow>
         <div>
-          <n-carousel show-arrow autoplay>
+          <n-carousel show-arrow autoplay :space-between="2">
           <img
               class="carousel-img"
               src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel1.jpeg"
@@ -104,7 +104,7 @@
           </n-card>
         </div>
         <div>
-          <n-carousel show-arrow autoplay>
+          <n-carousel show-arrow autoplay :space-between="2">
             <img
                 class="carousel-img"
                 src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel1.jpeg"
@@ -188,7 +188,7 @@
           </n-card>
         </div>
         <div>
-          <n-carousel show-arrow autoplay>
+          <n-carousel show-arrow autoplay :space-between="2">
             <img
                 class="carousel-img"
                 src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel1.jpeg"
@@ -272,7 +272,7 @@
           </n-card>
         </div>
         <div>
-          <n-carousel show-arrow autoplay>
+          <n-carousel show-arrow autoplay :space-between="2">
             <img
                 class="carousel-img"
                 src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel1.jpeg"
@@ -356,7 +356,7 @@
           </n-card>
         </div>
         <div>
-          <n-carousel show-arrow autoplay>
+          <n-carousel show-arrow autoplay :space-between="2">
             <img
                 class="carousel-img"
                 src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel1.jpeg"
@@ -439,258 +439,8 @@
             </div>
           </n-card>
         </div>
-        <div>
-          <n-carousel show-arrow autoplay>
-            <img
-                class="carousel-img"
-                src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel1.jpeg"
-            >
-            <img
-                class="carousel-img"
-                src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel2.jpeg"
-            >
-            <img
-                class="carousel-img"
-                src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel3.jpeg"
-            >
-            <img
-                class="carousel-img"
-                src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel4.jpeg"
-            >
-            <template #arrow="{ prev, next }">
-              <div class="custom-arrow">
-                <button type="button" class="custom-arrow--left" @click="prev">
-                  <n-icon><ArrowBack /></n-icon>
-                </button>
-                <button type="button" class="custom-arrow--right" @click="next">
-                  <n-icon><ArrowForward /></n-icon>
-                </button>
-              </div>
-            </template>
-            <template #dots="{ total, currentIndex, to }">
-              <ul class="custom-dots">
-                <li
-                    v-for="index of total"
-                    :key="index"
-                    :class="{ ['is-active']: currentIndex === index - 1 }"
-                    @click="to(index - 1)"
-                />
-              </ul>
-            </template>
-          </n-carousel>
-          <n-card>
-            <div class="tourCardContent">
-              <div class="tourCardTime">
-                <div class="hours">16+ hours</div>
-                <div class="dot"></div>
-                <div class="days">Full-day Tours</div>
-              </div>
 
-              <h4 class="tourCardTitle">
-                <span>Stonehenge, Windsor Castle and Bath with Pub Lunch in Lacock</span>
-              </h4>
 
-              <p class="tourCardText">Westminster Borough, London</p>
-
-              <div class="row starsLayout">
-                <div class="col-auto">
-                  <div class="starsBefore">
-                    <div class="stars">
-
-                      <div class="icon-star iconStar"></div>
-
-                      <div class="icon-star iconStar"></div>
-
-                      <div class="icon-star iconStar"></div>
-
-                      <div class="icon-star iconStar"></div>
-
-                      <div class="icon-star iconStar"></div>
-
-                    </div>
-
-                    <div class="review">3,014 reviews</div>
-                  </div>
-                </div>
-
-                <div class="col-auto">
-                  <div class="footer">
-                    From
-                    <span class="price">US$72</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </n-card>
-        </div>
-        <div>
-          <n-carousel show-arrow autoplay>
-            <img
-                class="carousel-img"
-                src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel1.jpeg"
-            >
-            <img
-                class="carousel-img"
-                src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel2.jpeg"
-            >
-            <img
-                class="carousel-img"
-                src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel3.jpeg"
-            >
-            <img
-                class="carousel-img"
-                src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel4.jpeg"
-            >
-            <template #arrow="{ prev, next }">
-              <div class="custom-arrow">
-                <button type="button" class="custom-arrow--left" @click="prev">
-                  <n-icon><ArrowBack /></n-icon>
-                </button>
-                <button type="button" class="custom-arrow--right" @click="next">
-                  <n-icon><ArrowForward /></n-icon>
-                </button>
-              </div>
-            </template>
-            <template #dots="{ total, currentIndex, to }">
-              <ul class="custom-dots">
-                <li
-                    v-for="index of total"
-                    :key="index"
-                    :class="{ ['is-active']: currentIndex === index - 1 }"
-                    @click="to(index - 1)"
-                />
-              </ul>
-            </template>
-          </n-carousel>
-          <n-card>
-            <div class="tourCardContent">
-              <div class="tourCardTime">
-                <div class="hours">16+ hours</div>
-                <div class="dot"></div>
-                <div class="days">Full-day Tours</div>
-              </div>
-
-              <h4 class="tourCardTitle">
-                <span>Stonehenge, Windsor Castle and Bath with Pub Lunch in Lacock</span>
-              </h4>
-
-              <p class="tourCardText">Westminster Borough, London</p>
-
-              <div class="row starsLayout">
-                <div class="col-auto">
-                  <div class="starsBefore">
-                    <div class="stars">
-
-                      <div class="icon-star iconStar"></div>
-
-                      <div class="icon-star iconStar"></div>
-
-                      <div class="icon-star iconStar"></div>
-
-                      <div class="icon-star iconStar"></div>
-
-                      <div class="icon-star iconStar"></div>
-
-                    </div>
-
-                    <div class="review">3,014 reviews</div>
-                  </div>
-                </div>
-
-                <div class="col-auto">
-                  <div class="footer">
-                    From
-                    <span class="price">US$72</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </n-card>
-        </div>
-        <div>
-          <n-carousel show-arrow autoplay>
-            <img
-                class="carousel-img"
-                src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel1.jpeg"
-            >
-            <img
-                class="carousel-img"
-                src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel2.jpeg"
-            >
-            <img
-                class="carousel-img"
-                src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel3.jpeg"
-            >
-            <img
-                class="carousel-img"
-                src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel4.jpeg"
-            >
-            <template #arrow="{ prev, next }">
-              <div class="custom-arrow">
-                <button type="button" class="custom-arrow--left" @click="prev">
-                  <n-icon><ArrowBack /></n-icon>
-                </button>
-                <button type="button" class="custom-arrow--right" @click="next">
-                  <n-icon><ArrowForward /></n-icon>
-                </button>
-              </div>
-            </template>
-            <template #dots="{ total, currentIndex, to }">
-              <ul class="custom-dots">
-                <li
-                    v-for="index of total"
-                    :key="index"
-                    :class="{ ['is-active']: currentIndex === index - 1 }"
-                    @click="to(index - 1)"
-                />
-              </ul>
-            </template>
-          </n-carousel>
-          <n-card>
-            <div class="tourCardContent">
-              <div class="tourCardTime">
-                <div class="hours">16+ hours</div>
-                <div class="dot"></div>
-                <div class="days">Full-day Tours</div>
-              </div>
-
-              <h4 class="tourCardTitle">
-                <span>Stonehenge, Windsor Castle and Bath with Pub Lunch in Lacock</span>
-              </h4>
-
-              <p class="tourCardText">Westminster Borough, London</p>
-
-              <div class="row starsLayout">
-                <div class="col-auto">
-                  <div class="starsBefore">
-                    <div class="stars">
-
-                      <div class="icon-star iconStar"></div>
-
-                      <div class="icon-star iconStar"></div>
-
-                      <div class="icon-star iconStar"></div>
-
-                      <div class="icon-star iconStar"></div>
-
-                      <div class="icon-star iconStar"></div>
-
-                    </div>
-
-                    <div class="review">3,014 reviews</div>
-                  </div>
-                </div>
-
-                <div class="col-auto">
-                  <div class="footer">
-                    From
-                    <span class="price">US$72</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </n-card>
-        </div>
 
       </n-carousel>
     </div>
@@ -705,20 +455,72 @@
 
 <script>
 import { ArrowBack, ArrowForward } from '@vicons/ionicons5'
-import { defineComponent } from 'vue'
+import {defineComponent, onMounted, ref} from 'vue'
 export default {
   components: {
     ArrowBack,
     ArrowForward
   },
-  name: "mostPopularTours"
+  name: "mostPopularTours",
+  data() {
+    return {
+      windowWidth: document.documentElement.clientWidth,
+    }
+  },
+  setup() {
+    let slides_per_view= ref(3);
+    let space_between = ref(20);
+    window.fullWidth = document.documentElement.clientWidth;
+    if (window.fullWidth <= 550) {
+      slides_per_view.value = 1;
+      space_between.value = 0;
+    } else if (window.fullWidth <= 700) {
+      slides_per_view.value = 2;
+      space_between.value = 13;
+    } else if (window.fullWidth <= 900) {
+      slides_per_view.value = 2;
+      space_between.value = 15;
+    } else if (window.fullWidth <= 1100) {
+      slides_per_view.value = 3;
+      space_between.value = 15;
+    } else if (window.fullWidth >= 1100) {
+      slides_per_view.value = 3;
+      space_between.value = 20;
+    }
+    onMounted(()=>{
+      window.onresize = () => {
+        window.fullWidth = document.documentElement.clientWidth;
+        // that.windowWidth = window.fullWidth; // 宽
+        if (window.fullWidth <= 550) {
+          slides_per_view.value = 1;
+          space_between.value = 0;
+        } else if (window.fullWidth <= 700) {
+          slides_per_view.value = 2;
+          space_between.value = 13;
+        } else if (window.fullWidth <= 900) {
+          slides_per_view.value = 2;
+          space_between.value = 15;
+        } else if (window.fullWidth <= 1100) {
+          slides_per_view.value = 3;
+          space_between.value = 15;
+        } else if (window.fullWidth >= 1100) {
+          slides_per_view.value = 3;
+          space_between.value = 20;
+        }
+      };
+    })
+    return{
+      slides_per_view,
+      space_between
+    }
+  },
 }
 </script>
 
 <style scoped>
 .carousel-img {
   border-radius: 8px;
-  width: 450px;
+  width: 427px;
   height: 450px;
   object-fit: cover;
 }
@@ -735,10 +537,24 @@ export default {
   left: 10px;
 }
 
+.mostPopularHead {
+  --bs-gutter-x:30px;
+  --bs-gutter-y:0;
+  display:flex;
+  flex-wrap:wrap;
+  margin-top:calc(var(--bs-gutter-y)*-1);
+  margin-right:calc(var(--bs-gutter-x)*-0.5);
+  margin-left:calc(var(--bs-gutter-x)*-0);
+  margin-top: -10px;
+  margin-bottom: -10px;
+  justify-content: space-between !important;
+  align-items: flex-end !important;
+}
+
 @media (max-width: 1410px) {
   .carousel-img {
-    width: 350px;
-    height: 350px;
+    width: 367px;
+    height: 367px;
   }
   .custom-arrow--left {
     bottom: 175px;
@@ -752,45 +568,45 @@ export default {
 
 @media (max-width: 1200px) {
   .carousel-img {
-    width: 300px;
+    width: 306.66px;
     height: 300px;
   }
   .custom-arrow--left {
-    bottom: 150px;
+    bottom: 135px;
     left: 7.5px;
   }
   .custom-arrow--right {
-    bottom: 150px;
+    bottom: 135px;
     right: 7.5px;
   }
 }
 
 @media (max-width: 1000px) {
   .carousel-img {
-    width: 250px;
-    height: 250px;
+    width: 228px;
+    height: 228px;
   }
   .custom-arrow--left {
-    bottom: 125px;
+    bottom: 105px;
     left: 7.5px;
   }
   .custom-arrow--right {
-    bottom: 125px;
+    bottom: 105px;
     right: 7.5px;
   }
 }
 
-@media (max-width: 780px) {
+@media (max-width: 900px) {
   .carousel-img {
-    width: 200px;
-    height: 200px;
+    width: 350px;
+    height: 350px;
   }
   .custom-arrow--left {
-    bottom: 100px;
+    bottom: 155px;
     left: 7.5px;
   }
   .custom-arrow--right {
-    bottom: 100px;
+    bottom: 155px;
     right: 7.5px;
   }
   .hours {
@@ -823,7 +639,76 @@ export default {
     font-size: 7px !important;
     margin-top: 5px !important;
   }
+}
 
+@media screen and (max-width: 768px) {
+  .carousel-img {
+    width: 260px;
+    height: 260px;
+  }
+  .custom-arrow--left {
+    bottom: 110px;
+    left: 7.5px;
+  }
+  .custom-arrow--right {
+    bottom: 110px;
+    right: 7.5px;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .carousel-img {
+    width: 262px;
+    height: 262px;
+  }
+  .custom-arrow--left {
+    bottom: 115px;
+    left: 7.5px;
+  }
+  .custom-arrow--right {
+    bottom: 115px;
+    right: 7.5px;
+  }
+  .mostPopularHead {
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .carousel-img {
+    width: 398px;
+    height: 398px;
+  }
+  .custom-arrow--left {
+    bottom: 185px;
+    left: 7.5px;
+  }
+  .custom-arrow--right {
+    bottom: 185px;
+    right: 7.5px;
+  }
+  /*.col-auto {*/
+  /*  margin: auto;*/
+  /*}*/
+  .sectionTitle__title {
+    margin: auto;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .carousel-img {
+    width: 300px;
+    height: 300px;
+  }
+  .custom-arrow--left {
+    bottom: 135px;
+    left: 7.5px;
+  }
+  .custom-arrow--right {
+    bottom: 135px;
+    right: 7.5px;
+  }
+  .mostPopularHead {
+  }
 }
 
 .custom-arrow button {
@@ -989,14 +874,6 @@ export default {
   padding-bottom: 60px;
 }
 
-@media (max-width: 575px) {
-  .mostPopularLayout-pt {
-    padding-top: 60px;
-  }
-  .mostPopularLayout-pb {
-    padding-bottom: 60px;
-  }
-}
 
 @media (max-width: 767px) {
   .mostPopularLayout-pt {
@@ -1007,6 +884,17 @@ export default {
   }
 }
 
+@media (max-width: 575px) {
+  .mostPopularLayout-pt {
+    padding-top: 60px;
+  }
+  .mostPopularLayout-pb {
+    padding-bottom: 60px;
+  }
+}
+
+
+
 .container {
   width:100%;
   padding-right:var(--bs-gutter-x,15px);
@@ -1014,18 +902,31 @@ export default {
   margin-right:auto;
   margin-left:auto
 }
+@media (min-width:350px){
+  .container{
+    max-width:300px
+  }
+}
 
-@media (min-width:576px){
+
+@media (min-width:450px){
+  .container{
+    max-width:400px
+  }
+}
+@media (min-width:550px){
   .container{
     max-width:540px
   }
 }
 
 @media (min-width:768px){
-  .container{max-width:720px}
+  .container{
+    max-width:720px
+  }
 }
 
-@media (min-width:992px){
+@media (min-width:1000px){
   .container{max-width:960px}
 }
 
@@ -1039,20 +940,6 @@ export default {
   .container{
     max-width:1320px
   }
-}
-
-.mostPopularHead {
-  --bs-gutter-x:30px;
-  --bs-gutter-y:0;
-  display:flex;
-  flex-wrap:wrap;
-  margin-top:calc(var(--bs-gutter-y)*-1);
-  margin-right:calc(var(--bs-gutter-x)*-0.5);
-  margin-left:calc(var(--bs-gutter-x)*-0.5);
-  margin-top: -10px;
-  margin-bottom: -10px;
-  justify-content: space-between !important;
-  align-items: flex-end !important;
 }
 
 .sectionTitle.-md .sectionTitle__title {
