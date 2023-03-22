@@ -150,7 +150,7 @@ export default {
       space_between.value = 20;
     }
     onMounted(()=>{
-      window.onresize = () => {
+      window.addEventListener( 'resize', () => {
         window.fullWidth = document.documentElement.clientWidth;
         // that.windowWidth = window.fullWidth; // 宽
         if (window.fullWidth < 550) {
@@ -169,7 +169,7 @@ export default {
           slides_per_view.value = 3;
           space_between.value = 20;
         }
-      };
+      });
     })
     return{
       slides_per_view,
@@ -540,7 +540,7 @@ export default {
 
 @media (max-width: 767px) {
   .mostPopularLayout-pt {
-    padding-top: 100px;
+    padding-top: 50px;
   }
   .mostPopularLayout-pb {
     padding-bottom: 100px;
@@ -549,7 +549,7 @@ export default {
 
 @media (max-width: 575px) {
   .mostPopularLayout-pt {
-    padding-top: 60px;
+    padding-top: 20px;
   }
   .mostPopularLayout-pb {
     padding-bottom: 60px;

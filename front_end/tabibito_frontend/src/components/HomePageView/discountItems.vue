@@ -3,9 +3,9 @@
 <section class="mostPopularLayout-pt mostPopularLayout-pb">
   <div class="container">
     <div class="most-popular-contents" data-gap="30" data-slider-cols="xl-5 lg-4 md-2 sm-2 base-1" data-nav-prev="js-team-prev" data-pagination="js-team-pag" data-nav-next="js-team-next">
-      <n-carousel :slides-per-view="3" :space-between="20" :loop="false" show-arrow>
+      <n-carousel :slides-per-view=slides_per_view :space-between=space_between :loop="false" show-arrow>
         <div class="tourItem">
-          <n-carousel show-arrow autoplay>
+          <n-carousel show-arrow autoplay :space-between="2">
           <img
               class="carousel-img"
               src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel1.jpeg"
@@ -354,13 +354,54 @@
 
 <script>
 import { ArrowBack, ArrowForward } from '@vicons/ionicons5'
-import { defineComponent } from 'vue'
+import {defineComponent, onMounted, ref} from 'vue'
 export default {
   components: {
     ArrowBack,
     ArrowForward
   },
-  name: "discountItems"
+  name: "discountItems",
+
+  data() {
+    return {
+      windowWidth: document.documentElement.clientWidth,
+    }
+  },
+  setup() {
+    let slides_per_view= ref(5);
+    let space_between = ref(20);
+    window.fullWidth = document.documentElement.clientWidth;
+    if (window.fullWidth < 700) {
+      slides_per_view.value = 2;
+      space_between.value = 15;
+    } else if (window.fullWidth < 768) {
+      slides_per_view.value = 2;
+      space_between.value = 20;
+    } else if (window.fullWidth >= 768) {
+      slides_per_view.value = 3;
+      space_between.value = 20;
+    }
+    onMounted(()=>{
+      window.addEventListener( 'resize', () => {
+        window.fullWidth = document.documentElement.clientWidth;
+        // that.windowWidth = window.fullWidth; // 宽
+        if (window.fullWidth < 700) {
+          slides_per_view.value = 2;
+          space_between.value = 15;
+        } else if (window.fullWidth < 768) {
+          slides_per_view.value = 2;
+          space_between.value = 20;
+        } else if (window.fullWidth >= 768) {
+          slides_per_view.value = 3;
+          space_between.value = 20;
+        }
+      });
+    })
+    return{
+      slides_per_view,
+      space_between
+    }
+  },
 }
 </script>
 
@@ -603,9 +644,9 @@ export default {
 }
 
 .starsLayout {
-  justify-content: space-between !important;
-  align-items: center !important;
-  padding-top: 15px !important;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 15px;
 }
 
 .starsBefore {
@@ -626,23 +667,28 @@ export default {
 }
 
 .review {
-  font-size: 14px !important;
+  font-size: 14px;
   color: #697488;
-  margin-left: 10px !important;
+  margin-left: 10px;
 
 }
 
 .footer {
-  font-size: 14px !important;
+  font-size: 14px;
   color: #697488;
 }
 
 .price {
-  font-size: 16px !important;
+  font-size: 16px;
   font-weight: 500;
   color: #051036;
 }
 
+@media screen and (max-width: 1200px) {
+  .mostPopularLayout-pb{
+    margin-top: 20px;
+  }
+}
 .container {
   width:770px;
   padding-right:var(--bs-gutter-x,15px);
@@ -651,29 +697,80 @@ export default {
   margin-left:auto
 }
 
-/*@media (min-width:576px){*/
-/*  .container{*/
-/*    max-width:540px*/
-/*  }*/
-/*}*/
+@media screen and (max-width: 1200px) {
+  .container{
+    width: 960px;
+  }
+  .carousel-img{
+    width: 305px;
+    height: 305px;
+  }
+}
+@media screen and (max-width: 1000px) {
+  .container{
+    width: 720px;
+  }
+  .carousel-img{
+    width: 225px;
+    height: 225px;
+  }
+}
+@media screen and (max-width: 767px) {
+  .container{
+    width: 540px;
+  }
+  .carousel-img{
+    width: 260px;
+    height: 260px;
+  }
+}
+@media screen and (max-width: 600px) {
+  .container{
+    padding: 0px;
+  }
+}
+@media screen and (max-width: 550px) {
+  .container{
+    width: 450px;
+  }
+  .carousel-img{
+    width: 215px;
+    height: 215px;
+  }
+}
+@media screen and (max-width: 480px) {
+  .container{
+    width: 420px;
+  }
+  .carousel-img{
+    width: 200px;
+    height: 200px;
+  }
+  .tourCardTitle{
+    font-size: 14px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+  .starsLayout{
+    padding-top: 0px;
+  }
+  .review{
+    margin-left: 5px;
+  }
+  .row.starsLayout{
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 0px;
+  }
+}
+@media screen and (max-width: 430px) {
+  .container{
+    width: 350px;
+  }
+  .carousel-img{
+    width: 168px;
+    height: 168px;
+  }
 
-/*@media (min-width:768px){*/
-/*  .container{max-width:720px}*/
-/*}*/
-
-/*@media (min-width:992px){*/
-/*  .container{max-width:960px}*/
-/*}*/
-
-/*@media (min-width:1200px){*/
-/*  .container{*/
-/*    max-width:1140px*/
-/*  }*/
-/*}*/
-
-/*@media (min-width:1400px){*/
-/*  .container{*/
-/*    max-width:1320px*/
-/*  }*/
-/*}*/
+}
 </style>
