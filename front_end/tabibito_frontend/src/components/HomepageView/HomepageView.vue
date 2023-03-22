@@ -55,8 +55,10 @@
       <div class="specialBackgroundRight"></div>
     </section>
 
-  <choose-tour-types></choose-tour-types>
+
   <most-popular-tours></most-popular-tours>
+  <choose-tour-types></choose-tour-types>
+  <hot-location></hot-location>
 
   <section class="discountPart" style="overflow: hidden">
     <div class="discountTitleArea">
@@ -138,6 +140,10 @@
       </div>
     </div>
   </section>
+
+  <customer-review></customer-review>
+  <inspiration></inspiration>
+  <footer-view></footer-view>
 </template>
 
 <script>
@@ -148,6 +154,10 @@ import {Location} from "@vicons/ionicons5";
 import MostPopularTours from "./mostPopularTours.vue";
 import DiscountItems from "./discountItems.vue";
 import ChooseTourTypes from "./chooseTourTypes.vue";
+import HotLocation from "./hotLocation.vue";
+import CustomerReview from "./customerReview.vue";
+import Inspiration from "./inspiration.vue";
+import FooterView from "../GeneralComponents/footerView.vue";
 const renderIcon = (icon) => {
   return () => {
     return h(NIcon, null, {
@@ -157,7 +167,9 @@ const renderIcon = (icon) => {
 };
 export default {
   name: "HomepageView",
-  components: {ChooseTourTypes, DiscountItems, MostPopularTours, NavigationBar},
+  components: {
+    FooterView,
+    Inspiration, CustomerReview, HotLocation, ChooseTourTypes, DiscountItems, MostPopularTours, NavigationBar},
   setup(){
     let currentLocation = ref("select");
     let currentTimePeriod = ref();
