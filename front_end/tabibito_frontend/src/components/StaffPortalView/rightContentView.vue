@@ -1,11 +1,8 @@
 <template>
-
+  Hello world sssssssssssssssssssssss
 </template>
 
-<script>
-export default {
-name: "rightContentView"
-}
+<script setup>
 </script>
 
 <style scoped>
