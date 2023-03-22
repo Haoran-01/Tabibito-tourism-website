@@ -8,10 +8,13 @@ import homepageView from "./components/HomepageView/HomepageView.vue";
 import chooseTourTypes from "./components/HomePageView/chooseTourTypes.vue";
 import mostPopularTours from "./components/HomePageView/mostPopularTours.vue";
 import footerView from "./components/GeneralComponents/footerView.vue";
+import sideBarView from "./components/StaffPortalView/sideBarView.vue";
+import staffPortalView from "./components/StaffPortalView/staffPortalView.vue";
+import rightContentView from "./components/StaffPortalView/rightContentView.vue";
 
 
 const routes = [
-    { path: '/', component: mostPopularTours },
+    { path: '/', component: rightContentView },
     { path: '/login', component: loginView },
     { path: '/register', component: registerView },
     { path: '/forget', component: forgetPasswordView},
