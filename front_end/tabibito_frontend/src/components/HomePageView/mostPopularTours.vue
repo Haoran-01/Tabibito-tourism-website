@@ -133,7 +133,7 @@ export default {
     let slides_per_view= ref(3);
     let space_between = ref(20);
     window.fullWidth = document.documentElement.clientWidth;
-    if (window.fullWidth <= 550) {
+    if (window.fullWidth < 550) {
       slides_per_view.value = 1;
       space_between.value = 0;
     } else if (window.fullWidth <= 700) {
@@ -153,7 +153,7 @@ export default {
       window.onresize = () => {
         window.fullWidth = document.documentElement.clientWidth;
         // that.windowWidth = window.fullWidth; // 宽
-        if (window.fullWidth <= 550) {
+        if (window.fullWidth < 550) {
           slides_per_view.value = 1;
           space_between.value = 0;
         } else if (window.fullWidth <= 700) {
@@ -213,7 +213,7 @@ export default {
   align-items: flex-end !important;
 }
 
-@media (max-width: 1410px) {
+@media (max-width: 1399px) {
   .carousel-img {
     width: 367px;
     height: 367px;
@@ -348,9 +348,9 @@ export default {
     bottom: 185px;
     right: 7.5px;
   }
-  /*.col-auto {*/
-  /*  margin: auto;*/
-  /*}*/
+  .mostPopularHead {
+    margin-left: -35px;
+  }
   .sectionTitle__title {
     margin: auto;
   }
@@ -370,6 +370,7 @@ export default {
     right: 7.5px;
   }
   .mostPopularHead {
+    margin-left: 0px;
   }
 }
 

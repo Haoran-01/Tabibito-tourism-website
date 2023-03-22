@@ -486,7 +486,7 @@ export default {
     box-sizing: border-box;
   }
   .whyChooseContent{
-    width: 33.33333%;
+    width: 430px;
     flex: 0 0 auto;
     box-sizing: border-box;
     padding-left: 15px;
@@ -634,5 +634,59 @@ export default {
     background-color: var(--primary-color);
     color: white;
     transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  }
+
+  @media screen and (max-width: 700px) {
+    .whyChooseContent{
+      width: 60%;
+    }
+    .whyChooseFeature{
+      padding-right: 0px;
+      padding-left: 0px;
+    }
+    .whyChooseFeatures{
+      margin-top: 20px;
+    }
+  }
+  @media screen and (max-width: 600px) {
+    .whyChooseContent{
+      width: 60%;
+      padding-left: 0px;
+    }
+    .whyChooseFeature{
+      padding-right: 0px;
+      padding-left: 0px;
+    }
+    .whyChooseFeatures{
+      margin-top: 20px;
+    }
+    .whyChooseUsSection{
+      padding-top: 60px;
+    }
+    .whyChooseTitle{
+      margin-left: 10px;
+    }
+    .whyChooseSlogan{
+      margin-left: 10px;
+    }
+  }
+  @media screen and (max-width: 550px) {
+    .whyChooseImg{
+      position: static;
+      width: 100%;
+      height: 400px;
+    }
+    .whyChooseUsSection{
+      padding-top: 0px;
+      padding-bottom: 20px;
+    }
+    .whyChooseCore{
+      margin-top: 40px;
+    }
+    .whyChooseContent{
+      width: 100%;
+      margin: auto;
+      padding-right: 0;
+    }
   }
 </style>
