@@ -397,7 +397,7 @@ export default {
       width: 100%;
     }
     .specialPart{
-      padding-top: 50px;
+      padding-top: 100px;
       padding-bottom: 20px;
     }
     .specialCoreContainer {
@@ -439,6 +439,21 @@ export default {
     padding-right: 15px;
     display: flex;
     justify-content: center;
+  }
+  @media screen and (max-width: 800px){
+    .statistics{
+      margin-bottom: 80px;
+    }
+  }
+  @media screen and (max-width: 600px){
+    .statistics{
+      margin-bottom: 55px;
+    }
+  }
+  @media screen and (max-width: 450px){
+    .statistics{
+      margin-bottom: 30px;
+    }
   }
   .figure{
     padding: 15px;
@@ -635,6 +650,91 @@ export default {
     color: white;
     transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
   }
+  @media screen and (max-width: 1200px) {
+    .discountTitleArea{
+      width: 960px;
+      margin: auto;
+    }
+    .discountMain{
+      flex-direction: column;
+    }
+    .discountCover{
+      width: 960px;
+      margin: auto;
+    }
+  }
+  @media screen and (max-width: 1000px) {
+    .discountTitleArea{
+      width: 720px;
+      margin: auto;
+    }
+    .discountMain{
+      flex-direction: column;
+    }
+    .discountCover{
+      width: 720px;
+      margin: auto;
+    }
+  }
+  @media screen and (max-width: 767px) {
+    .discountTitleArea{
+      width: 540px;
+      margin: auto;
+    }
+    .discountMain{
+      flex-direction: column;
+    }
+    .discountCover{
+      width: 540px;
+      margin: auto;
+    }
+  }
+  @media screen and (max-width: 550px) {
+    .discountTitleArea{
+      width: 450px;
+      margin: auto;
+    }
+    .discountMain{
+      flex-direction: column;
+    }
+    .discountCover{
+      width: 450px;
+      margin: auto;
+    }
+  }
+  @media screen and (max-width: 480px) {
+    .discountPart{
+      padding: 0px;
+    }
+    .discountTitleArea{
+      width: 420px;
+      margin: auto;
+    }
+    .discountMain{
+      flex-direction: column;
+    }
+    .discountCover{
+      width: 420px;
+      margin: auto;
+    }
+  }
+  @media screen and (max-width: 430px) {
+    .discountPart{
+      padding: 0px;
+    }
+    .discountTitleArea{
+      width: 350px;
+      margin: auto;
+    }
+    .discountMain{
+      flex-direction: column;
+    }
+    .discountCover{
+      width: 350px;
+      margin: auto;
+    }
+  }
+
 
   @media screen and (max-width: 700px) {
     .whyChooseContent{
@@ -671,6 +771,25 @@ export default {
     }
   }
   @media screen and (max-width: 550px) {
+    .whyChooseImg{
+      position: static;
+      width: 100%;
+      height: 400px;
+    }
+    .whyChooseUsSection{
+      padding-top: 0px;
+      padding-bottom: 20px;
+    }
+    .whyChooseCore{
+      margin-top: 40px;
+    }
+    .whyChooseContent{
+      width: 100%;
+      margin: auto;
+      padding-right: 0;
+    }
+  }
+  @media screen and (max-width:480px) {
     .whyChooseImg{
       position: static;
       width: 100%;
