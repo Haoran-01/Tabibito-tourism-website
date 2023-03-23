@@ -1,4 +1,5 @@
 <template>
+  <body>
 
   <div class="dashboard">
     <div class="dashboard_main">
@@ -82,15 +83,129 @@
 
         </div>
 
+        <div class="row y-gap-30 statistics_and_recent_wrap">
+          <div class="statistics_wrap">
+            <div class="statistics_wrap_sub">
+              <div class="statistics_head">
+                <h2 class="statistics_title">
+                  Earning Statistics
+                </h2>
+
+                <div class="dropdown">
+                <n-dropdown trigger="hover" :options="options" @select="handleSelect">
+                  <n-button>This Week</n-button>
+                </n-dropdown>
+                </div>
+
+              </div>
+
+              <div class="echarts">
+                <div id="main" style="width: 300px; height: 400px" ref="chart"></div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
+  </body>
 </template>
 
-<script setup>
+<script>
+import { defineComponent, ref } from "vue";
+import { useMessage } from "naive-ui";
+
+
+export default defineComponent({
+  name: 'rightContentView',
+  setup() {
+    // 注释掉这一行才能正常显示，说明useMessage的值是空，我不知道为啥
+    // const message = useMessage();
+    const showDropdownRef = ref(false);
+    return {
+      options: [
+        {
+          label: "Animation",
+          key: "Animation",
+          // disabled: true
+        },
+        {
+          label: "Design",
+          key: "Design"
+        },
+        {
+          label: "Illustration",
+          key: "Illustration"
+        },
+        {
+          label: "Business",
+          key: "Business"
+        }
+      ],
+      showDropdown: showDropdownRef,
+      handleSelect(key) {
+        message.info(String(key));
+      },
+      handleClick() {
+        showDropdownRef.value = !showDropdownRef.value;
+      }
+    };
+  }
+});
+
+
 </script>
 
 <style scoped>
+
+.dropdown {
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+}
+
+.statistics_title {
+  font-size: 18px !important;
+  line-height: 1 !important;
+  font-weight: 500;
+}
+
+.statistics_head {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+}
+
+.statistics_wrap_sub {
+  padding: 30px !important;
+  border-radius: 4px;
+  background-color: #FFFFFF !important;
+  box-shadow: 0px 10px 30px 0px #05103608;
+}
+
+@media (min-width:1200px) {
+  .statistics_wrap {
+    flex: 0 0 auto;
+    width: 58.33333%;
+  }
+}
+
+@media (min-width:768px) {
+  .statistics_wrap {
+    flex: 0 0 auto;
+    width: 50%
+  }
+}
+
+
+.statistics_and_recent_wrap {
+  padding-top: 20px !important;
+}
+
 .dashboard {
   display: flex;
 }
