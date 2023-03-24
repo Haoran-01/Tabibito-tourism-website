@@ -37,10 +37,10 @@
 
                 <div class="half_2">
                   <!--          验证码按钮-->
-                  <a class="login_btn verify"  @click="startCountdown" v-show="!countingDown">
+                  <a class="add_step_btn verify" @click="startCountdown" v-show="!countingDown">
                     Get
                   </a>
-                  <a class="login_btn verify" v-if="countingDown">{{ remainingTime }} s </a>
+                  <a class="add_step_btn verify" v-if="countingDown">{{ remainingTime }} s </a>
                 </div>
               </div>
 
@@ -51,7 +51,7 @@
             <!--          按钮-->
             <div class="input_border">
 
-              <button type="submit" class="login_btn c" @click="verify">
+              <button type="submit" class="add_step_btn c" @click="verify">
                 Continue
 <!--                <div class="icon_login"></div>-->
               </button>
@@ -336,7 +336,7 @@ export default {
   text-decoration: underline;
 }
 
-.login_btn{
+.add_step_btn{
 
   display: flex;
   align-items: center;
@@ -362,7 +362,7 @@ export default {
   text-decoration:none;
 }
 
-.login_btn.c:after{
+.add_step_btn.c:after{
   content: '»';
   opacity: 0;
   margin-left: 20px;
@@ -371,14 +371,14 @@ export default {
 }
 
 
-.login_btn.c:hover:after {
+.add_step_btn.c:hover:after {
   opacity: 1;
   right: 0;
   padding-left: 20px;
 
 }
 
-.login_btn.verify{
+.add_step_btn.verify{
   background-color: #ffffff !important;
   color: #3554D1;
 
@@ -388,19 +388,19 @@ export default {
   font-size: 17px;
 }
 
-.login_btn.verify:hover{
+.add_step_btn.verify:hover{
   border-color:  #3d61f1;
   background-color: #3d61f1 !important;
   color: white !important;
 }
 
-.login_btn:hover{
+.add_step_btn:hover{
   border-color:  #051036;
   background-color: #051036 !important;
   color: white !important;
 }
 
-.icon_login{
+.icon_add{
   background-image: url("../../assets/arrow.svg");
   margin-left: 15px !important;
 
@@ -597,7 +597,7 @@ export default {
     text-decoration: underline;
   }
 
-  .login_btn{
+  .add_step_btn{
 
     display: flex;
     align-items: center;
@@ -622,7 +622,7 @@ export default {
     text-decoration:none;
   }
 
-  .login_btn.c:after{
+  .add_step_btn.c:after{
     content: '»';
     opacity: 0;
     margin-left: 20px;
@@ -631,14 +631,14 @@ export default {
   }
 
 
-  .login_btn.c:hover:after {
+  .add_step_btn.c:hover:after {
     opacity: 1;
     right: 0;
     padding-left: 20px;
 
   }
 
-  .login_btn.verify{
+  .add_step_btn.verify{
     background-color: #ffffff !important;
     color: #3554D1;
 
@@ -648,19 +648,19 @@ export default {
     font-size: 17px;
   }
 
-  .login_btn.verify:hover{
+  .add_step_btn.verify:hover{
     border-color:  #3d61f1;
     background-color: #3d61f1 !important;
     color: white !important;
   }
 
-  .login_btn:hover{
+  .add_step_btn:hover{
     border-color:  #051036;
     background-color: #051036 !important;
     color: white !important;
   }
 
-  .icon_login{
+  .icon_add{
     background-image: url("../../assets/arrow.svg");
     margin-left: 15px !important;
 

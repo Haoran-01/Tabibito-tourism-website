@@ -1,6 +1,8 @@
 <template>
   <n-config-provider :theme-overrides="themeOverrides">
-    <router-view></router-view>
+    <n-message-provider>
+      <router-view></router-view>
+    </n-message-provider>
   </n-config-provider>
 </template>
 
@@ -48,5 +50,51 @@ body {
 @font-face {
   font-family: JostLight;
   src: url("assets/fonts/Jost-Light.ttf");
+}
+@keyframes shake {
+  0%{
+    transform: translateX(0%);
+  }
+  15%{
+    transform: translateX(-10px);
+  }
+  30%{
+    transform: translateX(0%);
+  }
+  45%{
+    transform: translateX(10px);
+  }
+  60%{
+    transform: translateX(0%);
+  }
+  70%{
+    transform: translateX(-5px);
+  }
+  80%{
+    transform: translateX(0%);
+  }
+  90%{
+    transform: translateX(5px);
+  }
+  100%{
+    transform: translateX(0%);
+  }
+}
+.n-upload-file-list .n-upload-file.n-upload-file--image-card-type{
+  width: 180px;
+  height: 180px;
+}
+.n-upload-file-list.n-upload-file-list--grid{
+  grid-template-columns: repeat(auto-fill, 180px);
+}
+.n-upload-trigger.n-upload-trigger--image-card{
+  width: 180px;
+  height: 180px;
+}
+.n-upload-trigger.n-upload-trigger--image-card .n-base-icon{
+  font-size: 50px;
+}
+.input_form .n-base-selection-label{
+  height: 70px;
 }
 </style>

@@ -39,7 +39,7 @@
             <!--          按钮-->
             <div class="input_border">
 
-              <div class="login_btn c" @click="reset">
+              <div class="add_step_btn c" @click="reset">
                 Reset Password
                 <!--                <div class="icon_login"></div>-->
               </div>
@@ -275,7 +275,7 @@ export default {
   text-decoration: underline;
 }
 
-.login_btn{
+.add_step_btn{
 
   display: flex;
   align-items: center;
@@ -301,7 +301,7 @@ export default {
   text-decoration:none;
 }
 
-.login_btn.c:after{
+.add_step_btn.c:after{
   content: '»';
   opacity: 0;
   margin-left: 20px;
@@ -310,14 +310,14 @@ export default {
 }
 
 
-.login_btn.c:hover:after {
+.add_step_btn.c:hover:after {
   opacity: 1;
   right: 0;
   padding-left: 20px;
 
 }
 
-.login_btn.verify{
+.add_step_btn.verify{
   background-color: #ffffff !important;
   color: #3554D1;
 
@@ -327,19 +327,19 @@ export default {
   font-size: 17px;
 }
 
-.login_btn.verify:hover{
+.add_step_btn.verify:hover{
   border-color:  #3d61f1;
   background-color: #3d61f1 !important;
   color: white !important;
 }
 
-.login_btn:hover{
+.add_step_btn:hover{
   border-color:  #051036;
   background-color: #051036 !important;
   color: white !important;
 }
 
-.icon_login{
+.icon_add{
   background-image: url("../../assets/arrow.svg");
   margin-left: 15px !important;
 
@@ -536,7 +536,7 @@ export default {
     text-decoration: underline;
   }
 
-  .login_btn{
+  .add_step_btn{
 
     display: flex;
     align-items: center;
@@ -561,7 +561,7 @@ export default {
     text-decoration:none;
   }
 
-  .login_btn.c:after{
+  .add_step_btn.c:after{
     content: '»';
     opacity: 0;
     margin-left: 20px;
@@ -570,14 +570,14 @@ export default {
   }
 
 
-  .login_btn.c:hover:after {
+  .add_step_btn.c:hover:after {
     opacity: 1;
     right: 0;
     padding-left: 20px;
 
   }
 
-  .login_btn.verify{
+  .add_step_btn.verify{
     background-color: #ffffff !important;
     color: #3554D1;
 
@@ -587,19 +587,19 @@ export default {
     font-size: 17px;
   }
 
-  .login_btn.verify:hover{
+  .add_step_btn.verify:hover{
     border-color:  #3d61f1;
     background-color: #3d61f1 !important;
     color: white !important;
   }
 
-  .login_btn:hover{
+  .add_step_btn:hover{
     border-color:  #051036;
     background-color: #051036 !important;
     color: white !important;
   }
 
-  .icon_login{
+  .icon_add{
     background-image: url("../../assets/arrow.svg");
     margin-left: 15px !important;
 

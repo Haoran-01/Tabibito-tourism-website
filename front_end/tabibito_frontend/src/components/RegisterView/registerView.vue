@@ -76,10 +76,10 @@
 
               <div class="half_2">
                 <!--          验证码按钮-->
-                <a class="login_btn verify"  @click="startCountdown" v-show="!countingDown">
+                <a class="add_step_btn verify" @click="startCountdown" v-show="!countingDown">
                   Get
                 </a>
-                <a class="login_btn verify" v-if="countingDown">{{ remainingTime }} s </a>
+                <a class="add_step_btn verify" v-if="countingDown">{{ remainingTime }} s </a>
               </div>
             </div>
 
@@ -88,8 +88,8 @@
           <!--          按钮-->
           <div class="input_border">
 
-            <button type="submit" class="login_btn" @click="checkRegister">
-              Sign In <div class="icon_login"></div>
+            <button type="submit" class="add_step_btn" @click="checkRegister">
+              Sign In <div class="icon_add"></div>
             </button>
 
           </div>
@@ -401,13 +401,13 @@ export default {
   transform: translateY(-10px);
 }
 
-  .login_btn.verify:hover{
+  .add_step_btn.verify:hover{
     border-color:  #3d61f1;
     background-color: #3d61f1 !important;
     color: white !important;
   }
 
-.login_btn{
+.add_step_btn{
   margin-top: 35px;
   display: flex;
   align-items: center;
@@ -433,13 +433,13 @@ export default {
 
 }
 
-.login_btn:hover{
+.add_step_btn:hover{
   border-color:  #051036;
   background-color: #051036 !important;
   color: white !important;
 }
 
-.icon_login{
+.icon_add{
   background-image: url("../../assets/arrow.svg");
   margin-left: 15px !important;
 
@@ -450,7 +450,7 @@ export default {
   height: 20px;
 }
 
-.login_btn.verify{
+.add_step_btn.verify{
   background-color: #ffffff !important;
   color: #3554D1;
 
@@ -460,7 +460,7 @@ export default {
   font-size: 17px;
 }
 
-.login_btn.verify:hover{
+.add_step_btn.verify:hover{
   border-color:  #3d61f1;
   background-color: #3d61f1 !important;
   color: white !important;
@@ -651,7 +651,7 @@ export default {
   }
 
 
-  .login_btn{
+  .add_step_btn{
     margin-top: 15px;
     display: flex;
     align-items: center;
@@ -675,13 +675,13 @@ export default {
 
   }
 
-  .login_btn:hover{
+  .add_step_btn:hover{
     border-color:  #051036;
     background-color: #051036 !important;
     color: white !important;
   }
 
-  .icon_login{
+  .icon_add{
     background-image: url("../../assets/arrow.svg");
     margin-left: 15px !important;
 
@@ -693,7 +693,7 @@ export default {
   }
 
 
-  .login_btn.verify{
+  .add_step_btn.verify{
     background-color: #ffffff !important;
     color: #3554D1;
 
