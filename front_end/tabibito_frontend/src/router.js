@@ -11,6 +11,7 @@ import footerView from "./components/GeneralComponents/footerView.vue";
 import sideBarView from "./components/StaffPortalView/sideBarView.vue";
 import staffPortalView from "./components/StaffPortalView/staffPortalView.vue";
 import rightContentView from "./components/StaffPortalView/rightContentView.vue";
+import backListView from "./components/BackListView/BackListView.vue";
 
 
 const routes = [
@@ -21,6 +22,7 @@ const routes = [
     { path: '/about', component: aboutUsView},
     { path: '/reset', component: resetView},
     { path: '/homepage', component: homepageView},
+    { path: '/backList', component: backListView},
 ]
 
 const router = createRouter({
