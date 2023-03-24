@@ -279,39 +279,94 @@ export default defineComponent({
     // const message = useMessage();
     const showDropdownRef = ref(false);
     const scatter = ref({
-      title: {
-        text: "Monthly Gross Sales Contribution",
-        left: "center"
+      textStyle: {
+        fontFamily: 'Inter, "Helvetica Neue", Arial, sans-serif'
       },
-      tooltip: {
-        trigger: "item",
-        formatter: "{a} <br/>{b} : {c} ({d}%)"
+      title: {
+        text: "Life Expectancy vs. GDP by country"
       },
       legend: {
-        orient: "horizontal",
-        left:'center',
-        top: 30,
-        data: ["Hot Food", "Clothes", "Tools", "Food Origins", "Snacks"]
+        right: 10,
+        data: ["1990", "2015"]
+      },
+      xAxis: {
+        splitLine: {
+          lineStyle: {
+            type: "dashed"
+          }
+        }
+      },
+      yAxis: {
+        splitLine: {
+          lineStyle: {
+            type: "dashed"
+          }
+        },
+        scale: true
       },
       series: [
         {
-          name: "Monthly Gross Sales Contribution",
-          type: "pie",
-          radius: "55%",
-          center: ["50%", "60%"],
-          data: [
-            { value: 335, name: "Hot Food" },
-            { value: 310, name: "Clothes" },
-            { value: 234, name: "Tools" },
-            { value: 135, name: "Food Origins" },
-            { value: 1548, name: "Snacks" }
-          ],
+          name: "1990",
+          data: data[0],
+          type: "scatter",
+          symbolSize(data) {
+            return Math.sqrt(data[2]) / 5e2;
+          },
           emphasis: {
-            itemStyle: {
-              shadowBlur: 10,
-              shadowOffsetX: 0,
-              shadowColor: "rgba(0, 0, 0, 0.5)"
+            label: {
+              show: true,
+              formatter({ data }) {
+                return data[3];
+              },
+              position: "top"
             }
+          },
+          itemStyle: {
+            shadowBlur: 10,
+            shadowColor: "rgba(120, 36, 50, 0.5)",
+            shadowOffsetY: 5,
+            color: new graphic.RadialGradient(0.4, 0.3, 1, [
+              {
+                offset: 0,
+                color: "rgb(251, 118, 123)"
+              },
+              {
+                offset: 1,
+                color: "rgb(204, 46, 72)"
+              }
+            ])
+          }
+        },
+        {
+          name: "2015",
+          data: data[1],
+          type: "scatter",
+          symbolSize(data) {
+            return Math.sqrt(data[2]) / 5e2;
+          },
+          emphasis: {
+            label: {
+              show: true,
+              formatter({ data }) {
+                return data[3];
+              },
+              position: "top"
+            }
+          },
+          itemStyle: {
+            shadowBlur: 10,
+            shadowColor: "rgba(25, 100, 150, 0.5)",
+            shadowOffsetY: 5,
+            color: new graphic.RadialGradient(0.4, 0.3, 1, [
+              {
+                offset: 0,
+                color: "rgb(129, 227, 238)"
+              },
+              {
+                offset: 1,
+                color: "rgb(25, 183, 207)"
+              }
+            ])
           }
         }
       ]
