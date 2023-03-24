@@ -100,11 +100,96 @@
               </div>
 
               <div class="echarts">
-                <div id="main" style="width: 300px; height: 400px" ref="chart"></div>
+
               </div>
+            </div>
+          </div>
+
+          <div class="col-xl-5 col-md-6">
+            <div class="table_wrap">
+              <div class="table_head">
+                <h2 class="table_head_text">
+                  Recent Bookings
+                </h2>
+
+                <div class="">
+                  <a href="#" class="table_head_href">View All</a>
+                </div>
+              </div>
+
+              <n-table :bordered="false" :single-line="false">
+                <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Item</th>
+                  <th>Total</th>
+                  <th>Paid</th>
+                  <th>Status</th>
+                  <th>Created At</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                  <td>#1</td>
+                  <td>New York<br> Discover America</td>
+                  <td class="table_money">$130</td>
+                  <td>$0</td>
+                  <td>
+                    <div class="table_pending">Pending</div>
+                  </td>
+                  <td>04/04/2022<br>08:16</td>
+                </tr>
+
+                <tr>
+                  <td>#2</td>
+                  <td>New York<br> Discover America</td>
+                  <td class="table_money">$130</td>
+                  <td>$0</td>
+                  <td>
+                    <div class="table_confirm">Confirmed</div>
+                  </td>
+                  <td>04/04/2022<br>08:16</td>
+                </tr>
+
+                <tr>
+                  <td>#3</td>
+                  <td>New York<br> Discover America</td>
+                  <td class="table_money">$130</td>
+                  <td>$0</td>
+                  <td>
+                    <div class="table_reject">Rejected</div>
+                  </td>
+                  <td>04/04/2022<br>08:16</td>
+                </tr>
+
+                <tr>
+                  <td>#4</td>
+                  <td>New York<br> Discover America</td>
+                  <td class="table_money">$130</td>
+                  <td>$0</td>
+                  <td>
+                    <div class="table_confirm">Confirmed</div>
+                  </td>
+                  <td>04/04/2022<br>08:16</td>
+                </tr>
+
+                <tr>
+                  <td>#5</td>
+                  <td>New York<br> Discover America</td>
+                  <td class="table_money">$130</td>
+                  <td>$0</td>
+                  <td>
+                    <div class="table_confirm">Confirmed</div>
+                  </td>
+                  <td>04/04/2022<br>08:16</td>
+                </tr>
+
+                </tbody>
+              </n-table>
 
             </div>
           </div>
+
         </div>
 
       </div>
@@ -159,6 +244,78 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.table_reject {
+  border-radius: 100px;
+  padding-top: 4px !important;
+  padding-bottom: 4px !important;
+  text-align: center;
+  flex:0 0 auto;
+  width:100%;
+  font-size: 14px !important;
+  font-weight: 500;
+  background-color: #FFF5F8 !important;
+  color: #F1416C;
+}
+
+.table_confirm {
+  border-radius: 100px;
+  padding-top: 4px !important;
+  padding-bottom: 4px !important;
+  text-align: center;
+  flex:0 0 auto;
+  width:100%;
+  font-size: 14px !important;
+  font-weight: 500;
+  background-color: rgba(53, 84, 209, 0.05);
+  color: #3554D1;
+}
+
+.table_pending {
+  border-radius: 100px;
+  padding-top: 4px !important;
+  padding-bottom: 4px !important;
+  text-align: center;
+  flex:0 0 auto;
+  width:100%;
+  font-size: 14px !important;
+  font-weight: 500;
+  background-color: #FFF8DD !important;
+  color: #FFC700;
+}
+
+.table_money {
+  font-weight: 500;
+}
+
+.table_head_href {
+  font-size: 14px !important;
+  color: #3554D1;
+  font-weight: 500;
+  text-decoration: underline;
+}
+
+.table_head_text {
+  font-size: 18px !important;
+  line-height: 1 !important;
+  font-weight: 500;
+}
+
+.table_head {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+}
+
+.table_wrap {
+  padding: 30px !important;
+  border-radius: 4px;
+  background-color: #FFFFFF !important;
+  box-shadow: 0px 10px 30px 0px #05103608;
+}
+
+.echarts {
+  padding-top: 30px !important;
+}
 
 .dropdown {
   cursor: pointer;
@@ -464,6 +621,7 @@ export default defineComponent({
   }
 
   .col-xl-3{flex:0 0 auto;width:25%}
+  .col-xl-5{flex:0 0 auto;width:41.66667%}
 }
 
 @media (min-width:1400px){
