@@ -29,7 +29,12 @@
               <div class="durationOption">
                 <div class="optionName">Start Date - End Date</div>
 <!--                <div class="optionValue" id="durationValue" @click="handleSelectTime">{{currentTimePeriod}}</div>-->
-                <n-date-picker :value="currentTimePeriod" type="daterange" :is-date-disabled="disablePreviousDate" size="small" clearable/>
+                <div class="dataPickers">
+                  <n-date-picker v-model:value="startTime" type="date" :is-date-disabled="secureStartTime" size="small" clearable placeholder="Start Date"/>
+                  <span>-</span>
+                  <n-date-picker v-model:value="endTime" type="date" placement="bottom-end" :is-date-disabled="secureEndTime" size="small" clearable placeholder="End Date"/>
+
+                </div>
               </div>
               <div class="tagOption">
                 <div class="optionName">Tags</div>
@@ -81,29 +86,25 @@
     <div class="figure">
       <n-number-animation show-separator
                           :from="0"
-                          :to="10"
-                          class="mainFigure"></n-number-animation>
+                          :to="10"></n-number-animation>
       <div class="figureName">Reviews</div>
     </div>
     <div class="figure">
       <n-number-animation show-separator
                           :from="0"
-                          :to="10"
-                          class="mainFigure"></n-number-animation>
+                          :to="10"></n-number-animation>
       <div class="figureName">Travel Projects</div>
     </div>
     <div class="figure">
       <n-number-animation show-separator
                           :from="0"
-                          :to="10"
-                          class="mainFigure"></n-number-animation>
+                          :to="10"></n-number-animation>
       <div class="figureName">Happy customers</div>
     </div>
     <div class="figure">
       <n-number-animation show-separator
                           :from="0"
-                          :to="10"
-                          class="mainFigure"></n-number-animation>
+                          :to="10"></n-number-animation>
       <div class="figureName">Monthly Income</div>
     </div>
   </section>
@@ -171,8 +172,9 @@ export default {
     FooterView,
     Inspiration, CustomerReview, HotLocation, ChooseTourTypes, DiscountItems, MostPopularTours, NavigationBar},
   setup(){
+    let startTime = ref();
+    let endTime = ref();
     let currentLocation = ref("select");
-    let currentTimePeriod = ref();
     const renderTag = ({ option, handleClose }) => {
       return h(
           NTag,
@@ -192,7 +194,8 @@ export default {
     };
     return{
       currentLocation,
-      currentTimePeriod,
+      startTime,
+      endTime,
       range: ref([]),
       tagValue: ref([]),
       tags: [
@@ -233,8 +236,21 @@ export default {
       handleSelectLocation(val){
         currentLocation.value = val;
       },
-      disablePreviousDate(ts) {
-        return ts < Date.now();
+      secureStartTime(ts) {
+        if (endTime.value != null){
+          return ts < Date.now() || ts > endTime.value;
+        }
+        else {
+          return ts < Date.now();
+        }
+      },
+      secureEndTime(ts){
+        if (startTime.value != null){
+          return ts < Date.now() || ts < startTime.value;
+        }
+        else {
+          return ts < Date.now();
+        }
       }
     }
   },
@@ -320,6 +336,9 @@ export default {
     position: relative;
     box-sizing: border-box;
 
+  }
+  .dataPickers{
+    display: flex;
   }
   .durationOption,.tagOption{
     border-left: 1px solid #DDDDDD;

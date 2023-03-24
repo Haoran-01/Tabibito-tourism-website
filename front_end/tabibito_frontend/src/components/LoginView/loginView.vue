@@ -43,9 +43,9 @@
           <!--按钮-->
           <div class="input_border">
 
-            <button type="submit" class="login_btn"  @click="checkLogin">
+            <button type="submit" class="add_step_btn" @click="checkLogin">
               Sign In
-              <div class="icon_login"></div>
+              <div class="icon_add"></div>
             </button>
 
           </div>
@@ -278,7 +278,7 @@ export default {
   text-decoration: underline;
 }
 
-.login_btn{
+.add_step_btn{
   display: flex;
   align-items: center;
   justify-content: center;
@@ -303,13 +303,13 @@ export default {
 
 }
 
-.login_btn:hover{
+.add_step_btn:hover{
   border-color:  #051036;
   background-color: #051036 !important;
   color: white !important;
 }
 
-.icon_login{
+.icon_add{
   background-image: url("../../assets/arrow.svg");
   margin-left: 15px !important;
 
@@ -493,7 +493,7 @@ export default {
     text-decoration: underline;
   }
 
-  .login_btn{
+  .add_step_btn{
     display: flex;
     align-items: center;
     justify-content: center;
@@ -514,13 +514,13 @@ export default {
 
   }
 
-  .login_btn:hover{
+  .add_step_btn:hover{
     border-color:  #051036;
     background-color: #051036 !important;
     color: white !important;
   }
 
-  .icon_login{
+  .icon_add{
     background-image: url("../../assets/arrow.svg");
     margin-left: 15px !important;
 
