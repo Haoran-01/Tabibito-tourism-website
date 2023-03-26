@@ -10,12 +10,12 @@
         <div class="but">
           <button class="nBtn nBtn1">
             Sign In
-            <div class="icon_login"></div>
+            <div class="icon_add"></div>
           </button>
 
           <button class="nBtn nBtn2">
             Register
-            <div class="icon_login"></div>
+            <div class="icon_add"></div>
           </button>
 
         </div>
@@ -120,7 +120,7 @@ export default {
   color: white;
 }
 
-.nBtn1 .icon_login{
+.nBtn1 .icon_add{
   background-image: url("../../assets/arrow.svg");
   margin-left: 15px !important;
 
@@ -131,7 +131,7 @@ export default {
   height: 20px;
 }
 
-.nBtn2 .icon_login{
+.nBtn2 .icon_add{
   background-image: url("../../assets/arrow_blue.svg");
   margin-left: 15px !important;
 
@@ -142,11 +142,11 @@ export default {
   height: 20px;
 }
 
-.nBtn1:hover .icon_login{
+.nBtn1:hover .icon_add{
   background-image: url("../../assets/arrow_blue.svg");
 }
 
-.nBtn2:hover .icon_login{
+.nBtn2:hover .icon_add{
   background-image: url("../../assets/arrow.svg");
 }
 

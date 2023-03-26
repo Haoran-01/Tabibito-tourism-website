@@ -168,7 +168,7 @@ export default {
       space_between.value = 20;
     }
     onMounted(()=>{
-      window.onresize = () => {
+      window.addEventListener( 'resize', () => {
         window.fullWidth = document.documentElement.clientWidth;
         // that.windowWidth = window.fullWidth; // 宽
         if (window.fullWidth < 400) {
@@ -190,7 +190,7 @@ export default {
           slides_per_view.value = 5;
           space_between.value = 20;
         }
-      };
+      });
     })
     return{
       slides_per_view,

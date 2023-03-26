@@ -29,7 +29,12 @@
               <div class="durationOption">
                 <div class="optionName">Start Date - End Date</div>
 <!--                <div class="optionValue" id="durationValue" @click="handleSelectTime">{{currentTimePeriod}}</div>-->
-                <n-date-picker :value="currentTimePeriod" type="daterange" :is-date-disabled="disablePreviousDate" size="small" clearable/>
+                <div class="dataPickers">
+                  <n-date-picker v-model:value="startTime" type="date" :is-date-disabled="secureStartTime" size="small" clearable placeholder="Start Date"/>
+                  <span>-</span>
+                  <n-date-picker v-model:value="endTime" type="date" placement="bottom-end" :is-date-disabled="secureEndTime" size="small" clearable placeholder="End Date"/>
+
+                </div>
               </div>
               <div class="tagOption">
                 <div class="optionName">Tags</div>
@@ -55,8 +60,10 @@
       <div class="specialBackgroundRight"></div>
     </section>
 
-  <choose-tour-types></choose-tour-types>
+
   <most-popular-tours></most-popular-tours>
+  <choose-tour-types></choose-tour-types>
+  <hot-location></hot-location>
 
   <section class="discountPart" style="overflow: hidden">
     <div class="discountTitleArea">
@@ -79,29 +86,25 @@
     <div class="figure">
       <n-number-animation show-separator
                           :from="0"
-                          :to="10"
-                          class="mainFigure"></n-number-animation>
+                          :to="10"></n-number-animation>
       <div class="figureName">Reviews</div>
     </div>
     <div class="figure">
       <n-number-animation show-separator
                           :from="0"
-                          :to="10"
-                          class="mainFigure"></n-number-animation>
+                          :to="10"></n-number-animation>
       <div class="figureName">Travel Projects</div>
     </div>
     <div class="figure">
       <n-number-animation show-separator
                           :from="0"
-                          :to="10"
-                          class="mainFigure"></n-number-animation>
+                          :to="10"></n-number-animation>
       <div class="figureName">Happy customers</div>
     </div>
     <div class="figure">
       <n-number-animation show-separator
                           :from="0"
-                          :to="10"
-                          class="mainFigure"></n-number-animation>
+                          :to="10"></n-number-animation>
       <div class="figureName">Monthly Income</div>
     </div>
   </section>
@@ -138,6 +141,10 @@
       </div>
     </div>
   </section>
+
+  <customer-review></customer-review>
+  <inspiration></inspiration>
+  <footer-view></footer-view>
 </template>
 
 <script>
@@ -148,6 +155,10 @@ import {Location} from "@vicons/ionicons5";
 import MostPopularTours from "./mostPopularTours.vue";
 import DiscountItems from "./discountItems.vue";
 import ChooseTourTypes from "./chooseTourTypes.vue";
+import HotLocation from "./hotLocation.vue";
+import CustomerReview from "./customerReview.vue";
+import Inspiration from "./inspiration.vue";
+import FooterView from "../GeneralComponents/footerView.vue";
 const renderIcon = (icon) => {
   return () => {
     return h(NIcon, null, {
@@ -157,10 +168,13 @@ const renderIcon = (icon) => {
 };
 export default {
   name: "HomepageView",
-  components: {ChooseTourTypes, DiscountItems, MostPopularTours, NavigationBar},
+  components: {
+    FooterView,
+    Inspiration, CustomerReview, HotLocation, ChooseTourTypes, DiscountItems, MostPopularTours, NavigationBar},
   setup(){
+    let startTime = ref();
+    let endTime = ref();
     let currentLocation = ref("select");
-    let currentTimePeriod = ref();
     const renderTag = ({ option, handleClose }) => {
       return h(
           NTag,
@@ -180,7 +194,8 @@ export default {
     };
     return{
       currentLocation,
-      currentTimePeriod,
+      startTime,
+      endTime,
       range: ref([]),
       tagValue: ref([]),
       tags: [
@@ -221,8 +236,21 @@ export default {
       handleSelectLocation(val){
         currentLocation.value = val;
       },
-      disablePreviousDate(ts) {
-        return ts < Date.now();
+      secureStartTime(ts) {
+        if (endTime.value != null){
+          return ts < Date.now() || ts > endTime.value;
+        }
+        else {
+          return ts < Date.now();
+        }
+      },
+      secureEndTime(ts){
+        if (startTime.value != null){
+          return ts < Date.now() || ts < startTime.value;
+        }
+        else {
+          return ts < Date.now();
+        }
       }
     }
   },
@@ -308,6 +336,9 @@ export default {
     position: relative;
     box-sizing: border-box;
 
+  }
+  .dataPickers{
+    display: flex;
   }
   .durationOption,.tagOption{
     border-left: 1px solid #DDDDDD;
@@ -397,7 +428,7 @@ export default {
       width: 100%;
     }
     .specialPart{
-      padding-top: 50px;
+      padding-top: 100px;
       padding-bottom: 20px;
     }
     .specialCoreContainer {
@@ -439,6 +470,21 @@ export default {
     padding-right: 15px;
     display: flex;
     justify-content: center;
+  }
+  @media screen and (max-width: 800px){
+    .statistics{
+      margin-bottom: 80px;
+    }
+  }
+  @media screen and (max-width: 600px){
+    .statistics{
+      margin-bottom: 55px;
+    }
+  }
+  @media screen and (max-width: 450px){
+    .statistics{
+      margin-bottom: 30px;
+    }
   }
   .figure{
     padding: 15px;
@@ -635,6 +681,91 @@ export default {
     color: white;
     transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
   }
+  @media screen and (max-width: 1200px) {
+    .discountTitleArea{
+      width: 960px;
+      margin: auto;
+    }
+    .discountMain{
+      flex-direction: column;
+    }
+    .discountCover{
+      width: 960px;
+      margin: auto;
+    }
+  }
+  @media screen and (max-width: 1000px) {
+    .discountTitleArea{
+      width: 720px;
+      margin: auto;
+    }
+    .discountMain{
+      flex-direction: column;
+    }
+    .discountCover{
+      width: 720px;
+      margin: auto;
+    }
+  }
+  @media screen and (max-width: 767px) {
+    .discountTitleArea{
+      width: 540px;
+      margin: auto;
+    }
+    .discountMain{
+      flex-direction: column;
+    }
+    .discountCover{
+      width: 540px;
+      margin: auto;
+    }
+  }
+  @media screen and (max-width: 550px) {
+    .discountTitleArea{
+      width: 450px;
+      margin: auto;
+    }
+    .discountMain{
+      flex-direction: column;
+    }
+    .discountCover{
+      width: 450px;
+      margin: auto;
+    }
+  }
+  @media screen and (max-width: 480px) {
+    .discountPart{
+      padding: 0px;
+    }
+    .discountTitleArea{
+      width: 420px;
+      margin: auto;
+    }
+    .discountMain{
+      flex-direction: column;
+    }
+    .discountCover{
+      width: 420px;
+      margin: auto;
+    }
+  }
+  @media screen and (max-width: 430px) {
+    .discountPart{
+      padding: 0px;
+    }
+    .discountTitleArea{
+      width: 350px;
+      margin: auto;
+    }
+    .discountMain{
+      flex-direction: column;
+    }
+    .discountCover{
+      width: 350px;
+      margin: auto;
+    }
+  }
+
 
   @media screen and (max-width: 700px) {
     .whyChooseContent{
@@ -671,6 +802,25 @@ export default {
     }
   }
   @media screen and (max-width: 550px) {
+    .whyChooseImg{
+      position: static;
+      width: 100%;
+      height: 400px;
+    }
+    .whyChooseUsSection{
+      padding-top: 0px;
+      padding-bottom: 20px;
+    }
+    .whyChooseCore{
+      margin-top: 40px;
+    }
+    .whyChooseContent{
+      width: 100%;
+      margin: auto;
+      padding-right: 0;
+    }
+  }
+  @media screen and (max-width:480px) {
     .whyChooseImg{
       position: static;
       width: 100%;

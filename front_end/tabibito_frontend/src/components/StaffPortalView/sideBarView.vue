@@ -1,0 +1,204 @@
+<template>
+  <head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  </head>
+  <body>
+  <aside :class="`${is_expanded && 'is-expanded'}`">
+    <div class="logo">
+      <img src="../../assets/vue.svg" alt="Vue">
+    </div>
+
+    <div class="menu-toggle-wrap">
+      <button class="menu-toggle" @click="ToggleMenu">
+        <span class="material-symbols-outlined">keyboard_double_arrow_right</span>
+      </button>
+    </div>
+
+    <h3>Menu</h3>
+    <div class="menu">
+      <router-link class="button" to="/">
+        <span class="material-symbols-outlined">update</span>
+        <span class="text">Dashboard</span>
+      </router-link>
+      <router-link class="button" to="/">
+        <span class="material-symbols-outlined">update</span>
+        <span class="text">History</span>
+      </router-link><router-link class="button" to="/">
+      <span class="material-symbols-outlined">update</span>
+      <span class="text">Wishlist</span>
+    </router-link><router-link class="button" to="/">
+      <span class="material-symbols-outlined">update</span>
+      <span class="text">Settings</span>
+    </router-link><router-link class="button" to="/">
+      <span class="material-symbols-outlined">update</span>
+      <span class="text">Logout</span>
+    </router-link>
+    </div>
+  </aside>
+  </body>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+
+const is_expanded = ref(false)
+
+const ToggleMenu = () => {
+  is_expanded.value = !is_expanded.value
+}
+</script>
+
+<style scoped>
+:root {
+  --primary: #4ade80;
+  --grey: #64748b;
+  --dark: #1e293b;
+  --dark-alt: #334155;
+  --light: #f1f5f9;
+  --sidebar-width: 300px;
+}
+
+aside {
+  display: flex;
+  flex-direction: column;
+  width: calc(2rem + 2rem);
+  min-height: 100vh;
+  overflow: hidden;
+  padding: 1rem;
+  background-color: #fff;
+  color: #1e293b;
+  transition: 0.3s ease-out;
+}
+
+aside .logo {
+  margin-bottom: 1rem;
+}
+
+aside .logo img {
+  width: 2rem;
+}
+
+aside .menu-toggle-wrap {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+  position: relative;
+  top: 0;
+  transition: 0.3s ease-out;
+}
+
+aside .menu {
+  margin: 0 -1rem;
+}
+
+aside .menu .button {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  transition: 0.3s ease-out;
+}
+
+aside .menu .button .material-symbols-outlined {
+  font-size: 2rem;
+  color: #1e293b;
+  transition: 0.3s ease-out;
+}
+
+aside .menu .button .router-link-exact-active {
+  border-right: 5px solid #f1f5f9;
+}
+
+aside .menu .button:hover {
+  background-color: #f1f5f9;
+}
+
+aside .menu .button:hover .text {
+  color: #3554D1;
+}
+
+aside .menu .button .router-link-exact-active {
+  background-color: #f1f5f9;
+}
+
+aside .menu .button .router-link-exact-active .material-symbols-outlined{
+  color: #3554D1;
+}
+
+aside .menu .button .router-link-exact-active .text{
+  color: #3554D1;
+}
+
+aside .menu .button:hover .material-symbols-outlined {
+  color: #3554D1;
+}
+
+aside .menu .button .text {
+  color: #1e293b;
+  transition: 0.3s ease-out;
+}
+
+aside h3 {
+  opacity: 0;
+  transition: 0.3s ease-out;
+}
+
+aside h3 {
+  color: #64748b;
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+}
+
+aside .button .text {
+  opacity: 0;
+  transition: 0.3s ease-out;
+}
+
+aside .menu-toggle-wrap .menu-toggle {
+  transition: 0.3s ease-out;
+}
+
+aside .menu-toggle-wrap .menu-toggle .material-symbols-outlined {
+  font-size: 2rem;
+  color: #1e293b;
+  transition: 0.3s ease-out;
+}
+
+aside .menu-toggle-wrap .menu-toggle .material-symbols-outlined:hover {
+  color: #3554D1;
+  transform: translateX(0.5rem);
+}
+
+aside.is-expanded {
+  width: 200px;
+}
+
+aside.is-expanded h3 {
+  opacity: 1;
+}
+
+aside.is-expanded .button .text {
+  opacity: 1;
+}
+
+aside.is-expanded .menu-toggle-wrap {
+  top: -3rem;
+}
+
+aside.is-expanded .button .material-symbols-outlined {
+  margin-right: 1rem;
+}
+
+aside.is-expanded .menu-toggle-wrap .menu-toggle {
+  transform: rotate(-180deg);
+}
+
+@media (max-width: 768px) {
+  aside {
+    position: fixed;
+    z-index: 99;
+  }
+}
+
+</style>
