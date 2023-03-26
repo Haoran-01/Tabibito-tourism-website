@@ -5,7 +5,7 @@ import string
 from flask import Blueprint, request, render_template, jsonify, g, session
 from forms import LoginFrom, RegisterForm, EmailCaptchaModel, ForgetFormPassword
 from flask_login import login_user, logout_user, login_required
-from models import User
+from models import User, Product, UserProfile
 from exts import db, mail
 from flask_mail import Message
 from datetime import datetime
@@ -46,6 +46,8 @@ def register_check():
         user.user_last_name = user_last_name
         user.user_password = hash_password
 
+        user_profile = UserProfile(user_email=user_email)
+        db.session.add(user_profile)
         db.session.add(user)
         db.session.commit()
         return jsonify({"code": 200, "message": "Sign up successfully!"})
@@ -81,7 +83,6 @@ def login_check():
     if login_form.validate():
         user = User.query.filter_by(user_email=user_email).first()
         login_user(user)
-        print("chenggong")
         return jsonify({"code":200})
     else:
         if login_form.errors.get("user_email"):
@@ -106,10 +107,12 @@ def my_mail():
         mail.send(message)
         captcha_model = EmailCaptchaModel.query.filter_by(email=email).first()
         if captcha_model:
+            print("有")
             captcha_model.captcha = captcha
             captcha_model.create_time = datetime.now()
             db.session.commit()
         else:
+            print("没")
             captcha_model = EmailCaptchaModel(email=email, captcha=captcha)
             db.session.add(captcha_model)
             db.session.commit()
@@ -161,3 +164,9 @@ def password_check():
         return {"code": 200}
     else:
         return {"code": 400}
+
+@bp.route("/test_order", methods=["GET", "POST"])
+def test_order():
+    product = Product.query.filter_by(id=1).first()
+    print(product.tags)
+    return jsonify(code=200)

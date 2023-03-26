@@ -46,9 +46,7 @@ def validation_error(e):
 @app.before_request
 def before_request():
     forget_email = session.get("forget_email")
-    print("before", forget_email)
     if forget_email:
-        print("reset", forget_email)
         user = User.query.filter_by(user_email=forget_email)
         if user:
             g.forget_email = forget_email
