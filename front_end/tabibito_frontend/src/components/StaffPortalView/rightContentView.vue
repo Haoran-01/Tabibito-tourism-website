@@ -1,8 +1,6 @@
 <template>
   <body>
 
-  <div class="dashboard">
-    <div class="dashboard_main">
       <div class="dashboard_content">
         <div class="row dash_head y-gap-20 pb-60 lg:pb-40 md:pb-32">
           <div class="col-auto">
@@ -194,9 +192,10 @@
 
         </div>
 
+        <footer-view></footer-view>
+
       </div>
-    </div>
-  </div>
+
   </body>
 </template>
 
@@ -212,6 +211,7 @@ import {
   LegendComponent
 } from "echarts/components";
 import VChart, { THEME_KEY } from "vue-echarts";
+import FooterView from "../GeneralComponents/footerView.vue";
 
 use([
   CanvasRenderer,
@@ -269,6 +269,7 @@ const data = [
 export default defineComponent({
   name: 'rightContentView',
   components: {
+    FooterView,
     VChart
   },
   provide: {
@@ -526,16 +527,6 @@ export default defineComponent({
   padding-top: 20px !important;
 }
 
-.dashboard {
-  display: flex;
-}
-
-@media (max-width: 991px) {
-  .dashboard {
-    flex-direction: column;
-  }
-}
-
 :root {
   --dashboard-width: 300px;
 }
@@ -546,40 +537,9 @@ export default defineComponent({
   }
 }
 
-.dashboard_main {
-  overflow: hidden;
-  width: 100%;
-  padding-left: var(--dashboard-width);
-  will-change: padding-left;
-  transition: all 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
-}
-
-.dashboard_main::after {
-  content: "";
-  display: none;
-  position: fixed;
-  z-index: 50;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  transition: all 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
-  pointer-events: none;
-  opacity: 0;
-}
-
-@media (max-width: 991px) {
-  .dashboard_main {
-    padding-left: 0;
-  }
-  .dashboard_main::after {
-    display: block;
-  }
-}
 
 .dashboard_content {
-  width: 100%;
+  width: 94%;
   padding: 60px;
   padding-bottom: 0;
   background-color: #F5F5F5 !important;
@@ -647,16 +607,6 @@ export default defineComponent({
   color: #697488;
   margin-top: 5px !important;
 }
-
-
-
-
-
-
-
-
-
-
 
 .row{
   --bs-gutter-x:30px;

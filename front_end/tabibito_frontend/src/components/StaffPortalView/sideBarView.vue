@@ -3,6 +3,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   </head>
   <body>
+
   <aside :class="`${is_expanded && 'is-expanded'}`">
     <div class="logo">
       <img src="../../assets/vue.svg" alt="Vue">
@@ -49,6 +50,35 @@ const ToggleMenu = () => {
 </script>
 
 <style scoped>
+
+/*@media (max-width: 991px) {*/
+/*  .portal_sidebar {*/
+/*    transform: translateX(-100%);*/
+/*  }*/
+/*}*/
+
+/*@media (max-width: 767px) {*/
+/*  .portal_sidebar {*/
+/*    width: 80%;*/
+/*    height: calc(100% - 80px);*/
+/*  }*/
+/*}*/
+
+/*.portal_sidebar {*/
+/*  position: fixed;*/
+/*  bottom: 0;*/
+/*  left: 0;*/
+/*  z-index: 100;*/
+/*  width: var(--dashboard-width);*/
+/*  height: calc(100% - 90px);*/
+/*  padding: 30px;*/
+/*  padding-top: 60px;*/
+/*  padding-bottom: 40px;*/
+/*  will-change: transform;*/
+/*  transition: all 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);*/
+/*  background-color: #FFFFFF !important;*/
+/*}*/
+
 :root {
   --primary: #4ade80;
   --grey: #64748b;

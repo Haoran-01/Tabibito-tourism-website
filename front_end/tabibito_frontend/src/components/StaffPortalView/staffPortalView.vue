@@ -2,7 +2,9 @@
   <div class="portal">
     <SideBarView />
 
-    <right-content-view />
+    <div class="dashboard_main">
+      <right-content-view />
+    </div>
   </div>
 
 </template>
@@ -13,6 +15,38 @@ import RightContentView from "./rightContentView.vue";
 </script>
 
 <style scoped>
+.dashboard_main {
+  overflow: hidden;
+  width: 100%;
+  padding-left: var(--dashboard-width);
+  will-change: padding-left;
+  transition: all 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.dashboard_main::after {
+  content: "";
+  display: none;
+  position: fixed;
+  z-index: 50;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  transition: all 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
+  pointer-events: none;
+  opacity: 0;
+}
+
+@media (max-width: 991px) {
+  .dashboard_main {
+    padding-left: 0;
+  }
+  .dashboard_main::after {
+    display: block;
+  }
+}
+
 :root {
   --primary: #4ade80;
   --grey: #64748b;
@@ -53,6 +87,12 @@ button {
 @media (max-width: 768px) {
   .portal main{
     padding-left: 6rem;
+  }
+}
+
+@media (max-width: 991px) {
+  .portal {
+    flex-direction: column;
   }
 }
 </style>
