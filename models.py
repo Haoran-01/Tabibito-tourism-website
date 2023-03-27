@@ -4,6 +4,7 @@ from flask_login import UserMixin
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
 
+
 class User(UserMixin, db.Model):
     __tablename__ = 'user'
     user_email = db.Column(db.CHAR(200), primary_key=True)
@@ -20,13 +21,13 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return "<User(email='%s')>" % self.user_email
 
+
 class UserProfile(db.Model):
     __tablename__ = 'user_profile'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     picture_address = db.Column(db.CHAR(200))
     user_email = db.Column(db.CHAR(200), ForeignKey('user.user_email', ondelete='CASCADE', onupdate='CASCADE'))
     user = relationship('User', back_populates="profile")
-
 
 
 class EmailCaptchaModel(db.Model):
@@ -48,7 +49,10 @@ class Product(db.Model):
     start_time = db.Column(db.DateTime, nullable=False)
     end_time = db.Column(db.DateTime, nullable=False)
     app_ddl = db.Column(db.DateTime, nullable=False)
+
     comments = relationship('Comment', order_by='Comment.id', back_populates="product")
+    trips = relationship('Trip', order_by='Trip.id', back_populates="product")
+
     fee_des = relationship('FeeDes', order_by='FeeDes.id', back_populates="product")
     tags = relationship('Tag', order_by='Tag.id', back_populates="product")
     pictures = relationship('ProductPicture', order_by='ProductPicture.id', back_populates="product")
@@ -68,6 +72,20 @@ class Tag(db.Model):
 
     def __repr__(self):
         return "<Tag(key='%s', value='%s')>" % (self.key, self.value)
+
+
+class Trip(db.Model):
+    __tablename__ = "trip"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    time = db.Column(db.DateTime, nullable=False)
+    loc_detail = db.Column(db.CHAR(70), nullable=False)
+    activity = db.Column(db.CHAR(100), nullable=False)
+
+    product_id = db.Column(db.Integer, ForeignKey('product.id', ondelete='CASCADE', onupdate='CASCADE'))
+    product = relationship('Product', back_populates="trips")
+
+    def __repr__(self):
+        return "<Trip(time='%s', loc_detail='%s', activity='%s')>" % (self.time, self.loc_detail, self.activity)
 
 
 class ProductPicture(db.Model):
@@ -90,6 +108,7 @@ class FeeDes(db.Model):
 
     def __repr__(self):
         return "<FeeDes(key='%s', value='%s')>" % (self.key, self.value)
+
 
 class Comment(db.Model):
     __tablename__ = "comment"

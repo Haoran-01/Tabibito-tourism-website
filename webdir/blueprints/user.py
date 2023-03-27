@@ -83,6 +83,7 @@ def login_check():
     if login_form.validate():
         user = User.query.filter_by(user_email=user_email).first()
         login_user(user)
+        print("login")
         return jsonify({"code":200})
     else:
         if login_form.errors.get("user_email"):
