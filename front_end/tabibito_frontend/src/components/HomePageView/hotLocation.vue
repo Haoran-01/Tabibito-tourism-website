@@ -161,35 +161,6 @@ name: "hotLocation",
   margin-left:auto;
 }
 
-@media (min-width:576px){
-  .hotContainer{
-    max-width:540px
-  }
-}
-
-@media (min-width:768px){
-  .hotContainer{max-width:720px}
-}
-
-@media (min-width:992px){
-  .hotContainer{
-    max-width:960px
-  }
-}
-
-@media (min-width:1200px){
-  .hotContainer{
-    max-width:1140px
-  }
-}
-
-@media (min-width:1400px){
-  .hotContainer{
-    max-width:1320px
-  }
-}
-
-
 .hotHeader{
   display:flex;
   flex-wrap:wrap;
@@ -337,6 +308,70 @@ name: "hotLocation",
 }
 
 
+@media (min-width:370px){
+  .hotContainer{
+    width: auto;
+  }
+  .blocks{
+    /*flex-direction: column;*/
+    padding-left: 10px;
+  }
+  .rect{
+    width: 100%;
+  }
+  .moreBtn{
+    margin-top: 0px;
+  }
+  .clickArea{
+    justify-content: start;
+  }
+  .text{
+    margin-left: 20px;
+  }
+}
+@media (min-width:480px){
+  .hotContainer{
+    max-width:450px
+  }
+  .rect{
+    width: 25%;
+  }
+  .text{
+    margin-left: 0px;
+  }
+  .moreBtn{
+    margin-top: -68px;
+  }
+}
+@media (min-width:576px){
+  .hotContainer{
+    max-width:540px
+  }
+}
 
+@media (min-width:768px){
+  .hotContainer{max-width:720px}
+}
+
+@media (min-width:992px){
+  .hotContainer{
+    max-width:960px
+  }
+  .text{
+    margin-left: 15px;
+  }
+}
+
+@media (min-width:1200px){
+  .hotContainer{
+    max-width:1140px
+  }
+}
+
+@media (min-width:1400px){
+  .hotContainer{
+    max-width:1320px
+  }
+}
 
 </style>
