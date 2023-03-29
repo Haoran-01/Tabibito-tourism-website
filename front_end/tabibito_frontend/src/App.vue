@@ -97,4 +97,18 @@ body {
 .input_form .n-base-selection-label{
   height: 70px;
 }
+@media screen and (max-width: 550px) {
+  .CRContainer .custom-arrow .custom-arrow--right{
+    margin: 0;
+  }
+  .CRContainer .custom-arrow{
+    justify-content:center;
+  }
+  .CRContainer .custom-dots{
+    width: 100%;
+    justify-content: center;
+    /*margin-right: 188px; */
+    margin-left: 0 !important;
+  }
+}
 </style>

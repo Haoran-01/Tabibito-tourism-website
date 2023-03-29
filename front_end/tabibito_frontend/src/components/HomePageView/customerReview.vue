@@ -319,5 +319,19 @@ export default {
   margin-top: 5px;
 }
 
+@media screen and (max-width: 550px) {
+  .CRContainer{
+    width: 100%;
+    padding: 0;
+  }
+  .custom-arrow{
+    width: 100%;
+    margin: 0;
+    position: static;
+  }
+  .tex2{
+    padding: 15px
+  }
+}
 
 </style>
