@@ -144,6 +144,7 @@
 
   <customer-review></customer-review>
   <inspiration></inspiration>
+  <not-a-member></not-a-member>
   <footer-view></footer-view>
 </template>
 
@@ -159,6 +160,7 @@ import HotLocation from "./hotLocation.vue";
 import CustomerReview from "./customerReview.vue";
 import Inspiration from "./inspiration.vue";
 import FooterView from "../GeneralComponents/footerView.vue";
+import NotAMember from "./notMember.vue";
 const renderIcon = (icon) => {
   return () => {
     return h(NIcon, null, {
@@ -169,6 +171,7 @@ const renderIcon = (icon) => {
 export default {
   name: "HomepageView",
   components: {
+    NotAMember,
     FooterView,
     Inspiration, CustomerReview, HotLocation, ChooseTourTypes, DiscountItems, MostPopularTours, NavigationBar},
   setup(){
@@ -694,7 +697,7 @@ export default {
       margin: auto;
     }
   }
-  @media screen and (max-width: 1000px) {
+  @media screen and (max-width: 991px) {
     .discountTitleArea{
       width: 720px;
       margin: auto;

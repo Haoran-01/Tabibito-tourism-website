@@ -138,7 +138,7 @@
 <script>
 import CustomerReview from "./customerReview.vue";
 import Inspiration from "./inspiration.vue";
-import NotAMember from "./notAMember.vue";
+import NotAMember from "./notMember.vue";
 
 export default {
 name: "hotLocation",
@@ -172,7 +172,9 @@ name: "hotLocation",
 }
 
 @media (min-width:992px){
-  .hotContainer{max-width:960px}
+  .hotContainer{
+    max-width:960px
+  }
 }
 
 @media (min-width:1200px){
@@ -318,7 +320,21 @@ name: "hotLocation",
   margin-top: 5px
 }
 
+@media screen and (max-width:992px) {
+  .rect{
+    padding-top: 15px;
+  }
+  .clickArea{
+    justify-content: center;
 
+  }
+  .text1{
+    text-align: center;
+  }
+  .text{
+    margin-left: 0;
+  }
+}
 
 
 
