@@ -706,7 +706,7 @@ export default {
     height: 305px;
   }
 }
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 991px) {
   .container{
     width: 720px;
   }

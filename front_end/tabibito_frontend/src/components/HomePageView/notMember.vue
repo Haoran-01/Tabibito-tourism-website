@@ -4,7 +4,7 @@
       <div class="nLine">
         <div class="nTex">
           <h2 class="nTex1">Not a Member Yet?</h2>
-          <p class="nTex2">Join us! Our members can access savings of up to 50% and earn Trip Coins while booking.</p>
+          <div class="slogan">Join us! Our members can access savings of up to 50% and earn Trip Coins while booking.</div>
         </div>
 
         <div class="but">
@@ -50,7 +50,7 @@ export default {
 }
 
 .nTex{
-  flex:0 0 auto;
+  /*flex:0 0 auto;*/
   width:auto;
 }
 
@@ -157,19 +157,57 @@ export default {
   margin-right:auto;
   margin-left:auto;
 }
-
+@media (min-width: 370px) {
+  .notContainer{
+    max-width: 350px;
+  }
+  .nBtn{
+    margin-top: 0px;
+  }
+  .but{
+    margin-top: 30px;
+  }
+  .nTex1{
+    margin-bottom: 10px;
+  }
+}
 @media (min-width:576px){
   .notContainer{
     max-width:540px
   }
+  .nBtn{
+    margin-top: 0px;
+  }
+  .but{
+    margin-top: 30px;
+  }
+  .nTex1{
+    margin-bottom: 10px;
+  }
 }
 
 @media (min-width:768px){
-  .notContainer{max-width:720px}
+  .notContainer{
+    max-width:720px
+  }
+  .nBtn{
+    margin-top: 0px;
+  }
+  .but{
+    margin-top: 30px;
+  }
+  .nTex1{
+    margin-bottom: 10px;
+  }
 }
 
 @media (min-width:992px){
-  .notContainer{max-width:960px}
+  .notContainer{
+    max-width:960px
+  }
+  .nBtn{
+    margin-top: -80px;
+  }
 }
 
 @media (min-width:1200px){
