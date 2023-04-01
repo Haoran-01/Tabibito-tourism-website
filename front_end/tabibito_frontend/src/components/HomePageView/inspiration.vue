@@ -191,5 +191,50 @@ export default {
   }
 }
 
+@media screen and (max-width:991px) {
+  .line{
+    flex-direction: column;
+  }
+  .iCon{
+    width:100%
+  }
+  .iBlock{
+    display:flex;
+  }
+  .imgI{
+    width: 100%;
+    height: auto;
+  }
+  .iImg{
+    width: 40%;
+    padding-bottom: 275px;
+  }
+  .iTex3{
+    padding-left: 30px;
+  }
+}
 
+@media screen and (max-width: 767px) {
+  .line{
+    margin: 0;
+  }
+  .iContainer{
+    padding: 0;
+  }
+  .iTex3{
+    margin-top: 0px;
+  }
+  .iImg{
+    width: 40%;
+    padding-bottom: 160px;
+  }
+}
+@media screen and (max-width: 605px) {
+  .iCon{
+    margin-left: 0px;
+  }
+  .iImg{
+    width: 167px;
+  }
+}
 </style>
