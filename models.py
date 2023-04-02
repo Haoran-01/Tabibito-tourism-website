@@ -42,8 +42,11 @@ class Product(db.Model):
     name = db.Column(db.CHAR(100), nullable=False, unique=True)
     description = db.Column(db.Text, nullable=False)
     raw_loc = db.Column(db.CHAR(100), nullable=False)
-    google_loc = db.Column(db.CHAR(200), nullable=False)
+    map_latitude = db.Column(db.CHAR(200), nullable=False)
+    map_longitude = db.Column(db.CHAR(200), nullable=False)
+    map_zoom = db.Column(db.Float, nullable=False)
     discount = db.Column(db.Float, nullable=True)
+    currency = db.Column(db.CHAR(200), nullable=False)
     ori_price = db.Column(db.Float, nullable=False)
     start_time = db.Column(db.DateTime, nullable=False)
     end_time = db.Column(db.DateTime, nullable=False)
@@ -92,7 +95,8 @@ class ProductPicture(db.Model):
     __tablename__ = "product_picture"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     address = db.Column(db.CHAR(200), nullable=False)
-
+    # 1-cover image 2-banner_image 3-gallery 待会我写到config里
+    type = db.Column(db.Float, nullable=False)
     product_id = db.Column(db.Integer, ForeignKey('product.id', ondelete='CASCADE', onupdate='CASCADE'))
     product = relationship('Product', back_populates="pictures")
 
