@@ -13,6 +13,7 @@ import staffPortalView from "./components/StaffPortalView/staffPortalView.vue";
 import rightContentView from "./components/StaffPortalView/rightContentView.vue";
 import backListView from "./components/BackListView/BackListView.vue";
 import projectManagementDetailView from "./components/PMDetailView/projectManagementDetailView.vue";
+import StaffPortalView from "./components/StaffPortalView/staffPortalView.vue"
 
 
 const routes = [
@@ -25,6 +26,7 @@ const routes = [
     { path: '/homepage', component: homepageView},
     { path: '/backList', component: backListView},
     { path: '/management/project_detail', component: projectManagementDetailView},
+    { path: '/staff_portal', component: StaffPortalView}
 ]
 
 const router = createRouter({

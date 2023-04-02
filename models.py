@@ -167,3 +167,20 @@ class UserBrowse(db.Model):
             'created_at': self.created_at,
             'duration': self.duration
         }
+
+
+class Order(db.Model):
+    __tablename__ = 'order'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer, ForeignKey('user.user_id'), nullable=False)
+    product_id = db.Column(db.Integer, ForeignKey('product.id'), nullable=False)
+    create_time = db.Column(db.DateTime, default=datetime.now)
+    order_status = db.Column(db.CHAR(50), nullable=False)
+    total = db.Column(db.Float, nullable=False)
+    paid = db.Column(db.Float, nullable=False)
+
+    user = relationship('User', back_populates='user_browses')
+    product = relationship('Product', back_populates='user_browses')
+
+    def __repr__(self):
+        return "<Order(id='%s', product_id='%2.2f')>" % (self.id, self.product_id)
