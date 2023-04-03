@@ -11,7 +11,7 @@
               Back To Dashboard
             </button>
 
-            <button class="nBtn nBtn2">
+            <button class="nBtn nBtn2" @click="nextPage">
               Add New Projects
             </button>
           </div>
@@ -34,15 +34,15 @@
                     :resize="true"
                     :filter="true"
                     :readonly="true"
-                    :columnTypes = "plugin"
-                    id="vgrid"
                 ></v-grid>
               </div>
             </div>
           </div>
       </div>
 
-<!--      footer 部分，直接从footerView中抄过来的-->
+<!--      @dblclick="cellClickHandler"-->=
+
+      <!--      footer 部分，直接从footerView中抄过来的-->
       <footer class="footer -type-1">
         <div class="container">
           <div class="contact-foot-layout">
@@ -89,8 +89,6 @@
       </footer>
 
 
-
-
     </div>
   </div>
 
@@ -98,21 +96,14 @@
 </template>
 
 <script>
-import NumberColumnType from '@revolist/revogrid-column-numeral';
-import SelectTypePlugin from "@revolist/revogrid-column-select";
-import Plugin from "@revolist/revogrid-column-date";
+import VGrid, {VGridVueTemplate} from "@revolist/vue3-datagrid";
 
-import { defineCustomElements } from "@revolist/revogrid/loader/index.es2017.js";
-defineCustomElements();
-
-
-/*import deleteButton from "@/components/deleteButton";*/
-import VGrid, {VGridVueTemplate}from "@revolist/vue3-datagrid";
-
-/*import store from "@/index";*/
-/*import {toRaw} from "vue";*/
 import axios from "axios";
 import {useToast} from "vue-toastification";
+
+import listButton from "../BackListView/listButton.vue";
+import delistButton from "../BackListView/delistButton.vue";
+
 export default {
   name: "staffView",
   components: {
@@ -124,9 +115,9 @@ export default {
   },
   data(){
     return{
-      plugin : {'currency': new NumberColumnType('$0,0.00'), 'num': new NumberColumnType('0'), 'select': new SelectTypePlugin()},
+      counter: 0,
       columns: [
-        { name: "Name", prop: "name", size: 220,
+        { name: "Name", prop: "name", size: 190,
           cellTemplate: (createElement, props) => {
             return createElement('span', {
               style: {
@@ -136,45 +127,48 @@ export default {
             }, props.model[props.prop]);
           },
         },
-        { name: "Start Time", prop: "start_time", size: 220, sortable: true, filter: 'number', columnType: "date"},
-        { name: "End Time", prop: "end_time", size: 220, sortable: true, filter: 'number', columnType: "date"},
-        { name: "Deadline", prop: "app_ddl", size: 220,sortable: true,filter: 'number'},
-        { name: "Price", prop: "ori_price", size: 220, sortable: true,filter: 'number'},
-        { name: "Discount", prop: "discount", size: 220, sortable: true,filter: 'number'},
-        { name: "Mark", prop: "mark", size:220,sortable: true,filter: false},
+        { name: "Start Time", prop: "start_time", size: 160, sortable: true, filter: 'number', columnType: "date", dblclick:"cellClickHandler"},
+        { name: "End Time", prop: "end_time", size: 160, sortable: true, filter: 'number', columnType: "date"},
+        { name: "Deadline", prop: "app_ddl", size: 160,sortable: true,filter: 'number'},
+        { name: "Price", prop: "ori_price", size: 160, sortable: true,filter: 'number'},
+        { name: "Discount", prop: "discount", size: 160, sortable: true,filter: 'number'},
+        { name: "Mark", prop: "mark", size:160,sortable: true,filter: false},
+        { name: "Status", prop: "status", size:160,sortable: false,filter: false},
+        { name: "Listing", cellTemplate: VGridVueTemplate(listButton), size: 130},
+        { name: "Delisting", cellTemplate: VGridVueTemplate(delistButton), size: 130}
 
-        /*{ name: "action", cellTemplate: VGridVueTemplate(deleteButton)}*/
       ],
       rows: [
-      //     {
-      //       name: "1",
-      //       ori_price: "Zhou Zhongyang",
-      //       start_time: "2018-1-1",
-      //       end_time: -1,
-      //       app_ddl: "retail",
-      //       discount:'90%',
-      //       mark: "Xie Wenbei"
-      // },
-      //   {
-      //     name: "1",
-      //     ori_price: "Zhou Zhongyang",
-      //     start_time: "1",
-      //     end_time: -1,
-      //     app_ddl: "retail",
-      //     discount:'90%',
-      //
-      //     mark: "Xie Wenbei"
-      //   },
-      //   {
-      //     name: "1",
-      //     ori_price: "Zhou Zhongyang",
-      //     start_time: "1",
-      //     end_time: -1,
-      //     app_ddl: "retail",
-      //     discount:'90%',
-      //
-      //     mark: "Xie Wenbei"
-      //   },{
+          {
+            name: "1",
+            ori_price: "Zhou Zhongyang",
+            start_time: "2018-1-1",
+            end_time: -1,
+            app_ddl: "retail",
+            discount:'90%',
+            mark: "Xie Wenbei"
+      },
+        {
+          name: "1",
+          ori_price: "Zhou Zhongyang",
+          start_time: "1",
+          end_time: -1,
+          app_ddl: "retail",
+          discount:'90%',
+
+          mark: "Xie Wenbei"
+        },
+        {
+          name: "1",
+          ori_price: "Zhou Zhongyang",
+          start_time: "1",
+          end_time: -1,
+          app_ddl: "retail",
+          discount:'90%',
+
+          mark: "Xie Wenbei"
+        },
+        // {
       //     name: "1",
       //     ori_price: "Zhou Zhongyang",
       //     start_time: "1",
@@ -394,20 +388,37 @@ export default {
       //     mark: "Xie Wenbei"
       //   },
       ],
-      columnTypes: {
-        date: new Plugin(),
-      },
     }
   },
-  created() {
-    axios.get('http://127.0.0.1:5000/user/backList')
-        .then((response)=>{
-          const code = response.status
-          if (code === 200){
-            this.rows = response.data
-          }
-        })
-  },
+  // created() {
+  //   axios.get('http://127.0.0.1:5000/user/backList')
+  //       .then((response)=>{
+  //         const code = response.status
+  //         if (code === 200){
+  //           this.rows = response.data
+  //         }
+  //       })
+  // },
+
+  methods:{
+    cellClickHandler(event){
+      // console.log("aaaa",event)
+      this.$router.push({ name: 'Edit', params: { id: event.id } })
+    },
+
+    // nextPage(){
+    //   this.counter++
+    //   axios.post('http://127.0.0.1:5000/user/backList',{
+    //     counter: this.number
+    //   }).then(function (response){
+    //     this.rows = response.data
+    //   }).catch(function (error){
+    //     console.log(error);
+    //   });
+    //
+    // }
+  }
+
 }
 </script>
 
