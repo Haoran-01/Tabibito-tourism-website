@@ -30,6 +30,15 @@
   <section class="pd">
     <div class="TDCon">
       <div class="DTCols1">
+
+        <div class="TDInput_border">
+
+          <button type="submit" class="TDAdd_btn" @click="checkLogin">
+            See All Photos
+            <div class="icon_add"></div>
+          </button>
+        </div>
+
         <n-carousel show-arrow class="TDImg" draggable>
           <img
               class="carousel-img"
@@ -272,6 +281,41 @@ export default {
   flex-wrap:wrap;
   flex:0 0 auto;
   border-radius: 3px;
+}
+
+.TDInput_border{
+  flex:0 0 auto;
+  width:100%;
+  margin-top: 20px;
+}
+
+.TDAdd_btn{
+  position: absolute;
+  font-weight: 900;
+  font-size: 16px;
+  line-height: 1.2;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+
+  padding-top: 15px !important;
+  padding-bottom: 15px !important;
+
+  margin-top: 440px;
+  margin-left: 20px;
+  z-index: 100;
+
+
+  background-color: white !important;
+  color: #3554D1;
+  width:170px;
+  text-decoration:none;
+  font-family: Jost;
+}
+
+.TDAdd_btn:hover{
+  background-color: #3554D1 !important;
+  color: white !important;
 }
 
 .carousel-img {
