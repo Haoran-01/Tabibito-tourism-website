@@ -21,7 +21,7 @@
             <div class="tabInnerContainer">
               <div class="inputTitle">Introduction</div>
               <div class="input_form">
-                <input type="text" v-model="projectName" required>
+                <input type="text" v-model="projectName" required :class="projectNameStyle" @focus="resetInput($event)">
                 <label class="input_label">Project Name</label>
               </div>
               <div class="input_form">
@@ -29,7 +29,7 @@
                 <label class="input_label">Project Description</label>
               </div>
               <div class="inputTitle">Duration</div>
-              <n-tabs
+<!--              <n-tabs
                   class="card-tabs"
                   size="large"
                   animated
@@ -61,7 +61,12 @@
                     </div>
                   </div>
                 </n-tab-pane>
-              </n-tabs>
+              </n-tabs>-->
+              <div class="dataPickers">
+                <n-date-picker v-model:value="startTime" type="date" :is-date-disabled="secureStartTime" size="large" clearable placeholder="Start Date"/>
+                <span>-</span>
+                <n-date-picker v-model:value="endTime" type="date" placement="bottom-end" :is-date-disabled="secureEndTime" size="large" clearable placeholder="End Date"/>
+              </div>
               <div class="inputTitle">Group Number</div>
               <div class="input_form">
                 <input v-model="groupNumber" required @blur="validateInteger($event, groupNumber, 'groupNumber')" @focus="resetInput($event)"/>
@@ -97,7 +102,17 @@
                   accept="image/*"
               />
               <div class="inputTitle">Tags</div>
-
+              <div class="input_form" v-for="tag in tags">
+                <n-select
+                    v-model:value="tag.key"
+                    size="large"
+                    :options="tagOptions"
+                    placeholder='Select A Tag Type'
+                    style="width: 250px; margin-right: 10px"
+                />
+                <input type="text" v-model="tag.value" required @focus="resetInput($event)">
+                <label class="input_label" style="left: 200px">Tag Value</label>
+              </div>
             </div>
           </n-tab-pane>
 
@@ -147,7 +162,7 @@
           <n-tab-pane name="Price" tab="4. Price" >
             <div class="inputTitle">Original Price</div>
             <div class="input_form">
-              <input type="text" v-model="originalPrice" required @blur="validateNumber($event, originalPrice, 'originalPrice')" @focus="resetInput($event)">
+              <input type="text" v-model="originalPrice" required :style="originalPriceStyle" @blur="validateNumber($event, originalPrice, 'originalPrice')" @focus="resetInput($event)">
               <label class="input_label">Original Price</label>
               <n-select
                   v-model:value="currencyType"
@@ -189,6 +204,7 @@ import {ref} from "vue";
 import {useMessage} from "naive-ui";
 import RouteStep from "./routeStep.vue";
 import PriceItem from "./priceItem.vue";
+import axios from "axios";
 
 export default {
   name: "projectManagementDetailView",
@@ -199,8 +215,23 @@ export default {
     const message = useMessage();
 
     // Tab 1
-    let durationMode = ref("Day/Night Mode");
-
+    // let durationMode = ref("Day/Night Mode");
+    let startTime = ref();
+    let endTime = ref();
+    let tags = ref([
+      {
+        key: null,
+        value: ""
+      },
+      {
+        key: null,
+        value: ""
+      },
+      {
+        key: null,
+        value: ""
+      },
+    ]);
 
     // Tab 3
     let routeDatas = ref([]);
@@ -222,7 +253,10 @@ export default {
       },
 
       // Tab 1
-      durationMode,
+      // durationMode,
+      startTime,
+      endTime,
+      tags,
       coverImageList: ref([]),
       bannerImageList: ref([]),
       galleryList: ref([]),
@@ -233,6 +267,44 @@ export default {
         }
         return true;
       },
+      secureStartTime(ts) {
+        if (endTime.value != null){
+          return ts < Date.now() || ts > endTime.value;
+        }
+        else {
+          return ts < Date.now();
+        }
+      },
+      secureEndTime(ts){
+        if (startTime.value != null){
+          return ts < Date.now() || ts < startTime.value;
+        }
+        else {
+          return ts < Date.now();
+        }
+      },
+      tagOptions: ref([
+        {
+          label: "Price",
+          value: "Price"
+        },
+        {
+          label: "Hotel",
+          value: "Hotel"
+        },
+        {
+          label: "Scenery",
+          value: "Scenery"
+        },
+        {
+          label: "Transportation Method",
+          value: "Transportation Method"
+        },
+        {
+          label: "Country",
+          value: "Country"
+        }
+      ]),
 
       // Tab 3
       routeDatas,
@@ -300,12 +372,16 @@ export default {
   },
   data() {
     return {
-      morningNumber: null,
+      projectName: null,
+      projectNameStyle: null,
+      projectDescription: null,
+      /*morningNumber: null,
       nightNumber: null,
       dayNumber: null,
-      hourNumber: null,
+      hourNumber: null,*/
       groupNumber: null,
       originalPrice: null,
+      originalPriceStyle: null,
     }
   },
   methods:{
@@ -323,7 +399,7 @@ export default {
         e.currentTarget.classList.add("invalidInput");
       }
     },
-    changeDurationMode(value){
+    /*changeDurationMode(value){
       if (value === "Day/Night Mode"){
         this.dayNumber = "";
         this.hourNumber = "";
@@ -334,7 +410,7 @@ export default {
         this.nightNumber = "";
         this.durationMode = "Day/Hour Mode";
       }
-    },
+    },*/
     handleDeleteStep(index){
       this.routeDatas.splice(index, 1);
       if (this.routeDatas.length === 0){
@@ -345,6 +421,16 @@ export default {
       this.chargeDatas.splice(index, 1);
     },
     submitForm(){
+      if(this.projectName === null || this.projectName === ""){
+        this.tabValue = "Basic Information";
+        this.projectNameStyle = "invalidInput";
+        return;
+      }
+      if(this.originalPrice === null || this.originalPrice=== ""){
+        this.tabValue = "Price";
+        this.originalPriceStyle = "invalidInput"
+        return;
+      }
 
     }
   }
@@ -462,7 +548,14 @@ export default {
     box-sizing: border-box;
     padding-top: 35px;
   }
-
+  .dataPickers{
+    display: flex;
+    margin:0 10px;
+    justify-content: space-between;
+  }
+  .n-date-picker{
+    width: 49%;
+  }
   .add_step_btn{
     display: flex;
     align-items: center;

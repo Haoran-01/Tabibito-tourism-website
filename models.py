@@ -42,8 +42,11 @@ class Product(db.Model):
     name = db.Column(db.CHAR(100), nullable=False, unique=True)
     description = db.Column(db.Text, nullable=False)
     raw_loc = db.Column(db.CHAR(100), nullable=False)
-    google_loc = db.Column(db.CHAR(200), nullable=False)
+    map_latitude = db.Column(db.CHAR(200), nullable=False)
+    map_longitude = db.Column(db.CHAR(200), nullable=False)
+    map_zoom = db.Column(db.Float, nullable=False)
     discount = db.Column(db.Float, nullable=True)
+    currency = db.Column(db.CHAR(200), nullable=False)
     ori_price = db.Column(db.Float, nullable=False)
     start_time = db.Column(db.DateTime, nullable=False)
     end_time = db.Column(db.DateTime, nullable=False)
@@ -92,7 +95,8 @@ class ProductPicture(db.Model):
     __tablename__ = "product_picture"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     address = db.Column(db.CHAR(200), nullable=False)
-
+    # 1-cover image 2-banner_image 3-gallery 待会我写到config里
+    type = db.Column(db.Float, nullable=False)
     product_id = db.Column(db.Integer, ForeignKey('product.id', ondelete='CASCADE', onupdate='CASCADE'))
     product = relationship('Product', back_populates="pictures")
 
@@ -163,3 +167,20 @@ class UserBrowse(db.Model):
             'created_at': self.created_at,
             'duration': self.duration
         }
+
+
+class Order(db.Model):
+    __tablename__ = 'order'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer, ForeignKey('user.user_id'), nullable=False)
+    product_id = db.Column(db.Integer, ForeignKey('product.id'), nullable=False)
+    create_time = db.Column(db.DateTime, default=datetime.now)
+    order_status = db.Column(db.CHAR(50), nullable=False)
+    total = db.Column(db.Float, nullable=False)
+    paid = db.Column(db.Float, nullable=False)
+
+    user = relationship('User', back_populates='user_browses')
+    product = relationship('Product', back_populates='user_browses')
+
+    def __repr__(self):
+        return "<Order(id='%s', product_id='%2.2f')>" % (self.id, self.product_id)

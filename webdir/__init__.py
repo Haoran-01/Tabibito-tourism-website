@@ -43,6 +43,7 @@ def load_user(user_email):
 def validation_error(e):
     return jsonify({"code": 400, "message": e.args})
 
+
 @app.before_request
 def before_request():
     forget_email = session.get("forget_email")
@@ -51,12 +52,14 @@ def before_request():
         if user:
             g.forget_email = forget_email
 
+
 @app.context_processor
 def context_processor():
     if hasattr(g, "forget_email"):
         return {"forget_email": g.forget_email}
     else:
         return {}
+
 
 @app.after_request
 def af_req(resp):  #解决跨域session丢失
