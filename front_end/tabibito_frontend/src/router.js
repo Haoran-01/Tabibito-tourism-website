@@ -10,10 +10,11 @@ import backListView from "./components/BackListView/BackListView.vue";
 import projectManagementDetailView from "./components/PMDetailView/projectManagementDetailView.vue";
 import TravelDetailsView from "./components/TravelDetailsView/TravelDetailsView.vue";
 import StaffPortalView from "./components/StaffPortalView/staffPortalView.vue"
+import leftListView from "./components/SearchPageView/leftListView.vue";
 
 
 const routes = [
-    { path: '/', component: rightContentView },
+    { path: '/', component: homepageView },
     { path: '/login', component: loginView },
     { path: '/register', component: registerView },
     { path: '/forget', component: forgetPasswordView},
@@ -26,7 +27,8 @@ const routes = [
 
     { path: '/travel_detail', component: TravelDetailsView},
     { path: '/management/project_detail', component: projectManagementDetailView},
-    { path: '/staff_portal', component: StaffPortalView}
+    { path: '/staff_portal', component: StaffPortalView},
+    { path: '/search_page', component: leftListView}
 ]
 
 const router = createRouter({
