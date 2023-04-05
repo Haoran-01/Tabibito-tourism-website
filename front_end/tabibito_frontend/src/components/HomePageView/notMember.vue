@@ -170,6 +170,17 @@ export default {
   .nTex1{
     margin-bottom: 10px;
   }
+  .nLine{
+    margin: 0px;
+  }
+}
+@media (min-width: 450px) {
+  .notContainer{
+    max-width: 430px;
+  }
+  .nLine{
+    margin: -15px
+  }
 }
 @media (min-width:576px){
   .notContainer{
@@ -184,6 +195,7 @@ export default {
   .nTex1{
     margin-bottom: 10px;
   }
+
 }
 
 @media (min-width:768px){

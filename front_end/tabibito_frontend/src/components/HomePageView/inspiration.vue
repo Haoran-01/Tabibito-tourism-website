@@ -164,15 +164,28 @@ export default {
   margin-right:auto;
   margin-left:auto;
 }
-
+@media (min-width:370px){
+  .iContainer{
+    max-width:350px
+  }
+}
+@media (min-width:450px){
+  .iContainer{
+    max-width:430px
+  }
+}
 @media (min-width:576px){
   .iContainer{
     max-width:540px
+  }
+  .iTex3{
+    margin: 0px;
   }
 }
 
 @media (min-width:768px){
   .iContainer{max-width:720px}
+
 }
 
 @media (min-width:992px){
@@ -234,7 +247,15 @@ export default {
     margin-left: 0px;
   }
   .iImg{
-    width: 167px;
+    width: 200px;
+  }
+  .iBlock{
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .pos{
+    padding-bottom: 20px;
   }
 }
 </style>
