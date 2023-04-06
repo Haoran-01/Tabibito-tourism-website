@@ -14,13 +14,14 @@ def get_order_detail():
     # 当后台看时
     if order_type == 1:
         order = Order.query.filter_by(id=order_id)
-        jsonify(code=200, product_id=order.product_id, create_time=order.create_time, order_status=order.order_status,
+        return jsonify(code=200, product_id=order.product_id, create_time=order.create_time, order_status=order.order_status,
                 total=order.total, paid=order.paid)
     # 当用户看时
     elif order_type == 2:
         user_id = data["user_id"]
         order = Order.query.filter_by(id=order_id, user_id=user_id)
-        jsonify(code=200, product_id=order.product_id, create_time=order.create_time, order_status=order.order_status,
+        return jsonify(code=200, product_id=order.product_id, create_time=order.create_time, order_status=order.order_status,
                 total=order.total, paid=order.paid)
     else:
-        jsonify(code=400, message="not found")
+        return jsonify(code=400, message="not found")
+
