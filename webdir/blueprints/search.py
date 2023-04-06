@@ -1,3 +1,5 @@
+import datetime
+
 from flask import Blueprint, jsonify, request
 from sqlalchemy import or_
 from models import Product, Trip, Tag
@@ -6,16 +8,11 @@ from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 from nltk.stem import WordNetLemmatizer
 
-nltk.download('stopwords')
-nltk.download('wordnet')
-
 bp = Blueprint('Search', __name__, url_prefix='/search')
-
-lemmatizer = WordNetLemmatizer()
-stop_words = set(stopwords.words('english'))
 
 
 def clean_text(text):
+    print(datetime.datetime.now())
     # 将文本转换为小写
     text = text.lower()
     # 分词
@@ -30,10 +27,11 @@ def clean_text(text):
     lemmatizer = WordNetLemmatizer()
     tokens = [lemmatizer.lemmatize(word) for word in tokens]
     # 返回清洗后的文本
+    print(datetime.datetime.now())
     return ' '.join(tokens)
 
 
-@bp.route('/', methods=['POST'])
+@bp.route('/product', methods=['POST'])
 def search():
     """
     Searches for products based on user input keywords
@@ -50,7 +48,7 @@ def search():
         or_(Product.name.ilike(f'%{keywords_cleaned}%'),
             Product.description.ilike(f'%{keywords_cleaned}%'),
             Product.tags.any(Tag.key.ilike(f'%{keywords_cleaned}%')),
-            Product.trips.any(Trip.loc_detail.ilike(f'%{keywords_cleaned}%')))
+            Product.trips.any(Trip.exact.ilike(f'%{keywords_cleaned}%')))
     ).paginate(page=page, per_page=per_page)
 
     # Serialize the products to JSON

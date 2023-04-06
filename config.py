@@ -10,6 +10,8 @@ class Config:
     FLASKY_ADMIN_E = ''
     FLASKY_ADMIN_F = ''
 
+    UPLOAD_FOLDER = '/Users/wuwenjie/Documents/tabibito_pictures'
+
     @staticmethod
     def init_app(app):
         pass
@@ -31,6 +33,7 @@ class DevelopmentConfig(Config):
     # SQLALCHEMY_POOL_RECYCLE = 28800
 
     SECRET_KEY = 'mou107b6vsfxor82bbc4bzf4mcu7'
+
 
     # email config
     # use 163 email

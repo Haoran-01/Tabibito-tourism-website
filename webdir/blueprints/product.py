@@ -1,22 +1,42 @@
-from flask import Blueprint, request, render_template, jsonify, g, session
-from forms import LoginFrom, RegisterForm, EmailCaptchaModel, ForgetFormPassword
-from flask_login import login_user, logout_user, login_required
-from models import User, Product, UserProfile
-from exts import db, mail
-from flask_mail import Message
-from datetime import datetime
-from werkzeug.security import generate_password_hash
-
+from flask import Blueprint, jsonify, request
+import os, config
+from config import Config
+from werkzeug.utils import secure_filename
 bp = Blueprint("Product", __name__, url_prefix="/product")
 
 
-@bp.route("/add_trip", methods=['POST'])
-def add_trip():
-    data = request.get_json(silent=True)
-    time = data["time"]
-    loc_detail = data["detail"]
-    activity = data["activity"]
-    return
+@bp.route("/add", methods=["POST", "GET"])
+def add_product():
+    data = request.get_json()
+    name = data['name']
+    description = data['description']
+    group_number = data['group_number']
+    location = data['location']
+    discount = data['discount']
+    ori_price = data['ori_price']
+    tags = data['tags']
+    start_time = data['start_time']
+    end_time = data['end_time']
+    app_ddl = data['app_ddl']
+    fee_des = data['fee_des']
+    trips = data['trips']
+    group_number = data['group_number']
+    cover_image = data['cover_image']
+    banner_image = data['banner_image']
+    gallery = data['gallery']
+    return jsonify(code=200)
 
+@bp.route("/uploadpicture",methods=["POST","GET"])
+def upload_picture():
 
+    file = request.files['picture']  # 获取上传的文件
 
+    filename = secure_filename(file.filename)  # 安全获取文件名
+    print(Config.UPLOAD_FOLDER)
+    file.save(os.path.join(Config.UPLOAD_FOLDER, filename))  # 将文件保存到服务器的指定目录
+    # 存入数据库的操作
+    return jsonify(url=os.path.join(Config.UPLOAD_FOLDER, filename))
+
+@bp.route("/test",methods=["POST","GET"])
+def test():
+    return jsonify(url="Jerry")

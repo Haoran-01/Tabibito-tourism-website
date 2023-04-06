@@ -41,6 +41,7 @@ class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.CHAR(100), nullable=False, unique=True)
     description = db.Column(db.Text, nullable=False)
+    group_number = db.Column(db.Integer, nullable=False)
     raw_loc = db.Column(db.CHAR(100), nullable=False)
     map_latitude = db.Column(db.CHAR(200), nullable=False)
     map_longitude = db.Column(db.CHAR(200), nullable=False)
@@ -81,8 +82,14 @@ class Trip(db.Model):
     __tablename__ = "trip"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     time = db.Column(db.DateTime, nullable=False)
-    loc_detail = db.Column(db.CHAR(70), nullable=False)
+    exact = db.Column(db.CHAR(100), nullable=False)
+    map_latitude = db.Column(db.CHAR(200), nullable=False)
+    map_longitude = db.Column(db.CHAR(200), nullable=False)
+    map_zoom = db.Column(db.Float, nullable=False)
     activity = db.Column(db.CHAR(100), nullable=False)
+    picture = db.Column(db.CHAR(200), nullable=False)
+    day = db.Column(db.Integer, nullable=False)
+    time_of_day = db.Column(db.CHAR(10), nullable=False)
 
     product_id = db.Column(db.Integer, ForeignKey('product.id', ondelete='CASCADE', onupdate='CASCADE'))
     product = relationship('Product', back_populates="trips")
@@ -96,7 +103,7 @@ class ProductPicture(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     address = db.Column(db.CHAR(200), nullable=False)
     # 1-cover image 2-banner_image 3-gallery 待会我写到config里
-    type = db.Column(db.Float, nullable=False)
+    type = db.Column(db.CHAR(10), nullable=False)
     product_id = db.Column(db.Integer, ForeignKey('product.id', ondelete='CASCADE', onupdate='CASCADE'))
     product = relationship('Product', back_populates="pictures")
 
@@ -104,8 +111,8 @@ class ProductPicture(db.Model):
 class FeeDes(db.Model):
     __tablename__ = "fee_des"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    key = db.Column(db.CHAR(25), nullable=False)
-    value = db.Column(db.CHAR(50), nullable=False)
+    name = db.Column(db.CHAR(25), nullable=False)
+    description = db.Column(db.CHAR(50), nullable=False)
 
     product_id = db.Column(db.Integer, ForeignKey('product.id', ondelete='CASCADE', onupdate='CASCADE'))
     product = relationship('Product', back_populates="fee_des")
