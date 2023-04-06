@@ -85,6 +85,7 @@ class Product(db.Model):
     start_time = db.Column(db.DateTime, nullable=False)
     end_time = db.Column(db.DateTime, nullable=False)
     app_ddl = db.Column(db.DateTime, nullable=False)
+    status = db.Column(db.Boolean, default=False)
 
     comments = relationship('Comment', order_by='Comment.id', back_populates="product")
     trips = relationship('Trip', order_by='Trip.id', back_populates="product")
@@ -93,6 +94,26 @@ class Product(db.Model):
     pictures = relationship('ProductPicture', order_by='ProductPicture.id', back_populates="product")
     user_browses = relationship('UserBrowse', order_by='UserBrowse.id', back_populates='product')
     orders = relationship('Order', order_by="Order.id", back_populates='product')
+
+    def serialize(self):
+        total = 0
+        number = 0
+        for comment in self.comments:
+            total = total + comment.value
+            number = number + 1
+        if number == 0:
+            number = 1
+        return {
+            'id': self.id,
+            'name': self.name,
+            'start_time': self.start_time,
+            'end_time': self.end_time,
+            'app_ddl': self.app_ddl,
+            'price': self.ori_price,
+            'discount': self.discount,
+            'mark': total / number,
+            'status': self.status
+        }
 
     def __repr__(self):
         return "<Product(name='%s', description='%s, group_number)>" % (self.name, self.description, self.group_number)
@@ -166,7 +187,6 @@ class UserBrowse(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     duration = db.Column(db.Integer, nullable=False)
 
-    # Define relationships
     user = relationship('User', back_populates='user_browses')
     product = relationship('Product', back_populates='user_browses')
 
