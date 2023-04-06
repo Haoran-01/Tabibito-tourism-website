@@ -68,6 +68,7 @@ class Order(db.Model):
     def __repr__(self):
         return "<Order(id='%s', product_id='%2.2f')>" % (self.id, self.product_id)
 
+
 class Product(db.Model):
     __tablename__ = "product"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -94,7 +95,7 @@ class Product(db.Model):
     orders = relationship('Order', order_by="Order.id", back_populates='product')
 
     def __repr__(self):
-        return "<Product(name='%s')>" % self.name
+        return "<Product(name='%s', description='%s, group_number)>" % (self.name, self.description, self.group_number)
 
 
 class ProductPicture(db.Model):
@@ -102,7 +103,7 @@ class ProductPicture(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     address = db.Column(db.CHAR(200), nullable=False)
     # 1-cover image 2-banner_image 3-gallery 待会我写到config里
-    type = db.Column(db.CHAR(10), nullable=False)
+    type = db.Column(db.CHAR(15), nullable=False)
     product_id = db.Column(db.Integer, ForeignKey('product.id', ondelete='CASCADE', onupdate='CASCADE'))
     product = relationship('Product', back_populates="pictures")
 
@@ -111,7 +112,6 @@ class Tag(db.Model):
     __tablename__ = "tag"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     key = db.Column(db.CHAR(25), nullable=False)
-    icon = db.Column(db.CHAR(200), nullable=False)
     value = db.Column(db.CHAR(25), nullable=False)
 
     product_id = db.Column(db.Integer, ForeignKey('product.id',ondelete='CASCADE', onupdate='CASCADE'))
@@ -174,7 +174,6 @@ class UserBrowse(db.Model):
         self.user_id = user_id
         self.product_id = product_id
         self.duration = duration
-
 
     def serialize(self):
         return {

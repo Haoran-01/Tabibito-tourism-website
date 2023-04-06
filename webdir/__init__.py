@@ -11,8 +11,8 @@ from exts import mail, db
 from webdir.blueprints import user_bp, product_bp, search_bp, recommend_bp
 from flask_cors import CORS
 import nltk
-import ssl
-
+# nltk.download('stopwords')
+# nltk.download('wordnet')
 
 def create_app(config_name):
     # nltk.download('stopwords')
@@ -26,9 +26,6 @@ def create_app(config_name):
     CORS(app, supports_credentials=True)
     return app
 
-
-nltk.download('stopwords')
-nltk.download('wordnet')
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 db.init_app(app)
 mail.init_app(app)
