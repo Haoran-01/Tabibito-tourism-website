@@ -47,7 +47,6 @@
               Sign In
               <div class="icon_add"></div>
             </button>
-
           </div>
 
           </form>
@@ -228,7 +227,6 @@ export default {
   width:100%;
   margin-top: 30px;
   display: inline-block;
-
 }
 
 .input_form{

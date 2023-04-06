@@ -5,7 +5,7 @@ import string
 from flask import Blueprint, request, render_template, jsonify, g, session
 from forms import LoginFrom, RegisterForm, EmailCaptchaModel, ForgetFormPassword
 from flask_login import login_user, logout_user, login_required
-from models import User, Product, UserProfile
+from models import User, Product, UserProfile, Order
 from exts import db, mail
 from flask_mail import Message
 from datetime import datetime
@@ -166,8 +166,24 @@ def password_check():
     else:
         return {"code": 400}
 
+
 @bp.route("/test_order", methods=["GET", "POST"])
 def test_order():
     product = Product.query.filter_by(id=1).first()
     print(product.tags)
     return jsonify(code=200)
+
+
+@bp.route("/get_all_orders", methods=['POST'])
+def get_user_orders():
+    data = request.get_json(silent=True)
+    user_id = data["user_id"]
+    all_orders = db.session.query(Order).filter(user_id=user_id).all()
+    result = []
+    if len(all_orders != 0):
+        for order in all_orders:
+            result.append(order.id)
+        jsonify(code=200, all_orders=result)
+    else:
+        jsonify(code=201, message="No orders for this user")
+

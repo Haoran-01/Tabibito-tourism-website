@@ -5,18 +5,16 @@ import aboutUsView from "./components/AboutUsView/aboutUsView.vue";
 import forgetPasswordView from "./components/ForgetPasswordView/forgetPasswordView.vue";
 import resetView from "./components/ForgetPasswordView/resetView.vue";
 import homepageView from "./components/HomepageView/HomepageView.vue";
-import chooseTourTypes from "./components/HomePageView/chooseTourTypes.vue";
-import mostPopularTours from "./components/HomePageView/mostPopularTours.vue";
-import footerView from "./components/GeneralComponents/footerView.vue";
-import sideBarView from "./components/StaffPortalView/sideBarView.vue";
-import staffPortalView from "./components/StaffPortalView/staffPortalView.vue";
 import rightContentView from "./components/StaffPortalView/rightContentView.vue";
 import backListView from "./components/BackListView/BackListView.vue";
 import projectManagementDetailView from "./components/PMDetailView/projectManagementDetailView.vue";
+import TravelDetailsView from "./components/TravelDetailsView/TravelDetailsView.vue";
+import StaffPortalView from "./components/StaffPortalView/staffPortalView.vue"
+import leftListView from "./components/SearchPageView/leftListView.vue";
 
 
 const routes = [
-    { path: '/', component: rightContentView },
+    { path: '/', component: homepageView },
     { path: '/login', component: loginView },
     { path: '/register', component: registerView },
     { path: '/forget', component: forgetPasswordView},
@@ -24,7 +22,13 @@ const routes = [
     { path: '/reset', component: resetView},
     { path: '/homepage', component: homepageView},
     { path: '/backList', component: backListView},
+    { path: '/management/project_detail/:id', component: projectManagementDetailView},
+    { path: '/management/project_detail',name: 'Edit', component: projectManagementDetailView},
+
+    { path: '/travel_detail', component: TravelDetailsView},
     { path: '/management/project_detail', component: projectManagementDetailView},
+    { path: '/staff_portal', component: StaffPortalView},
+    { path: '/search_page', component: leftListView}
 ]
 
 const router = createRouter({

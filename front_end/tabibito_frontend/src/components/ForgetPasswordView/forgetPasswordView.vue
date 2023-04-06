@@ -53,7 +53,6 @@
 
               <button type="submit" class="add_step_btn c" @click="verify">
                 Continue
-<!--                <div class="icon_login"></div>-->
               </button>
 
             </div>
