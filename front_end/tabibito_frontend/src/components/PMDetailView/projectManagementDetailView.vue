@@ -80,6 +80,7 @@
                   style="margin-left: 10px"
                   @before-upload="beforeUpload"
                   accept="image/*"
+                  @finish="handleFinishCover"
                   :max=1
               />
               <div class="inputTitle">Banner Image</div>
@@ -90,6 +91,7 @@
                   style="margin-left: 10px"
                   @before-upload="beforeUpload"
                   accept="image/*"
+                  @finish="handleFinishBanner"
                   :max=4
               />
               <div class="inputTitle">Gallery</div>
@@ -100,6 +102,7 @@
                   style="margin-left: 10px"
                   @before-upload="beforeUpload"
                   accept="image/*"
+                  @finish="handleFinishGallery"
               />
               <div class="inputTitle">Tags</div>
 
@@ -233,7 +236,24 @@ export default {
         value: ""
       },
     ]);
-
+    let coverImage = null;
+    const handleFinishCover = ({file,event}) => {
+      console.log(event);
+      let res = (event?.target).response;
+      coverImage = res.data.url;
+    };
+    let bannerImages = [];
+    const handleFinishBanner = ({file,event}) => {
+      console.log(event);
+      let res = (event?.target).response;
+      bannerImages.push(res.data.url);
+    };
+    let galleryImages = [];
+    const handleFinishGallery = ({file,event}) => {
+      console.log(event);
+      let res = (event?.target).response;
+      galleryImages.push(res.data.url);
+    };
     // Tab 3
     let routeDatas = ref([]);
     let add_step_status = ref("disabled_btn");
@@ -261,8 +281,16 @@ export default {
       coverImageList: ref([]),
       bannerImageList: ref([]),
       galleryList: ref([]),
+      coverImage,
+      handleFinishCover,
+      bannerImages,
+      handleFinishBanner,
+      galleryImages,
+      handleFinishGallery,
       async beforeUpload(data) {
-        if (data.file.file?.type !== "image/*") {
+        let reg = /image/
+        let fileType = data.file.file?.type
+        if (!reg.test(fileType)) {
           message.error("You can only upload images.");
           return false;
         }
@@ -341,7 +369,7 @@ export default {
             dayNumber: null,
             periodValue: "Morning",
             exactTime: null,
-            activityPic: []
+            activityPic: ""
           })
         }
       },
@@ -438,6 +466,22 @@ export default {
         this.originalPriceStyle = "invalidInput"
         return;
       }
+      let trips = [];
+      for (let raw_trip in this.routeDatas){
+        trips.push({
+          location: {
+            exact: raw_trip.exactLocation,
+            map_latitude: raw_trip.mapLatitude,
+            map_longitude: raw_trip.mapLongitude,
+            map_zoom: raw_trip.mapZoom
+          },
+          time: raw_trip.exactTime,
+          activity: raw_trip.activityName,
+          picture: raw_trip.activityPic,
+          day: raw_trip.dayNumber,
+          time_of_day: raw_trip.activityPic
+        })
+      }
       axios.post('http://127.0.0.1:4523/m1/2418665-0-default/product/add', {
         name: this.projectName,
         description: this.projectDescription,
@@ -452,12 +496,13 @@ export default {
         ori_price: this.originalPrice,
         currency: this.currencyType,
         tags: this.tags,
-        cover_image: "",
-        banner_image: [],
-        gallery: [],
+        cover_image: this.coverImage,
+        banner_image: this.bannerImages,
+        gallery: this.galleryImages,
         start_time: this.startTime,
         end_time: this.endTime,
         app_ddl: this.cutoffDate,
+        trips: trips
       })
     }
   }
