@@ -49,7 +49,7 @@
         <div class="inputTitle">Activity Image</div>
         <n-upload
             action="https://www.mocky.io/v2/5e4bafc63100007100d8b70f"
-            :default-file-list="stepData.activityPic"
+            :default-file-list="picList"
             list-type="image-card"
             style="margin-left: 10px"
             @before-upload="beforeUpload"
@@ -126,7 +126,7 @@ export default {
     const handleFinishImage = ({file,event}) => {
       console.log(event);
       let res = (event?.target).response;
-      props.stepData.activityPic = res.data.url;
+      props.stepData.activityPic = res;
     };
     return{
       show,
@@ -139,6 +139,7 @@ export default {
       periodValue,
       exactTime,
       handleFinishImage,
+      picList: ref([]),
       async beforeUpload(data) {
         if (data.file.file?.type !== "image/*") {
           message.error("You can only upload images.");

@@ -147,7 +147,6 @@
 
 
           <n-tab-pane name="Route" tab="3. Route">
-            <div>{{datas}}</div>
             <div class="inputTitle">Total Day Number</div>
             <div class="input_form">
               <input type="text" v-model="totalDayNumber" :disabled="totalDayNumberDisabled" required @change="checkAddStepStatus" @blur="validateInteger($event, totalDayNumber, 'totalDayNumber')" @focus="resetInput($event)">
