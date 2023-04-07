@@ -64,8 +64,8 @@
               </n-tabs>-->
               <div class="dataPickers">
                 <n-date-picker v-model:value="startTime" type="date" :is-date-disabled="secureStartTime" size="large" clearable placeholder="Start Date"/>
-                <span>-</span>
                 <n-date-picker v-model:value="endTime" type="date" placement="bottom-end" :is-date-disabled="secureEndTime" size="large" clearable placeholder="End Date"/>
+                <n-date-picker v-model:value="cutoffDate" type="date" placement="bottom-end" size="large" clearable placeholder="Cutoff Date"/>
               </div>
               <div class="inputTitle">Group Number</div>
               <div class="input_form">
@@ -74,7 +74,7 @@
               </div>
               <div class="inputTitle">Cover Image</div>
               <n-upload
-                  action="https://www.mocky.io/v2/5e4bafc63100007100d8b70f"
+                  action="http://127.0.0.1:4523/m1/2418665-0-default/product/uploadpicture"
                   :default-file-list="coverImageList"
                   list-type="image-card"
                   style="margin-left: 10px"
@@ -84,7 +84,7 @@
               />
               <div class="inputTitle">Banner Image</div>
               <n-upload
-                  action="https://www.mocky.io/v2/5e4bafc63100007100d8b70f"
+                  action="http://127.0.0.1:4523/m1/2418665-0-default/product/uploadpicture"
                   :default-file-list="bannerImageList"
                   list-type="image-card"
                   style="margin-left: 10px"
@@ -94,7 +94,7 @@
               />
               <div class="inputTitle">Gallery</div>
               <n-upload
-                  action="https://www.mocky.io/v2/5e4bafc63100007100d8b70f"
+                  action="http://127.0.0.1:4523/m1/2418665-0-default/product/uploadpicture"
                   :default-file-list="galleryList"
                   list-type="image-card"
                   style="margin-left: 10px"
@@ -102,6 +102,7 @@
                   accept="image/*"
               />
               <div class="inputTitle">Tags</div>
+
               <div class="input_form" v-for="tag in tags">
                 <n-select
                     v-model:value="tag.key"
@@ -380,7 +381,13 @@ export default {
       dayNumber: null,
       hourNumber: null,*/
       groupNumber: null,
+      cutoffDate: null,
+      locationText: null,
+      mapLatitude: null,
+      mapLongitude: null,
+      mapZoom: null,
       originalPrice: null,
+      discount: null,
       originalPriceStyle: null,
     }
   },
@@ -431,7 +438,27 @@ export default {
         this.originalPriceStyle = "invalidInput"
         return;
       }
-
+      axios.post('http://127.0.0.1:4523/m1/2418665-0-default/product/add', {
+        name: this.projectName,
+        description: this.projectDescription,
+        group_number: this.groupNumber,
+        location: {
+          raw_loc: this.locationText,
+          map_latitude: this.mapLatitude,
+          map_longitude: this.mapLongitude,
+          map_zoom: this.mapZoom
+        },
+        discount: this.discount,
+        ori_price: this.originalPrice,
+        currency: this.currencyType,
+        tags: this.tags,
+        cover_image: "",
+        banner_image: [],
+        gallery: [],
+        start_time: this.startTime,
+        end_time: this.endTime,
+        app_ddl: this.cutoffDate,
+      })
     }
   }
 }

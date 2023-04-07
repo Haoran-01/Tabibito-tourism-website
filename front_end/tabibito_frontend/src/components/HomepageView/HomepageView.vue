@@ -47,7 +47,7 @@
                     max-tag-count="responsive"
                 />
               </div>
-              <div class="searchButton">
+              <div class="searchButton" @click="handleSearchProject">
                 <div class="searchButtonContent">
                   <div class="searchButtonIcon"></div>
                   <div class="searchButtonText">Search</div>
@@ -161,6 +161,7 @@ import CustomerReview from "./customerReview.vue";
 import Inspiration from "./inspiration.vue";
 import FooterView from "../GeneralComponents/footerView.vue";
 import NotAMember from "./notMember.vue";
+import axios from "axios";
 const renderIcon = (icon) => {
   return () => {
     return h(NIcon, null, {
@@ -254,6 +255,23 @@ export default {
         else {
           return ts < Date.now();
         }
+      },
+      handleSearchProject() {
+        if (startTime.value === 0 || startTime.value === null || endTime.value === null || endTime.value === 0 || currentLocation.value === "select"){
+          return;
+        }
+        axios.post("",
+            {
+              startTime: startTime.value,
+              endTime: endTime.value,
+              currentLocation: currentLocation.value
+            }
+        )
+            .then(function (response){
+              if (response.data.code === 200){
+                this.router.push()
+              }
+            })
       }
     }
   },
