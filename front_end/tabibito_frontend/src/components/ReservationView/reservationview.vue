@@ -23,33 +23,26 @@
 
       <div class="TTable">
 
-          <div class="main">
-            <div class="tableArea">
+        <div class="main">
+          <div class="tableArea">
 
-              <div class="mainTable">
-                <v-grid
-                    theme="material"
-                    :source="products"
-                    :columns="columns"
-                    :resize="true"
-                    :filter="true"
-                    :readonly="true"
-                ></v-grid>
-                <!--        传递id        -->
-                <div style="display: none" v-for="item in products">
-                  <ChildComponent1 :itemId="item.id" />
-                  <ChildComponent2 :itemId="item.id" />
-                  <ChildComponent3 :itemId="item.id" />
-                </div>
-
-              </div>
+            <div class="mainTable">
+              <v-grid
+                  theme="material"
+                  :source="rows"
+                  :columns="columns"
+                  :resize="true"
+                  :filter="true"
+                  :readonly="true"
+                  @dblclick="cellClickHandler"
+              ></v-grid>
             </div>
-<!--            @dblclick="cellClickHandler"-->
-
-            <!--      一行17个      -->
-            <n-pagination class="page" v-model:page="page" :on-update:page="pageChange"	:page-count="count"/>
-
           </div>
+
+          <!--      一行17个      -->
+          <n-pagination class="page" v-model:page="page" :on-update:page="pageChange"	:page-count="count"/>
+
+        </div>
       </div>
 
       <!--      footer 部分，直接从footerView中抄过来的-->
@@ -106,10 +99,6 @@
 </template>
 
 <script>
-import ChildComponent1 from './delistButton.vue';
-import ChildComponent2 from './listButton.vue';
-import ChildComponent3 from './editButton.vue';
-
 import VGrid, {VGridVueTemplate} from "@revolist/vue3-datagrid";
 
 import axios from "axios";
@@ -117,15 +106,11 @@ import {useToast} from "vue-toastification";
 
 import listButton from "../BackListView/listButton.vue";
 import delistButton from "../BackListView/delistButton.vue";
-import editButton from "./editButton.vue";
 
 export default {
   name: "staffView",
   components: {
-    VGrid,
-    ChildComponent1,
-    ChildComponent2,
-    ChildComponent3,
+    VGrid
   },
   setup(){
     const tip = useToast();
@@ -133,9 +118,9 @@ export default {
   },
   data(){
     return{
-      count: 10,
+      count: 20,
       columns: [
-        { name: "Name", prop: "name", size: 190,
+        { name: "Tourism Title", prop: "name", size: 190,
           cellTemplate: (createElement, props) => {
             return createElement('span', {
               style: {
@@ -145,27 +130,26 @@ export default {
             }, props.model[props.prop]);
           },
         },
-        { name: "Start Time", prop: "start_time", size: 155, sortable: true, filter: 'number', columnType: "date",},
-        { name: "End Time", prop: "end_time", size: 135, sortable: true, filter: 'number', columnType: "date"},
-        { name: "Deadline", prop: "app_ddl", size: 135,sortable: true,filter: 'number'},
-        { name: "Price", prop: "price", size: 145, sortable: true,filter: 'number'},
-        { name: "Discount", prop: "discount", size: 145, sortable: true,filter: 'number'},
-        { name: "Mark", prop: "mark", size:155,sortable: true,filter: false},
-        { name: "Status", prop: "status", size:155,sortable: true,filter: false},
-        { name: "Launch", cellTemplate: VGridVueTemplate(listButton), size: 135, filter: false},
-        { name: "Delist", cellTemplate: VGridVueTemplate(delistButton), size: 135, filter: false},
-        { name: "Edit", cellTemplate: VGridVueTemplate(editButton), size: 90, filter: false},
+        { name: "Start Time", prop: "start_time", size: 180, sortable: true, filter: 'number', columnType: "date",},
+        { name: "End Time", prop: "end_time", size: 180, sortable: true, filter: 'number', columnType: "date"},
+        { name: "Reservation Time", prop: "app_ddl", size: 180,sortable: true,filter: 'number', click:"a"},
+        { name: "Price", prop: "ori_price", size: 180, sortable: true,filter: 'number'},
+        { name: "Discount", prop: "discount", size: 180, sortable: true,filter: 'number'},
+        { name: "Booking Holder", prop: "mark", size:180,sortable: true,filter: false},
+        { name: "Edit", cellTemplate: VGridVueTemplate(listButton), size: 140, filter: false},
+        { name: "Cancel", cellTemplate: VGridVueTemplate(delistButton), size: 140, filter: false}
+
       ],
-      products: [
-          {
-            name: "1",
-            ori_price: "Zhou Zhongyang",
-            start_time: "2018-1-1",
-            end_time: -1,
-            app_ddl: "retail",
-            discount:'90%',
-            mark: "Xie Wenbei"
-      },
+      rows: [
+        {
+          name: "1",
+          ori_price: "Zhou Zhongyang",
+          start_time: "2018-1-1",
+          end_time: -1,
+          app_ddl: "retail",
+          discount:'90%',
+          mark: "Xie Wenbei"
+        },
         {
           name: "1",
           ori_price: "Zhou Zhongyang",
@@ -317,126 +301,35 @@ export default {
 
           mark: "Xie Wenbei"
         },
-        // {
-      //     name: "1",
-      //     ori_price: "Zhou Zhongyang",
-      //     start_time: "1",
-      //     end_time: -1,
-      //     app_ddl: "retail",
-      //     discount:'90%',
-      //
-      //     mark: "Xie Wenbei"
-      //   },{
-      //     name: "1",
-      //     ori_price: "Zhou Zhongyang",
-      //     start_time: "1",
-      //     end_time: -1,
-      //     app_ddl: "retail",
-      //     discount:'90%',
-      //
-      //     mark: "Xie Wenbei"
-      //   },{
-      //     name: "1",
-      //     ori_price: "Zhou Zhongyang",
-      //     start_time: "1",
-      //     end_time: -1,
-      //     app_ddl: "retail",
-      //     discount:'90%',
-      //
-      //     mark: "Xie Wenbei"
-      //   },{
-      //     name: "1",
-      //     ori_price: "Zhou Zhongyang",
-      //     start_time: "1",
-      //     end_time: -1,
-      //     app_ddl: "retail",
-      //     discount:'90%',
-      //
-      //     mark: "Xie Wenbei"
-      //   },{
-      //     name: "1",
-      //     ori_price: "Zhou Zhongyang",
-      //     start_time: "1",
-      //     end_time: -1,
-      //     app_ddl: "retail",
-      //     discount:'90%',
-      //
-      //     mark: "Xie Wenbei"
-      //   },{
-      //     name: "1",
-      //     ori_price: "Zhou Zhongyang",
-      //     start_time: "1",
-      //     end_time: -1,
-      //     app_ddl: "retail",
-      //     discount:'90%',
-      //
-      //     mark: "Xie Wenbei"
-      //   },{
-      //     name: "1",
-      //     ori_price: "Zhou Zhongyang",
-      //     start_time: "1",
-      //     end_time: -1,
-      //     app_ddl: "retail",
-      //     discount:'90%',
-      //
-      //     mark: "Xie Wenbei"
-      //   },{
-      //     name: "1",
-      //     ori_price: "Zhou Zhongyang",
-      //     start_time: "1",
-      //     end_time: -1,
-      //     app_ddl: "retail",
-      //     discount:'90%',
-      //
-      //     mark: "Xie Wenbei"
-      //   },{
-      //     name: "1",
-      //     ori_price: "Zhou Zhongyang",
-      //     start_time: "1",
-      //     end_time: -1,
-      //     app_ddl: "retail",
-      //     discount:'90%',
-      //
-      //     mark: "Xie Wenbei"
-      //   },{
-      //     name: "1",
-      //     ori_price: "Zhou Zhongyang",
-      //     start_time: "1",
-      //     end_time: -1,
-      //     app_ddl: "retail",
-      //     discount:'90%',
-      //
-      //     mark: "Xie Wenbei"
-      //   },
       ],
     }
   },
   created() {
-    axios.get('http://127.0.0.1:5000/staff_portal/product_list')
+    axios.get('http://127.0.0.1:5000/user/backList')
         .then((response)=>{
           const code = response.status
           if (code === 200){
-            this.products = response.data
-          }
-        })
-
-    axios.get('http://127.0.0.1:5000/manage/product_number')
-        .then((response)=>{
-          const code = response.status
-          if (code === 200){
-            this.count = response.data
+            this.rows = response.data[0]
+            this.count = response.data[1]
           }
         })
   },
 
   methods:{
+    a(){
+      console.log(11223123)
+    },
+    cellClickHandler(event){
+      // console.log("aaaa",event)
+      this.$router.push({ name: 'Edit', params: { id: event.id } })
+    },
+
     pageChange(newPage){
       // console.log(`Current page is ${newPage}`);
-      axios.post('http://127.0.0.1:5000/staff_portal/product_list',{
+      axios.post('http://127.0.0.1:5000/user/backList',{
         page: newPage
       }).then(function (response){
-        this.products = response.data
-        console.log("分页成功嘞 yeeee")
+        this.rows = response.data
       }).catch(function (error){
         console.log(error);
       });
@@ -453,7 +346,7 @@ export default {
   width: 100%;
 
   /*使用侧边栏前后变化 300px*/
-  //padding-left: 300px;
+//padding-left: 300px;
   will-change: padding-left;
   transition: all 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
 }
@@ -488,7 +381,7 @@ export default {
   justify-content: space-between;
   align-items: flex-end;
   padding-bottom: 60px;
-  //padding-bottom: 40px;
+//padding-bottom: 40px;
 }
 
 .TCol{
@@ -610,10 +503,10 @@ export default {
   padding: 30px;
   border-radius: 4px;
   background-color: #FFFFFF;
-  //margin-left: auto;
-  //margin-right: auto;
+//margin-left: auto;
+//margin-right: auto;
   max-width: 1580px;
-  //box-shadow: 0px 10px 30px 0px #05103608;
+//box-shadow: 0px 10px 30px 0px #05103608;
 }
 
 .main{
@@ -621,7 +514,7 @@ export default {
   margin-right: auto;
   background-color: white;
   width: 100%;
-  //height: 100vh;
+//height: 100vh;
   height: 820px;
 }
 
@@ -630,7 +523,7 @@ export default {
 }
 
 .mainTable{
-  //max-width: 1100px;
+//max-width: 1100px;
   width: 100%;
   height: 800px;
   margin-left: auto;
@@ -648,8 +541,8 @@ export default {
 .container{
   padding-right:var(--bs-gutter-x,15px);
   padding-left:var(--bs-gutter-x,15px);
-  //margin-right:auto;
-  //margin-left:auto;
+//margin-right:auto;
+//margin-left:auto;
 }
 
 .row {

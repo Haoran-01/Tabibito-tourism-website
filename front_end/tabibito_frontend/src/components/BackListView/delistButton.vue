@@ -15,17 +15,17 @@
 <script>
 import {NButton, NIcon, NPopconfirm} from "naive-ui";
 import {CancelRound} from "@vicons/material";
-import {toRaw} from "vue";
+import axios from "axios";
 export default {
   props: ["rowIndex", "prop"],
   components: {NButton, NIcon, CancelRound, NPopconfirm},
   name: "delistButton",
   methods:{
     handlePositiveClick(){
-      const index = toRaw(this.rowIndex);
-      let indexMid = index.toString();
-      let indexFinal = parseInt(indexMid);
-      store.commit("changeCurrentDeletion", indexFinal);
+      axios.post('http://127.0.0.1:5000/user/backList',{
+        operation: "launch",
+        id: this.itemId,
+      })
     }
   }
 }
@@ -43,7 +43,7 @@ export default {
   border-radius: 3px;
   border: 1px solid transparent;
 
-  padding: 9px 18px;
+  padding: 9px 15px;
 
   margin-top: 3px;
 
