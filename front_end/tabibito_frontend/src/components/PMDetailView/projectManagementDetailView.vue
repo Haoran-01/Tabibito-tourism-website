@@ -74,7 +74,7 @@
               </div>
               <div class="inputTitle">Cover Image</div>
               <n-upload
-                  action="http://127.0.0.1:4523/m1/2418665-0-default/product/uploadpicture"
+                  action="http://127.0.0.1:5000/product/uploadpicture"
                   :default-file-list="coverImageList"
                   list-type="image-card"
                   style="margin-left: 10px"
@@ -85,7 +85,7 @@
               />
               <div class="inputTitle">Banner Image</div>
               <n-upload
-                  action="http://127.0.0.1:4523/m1/2418665-0-default/product/uploadpicture"
+                  action="http://127.0.0.1:5000/product/uploadpicture"
                   :default-file-list="bannerImageList"
                   list-type="image-card"
                   style="margin-left: 10px"
@@ -96,7 +96,7 @@
               />
               <div class="inputTitle">Gallery</div>
               <n-upload
-                  action="http://127.0.0.1:4523/m1/2418665-0-default/product/uploadpicture"
+                  action="http://127.0.0.1:5000/product/uploadpicture"
                   :default-file-list="galleryList"
                   list-type="image-card"
                   style="margin-left: 10px"
@@ -220,8 +220,8 @@ export default {
 
     // Tab 1
     // let durationMode = ref("Day/Night Mode");
-    let startTime = ref();
-    let endTime = ref();
+    let startTime = ref(null);
+    let endTime = ref(null);
     let tags = ref([
       {
         key: null,
@@ -466,6 +466,7 @@ export default {
         this.originalPriceStyle = "invalidInput"
         return;
       }
+      axios.post('http://127.0.0.1:5000/product/add', {
       let trips = [];
       for (let raw_trip in this.routeDatas){
         trips.push({

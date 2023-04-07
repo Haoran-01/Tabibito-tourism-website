@@ -48,7 +48,7 @@
           </div>
         <div class="inputTitle">Activity Image</div>
         <n-upload
-            action="https://www.mocky.io/v2/5e4bafc63100007100d8b70f"
+            action="http://127.0.0.1:5000/product/uploadpicture"
             :default-file-list="stepData.activityPic"
             list-type="image-card"
             style="margin-left: 10px"
