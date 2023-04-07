@@ -64,6 +64,7 @@ def get_similarity_matrix():
         g.datetime = datetime.datetime.now()
         return g.similarity_matrix
 
+
 def get_user_ratings():
     # 获取所有用户的评分
     users = User.query.all()
@@ -124,8 +125,7 @@ def recommend_products(user_id, n=5):
     return [Product.query.get(rec[0]) for rec in sorted_recommendations[:n]]
 
 
-
-@bp.route("/product", methods="POST, GET")
+@bp.route("/product", methods=["POST","GET"])
 def recommend_search():
 
     result = []

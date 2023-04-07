@@ -11,10 +11,11 @@ import projectManagementDetailView from "./components/PMDetailView/projectManage
 import TravelDetailsView from "./components/TravelDetailsView/TravelDetailsView.vue";
 import StaffPortalView from "./components/StaffPortalView/staffPortalView.vue"
 import reservationview from "./components/ReservationView/reservationview.vue";
+import leftListView from "./components/SearchPageView/leftListView.vue";
 
 
 const routes = [
-    { path: '/', component: rightContentView },
+    { path: '/', component: homepageView },
     { path: '/login', component: loginView },
     { path: '/register', component: registerView },
     { path: '/forget', component: forgetPasswordView},
@@ -25,6 +26,9 @@ const routes = [
     { path: '/management/project_detail/:id',name: 'Edit', component: projectManagementDetailView},
     { path: '/management/project_detail',name: 'Edit', component: projectManagementDetailView},
     { path: '/travel_detail', component: TravelDetailsView},
+    { path: '/management/project_detail', component: projectManagementDetailView},
+    { path: '/staff_portal', component: StaffPortalView},
+    { path: '/search_page', component: leftListView}
     { path: '/reservation', component: reservationview},
 ]
 

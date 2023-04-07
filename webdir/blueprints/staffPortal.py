@@ -26,3 +26,6 @@ def view_all_order():
     return jsonify(all_orders=result, code=200)
 
 
+@bp.route("/product_list",methods=["POST","GET"])
+def test():
+    return jsonify(url="Jerry")

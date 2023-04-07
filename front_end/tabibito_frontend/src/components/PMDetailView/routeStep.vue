@@ -48,12 +48,13 @@
           </div>
         <div class="inputTitle">Activity Image</div>
         <n-upload
-            action="https://www.mocky.io/v2/5e4bafc63100007100d8b70f"
-            :default-file-list="stepData.activityPic"
+            action="http://127.0.0.1:5000/product/uploadpicture"
+            :default-file-list="picList"
             list-type="image-card"
             style="margin-left: 10px"
             @before-upload="beforeUpload"
             accept="image/*"
+            @finish="handleFinishImage"
             :max="1"
         />
         <div style="height: 20px"></div>
@@ -66,6 +67,7 @@
 
 <script>
 import {ref} from "vue";
+import message from "@iconify-icons/uil/message.js";
 
 export default {
   props:['stepData', 'stepIndex'],
@@ -121,6 +123,11 @@ export default {
         show.value = true;
       }
     }
+    const handleFinishImage = ({file,event}) => {
+      console.log(event);
+      let res = (event?.target).response;
+      props.stepData.activityPic = res;
+    };
     return{
       show,
       expandButtonIcon,
@@ -131,6 +138,8 @@ export default {
       dayNumber,
       periodValue,
       exactTime,
+      handleFinishImage,
+      picList: ref([]),
       async beforeUpload(data) {
         if (data.file.file?.type !== "image/*") {
           message.error("You can only upload images.");

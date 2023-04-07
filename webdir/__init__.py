@@ -8,13 +8,21 @@ from models import User
 from flask import Flask, g, session
 from config import config
 from exts import mail, db
-from webdir.blueprints import user_bp
+from webdir.blueprints import user_bp, product_bp, search_bp, recommend_bp, homepage_bp, order_bp, staff_bp
 from flask_cors import CORS
+import nltk
+# nltk.download('stopwords')
+# nltk.download('wordnet')
 
 def create_app(config_name):
+    # nltk.download('stopwords')
+    # nltk.download('wordnet')
     app = Flask(__name__, template_folder="templates", static_folder="static", static_url_path="")
     app.config.from_object(config[config_name])
     config[config_name].init_app(app)
+
+
+
     CORS(app, supports_credentials=True)
     return app
 
@@ -22,7 +30,18 @@ app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 db.init_app(app)
 mail.init_app(app)
 migrate = Migrate(app, db)
+
+# blueprint register
 app.register_blueprint(user_bp)
+app.register_blueprint(search_bp)
+app.register_blueprint(product_bp)
+app.register_blueprint(recommend_bp)
+app.register_blueprint(homepage_bp)
+app.register_blueprint(staff_bp)
+app.register_blueprint(order_bp)
+
+
+
 
 app.secret_key = os.getenv("SECRET_KEY", "mou107b6vsfxor82bbc4bzf4mcu7")
 

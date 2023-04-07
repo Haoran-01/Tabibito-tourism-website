@@ -64,8 +64,8 @@
               </n-tabs>-->
               <div class="dataPickers">
                 <n-date-picker v-model:value="startTime" type="date" :is-date-disabled="secureStartTime" size="large" clearable placeholder="Start Date"/>
-                <span>-</span>
                 <n-date-picker v-model:value="endTime" type="date" placement="bottom-end" :is-date-disabled="secureEndTime" size="large" clearable placeholder="End Date"/>
+                <n-date-picker v-model:value="cutoffDate" type="date" placement="bottom-end" size="large" clearable placeholder="Cutoff Date"/>
               </div>
               <div class="inputTitle">Group Number</div>
               <div class="input_form">
@@ -74,34 +74,38 @@
               </div>
               <div class="inputTitle">Cover Image</div>
               <n-upload
-                  action="https://www.mocky.io/v2/5e4bafc63100007100d8b70f"
+                  action="http://127.0.0.1:5000/product/uploadpicture"
                   :default-file-list="coverImageList"
                   list-type="image-card"
                   style="margin-left: 10px"
                   @before-upload="beforeUpload"
                   accept="image/*"
+                  @finish="handleFinishCover"
                   :max=1
               />
               <div class="inputTitle">Banner Image</div>
               <n-upload
-                  action="https://www.mocky.io/v2/5e4bafc63100007100d8b70f"
+                  action="http://127.0.0.1:5000/product/uploadpicture"
                   :default-file-list="bannerImageList"
                   list-type="image-card"
                   style="margin-left: 10px"
                   @before-upload="beforeUpload"
                   accept="image/*"
+                  @finish="handleFinishBanner"
                   :max=4
               />
               <div class="inputTitle">Gallery</div>
               <n-upload
-                  action="https://www.mocky.io/v2/5e4bafc63100007100d8b70f"
+                  action="http://127.0.0.1:5000/product/uploadpicture"
                   :default-file-list="galleryList"
                   list-type="image-card"
                   style="margin-left: 10px"
                   @before-upload="beforeUpload"
                   accept="image/*"
+                  @finish="handleFinishGallery"
               />
               <div class="inputTitle">Tags</div>
+
               <div class="input_form" v-for="tag in tags">
                 <n-select
                     v-model:value="tag.key"
@@ -143,7 +147,6 @@
 
 
           <n-tab-pane name="Route" tab="3. Route">
-            <div>{{datas}}</div>
             <div class="inputTitle">Total Day Number</div>
             <div class="input_form">
               <input type="text" v-model="totalDayNumber" :disabled="totalDayNumberDisabled" required @change="checkAddStepStatus" @blur="validateInteger($event, totalDayNumber, 'totalDayNumber')" @focus="resetInput($event)">
@@ -216,8 +219,8 @@ export default {
 
     // Tab 1
     // let durationMode = ref("Day/Night Mode");
-    let startTime = ref();
-    let endTime = ref();
+    let startTime = ref(null);
+    let endTime = ref(null);
     let tags = ref([
       {
         key: null,
@@ -232,7 +235,24 @@ export default {
         value: ""
       },
     ]);
-
+    let coverImage = null;
+    const handleFinishCover = ({file,event}) => {
+      console.log(event);
+      let res = (event?.target).response;
+      coverImage = res;
+    };
+    let bannerImages = [];
+    const handleFinishBanner = ({file,event}) => {
+      console.log(event);
+      let res = (event?.target).response;
+      bannerImages.push(res);
+    };
+    let galleryImages = [];
+    const handleFinishGallery = ({file,event}) => {
+      console.log(event);
+      let res = (event?.target).response;
+      galleryImages.push(res);
+    };
     // Tab 3
     let routeDatas = ref([]);
     let add_step_status = ref("disabled_btn");
@@ -260,8 +280,16 @@ export default {
       coverImageList: ref([]),
       bannerImageList: ref([]),
       galleryList: ref([]),
+      coverImage,
+      handleFinishCover,
+      bannerImages,
+      handleFinishBanner,
+      galleryImages,
+      handleFinishGallery,
       async beforeUpload(data) {
-        if (data.file.file?.type !== "image/*") {
+        let reg = /image/
+        let fileType = data.file.file?.type
+        if (!reg.test(fileType)) {
           message.error("You can only upload images.");
           return false;
         }
@@ -340,7 +368,7 @@ export default {
             dayNumber: null,
             periodValue: "Morning",
             exactTime: null,
-            activityPic: []
+            activityPic: ""
           })
         }
       },
@@ -380,7 +408,13 @@ export default {
       dayNumber: null,
       hourNumber: null,*/
       groupNumber: null,
+      cutoffDate: null,
+      locationText: null,
+      mapLatitude: null,
+      mapLongitude: null,
+      mapZoom: null,
       originalPrice: null,
+      discount: null,
       originalPriceStyle: null,
     }
   },
@@ -421,19 +455,65 @@ export default {
       this.chargeDatas.splice(index, 1);
     },
     submitForm(){
-      if(this.projectName === null || this.projectName === ""){
-        this.tabValue = "Basic Information";
-        this.projectNameStyle = "invalidInput";
-        return;
-      }
-      if(this.originalPrice === null || this.originalPrice=== ""){
-        this.tabValue = "Price";
-        this.originalPriceStyle = "invalidInput"
-        return;
-      }
-
-    }
+  if(this.projectName === null || this.projectName === ""){
+    this.tabValue = "Basic Information";
+    this.projectNameStyle = "invalidInput";
+    return;
   }
+  if(this.originalPrice === null || this.originalPrice=== ""){
+    this.tabValue = "Price";
+    this.originalPriceStyle = "invalidInput"
+    return;
+  }
+  let trips = [];
+  for (let index = 0; index < this.routeDatas.length; index++){
+      console.log(this.routeDatas)
+    trips.push({
+      location: {
+        exact: this.routeDatas[index].exactLocation,
+        map_latitude: this.routeDatas[index].mapLatitude,
+        map_longitude: this.routeDatas[index].mapLongitude,
+        map_zoom: this.routeDatas[index].mapZoom
+      },
+      time: this.routeDatas[index].exactTime,
+      activity: this.routeDatas[index].activityName,
+      picture: this.routeDatas[index].activityPic,
+      day: this.routeDatas[index].dayNumber,
+      time_of_day: this.routeDatas[index].activityPic
+    })
+  }
+  let fees = [];
+  for (let index = 0; index < this.chargeDatas.length; index++){
+    fees.push({
+      name: this.chargeDatas[index].chargeName,
+      description: this.chargeDatas[index].chargeDescription
+    })
+  }
+  axios.post('http://127.0.0.1:5000/product/add', {
+    name: this.projectName,
+    description: this.projectDescription,
+    group_number: this.groupNumber,
+    location: {
+      raw_loc: this.locationText,
+      map_latitude: this.mapLatitude,
+      map_longitude: this.mapLongitude,
+      map_zoom: this.mapZoom
+    },
+    discount: this.discount,
+    ori_price: this.originalPrice,
+    currency: this.currencyType,
+    tags: this.tags,
+    cover_image: this.coverImage,
+    banner_image: this.bannerImages,
+    gallery: this.galleryImages,
+    start_time: this.startTime,
+    end_time: this.endTime,
+    app_ddl: this.cutoffDate,
+    fee_des: fees,
+    trips: trips
+  })
+}
+}
 }
 </script>
 
