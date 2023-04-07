@@ -466,19 +466,20 @@ export default {
     return;
   }
   let trips = [];
-  for (let raw_trip in this.routeDatas){
+  for (let index = 0; index < this.routeDatas.length; index++){
+      console.log(this.routeDatas)
     trips.push({
       location: {
-        exact: raw_trip.exactLocation,
-        map_latitude: raw_trip.mapLatitude,
-        map_longitude: raw_trip.mapLongitude,
-        map_zoom: raw_trip.mapZoom
+        exact: this.routeDatas[index].exactLocation,
+        map_latitude: this.routeDatas[index].mapLatitude,
+        map_longitude: this.routeDatas[index].mapLongitude,
+        map_zoom: this.routeDatas[index].mapZoom
       },
-      time: raw_trip.exactTime,
-      activity: raw_trip.activityName,
-      picture: raw_trip.activityPic,
-      day: raw_trip.dayNumber,
-      time_of_day: raw_trip.activityPic
+      time: this.routeDatas[index].exactTime,
+      activity: this.routeDatas[index].activityName,
+      picture: this.routeDatas[index].activityPic,
+      day: this.routeDatas[index].dayNumber,
+      time_of_day: this.routeDatas[index].activityPic
     })
   }
   axios.post('http://127.0.0.1:5000/product/add', {

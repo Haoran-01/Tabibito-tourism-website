@@ -1,3 +1,5 @@
+import datetime
+
 from flask import Blueprint, jsonify, request
 import os
 from exts import db
@@ -35,13 +37,13 @@ def add_product():
                 product.currency = currency
             start_time = data['start_time']
             if start_time:
-                product.start_time = start_time
+                product.start_time = datetime.datetime.fromtimestamp(int(start_time)/1000)
             end_time = data['end_time']
             if end_time:
-                product.end_time = end_time
+                product.end_time = datetime.datetime.fromtimestamp(int(end_time)/1000)
             app_ddl = data['app_ddl']
             if app_ddl:
-                product.app_ddl = app_ddl
+                product.app_ddl = datetime.datetime.fromtimestamp(int(app_ddl)/1000)
             db.session.add(product)
             db.session.commit()
 
@@ -68,7 +70,7 @@ def add_product():
             if trips:
                 for trip in trips:
                     print(trip)
-                    t = Trip(product_id=product.id, time=trip['time'], activity=trip['activity'], picture=trip['picture'], day=trip['day'], time_of_day=trip['time_of_day'])
+                    t = Trip(product_id=product.id, time=datetime.datetime.fromtimestamp(int(trip['time'])/1000), activity=trip['activity'], picture=trip['picture'], day=trip['day'], time_of_day=trip['time_of_day'])
                     print(trip['location'])
                     t.exact = trip['location']['exact']
                     t.map_latitude = trip['location']['map_latitude']
