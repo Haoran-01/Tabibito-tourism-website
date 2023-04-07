@@ -51,6 +51,7 @@ def search():
             Product.trips.any(Trip.exact.ilike(f'%{keywords_cleaned}%')))
     ).paginate(page=page, per_page=per_page)
 
+    print(products)
     # Serialize the products to JSON
     result = {
         'total': products.total,

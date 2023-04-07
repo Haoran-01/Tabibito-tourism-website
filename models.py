@@ -72,7 +72,7 @@ class Order(db.Model):
 class Product(db.Model):
     __tablename__ = "product"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.CHAR(100), nullable=False, unique=True)
+    name = db.Column(db.CHAR(100), nullable=False)
     description = db.Column(db.Text, nullable=False)
     group_number = db.Column(db.Integer, nullable=False)
     raw_loc = db.Column(db.CHAR(100), nullable=False)
@@ -95,7 +95,7 @@ class Product(db.Model):
     user_browses = relationship('UserBrowse', order_by='UserBrowse.id', back_populates='product')
     orders = relationship('Order', order_by="Order.id", back_populates='product')
 
-    def serialize(self):
+    def get_mark(self):
         total = 0
         number = 0
         for comment in self.comments:
@@ -103,6 +103,9 @@ class Product(db.Model):
             number = number + 1
         if number == 0:
             number = 1
+        return total / number
+
+    def serialize(self):
         return {
             'id': self.id,
             'name': self.name,
@@ -111,12 +114,39 @@ class Product(db.Model):
             'app_ddl': self.app_ddl,
             'price': self.ori_price,
             'discount': self.discount,
-            'mark': total / number,
+            'mark': self.get_mark(),
             'status': self.status
         }
 
+    def serialize_home_page(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'raw_loc': self.raw_loc,
+            'start_time': self.start_time,
+            'end_time': self.end_time,
+            'app_ddl': self.app_ddl,
+            'price': self.ori_price * self.discount,
+            'mark': self.get_mark(),
+            'review': len(self.user_browses),
+            'pictures': [picture.address for picture in self.pictures]
+        }
+
+    def serialize_staff_page(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'start_time': self.start_time,
+            'end_time': self.end_time,
+            'app_ddl': self.app_ddl,
+            'price': self.ori_price,
+            'discount': self.discount,
+            'mark': self.get_mark(),
+            'review': len(self.user_browses)
+        }
+
     def __repr__(self):
-        return "<Product(name='%s', description='%s, group_number)>" % (self.name, self.description, self.group_number)
+        return "<Product(name='%s', description='%s', group_number='%s')>" % (self.name, self.description, self.group_number)
 
 
 class ProductPicture(db.Model):
@@ -127,6 +157,7 @@ class ProductPicture(db.Model):
     type = db.Column(db.CHAR(15), nullable=False)
     product_id = db.Column(db.Integer, ForeignKey('product.id', ondelete='CASCADE', onupdate='CASCADE'))
     product = relationship('Product', back_populates="pictures")
+
 
 
 class Tag(db.Model):

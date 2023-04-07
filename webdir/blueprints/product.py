@@ -98,6 +98,4 @@ def upload_picture():
     # 存入数据库的操作
     return jsonify(url=os.path.join(Config.UPLOAD_FOLDER, filename))
 
-@bp.route("/test",methods=["POST","GET"])
-def test():
-    return jsonify(url="Jerry")
+
