@@ -74,7 +74,7 @@
               </div>
               <div class="inputTitle">Cover Image</div>
               <n-upload
-                  action="http://127.0.0.1:4523/m1/2418665-0-default/product/uploadpicture"
+                  action="http://127.0.0.1:5000/product/uploadpicture"
                   :default-file-list="coverImageList"
                   list-type="image-card"
                   style="margin-left: 10px"
@@ -85,7 +85,7 @@
               />
               <div class="inputTitle">Banner Image</div>
               <n-upload
-                  action="http://127.0.0.1:4523/m1/2418665-0-default/product/uploadpicture"
+                  action="http://127.0.0.1:5000/product/uploadpicture"
                   :default-file-list="bannerImageList"
                   list-type="image-card"
                   style="margin-left: 10px"
@@ -96,7 +96,7 @@
               />
               <div class="inputTitle">Gallery</div>
               <n-upload
-                  action="http://127.0.0.1:4523/m1/2418665-0-default/product/uploadpicture"
+                  action="http://127.0.0.1:5000/product/uploadpicture"
                   :default-file-list="galleryList"
                   list-type="image-card"
                   style="margin-left: 10px"
@@ -219,8 +219,8 @@ export default {
 
     // Tab 1
     // let durationMode = ref("Day/Night Mode");
-    let startTime = ref();
-    let endTime = ref();
+    let startTime = ref(null);
+    let endTime = ref(null);
     let tags = ref([
       {
         key: null,
@@ -239,19 +239,19 @@ export default {
     const handleFinishCover = ({file,event}) => {
       console.log(event);
       let res = (event?.target).response;
-      coverImage = res.data.url;
+      coverImage = res;
     };
     let bannerImages = [];
     const handleFinishBanner = ({file,event}) => {
       console.log(event);
       let res = (event?.target).response;
-      bannerImages.push(res.data.url);
+      bannerImages.push(res);
     };
     let galleryImages = [];
     const handleFinishGallery = ({file,event}) => {
       console.log(event);
       let res = (event?.target).response;
-      galleryImages.push(res.data.url);
+      galleryImages.push(res);
     };
     // Tab 3
     let routeDatas = ref([]);
@@ -455,56 +455,56 @@ export default {
       this.chargeDatas.splice(index, 1);
     },
     submitForm(){
-      if(this.projectName === null || this.projectName === ""){
-        this.tabValue = "Basic Information";
-        this.projectNameStyle = "invalidInput";
-        return;
-      }
-      if(this.originalPrice === null || this.originalPrice=== ""){
-        this.tabValue = "Price";
-        this.originalPriceStyle = "invalidInput"
-        return;
-      }
-      let trips = [];
-      for (let raw_trip in this.routeDatas){
-        trips.push({
-          location: {
-            exact: raw_trip.exactLocation,
-            map_latitude: raw_trip.mapLatitude,
-            map_longitude: raw_trip.mapLongitude,
-            map_zoom: raw_trip.mapZoom
-          },
-          time: raw_trip.exactTime,
-          activity: raw_trip.activityName,
-          picture: raw_trip.activityPic,
-          day: raw_trip.dayNumber,
-          time_of_day: raw_trip.activityPic
-        })
-      }
-      axios.post('http://127.0.0.1:4523/m1/2418665-0-default/product/add', {
-        name: this.projectName,
-        description: this.projectDescription,
-        group_number: this.groupNumber,
-        location: {
-          raw_loc: this.locationText,
-          map_latitude: this.mapLatitude,
-          map_longitude: this.mapLongitude,
-          map_zoom: this.mapZoom
-        },
-        discount: this.discount,
-        ori_price: this.originalPrice,
-        currency: this.currencyType,
-        tags: this.tags,
-        cover_image: this.coverImage,
-        banner_image: this.bannerImages,
-        gallery: this.galleryImages,
-        start_time: this.startTime,
-        end_time: this.endTime,
-        app_ddl: this.cutoffDate,
-        trips: trips
-      })
-    }
+  if(this.projectName === null || this.projectName === ""){
+    this.tabValue = "Basic Information";
+    this.projectNameStyle = "invalidInput";
+    return;
   }
+  if(this.originalPrice === null || this.originalPrice=== ""){
+    this.tabValue = "Price";
+    this.originalPriceStyle = "invalidInput"
+    return;
+  }
+  let trips = [];
+  for (let raw_trip in this.routeDatas){
+    trips.push({
+      location: {
+        exact: raw_trip.exactLocation,
+        map_latitude: raw_trip.mapLatitude,
+        map_longitude: raw_trip.mapLongitude,
+        map_zoom: raw_trip.mapZoom
+      },
+      time: raw_trip.exactTime,
+      activity: raw_trip.activityName,
+      picture: raw_trip.activityPic,
+      day: raw_trip.dayNumber,
+      time_of_day: raw_trip.activityPic
+    })
+  }
+  axios.post('http://127.0.0.1:5000/product/add', {
+    name: this.projectName,
+    description: this.projectDescription,
+    group_number: this.groupNumber,
+    location: {
+      raw_loc: this.locationText,
+      map_latitude: this.mapLatitude,
+      map_longitude: this.mapLongitude,
+      map_zoom: this.mapZoom
+    },
+    discount: this.discount,
+    ori_price: this.originalPrice,
+    currency: this.currencyType,
+    tags: this.tags,
+    cover_image: this.coverImage,
+    banner_image: this.bannerImages,
+    gallery: this.galleryImages,
+    start_time: this.startTime,
+    end_time: this.endTime,
+    app_ddl: this.cutoffDate,
+    trips: trips
+  })
+}
+}
 }
 </script>
 

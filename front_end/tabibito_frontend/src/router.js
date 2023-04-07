@@ -24,7 +24,6 @@ const routes = [
     { path: '/backList', component: backListView},
     { path: '/management/project_detail/:id', component: projectManagementDetailView},
     { path: '/management/project_detail',name: 'Edit', component: projectManagementDetailView},
-
     { path: '/travel_detail', component: TravelDetailsView},
     { path: '/management/project_detail', component: projectManagementDetailView},
     { path: '/staff_portal', component: StaffPortalView},

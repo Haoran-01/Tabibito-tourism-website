@@ -10,6 +10,7 @@ bp = Blueprint("Product", __name__, url_prefix="/product")
 @bp.route("/add", methods=["POST", "GET"])
 def add_product():
     data = request.get_json()
+    print(data)
     if 'name' in data and 'description' in data and 'group_number' in data:
         name = data['name']
         description = data['description']
@@ -90,14 +91,12 @@ def add_product():
 @bp.route("/uploadpicture",methods=["POST","GET"])
 def upload_picture():
 
-    file = request.files['picture']  # 获取上传的文件
+    file = request.files['file']  # 获取上传的文件
 
     filename = secure_filename(file.filename)  # 安全获取文件名
     print(Config.UPLOAD_FOLDER)
     file.save(os.path.join(Config.UPLOAD_FOLDER, filename))  # 将文件保存到服务器的指定目录
     # 存入数据库的操作
-    return jsonify(url=os.path.join(Config.UPLOAD_FOLDER, filename))
+    return os.path.join(Config.UPLOAD_FOLDER, filename)
 
-@bp.route("/test",methods=["POST","GET"])
-def test():
-    return jsonify(url="Jerry")
+
