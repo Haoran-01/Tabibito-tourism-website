@@ -97,6 +97,6 @@ def upload_picture():
     print(Config.UPLOAD_FOLDER)
     file.save(os.path.join(Config.UPLOAD_FOLDER, filename))  # 将文件保存到服务器的指定目录
     # 存入数据库的操作
-    return jsonify(url=os.path.join(Config.UPLOAD_FOLDER, filename))
+    return os.path.join(Config.UPLOAD_FOLDER, filename)
 
 

@@ -240,19 +240,19 @@ export default {
     const handleFinishCover = ({file,event}) => {
       console.log(event);
       let res = (event?.target).response;
-      coverImage = res.data.url;
+      coverImage = res;
     };
     let bannerImages = [];
     const handleFinishBanner = ({file,event}) => {
       console.log(event);
       let res = (event?.target).response;
-      bannerImages.push(res.data.url);
+      bannerImages.push(res);
     };
     let galleryImages = [];
     const handleFinishGallery = ({file,event}) => {
       console.log(event);
       let res = (event?.target).response;
-      galleryImages.push(res.data.url);
+      galleryImages.push(res);
     };
     // Tab 3
     let routeDatas = ref([]);
