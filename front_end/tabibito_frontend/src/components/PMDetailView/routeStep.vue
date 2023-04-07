@@ -54,6 +54,7 @@
             style="margin-left: 10px"
             @before-upload="beforeUpload"
             accept="image/*"
+            @finish="handleFinishImage"
             :max="1"
         />
         <div style="height: 20px"></div>
@@ -66,6 +67,7 @@
 
 <script>
 import {ref} from "vue";
+import message from "@iconify-icons/uil/message.js";
 
 export default {
   props:['stepData', 'stepIndex'],
@@ -121,6 +123,11 @@ export default {
         show.value = true;
       }
     }
+    const handleFinishImage = ({file,event}) => {
+      console.log(event);
+      let res = (event?.target).response;
+      props.stepData.activityPic = res.data.url;
+    };
     return{
       show,
       expandButtonIcon,
@@ -131,6 +138,7 @@ export default {
       dayNumber,
       periodValue,
       exactTime,
+      handleFinishImage,
       async beforeUpload(data) {
         if (data.file.file?.type !== "image/*") {
           message.error("You can only upload images.");
