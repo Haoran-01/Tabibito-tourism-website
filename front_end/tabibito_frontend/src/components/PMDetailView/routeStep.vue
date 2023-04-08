@@ -67,13 +67,14 @@
 
 <script>
 import {ref} from "vue";
-import message from "@iconify-icons/uil/message.js";
+import {useMessage} from "naive-ui";
 
 export default {
   props:['stepData', 'stepIndex'],
   name: "routeStep",
   emits: ['deleteStep'],
   setup(props){
+    const message = useMessage();
     let show = ref(true);
     let expandButtonIcon = ref("collapseIcon");
     let isDayNumberDisabled = ref(true);
@@ -141,7 +142,9 @@ export default {
       handleFinishImage,
       picList: ref([]),
       async beforeUpload(data) {
-        if (data.file.file?.type !== "image/*") {
+        let reg = /image/
+        let fileType = data.file.file?.type
+        if (!reg.test(fileType)) {
           message.error("You can only upload images.");
           return false;
         }
