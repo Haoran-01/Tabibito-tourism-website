@@ -1,4 +1,5 @@
 <template>
+  <div class="halfMap">
   <div class="list_content">
     <div class="list_search_wrap">
       <div class="list_search">
@@ -147,12 +148,14 @@
   <div class="map_content">
     <div class="map" id="map"></div>
   </div>
+  </div>
 
 
 </template>
 
 <script>
 import { defineComponent, ref } from 'vue'
+import {Loader} from "@googlemaps/js-api-loader";
 import { useMessage } from "naive-ui";
 import { ArrowForward, Star, HeartOutline, LocationOutline, TodayOutline, CompassOutline, Search, StatsChartOutline } from "@vicons/ionicons5";
 export default defineComponent({
@@ -275,30 +278,47 @@ export default defineComponent({
       },
 
     };
-  }
+  },
+  mounted() {
+    const loader = new Loader({
+      apiKey: "AIzaSyBctzU8ocpP_0j4IdTRqA-GABIAnaXd0ow",
+      version: "weekly",
+    });
+
+    loader.load().then(() => {
+      const Beijing = { lat: 40, lng: 116 };
+      let map = new google.maps.Map(document.getElementById("map"), {
+        center: Beijing,
+        zoom: 8,
+      });
+      const marker = new google.maps.Marker({
+        position: Beijing,
+        map: map,
+      });
+    });
+  },
 })
-
-// Initialize and add the map
-function initMap() {
-  // The location of Uluru
-  const uluru = { lat: -25.344, lng: 131.031 };
-  // The map, centered at Uluru
-  const map = new google.maps.Map(document.getElementById("map"), {
-    zoom: 4,
-    center: uluru,
-  });
-  // The marker, positioned at Uluru
-  const marker = new google.maps.Marker({
-    position: uluru,
-    map: map,
-  });
-}
-
-window.initMap = initMap;
 
 </script>
 
 <style scoped>
+.halfMap {
+  display: flex;
+  width: 100%;
+  min-height: calc(100vh - 90px);
+}
+
+@media (max-width: 991px) {
+  .halfMap {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 767px) {
+  .halfMap {
+    margin-top: 80px;
+  }
+}
 .dropdown {
   height: 40px;
   cursor: pointer;
