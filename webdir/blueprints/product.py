@@ -12,7 +12,8 @@ bp = Blueprint("Product", __name__, url_prefix="/product")
 @bp.route("/add", methods=["POST", "GET"])
 def add_product():
     data = request.get_json()
-    print(data)
+    for i in data:
+        print(i, ':', data[i])
     if 'name' in data and 'description' in data and 'group_number' in data:
         name = data['name']
         description = data['description']
@@ -47,14 +48,14 @@ def add_product():
             db.session.add(product)
             db.session.commit()
 
-            cover_image = data['cover']
+            cover_image = data['cover_image']
             if cover_image:
-                p = ProductPicture(product_id=product.id, address=cover_image, type='cover_image')
+                p = ProductPicture(product_id=product.id, address=cover_image, type='cover')
                 db.session.add(p)
-            banner_image = data['banner']
+            banner_image = data['banner_image']
             if banner_image:
                 for p in banner_image:
-                    p = ProductPicture(product_id=product.id, address=banner_image, type='banner_image')
+                    p = ProductPicture(product_id=product.id, address=p, type='banner')
                     db.session.add(p)
             gallery = data['gallery']
             if gallery:
@@ -102,5 +103,6 @@ def upload_picture():
     file.save(os.path.join(Config.UPLOAD_FOLDER, filename))  # 将文件保存到服务器的指定目录
     # 存入数据库的操作
     return os.path.join(Config.UPLOAD_FOLDER, filename)
+
 
 

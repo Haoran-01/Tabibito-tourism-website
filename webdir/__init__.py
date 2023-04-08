@@ -50,12 +50,14 @@ login_manager.login_message_category = 'info'
 login_manager.login_message = 'Access denied'
 login_manager.init_app(app)
 
+
 @login_manager.user_loader
-def load_user(user_email):
-    if User.query.filter_by(user_email=user_email).first() is not None:
-        curr_user = User()
-        curr_user.user_email = user_email
-        return curr_user
+def load_user(user_id):
+    user = User.query.filter_by(user_id=user_id).first()
+    if user is not None:
+        return user
+    else:
+        return User()
 
 
 @app.errorhandler(ValidationError)
