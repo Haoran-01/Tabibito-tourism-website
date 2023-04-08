@@ -55,9 +55,9 @@
     </div>
 
     <div class="row x-gap-10 y-gap-10 select_menu">
-      <n-select v-model:value="value" :options="priceoptions" clearable placeholder="Price" />
-      <n-select v-model:value="value" :options="durationoptions" clearable placeholder="Duration" />
-      <n-select v-model:value="value" :options="languageoptions" clearable placeholder="Language" />
+      <n-select class="dropdown" v-model:value="value" :options="priceoptions" clearable placeholder="Price" @select="handleSelectPrice"/>
+      <n-select class="dropdown" v-model:value="value" :options="durationoptions" clearable placeholder="Duration" @select="handleSelectDuration"/>
+      <n-select class="dropdown" v-model:value="value" :options="languageoptions" clearable placeholder="Language" @select="handleSelectLanguage"/>
     </div>
 
     <div class="row y-gap-10 property">
@@ -65,14 +65,21 @@
         <div class="property_text"><span class="property_num">3,269 properties</span> in Europe</div>
       </div>
       <div class="col-auto">
-        <n-button strong ghost size="large" icon-placement="left">
-          <template #icon>
-            <n-icon>
-              <StatsChartOutline />
-            </n-icon>
-          </template>
-          Sort
-        </n-button>
+          <n-dropdown
+              trigger="click"
+              placement="bottom-start"
+              :options="sortoptions"
+              @select="handleSelectSort"
+          >
+          <n-button strong ghost size="large" icon-placement="left">
+            <template #icon>
+              <n-icon>
+                <StatsChartOutline />
+              </n-icon>
+            </template>
+            Sort
+          </n-button>
+        </n-dropdown>
       </div>
     </div>
 
@@ -137,11 +144,16 @@
 
   </div>
 
+  <div class="map_content">
+    <div class="map" id="map"></div>
+  </div>
+
 
 </template>
 
 <script>
 import { defineComponent, ref } from 'vue'
+import { useMessage } from "naive-ui";
 import { ArrowForward, Star, HeartOutline, LocationOutline, TodayOutline, CompassOutline, Search, StatsChartOutline } from "@vicons/ionicons5";
 export default defineComponent({
   name: "leftListView",
@@ -156,7 +168,8 @@ export default defineComponent({
     ArrowForward
   },
   setup () {
-    const loadingRef = ref(false)
+    const loadingRef = ref(false);
+    const message = useMessage();
     return {
       handleClick() {
         loadingRef.value = true
@@ -170,60 +183,144 @@ export default defineComponent({
       priceoptions: [
         {
           label: "Less than $500",
-          value: '-500'
+          value: '-500',
+          key: '-500'
         },
         {
           label: '$500 - $1000',
-          value: '500-1000'
+          value: '500-1000',
+          key: '500-1000'
         },
         {
           label: '$1000 - $2000',
-          value: '1000-2000'
+          value: '1000-2000',
+          key: '1000-2000'
         },
         {
           label: "$2000+",
-          value: '2000+'
+          value: '2000+',
+          key: '2000+'
         }],
       durationoptions: [
         {
           label: "1 week",
-          value: '1w'
+          value: '1w',
+          key: '1w'
         },
         {
           label: '2 weeks',
-          value: '2w'
+          value: '2w',
+          key: '2w'
         },
         {
           label: '3 weeks',
-          value: '3w'
+          value: '3w',
+          key: '3w'
         },
         {
           label: "1 month",
-          value: '1m'
+          value: '1m',
+          key: '1m'
         }],
       languageoptions: [
         {
           label: "English",
-          value: 'English'
+          value: 'English',
+          key: 'English'
         },
         {
           label: 'Italian',
-          value: 'Italian'
+          value: 'Italian',
+          key: 'Italian'
         },
         {
           label: 'Deutsch',
-          value: 'Deutsch'
+          value: 'Deutsch',
+          key: 'Deutsch'
         },
         {
           label: "Turkish",
-          value: 'Turkish'
-        }]
+          value: 'Turkish',
+          key: 'Turkish'
+        }],
+      sortoptions: [
+        {
+          label: "discount (high to low)",
+          key: "discount (high to low)"
+        },
+        {
+          label: "discount (low to high)",
+          key: "discount (low to high)"
+        },
+        {
+          label: "price (high to low)",
+          key: "price (high to low)"
+        },
+        {
+          label: "price (low to high)",
+          key: "price (low to high)"
+        }
+      ],
+      handleSelectSort(key) {
+        message.info(String(key));
+      },
+      handleSelectPrice(key) {
+        message.info(String(key));
+      },
+      handleSelectDuration(key) {
+        message.info(String(key));
+      },
+      handleSelectLanguage(key) {
+        message.info(String(key));
+      },
+
     };
   }
 })
+
+// Initialize and add the map
+function initMap() {
+  // The location of Uluru
+  const uluru = { lat: -25.344, lng: 131.031 };
+  // The map, centered at Uluru
+  const map = new google.maps.Map(document.getElementById("map"), {
+    zoom: 4,
+    center: uluru,
+  });
+  // The marker, positioned at Uluru
+  const marker = new google.maps.Marker({
+    position: uluru,
+    map: map,
+  });
+}
+
+window.initMap = initMap;
+
 </script>
 
 <style scoped>
+.dropdown {
+  height: 40px;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+}
+.map_content {
+  width: 100%;
+  min-height: 100%;
+}
+@media (max-width: 991px) {
+  .map_content {
+    order: 1;
+  }
+}
+.map {
+  width: 100%;
+  height: 100%;
+  background-color: #a3a3a3;
+}
 .margin {
   margin-left: 15px;
 }
