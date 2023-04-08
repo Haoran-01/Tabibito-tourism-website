@@ -1,5 +1,5 @@
 <template>
-  <section class="mostPopularLayout-pt mostPopularLayout-pb">
+  <section class="mostPopularLayout-pb">
     <div class="container">
       <div class="mostPopularHead">
         <div class="col-auto">
