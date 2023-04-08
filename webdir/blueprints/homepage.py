@@ -6,20 +6,22 @@ from config import Config
 from werkzeug.utils import secure_filename
 from models import Product, ProductPicture, Tag, Trip, FeeDes, UserBrowse, Comment, User, Order
 from collections import Counter
+
 bp = Blueprint("Homepage", __name__, url_prefix="/homepage")
 
 
-@bp.route("/most_popular_products", methods=["POST","GET"])
+@bp.route("/most_popular_products", methods=["POST", "GET"])
 def test():
     top_three_products = (
         db.session.query(Product)
-        .join(Product.user_browses)
-        .group_by(Product.id)
-        .order_by(func.count(UserBrowse.id).desc())
-        .limit(3)
-        .all()
+            .join(Product.user_browses)
+            .group_by(Product.id)
+            .order_by(func.count(UserBrowse.id).desc())
+            .limit(3)
+            .all()
     )
     return jsonify(result=[product.serialize_homepage() for product in top_three_products])
+
 
 @bp.route("/search", methods=['GET'])
 def search():
@@ -57,17 +59,25 @@ def locations():
 
     return jsonify(covers=covers)
 
+
 @bp.route("lowest_discount", methods=['GET'])
 def lowest_discount_products():
     products = Product.query.order_by(Product.discount).limit(3).all()
     return jsonify(products=[product.serialize_homepage() for product in products])
 
+
 @bp.route("four_number", methods=['GET'])
 def four_number():
     reviews = Comment.query.count()
     products = Product.query.count()
-    users_count = db.session.query(User).join(Comment).group_by(User.user_id).having(func.avg(Comment.value) > 4).count()
+    users_count = db.session.query(User).join(Comment).group_by(User.user_id).having(
+        func.avg(Comment.value) > 4).count()
     orders = Order.query.count()
 
     return jsonify(reviwe_count=reviews, product_count=products, happy_customer_count=users_count, order_count=orders)
 
+
+@bp.route("/most_popular_comments", methods=["GET"])
+def get_popular_comments():
+    comments = db.session.query(Comment).order_by(Comment.like_num.desc()).limit(5).all()
+    return jsonify(code=200, data=[comment.serialize_homepage() for comment in comments])
