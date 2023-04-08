@@ -10,7 +10,7 @@ import backListView from "./components/BackListView/BackListView.vue";
 import projectManagementDetailView from "./components/PMDetailView/projectManagementDetailView.vue";
 import TravelDetailsView from "./components/TravelDetailsView/TravelDetailsView.vue";
 import StaffPortalView from "./components/StaffPortalView/staffPortalView.vue"
-import reservationview from "./components/ReservationView/reservationview.vue";
+import reservationView from "./components/ReservationView/reservationView.vue";
 import leftListView from "./components/SearchPageView/leftListView.vue";
 
 
@@ -28,8 +28,8 @@ const routes = [
     { path: '/travel_detail', component: TravelDetailsView},
     { path: '/management/project_detail', component: projectManagementDetailView},
     { path: '/staff_portal', component: StaffPortalView},
-    { path: '/search_page', component: leftListView}
-    { path: '/reservation', component: reservationview},
+    { path: '/search_page', component: leftListView},
+    { path: '/reservation', component: reservationView},
 ]
 
 const router = createRouter({

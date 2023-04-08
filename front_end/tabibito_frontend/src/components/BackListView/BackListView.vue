@@ -7,13 +7,18 @@
           <div class="TTex2">Manage the tourism programs</div>
 
           <div class="but">
-            <button class="nBtn nBtn1">
-              Back To Dashboard
-            </button>
+            <router-link to="/staff_portal" style="text-decoration: none">
+              <button class="nBtn nBtn1">
+                Back To Dashboard
+              </button>
+            </router-link>
 
-            <button class="nBtn nBtn2" @click="nextPage">
-              Add New Projects
-            </button>
+            <router-link to="/management/project_detail" style="text-decoration: none">
+              <button class="nBtn nBtn2" @click="nextPage">
+                Add New Reservation
+              </button>
+            </router-link>
+              
           </div>
         </div>
 
@@ -420,7 +425,7 @@ export default {
           }
         })
 
-    axios.get('http://127.0.0.1:5000/manage/product_number')
+    axios.get('http://127.0.0.1:5000/staff_portal/product_number')
         .then((response)=>{
           const code = response.status
           if (code === 200){

@@ -4,11 +4,11 @@
   >
     <template #trigger>
       <button type="submit" class="deListBtn" @click="checkList">
-        Delisting
+        Cancel
         <div class="icon_add"></div>
       </button>
     </template>
-    Are you sure you want to delist this travel project?
+    Are you sure you want to cancel this reservation?
   </n-popconfirm>
 </template>
 
@@ -19,11 +19,10 @@ import axios from "axios";
 export default {
   props: ["rowIndex", "prop"],
   components: {NButton, NIcon, CancelRound, NPopconfirm},
-  name: "delistButton",
+  name: "cancelBtn",
   methods:{
     handlePositiveClick(){
-      axios.post('http://127.0.0.1:5000//staff_portal/product_status',{
-        operation: "launch",
+      axios.post('http://127.0.0.1:5000//staff_portal/cancel',{
         id: this.itemId,
       })
     }
@@ -40,14 +39,14 @@ export default {
   text-align: center;
   font-weight: 500;
   font-size: 15px;
-  border-radius: 3px;
+  border-radius: 9px;
   border: 1px solid transparent;
 
-  padding: 9px 15px;
+  padding: 9px 12px;
 
   margin-top: 3px;
 
-  background-color: #d9545d !important;
+  background-color: #bd212d !important;
   color: #FFFFFF;
 
   text-decoration:none;

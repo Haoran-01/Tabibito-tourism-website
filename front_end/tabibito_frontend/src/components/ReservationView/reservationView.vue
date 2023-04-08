@@ -7,13 +7,17 @@
           <div class="TTex2">Manage the tourism programs</div>
 
           <div class="but">
-            <button class="nBtn nBtn1">
-              Back To Dashboard
-            </button>
+            <router-link to="/staff_portal" style="text-decoration: none">
+              <button class="nBtn nBtn1">
+                Back To Dashboard
+              </button>
+            </router-link>
 
-            <button class="nBtn nBtn2" @click="nextPage">
+            <router-link to="/management/project_detail" style="text-decoration: none">
+              <button class="nBtn nBtn2" @click="nextPage">
               Add New Projects
-            </button>
+              </button>
+            </router-link>
           </div>
         </div>
 
@@ -104,8 +108,8 @@ import VGrid, {VGridVueTemplate} from "@revolist/vue3-datagrid";
 import axios from "axios";
 import {useToast} from "vue-toastification";
 
-import listButton from "../BackListView/listButton.vue";
-import delistButton from "../BackListView/delistButton.vue";
+import editBtn from "./editBtn.vue";
+import cancelBtn from "./cancelBtn.vue";
 
 export default {
   name: "staffView",
@@ -135,9 +139,9 @@ export default {
         { name: "Reservation Time", prop: "app_ddl", size: 180,sortable: true,filter: 'number', click:"a"},
         { name: "Price", prop: "ori_price", size: 180, sortable: true,filter: 'number'},
         { name: "Discount", prop: "discount", size: 180, sortable: true,filter: 'number'},
-        { name: "Booking Holder", prop: "mark", size:180,sortable: true,filter: false},
-        { name: "Edit", cellTemplate: VGridVueTemplate(listButton), size: 140, filter: false},
-        { name: "Cancel", cellTemplate: VGridVueTemplate(delistButton), size: 140, filter: false}
+        { name: "Booking Holder", prop: "holder", size:180,sortable: true,filter: false},
+        { name: "Edit", cellTemplate: VGridVueTemplate(editBtn), size: 140, filter: false},
+        { name: "Cancel", cellTemplate: VGridVueTemplate(cancelBtn), size: 140, filter: false}
 
       ],
       rows: [
@@ -305,20 +309,25 @@ export default {
     }
   },
   created() {
-    axios.get('http://127.0.0.1:5000/user/backList')
+    axios.get('http://127.0.0.1:5000/staff_portal/reservation_list')
         .then((response)=>{
           const code = response.status
           if (code === 200){
-            this.rows = response.data[0]
-            this.count = response.data[1]
+            this.rows = response.data
+          }
+        })
+
+    axios.get('http://127.0.0.1:5000/staff_portal/reservation_number')
+        .then((response)=>{
+          const code = response.status
+          if (code === 200){
+            this.count = response.data
           }
         })
   },
 
   methods:{
-    a(){
-      console.log(11223123)
-    },
+
     cellClickHandler(event){
       // console.log("aaaa",event)
       this.$router.push({ name: 'Edit', params: { id: event.id } })
