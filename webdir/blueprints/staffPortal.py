@@ -7,7 +7,7 @@ bp = Blueprint("Staff", __name__, url_prefix="/staff_portal")
 
 
 @bp.route("/change_order_status", methods=['POST'])
-def change_status():
+def change_order_status():
     data = request.get_json(silent=True)
     order_id = data['order_id']
     order = Order.query.filter_by(id=order_id)
@@ -31,6 +31,7 @@ def product_number():
     number = Product.query.count()
     return jsonify(number=number)
 
+
 @bp.route("/product_list", methods=['GET'])
 def product_list():
     data = request.get_json()
@@ -39,4 +40,18 @@ def product_list():
     per_page = 10  # 每页10个对象
     products = Product.query.order_by(Product.id).paginate(page=page, per_page=per_page, error_out=False).items
     return jsonify(products=[product.serialize_staff_page() for product in products])
+
+
+@bp.route("/product_status", methods=['POST'])
+def change_product_status():
+    data = request.get_json()
+    product_id = data['id']
+    new_status = data['operation']
+    product = Product.query.filter_by(id=product_id).first()
+    if product is not None:
+        product.status = new_status
+        db.session.commit()
+        return jsonify(code=200)
+    else:
+        return jsonify(code=400, error='product not found')
 
