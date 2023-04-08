@@ -53,8 +53,9 @@ def add_product():
                 db.session.add(p)
             banner_image = data['banner_image']
             if banner_image:
-                p = ProductPicture(product_id=product.id, address=banner_image, type='banner_image')
-                db.session.add(p)
+                for p in banner_image:
+                    p = ProductPicture(product_id=product.id, address=banner_image, type='banner_image')
+                    db.session.add(p)
             gallery = data['gallery']
             if gallery:
                 for picture in gallery:
@@ -64,8 +65,9 @@ def add_product():
             tags = data['tags']
             if tags:
                 for tag in tags:
-                    t = Tag(key=tag["key"], value=tag['value'], product_id=product.id)
-                    db.session.add(t)
+                    if tag['key']:
+                        t = Tag(key=tag["key"], value=tag['value'], product_id=product.id)
+                        db.session.add(t)
             trips = data['trips']
             if trips:
                 for trip in trips:

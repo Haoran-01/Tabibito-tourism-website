@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 
 from exts import db
-from models import Order
+from models import Order, Product
 
 bp = Blueprint("Staff", __name__, url_prefix="/staff_portal")
 
@@ -26,6 +26,17 @@ def view_all_order():
     return jsonify(all_orders=result, code=200)
 
 
-@bp.route("/product_list",methods=["POST","GET"])
-def test():
-    return jsonify(url="Jerry")
+@bp.route("/product_number",methods=["GET"])
+def product_number():
+    number = Product.query.count()
+    return jsonify(number=number)
+
+@bp.route("/product_list", methods=['GET'])
+def product_list():
+    data = request.get_json()
+    page = data['page']
+    print(page)
+    per_page = 10  # 每页10个对象
+    products = Product.query.order_by(Product.id).paginate(page=page, per_page=per_page, error_out=False).items
+    return jsonify(products=[product.serialize_staff_page() for product in products])
+

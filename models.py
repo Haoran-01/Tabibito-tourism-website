@@ -142,7 +142,8 @@ class Product(db.Model):
             'price': self.ori_price,
             'discount': self.discount,
             'mark': self.get_mark(),
-            'review': len(self.user_browses)
+            'review': len(self.user_browses),
+            'status': self.status
         }
 
     def __repr__(self):
@@ -182,8 +183,8 @@ class Trip(db.Model):
     map_longitude = db.Column(db.CHAR(200), nullable=False)
     map_zoom = db.Column(db.Float, nullable=False)
     activity = db.Column(db.CHAR(100), nullable=False)
-    picture = db.Column(db.CHAR(200), nullable=False)
-    day = db.Column(db.Integer, nullable=False)
+    picture = db.Column(db.CHAR(200))
+    day = db.Column(db.CHAR(5), nullable=False)
     time_of_day = db.Column(db.CHAR(10), nullable=False)
 
     product_id = db.Column(db.Integer, ForeignKey('product.id', ondelete='CASCADE', onupdate='CASCADE'))
