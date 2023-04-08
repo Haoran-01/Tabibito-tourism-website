@@ -5,7 +5,7 @@ import os
 from exts import db
 from config import Config
 from werkzeug.utils import secure_filename
-from models import Product, ProductPicture, Tag, Trip, FeeDes
+from models import Product, ProductPicture, Tag, Trip, FeeDes, ProductType
 bp = Blueprint("Product", __name__, url_prefix="/product")
 
 
@@ -45,8 +45,17 @@ def add_product():
             app_ddl = data['app_ddl']
             if app_ddl:
                 product.app_ddl = datetime.datetime.fromtimestamp(int(app_ddl)/1000)
+
             db.session.add(product)
             db.session.commit()
+
+            types = data['types']
+            if types:
+                product_types = []
+                for i in types:
+                    t = ProductType.query.filter(ProductType.type == i).first()
+                    product.types.append(t)
+
 
             cover_image = data['cover_image']
             if cover_image:
@@ -104,5 +113,13 @@ def upload_picture():
     # 存入数据库的操作
     return os.path.join(Config.UPLOAD_FOLDER, filename)
 
+
+@bp.route("/type_products",methods=["POST","GET"])
+def get_type_products():
+
+    type = request.json.get('type')
+
+    products = Product.query.join(Product.types).filter(ProductType.type == type).all()
+    return jsonify(products=[product.serialize() for product in products])
 
 
