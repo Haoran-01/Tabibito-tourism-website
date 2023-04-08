@@ -1,35 +1,40 @@
 import {createRouter, createWebHashHistory} from 'vue-router'
-import loginView from "./components/LoginView/loginView.vue";
-import registerView from "./components/RegisterView/registerView.vue";
-import aboutUsView from "./components/AboutUsView/aboutUsView.vue";
-import forgetPasswordView from "./components/ForgetPasswordView/forgetPasswordView.vue";
-import resetView from "./components/ForgetPasswordView/resetView.vue";
-import homepageView from "./components/HomepageView/HomepageView.vue";
-import rightContentView from "./components/StaffPortalView/rightContentView.vue";
-import backListView from "./components/BackListView/BackListView.vue";
-import projectManagementDetailView from "./components/PMDetailView/projectManagementDetailView.vue";
-import TravelDetailsView from "./components/TravelDetailsView/TravelDetailsView.vue";
-import StaffPortalView from "./components/StaffPortalView/staffPortalView.vue"
-import reservationView from "./components/ReservationView/reservationView.vue";
-import leftListView from "./components/SearchPageView/leftListView.vue";
-
+const loginView = () =>  import("./components/LoginView/loginView.vue");
+const registerView = () => import("./components/RegisterView/registerView.vue");
+const aboutUsView = () => import("./components/AboutUsView/aboutUsView.vue");
+const forgetPasswordView = () => import("./components/ForgetPasswordView/forgetPasswordView.vue");
+const resetView = () => import("./components/ForgetPasswordView/resetView.vue");
+const homepageView = () => import("./components/HomepageView/HomepageView.vue");
+const backListView = () => import("./components/BackListView/BackListView.vue");
+const projectManagementDetailView = () => import("./components/PMDetailView/projectManagementDetailView.vue");
+const TravelDetailsView = () => import("./components/TravelDetailsView/TravelDetailsView.vue");
+const leftListView = () => import("./components/SearchPageView/leftListView.vue");
+const StaffPortalView = () => import("./components/StaffPortalView/staffPortalView.vue");
+const notFoundView = () => import("./components/ErrorViews/notFoundView.vue");
+const forbiddenView = () => import("./components/ErrorViews/forbiddenView.vue");
 
 const routes = [
     { path: '/', component: homepageView },
+    { path: '/:pathMatch(.*)*', name: 'NotFound', component: notFoundView },
+    { path: '/forbidden', name: 'Forbidden', component: forbiddenView },
     { path: '/login', component: loginView },
     { path: '/register', component: registerView },
     { path: '/forget', component: forgetPasswordView},
     { path: '/about', component: aboutUsView},
-    { path: '/reset', component: resetView},
-    { path: '/homepage', component: homepageView},
-    { path: '/backList', component: backListView},
-    { path: '/management/project_detail/:id',name: 'Edit', component: projectManagementDetailView},
-    { path: '/management/project_detail',name: 'Edit', component: projectManagementDetailView},
-    { path: '/travel_detail', component: TravelDetailsView},
-    { path: '/management/project_detail', component: projectManagementDetailView},
-    { path: '/staff_portal', component: StaffPortalView},
-    { path: '/search_page', component: leftListView},
-    { path: '/reservation', component: reservationView},
+    { path: '/reset', component: resetView,
+        beforeEnter: (to, from) => {
+        if (from.path !== '/forget'){
+            return {name: 'Forbidden'};
+        }else
+            return true;
+        }
+    },
+    { path: '/management', component: StaffPortalView},
+    { path: '/management/project_list', component: backListView},
+    { path: '/management/project_detail/:id', component: projectManagementDetailView},
+    { path: '/management/project_detail/add', component: projectManagementDetailView},
+    { path: '/trip/:trip_id', component: TravelDetailsView},
+    { path: '/search_result', component: leftListView},
 ]
 
 const router = createRouter({

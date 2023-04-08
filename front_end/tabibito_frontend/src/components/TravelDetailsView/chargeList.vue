@@ -46,7 +46,7 @@ export default {
 
 <style scoped>
 .container{
-  width: 1110px;
+  width: 1320px;
   margin: 0 auto;
 }
 .chargeListTitle{
@@ -66,7 +66,7 @@ export default {
   margin-bottom: 10px;
 }
 .divider{
-  width: 1110px;
+  width: 1320px;
   border-top: 1px solid #DDDDDD;
   margin: 40px auto;
 }

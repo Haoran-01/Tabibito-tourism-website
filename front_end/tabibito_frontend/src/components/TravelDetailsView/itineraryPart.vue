@@ -7,16 +7,36 @@
           <itinerary-step :item="item" :index="index"></itinerary-step>
         </div>
       </div>
-      <div class="map"></div>
+      <div class="map" id="map"></div>
     </div>
   </div>
 </template>
 
 <script>
 import ItineraryStep from "./itineraryStep.vue";
+import {Loader} from "@googlemaps/js-api-loader";
 export default {
   name: "itineraryPart",
   components: {ItineraryStep},
+  mounted() {
+    const loader = new Loader({
+      apiKey: "AIzaSyBctzU8ocpP_0j4IdTRqA-GABIAnaXd0ow",
+      version: "weekly",
+    });
+
+    loader.load().then(() => {
+      const Beijing = { lat: 40, lng: 116 };
+      let map = new google.maps.Map(document.getElementById("map"), {
+        center: Beijing,
+        zoom: 8,
+      });
+      const marker = new google.maps.Marker({
+        position: Beijing,
+        map: map,
+      });
+
+    });
+  },
   data(){
     return{
       itineraryData: [
@@ -40,7 +60,7 @@ export default {
 
 <style scoped>
 .container{
-  width: 1110px;
+  width: 1320px;
   margin: 0 auto;
 }
 .itineraryTitle{
@@ -54,7 +74,7 @@ export default {
   display: flex;
 }
 .timeLine{
-  width: 350px;
+  width: 560px;
   margin: 15px;
 }
 .map{

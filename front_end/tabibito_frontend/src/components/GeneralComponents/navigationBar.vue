@@ -8,10 +8,10 @@
      </div>
      <div class="menu"></div>
    </div>-->
-     <div class="logoArea">
+     <div class="logoArea" @click="this.$router.push('/')">
        <div class="logoIcon">
        </div>
-       <div class="logoText"></div>
+       <div class="logoText">Tabibito</div>
      </div>
      <div class="actions" :style="currencyColor">
        <div class="simpleSettings">
@@ -142,7 +142,6 @@ export default defineComponent({
   },
   methods: {
     handleCurrencyChange(icon, text){
-      console.log(text)
       this.currencyIcon = icon;
       this.currencyText = text;
     },
@@ -183,9 +182,23 @@ export default defineComponent({
   flex-wrap: nowrap;
 }
 .logoArea{
-  width: 140px;
+  width: 160px;
   height: 100%;
-  background-color: antiquewhite;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.logoIcon{
+  margin: 10px;
+  height: 70px;
+  width: 70px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  background-image: url("../../assets/logo.png");
+}
+.logoText{
+  font-size: 20px;
 }
 .menu{
   width: 590px;
