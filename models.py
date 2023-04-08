@@ -3,6 +3,16 @@ from datetime import datetime
 from flask_login import UserMixin
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
+from enum import Enum
+from sqlalchemy import Enum as DBEnum
+
+class ProductStatus(Enum):
+    Delisted = "Delisted"
+    Launched = "Launched"
+
+class UserJob(Enum):
+    Customer = "Customer"
+    Staff = "Staff"
 
 
 class Comment(db.Model):
@@ -43,8 +53,8 @@ class EmailCaptchaModel(db.Model):
 class FeeDes(db.Model):
     __tablename__ = "fee_des"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.CHAR(25), nullable=False)
-    description = db.Column(db.CHAR(50), nullable=False)
+    name = db.Column(db.CHAR(50), nullable=False)
+    description = db.Column(db.CHAR(100), nullable=False)
 
     product_id = db.Column(db.Integer, ForeignKey('product.id', ondelete='CASCADE', onupdate='CASCADE'))
     product = relationship('Product', back_populates="fee_des")
@@ -55,8 +65,8 @@ class FeeDes(db.Model):
 class Order(db.Model):
     __tablename__ = 'order'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    user_id = db.Column(db.Integer, ForeignKey('user.user_id'), nullable=False)
-    product_id = db.Column(db.Integer, ForeignKey('product.id'), nullable=False)
+    user_id = db.Column(db.Integer, ForeignKey('user.user_id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False)
+    product_id = db.Column(db.Integer, ForeignKey('product.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False)
     create_time = db.Column(db.DateTime, default=datetime.now)
     order_status = db.Column(db.CHAR(50), nullable=False)
     total = db.Column(db.Float, nullable=False)
@@ -85,7 +95,7 @@ class Product(db.Model):
     start_time = db.Column(db.DateTime, nullable=False, default=datetime.now())
     end_time = db.Column(db.DateTime, nullable=False, default=datetime.now())
     app_ddl = db.Column(db.DateTime, nullable=False, default=datetime.now())
-    status = db.Column(db.CHAR(10), default='Delisted')
+    status = db.Column(DBEnum(ProductStatus), default=ProductStatus.Launched)
 
     comments = relationship('Comment', order_by='Comment.id', back_populates="product")
     trips = relationship('Trip', order_by='Trip.id', back_populates="product")
@@ -184,9 +194,9 @@ class Tag(db.Model):
     __tablename__ = "tag"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     key = db.Column(db.CHAR(25), nullable=False)
-    value = db.Column(db.CHAR(25), nullable=False)
+    value = db.Column(db.CHAR(100), nullable=False)
 
-    product_id = db.Column(db.Integer, ForeignKey('product.id',ondelete='CASCADE', onupdate='CASCADE'))
+    product_id = db.Column(db.Integer, ForeignKey('product.id', ondelete='CASCADE', onupdate='CASCADE'))
     product = relationship('Product', back_populates="tags")
 
 
@@ -206,7 +216,7 @@ class Trip(db.Model):
     map_latitude = db.Column(db.CHAR(200), nullable=False)
     map_longitude = db.Column(db.CHAR(200), nullable=False)
     map_zoom = db.Column(db.Float, nullable=False)
-    activity = db.Column(db.CHAR(100), nullable=False)
+    activity = db.Column(db.CHAR(250), nullable=False)
     picture = db.Column(db.CHAR(200))
     day = db.Column(db.CHAR(5), nullable=False)
     time_of_day = db.Column(db.CHAR(10), nullable=False)
@@ -234,12 +244,15 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return "<User(email='%s')>" % self.user_email
 
+    def get_id(self):
+        return self.user_id
+
 
 class UserBrowse(db.Model):
     __tablename__ = 'user_browse'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    user_id = db.Column(db.Integer, ForeignKey('user.user_id'), nullable=False)
-    product_id = db.Column(db.Integer, ForeignKey('product.id'), nullable=False)
+    user_id = db.Column(db.Integer, ForeignKey('user.user_id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False)
+    product_id = db.Column(db.Integer, ForeignKey('product.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     duration = db.Column(db.Integer, nullable=False)
 
@@ -265,6 +278,7 @@ class UserProfile(db.Model):
     __tablename__ = 'user_profile'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     picture_address = db.Column(db.CHAR(200))
+    job = db.Column(DBEnum(UserJob), default=UserJob.Customer)
     user_id = db.Column(db.Integer, ForeignKey('user.user_id', ondelete='CASCADE', onupdate='CASCADE'))
     user = relationship('User', back_populates="profile")
 
