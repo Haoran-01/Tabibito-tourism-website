@@ -84,15 +84,25 @@ button {
   padding: 2rem;
 }
 
+@media (max-width: 991px) {
+  /*.portal {*/
+  /*  flex-direction: column;*/
+  /*}*/
+}
+
 @media (max-width: 768px) {
   .portal main{
     padding-left: 6rem;
   }
+  .dashboard_main{
+    padding-left: 100px;
+    padding-right: 20px;
+  }
 }
 
-@media (max-width: 991px) {
-  .portal {
-    flex-direction: column;
+@media (max-width: 575px) {
+  .dashboard_main{
+    padding-right: 0;
   }
 }
 </style>

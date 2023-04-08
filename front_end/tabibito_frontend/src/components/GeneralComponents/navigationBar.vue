@@ -278,4 +278,13 @@ transition:opacity .25s
   height: 0;
 }
 .fade-leave-to {opacity:0}
+
+@media screen and (max-width: 480px) {
+  .actionButton{
+    display: none;
+  }
+  .simpleSettings{
+    width: 0;
+  }
+}
 </style>
