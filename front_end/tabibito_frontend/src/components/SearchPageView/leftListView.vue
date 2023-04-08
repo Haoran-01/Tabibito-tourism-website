@@ -12,7 +12,14 @@
             <div class="loc_margin">
               <h4 class="loc_title">Destinations</h4>
               <div class="loc_input">
-
+                <n-dropdown
+                    trigger="click"
+                    placement="bottom-start"
+                    :options="locOptions"
+                    @select="handleSelectLoc"
+                >
+                  <n-button> Select </n-button>
+                </n-dropdown>
               </div>
             </div>
           </div>
@@ -41,7 +48,14 @@
             <div class="loc_margin">
               <h4 class="loc_title">Tour Type</h4>
               <div class="loc_input">
-
+                <n-dropdown
+                    trigger="click"
+                    placement="bottom-start"
+                    :options="typeOptions"
+                      @select="handleSelectType"
+                >
+                  <n-button> choose type </n-button>
+                </n-dropdown>
               </div>
             </div>
           </div>
@@ -264,6 +278,48 @@ export default defineComponent({
           key: "price (low to high)"
         }
       ],
+      locOptions: [
+        {
+          label: '滨海湾金沙，新加坡',
+          key: 'marina bay sands'
+        },
+        {
+          label: '布朗酒店，伦敦',
+          key: "brown's hotel, london"
+        },
+        {
+          label: '亚特兰蒂斯巴哈马，拿骚',
+          key: 'atlantis nahamas, nassau'
+        },
+        {
+          label: '比佛利山庄酒店，洛杉矶',
+          key: 'the beverly hills hotel, los angeles'
+        }
+      ],
+      typeOptions: [
+        {
+          label: '滨海湾金沙，新加坡',
+          key: 'marina bay sands'
+        },
+        {
+          label: '布朗酒店，伦敦',
+          key: "brown's hotel, london"
+        },
+        {
+          label: '亚特兰蒂斯巴哈马，拿骚',
+          key: 'atlantis nahamas, nassau'
+        },
+        {
+          label: '比佛利山庄酒店，洛杉矶',
+          key: 'the beverly hills hotel, los angeles'
+        }
+      ],
+      handleSelectLoc(key) {
+        message.info(String(key));
+      },
+      handleSelectType(key) {
+        message.info(String(key));
+      },
       handleSelectSort(key) {
         message.info(String(key));
       },
@@ -276,8 +332,10 @@ export default defineComponent({
       handleSelectLanguage(key) {
         message.info(String(key));
       },
-
-    };
+      handleLocSelect (key) {
+        message.info(String(key))
+      }
+    }
   },
   mounted() {
     const loader = new Loader({
