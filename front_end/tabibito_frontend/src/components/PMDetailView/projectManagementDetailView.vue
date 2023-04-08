@@ -479,7 +479,7 @@ export default {
       activity: this.routeDatas[index].activityName,
       picture: this.routeDatas[index].activityPic,
       day: this.routeDatas[index].dayNumber,
-      time_of_day: this.routeDatas[index].activityPic
+      time_of_day: this.routeDatas[index].periodValue
     })
   }
   let fees = [];

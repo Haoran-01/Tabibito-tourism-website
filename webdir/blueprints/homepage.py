@@ -1,6 +1,6 @@
 from sqlalchemy import func
 from flask import Blueprint, jsonify, request
-import os
+import os, datetime
 from exts import db
 from config import Config
 from werkzeug.utils import secure_filename
@@ -19,3 +19,18 @@ def test():
         .all()
     )
     return jsonify(result=[product.serialize() for product in top_three_products])
+
+@bp.route("/search", methods=['GET'])
+def search():
+    location = request.json.get('location')
+    tag = request.json.get('tag')
+    start_time = datetime.datetime.fromtimestamp(request.json.get('start_time') / 1000)
+    end_time = datetime.datetime.fromtimestamp(request.json.get('end_time') / 1000)
+    print(start_time, end_time)
+
+    products = Product.query.filter(Product.raw_loc.ilike(f'%{location}%'),
+                                    Product.start_time >= start_time,
+                                    Product.end_time <= end_time,
+                                    Product.tags.any(Tag.key.ilike(f'%{tag}%'))
+                                    ).all()
+    return jsonify(products=[product.serialize_search() for product in products])

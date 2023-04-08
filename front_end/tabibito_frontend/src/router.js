@@ -28,7 +28,7 @@ const routes = [
     { path: '/travel_detail', component: TravelDetailsView},
     { path: '/management/project_detail', component: projectManagementDetailView},
     { path: '/staff_portal', component: StaffPortalView},
-    { path: '/search_page', component: leftListView}
+    { path: '/search_page', component: leftListView},
     { path: '/reservation', component: reservationview},
 ]
 

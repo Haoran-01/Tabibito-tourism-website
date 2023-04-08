@@ -105,6 +105,12 @@ class Product(db.Model):
             number = 1
         return total / number
 
+    def get_cover(self):
+        for picture in self.pictures:
+            if picture.type == 'cover':
+                return picture.address
+        return None
+
     def serialize(self):
         return {
             'id': self.id,
@@ -128,7 +134,7 @@ class Product(db.Model):
             'app_ddl': self.app_ddl,
             'price': self.ori_price * self.discount,
             'mark': self.get_mark(),
-            'review': len(self.user_browses),
+            'reviews': len(self.comments),
             'pictures': [picture.address for picture in self.pictures]
         }
 
@@ -142,8 +148,21 @@ class Product(db.Model):
             'price': self.ori_price,
             'discount': self.discount,
             'mark': self.get_mark(),
-            'review': len(self.user_browses),
+            'review': len(self.comments),
             'status': self.status
+        }
+
+    def serialize_search(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'duration': (self.end_time.timestamp() - self.start_time.timestamp()) * 1000,
+            'location': self.raw_loc,
+            'price': self.ori_price * self.discount,
+            'mark': self.get_mark(),
+            'review': len(self.comments),
+            'tags': [tag.serialize() for tag in self.tags],
+            'cover': self.get_cover()
         }
 
     def __repr__(self):
@@ -170,6 +189,11 @@ class Tag(db.Model):
     product_id = db.Column(db.Integer, ForeignKey('product.id',ondelete='CASCADE', onupdate='CASCADE'))
     product = relationship('Product', back_populates="tags")
 
+
+    def serialize(self):
+        return {
+            self.key: self.value
+        }
     def __repr__(self):
         return "<Tag(key='%s', value='%s')>" % (self.key, self.value)
 

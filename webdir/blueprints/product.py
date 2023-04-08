@@ -47,11 +47,11 @@ def add_product():
             db.session.add(product)
             db.session.commit()
 
-            cover_image = data['cover_image']
+            cover_image = data['cover']
             if cover_image:
                 p = ProductPicture(product_id=product.id, address=cover_image, type='cover_image')
                 db.session.add(p)
-            banner_image = data['banner_image']
+            banner_image = data['banner']
             if banner_image:
                 for p in banner_image:
                     p = ProductPicture(product_id=product.id, address=banner_image, type='banner_image')
