@@ -10,6 +10,7 @@ import backListView from "./components/BackListView/BackListView.vue";
 import projectManagementDetailView from "./components/PMDetailView/projectManagementDetailView.vue";
 import TravelDetailsView from "./components/TravelDetailsView/TravelDetailsView.vue";
 import StaffPortalView from "./components/StaffPortalView/staffPortalView.vue"
+import reservationview from "./components/ReservationView/reservationview.vue";
 import leftListView from "./components/SearchPageView/leftListView.vue";
 
 
@@ -22,12 +23,13 @@ const routes = [
     { path: '/reset', component: resetView},
     { path: '/homepage', component: homepageView},
     { path: '/backList', component: backListView},
-    { path: '/management/project_detail/:id', component: projectManagementDetailView},
+    { path: '/management/project_detail/:id',name: 'Edit', component: projectManagementDetailView},
     { path: '/management/project_detail',name: 'Edit', component: projectManagementDetailView},
     { path: '/travel_detail', component: TravelDetailsView},
     { path: '/management/project_detail', component: projectManagementDetailView},
     { path: '/staff_portal', component: StaffPortalView},
     { path: '/search_page', component: leftListView}
+    { path: '/reservation', component: reservationview},
 ]
 
 const router = createRouter({

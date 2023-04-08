@@ -482,6 +482,13 @@ export default {
       time_of_day: this.routeDatas[index].activityPic
     })
   }
+  let fees = [];
+  for (let index = 0; index < this.chargeDatas.length; index++){
+    fees.push({
+      name: this.chargeDatas[index].chargeName,
+      description: this.chargeDatas[index].chargeDescription
+    })
+  }
   axios.post('http://127.0.0.1:5000/product/add', {
     name: this.projectName,
     description: this.projectDescription,
@@ -502,6 +509,7 @@ export default {
     start_time: this.startTime,
     end_time: this.endTime,
     app_ddl: this.cutoffDate,
+    fee_des: fees,
     trips: trips
   })
 }
