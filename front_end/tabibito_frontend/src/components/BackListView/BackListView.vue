@@ -163,248 +163,7 @@ export default {
         { name: "Edit", cellTemplate: VGridVueTemplate(editButton), size: 90, filter: false},
       ],
       products: [
-          {
-            name: "1",
-            ori_price: "Zhou Zhongyang",
-            start_time: "2018-1-1",
-            end_time: -1,
-            app_ddl: "retail",
-            discount:'90%',
-            mark: "Xie Wenbei"
-      },
-        {
-          name: "1",
-          ori_price: "Zhou Zhongyang",
-          start_time: "1",
-          end_time: -1,
-          app_ddl: "retail",
-          discount:'90%',
-          status:'LALLALAL',
-          mark: "Xie Wenbei"
-        },
-        {
-          name: "1",
-          ori_price: "Zhou Zhongyang",
-          start_time: "1",
-          end_time: -1,
-          app_ddl: "retail",
-          discount:'90%',
-
-          mark: "Xie Wenbei"
-        },
-        {
-          name: "1",
-          ori_price: "Zhou Zhongyang",
-          start_time: "1",
-          end_time: -1,
-          app_ddl: "retail",
-          discount:'90%',
-
-          mark: "Xie Wenbei"
-        },{
-          name: "1",
-          ori_price: "Zhou Zhongyang",
-          start_time: "1",
-          end_time: -1,
-          app_ddl: "retail",
-          discount:'90%',
-
-          mark: "Xie Wenbei"
-        },{
-          name: "1",
-          ori_price: "Zhou Zhongyang",
-          start_time: "1",
-          end_time: -1,
-          app_ddl: "retail",
-          discount:'90%',
-
-          mark: "Xie Wenbei"
-        },{
-          name: "1",
-          ori_price: "Zhou Zhongyang",
-          start_time: "1",
-          end_time: -1,
-          app_ddl: "retail",
-          discount:'90%',
-
-          mark: "Xie Wenbei"
-        },{
-          name: "1",
-          ori_price: "Zhou Zhongyang",
-          start_time: "1",
-          end_time: -1,
-          app_ddl: "retail",
-          discount:'90%',
-
-          mark: "Xie Wenbei"
-        },{
-          name: "1",
-          ori_price: "Zhou Zhongyang",
-          start_time: "1",
-          end_time: -1,
-          app_ddl: "retail",
-          discount:'90%',
-
-          mark: "Xie Wenbei"
-        },{
-          name: "1",
-          ori_price: "Zhou Zhongyang",
-          start_time: "1",
-          end_time: -1,
-          app_ddl: "retail",
-          discount:'90%',
-
-          mark: "Xie Wenbei"
-        },
-        {
-          name: "1",
-          ori_price: "Zhou Zhongyang",
-          start_time: "1",
-          end_time: -1,
-          app_ddl: "retail",
-          discount:'90%',
-
-          mark: "Xie Wenbei"
-        },{
-          name: "1",
-          ori_price: "Zhou Zhongyang",
-          start_time: "1",
-          end_time: -1,
-          app_ddl: "retail",
-          discount:'90%',
-
-          mark: "Xie Wenbei"
-        },{
-          name: "1",
-          ori_price: "Zhou Zhongyang",
-          start_time: "1",
-          end_time: -1,
-          app_ddl: "retail",
-          discount:'90%',
-
-          mark: "Xie Wenbei"
-        },
-        {
-          name: "1",
-          ori_price: "Zhou Zhongyang",
-          start_time: "1",
-          end_time: -1,
-          app_ddl: "retail",
-          discount:'90%',
-
-          mark: "Xie Wenbei"
-        },
-        {
-          name: "1",
-          ori_price: "Zhou Zhongyang",
-          start_time: "1",
-          end_time: -1,
-          app_ddl: "retail",
-          discount:'90%',
-
-          mark: "Xie Wenbei"
-        },{
-          name: "1",
-          ori_price: "Zhou Zhongyang",
-          start_time: "1",
-          end_time: -1,
-          app_ddl: "retail",
-          discount:'90%',
-
-          mark: "Xie Wenbei"
-        },
-        {
-          name: "1",
-          ori_price: "Zhou Zhongyang",
-          start_time: "1",
-          end_time: -1,
-          app_ddl: "retail",
-          discount:'90%',
-
-          mark: "Xie Wenbei"
-        },
-        // {
-      //     name: "1",
-      //     ori_price: "Zhou Zhongyang",
-      //     start_time: "1",
-      //     end_time: -1,
-      //     app_ddl: "retail",
-      //     discount:'90%',
-      //
-      //     mark: "Xie Wenbei"
-      //   },{
-      //     name: "1",
-      //     ori_price: "Zhou Zhongyang",
-      //     start_time: "1",
-      //     end_time: -1,
-      //     app_ddl: "retail",
-      //     discount:'90%',
-      //
-      //     mark: "Xie Wenbei"
-      //   },{
-      //     name: "1",
-      //     ori_price: "Zhou Zhongyang",
-      //     start_time: "1",
-      //     end_time: -1,
-      //     app_ddl: "retail",
-      //     discount:'90%',
-      //
-      //     mark: "Xie Wenbei"
-      //   },{
-      //     name: "1",
-      //     ori_price: "Zhou Zhongyang",
-      //     start_time: "1",
-      //     end_time: -1,
-      //     app_ddl: "retail",
-      //     discount:'90%',
-      //
-      //     mark: "Xie Wenbei"
-      //   },{
-      //     name: "1",
-      //     ori_price: "Zhou Zhongyang",
-      //     start_time: "1",
-      //     end_time: -1,
-      //     app_ddl: "retail",
-      //     discount:'90%',
-      //
-      //     mark: "Xie Wenbei"
-      //   },{
-      //     name: "1",
-      //     ori_price: "Zhou Zhongyang",
-      //     start_time: "1",
-      //     end_time: -1,
-      //     app_ddl: "retail",
-      //     discount:'90%',
-      //
-      //     mark: "Xie Wenbei"
-      //   },{
-      //     name: "1",
-      //     ori_price: "Zhou Zhongyang",
-      //     start_time: "1",
-      //     end_time: -1,
-      //     app_ddl: "retail",
-      //     discount:'90%',
-      //
-      //     mark: "Xie Wenbei"
-      //   },{
-      //     name: "1",
-      //     ori_price: "Zhou Zhongyang",
-      //     start_time: "1",
-      //     end_time: -1,
-      //     app_ddl: "retail",
-      //     discount:'90%',
-      //
-      //     mark: "Xie Wenbei"
-      //   },{
-      //     name: "1",
-      //     ori_price: "Zhou Zhongyang",
-      //     start_time: "1",
-      //     end_time: -1,
-      //     app_ddl: "retail",
-      //     discount:'90%',
-      //
-      //     mark: "Xie Wenbei"
-      //   },{
+          // {
       //     name: "1",
       //     ori_price: "Zhou Zhongyang",
       //     start_time: "1",
@@ -418,11 +177,13 @@ export default {
     }
   },
   created() {
-    axios.get('http://127.0.0.1:5000/staff_portal/product_list')
+    axios.post('http://127.0.0.1:5000/staff_portal/product_list',{
+      page: 1
+    })
         .then((response)=>{
           const code = response.status
           if (code === 200){
-            this.products = response.data
+            this.products = response.data.products
           }
         })
 
@@ -430,7 +191,7 @@ export default {
         .then((response)=>{
           const code = response.status
           if (code === 200){
-            const count = response.data
+            const count = response.data.number
             this.countPage  = Math.floor(count / 17) + (count % 17 > 0 ? 1 : 0);
           }
         })
@@ -442,8 +203,7 @@ export default {
       axios.post('http://127.0.0.1:5000/staff_portal/product_list',{
         page: newPage
       }).then(function (response){
-        this.products = response.data
-        console.log("分页成功嘞 yeeee")
+        this.products = response.data.products
       }).catch(function (error){
         console.log(error);
       });

@@ -198,7 +198,7 @@ class Product(db.Model):
     def banners(self):
         result = []
         for picture in self.pictures:
-            if picture.type == 'Banner':
+            if picture.type == PictureType.Banner:
                 result.append(picture.address)
         return result
 
@@ -212,7 +212,7 @@ class Product(db.Model):
             'price': self.ori_price,
             'discount': self.discount,
             'mark': self.get_mark(),
-            'status': str(self.status)
+            'status': self.status.name
         }
 
     def serialize_homepage(self):
@@ -224,7 +224,7 @@ class Product(db.Model):
             'price': self.ori_price * self.discount,
             'reviews': len(self.comments),
             'banners': self.banners(),
-            'types': [str(type.type) for type in self.types]
+            'types': [type.type.name for type in self.types]
         }
 
     def serialize_staff_page(self):
@@ -238,7 +238,7 @@ class Product(db.Model):
             'discount': self.discount,
             'mark': self.get_mark(),
             'review': len(self.comments),
-            'status': str(self.status)
+            'status': self.status.name
         }
 
     def serialize_search(self):

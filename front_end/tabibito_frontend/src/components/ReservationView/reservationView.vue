@@ -110,6 +110,7 @@ import {useToast} from "vue-toastification";
 
 import editBtn from "./editBtn.vue";
 import cancelBtn from "./cancelBtn.vue";
+import {ref} from "vue";
 
 export default {
   name: "staffView",
@@ -122,7 +123,7 @@ export default {
   },
   data(){
     return{
-      count: 20,
+      countPage: ref(),
       columns: [
         { name: "Tourism Title", prop: "name", size: 190,
           cellTemplate: (createElement, props) => {
@@ -145,127 +146,6 @@ export default {
 
       ],
       rows: [
-        {
-          name: "1",
-          ori_price: "Zhou Zhongyang",
-          start_time: "2018-1-1",
-          end_time: -1,
-          app_ddl: "retail",
-          discount:'90%',
-          mark: "Xie Wenbei"
-        },
-        {
-          name: "1",
-          ori_price: "Zhou Zhongyang",
-          start_time: "1",
-          end_time: -1,
-          app_ddl: "retail",
-          discount:'90%',
-          status:'LALLALAL',
-          mark: "Xie Wenbei"
-        },
-        {
-          name: "1",
-          ori_price: "Zhou Zhongyang",
-          start_time: "1",
-          end_time: -1,
-          app_ddl: "retail",
-          discount:'90%',
-
-          mark: "Xie Wenbei"
-        },
-        {
-          name: "1",
-          ori_price: "Zhou Zhongyang",
-          start_time: "1",
-          end_time: -1,
-          app_ddl: "retail",
-          discount:'90%',
-
-          mark: "Xie Wenbei"
-        },{
-          name: "1",
-          ori_price: "Zhou Zhongyang",
-          start_time: "1",
-          end_time: -1,
-          app_ddl: "retail",
-          discount:'90%',
-
-          mark: "Xie Wenbei"
-        },{
-          name: "1",
-          ori_price: "Zhou Zhongyang",
-          start_time: "1",
-          end_time: -1,
-          app_ddl: "retail",
-          discount:'90%',
-
-          mark: "Xie Wenbei"
-        },{
-          name: "1",
-          ori_price: "Zhou Zhongyang",
-          start_time: "1",
-          end_time: -1,
-          app_ddl: "retail",
-          discount:'90%',
-
-          mark: "Xie Wenbei"
-        },{
-          name: "1",
-          ori_price: "Zhou Zhongyang",
-          start_time: "1",
-          end_time: -1,
-          app_ddl: "retail",
-          discount:'90%',
-
-          mark: "Xie Wenbei"
-        },{
-          name: "1",
-          ori_price: "Zhou Zhongyang",
-          start_time: "1",
-          end_time: -1,
-          app_ddl: "retail",
-          discount:'90%',
-
-          mark: "Xie Wenbei"
-        },{
-          name: "1",
-          ori_price: "Zhou Zhongyang",
-          start_time: "1",
-          end_time: -1,
-          app_ddl: "retail",
-          discount:'90%',
-
-          mark: "Xie Wenbei"
-        },
-        {
-          name: "1",
-          ori_price: "Zhou Zhongyang",
-          start_time: "1",
-          end_time: -1,
-          app_ddl: "retail",
-          discount:'90%',
-
-          mark: "Xie Wenbei"
-        },{
-          name: "1",
-          ori_price: "Zhou Zhongyang",
-          start_time: "1",
-          end_time: -1,
-          app_ddl: "retail",
-          discount:'90%',
-
-          mark: "Xie Wenbei"
-        },{
-          name: "1",
-          ori_price: "Zhou Zhongyang",
-          start_time: "1",
-          end_time: -1,
-          app_ddl: "retail",
-          discount:'90%',
-
-          mark: "Xie Wenbei"
-        },
         {
           name: "1",
           ori_price: "Zhou Zhongyang",
@@ -313,7 +193,7 @@ export default {
         .then((response)=>{
           const code = response.status
           if (code === 200){
-            this.rows = response.data
+            this.rows = response.data.rows
           }
         })
 
@@ -321,7 +201,8 @@ export default {
         .then((response)=>{
           const code = response.status
           if (code === 200){
-            this.count = response.data
+            const count = response.data.number
+            this.countPage  = Math.floor(count / 17) + (count % 17 > 0 ? 1 : 0);
           }
         })
   },
@@ -338,7 +219,7 @@ export default {
       axios.post('http://127.0.0.1:5000/user/backList',{
         page: newPage
       }).then(function (response){
-        this.rows = response.data
+        this.rows = response.data.rows
       }).catch(function (error){
         console.log(error);
       });
