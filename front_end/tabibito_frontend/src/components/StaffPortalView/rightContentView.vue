@@ -22,9 +22,9 @@
             <div class="block_sub_wrap">
               <div class="row block_content">
                 <div class="col-auto">
-                  <div class="block_title">Pending</div>
+                  <div class="block_title">Monthly Pending</div>
                   <div class="block_money">$12,800</div>
-                  <div class="block_total">Total pending</div>
+<!--                  <div class="block_total">Total pending</div>-->
                 </div>
 
                 <div class="col-auto">
@@ -37,9 +37,9 @@
             <div class="block_sub_wrap">
               <div class="row block_content">
                 <div class="col-auto">
-                  <div class="block_title">Pending</div>
+                  <div class="block_title">Monthly Earning</div>
                   <div class="block_money">$12,800</div>
-                  <div class="block_total">Total pending</div>
+<!--                  <div class="block_total">Total Confirmed</div>-->
                 </div>
 
                 <div class="col-auto">
@@ -52,9 +52,9 @@
             <div class="block_sub_wrap">
               <div class="row block_content">
                 <div class="col-auto">
-                  <div class="block_title">Pending</div>
+                  <div class="block_title">Quarterly Pending</div>
                   <div class="block_money">$12,800</div>
-                  <div class="block_total">Total pending</div>
+<!--                  <div class="block_total">Total pending</div>-->
                 </div>
 
                 <div class="col-auto">
@@ -67,9 +67,9 @@
             <div class="block_sub_wrap">
               <div class="row block_content">
                 <div class="col-auto">
-                  <div class="block_title">Pending</div>
+                  <div class="block_title">Quarterly Earning</div>
                   <div class="block_money">$12,800</div>
-                  <div class="block_total">Total pending</div>
+<!--                  <div class="block_total">Earning</div>-->
                 </div>
 
                 <div class="col-auto">
@@ -129,62 +129,23 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                  <td>#1</td>
-                  <td>New York<br> Discover America</td>
-                  <td class="table_money">$130</td>
-                  <td>$0</td>
-                  <td>
-                    <div class="table_pending">Pending</div>
-                  </td>
-                  <td>04/04/2022<br>08:16</td>
-                </tr>
 
-                <tr>
-                  <td>#2</td>
-                  <td>New York<br> Discover America</td>
-                  <td class="table_money">$130</td>
-                  <td>$0</td>
-                  <td>
-                    <div class="table_confirm">Confirmed</div>
-                  </td>
-                  <td>04/04/2022<br>08:16</td>
-                </tr>
-
-                <tr>
-                  <td>#3</td>
-                  <td>New York<br> Discover America</td>
-                  <td class="table_money">$130</td>
-                  <td>$0</td>
-                  <td>
-                    <div class="table_reject">Rejected</div>
-                  </td>
-                  <td>04/04/2022<br>08:16</td>
-                </tr>
-
-                <tr>
-                  <td>#4</td>
-                  <td>New York<br> Discover America</td>
-                  <td class="table_money">$130</td>
-                  <td>$0</td>
-                  <td>
-                    <div class="table_confirm">Confirmed</div>
-                  </td>
-                  <td>04/04/2022<br>08:16</td>
-                </tr>
-
-                <tr>
-                  <td>#5</td>
-                  <td>New York<br> Discover America</td>
-                  <td class="table_money">$130</td>
-                  <td>$0</td>
-                  <td>
-                    <div class="table_confirm">Confirmed</div>
-                  </td>
-                  <td>04/04/2022<br>08:16</td>
-                </tr>
-
+                <template v-for="(item, index) in items" :key="index">
+                  <tr>
+                    <td>#{{ index + 1 }}</td>
+                    <td>{{ item.destination }}</td>
+                    <td class="table_money">${{ item.price }}</td>
+                    <td>${{ item.discount }}</td>
+                    <td>
+                      <div v-if="item.status === 'pending'" class="table_pending">Pending</div>
+                      <div v-else-if="item.status === 'confirmed'" class="table_confirm">Confirmed</div>
+                      <div v-else-if="item.status === 'cancelled'" class="table_reject">Rejected</div>
+                    </td>
+                    <td>{{ item.date }}<br>{{ item.time }}</td>
+                  </tr>
+                </template>
                 </tbody>
+
               </n-table>
 
             </div>
@@ -401,6 +362,36 @@ export default defineComponent({
       scatter
     };
     },
+  data(){
+    return{
+      items:[
+        {
+          destination: 'New York',
+          price: '130',
+          discount: '0',
+          status: 'pending',
+          date: '04/04/2022',
+          time: '08:16'
+        },
+        {
+          destination: 'New York',
+          price: '130',
+          discount: '0',
+          status: 'confirmed',
+          date: '04/04/2022',
+          time: '08:16'
+        },
+        {
+          destination: 'New York',
+          price: '130',
+          discount: '0',
+          status: 'cancelled',
+          date: '04/04/2022',
+          time: '08:16'
+        },
+      ],
+    }
+  }
 });
 
 
