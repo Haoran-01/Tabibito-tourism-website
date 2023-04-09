@@ -58,7 +58,7 @@ def locations():
         if product:
             covers[loc] = product.pictures[0].address
 
-    return jsonify(covers=covers)
+    return jsonify(locations=covers)
 
 
 @bp.route("/lowest_discount", methods=['GET'])
