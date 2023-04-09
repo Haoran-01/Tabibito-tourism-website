@@ -10,6 +10,7 @@ from exts import db, mail
 from flask_mail import Message
 from datetime import datetime
 from werkzeug.security import generate_password_hash
+from flask_login import current_user
 
 bp = Blueprint("User", __name__, url_prefix="/user")
 
@@ -45,10 +46,11 @@ def register_check():
         user.user_first_name = user_first_name
         user.user_last_name = user_last_name
         user.user_password = hash_password
-
-        user_profile = UserProfile(user_email=user_email)
-        db.session.add(user_profile)
         db.session.add(user)
+        db.session.commit()
+
+        user_profile = UserProfile(user_id=user.user_id)
+        db.session.add(user_profile)
         db.session.commit()
         return jsonify({"code": 200, "message": "Sign up successfully!"})
     else:
@@ -83,7 +85,7 @@ def login_check():
     if login_form.validate():
         user = User.query.filter_by(user_email=user_email).first()
         login_user(user)
-        print("login")
+
         return jsonify({"code":200})
     else:
         if login_form.errors.get("user_email"):
@@ -174,6 +176,15 @@ def test_order():
     return jsonify(code=200)
 
 
+@bp.route("/login_status", methods=["GET"])
+def get_login_user():
+    if current_user and current_user.user.user_email is not None:
+        print(current_user)
+        return jsonify(id=current_user.user_id, job=current_user.user_profile.job)
+    else:
+        return jsonify(id=None, job=None)
+
+
 @bp.route("/get_all_orders", methods=['POST'])
 def get_user_orders():
     data = request.get_json(silent=True)
@@ -183,7 +194,7 @@ def get_user_orders():
     if len(all_orders != 0):
         for order in all_orders:
             result.append(order.id)
-        jsonify(code=200, all_orders=result)
+        return jsonify(code=200, all_orders=result)
     else:
-        jsonify(code=201, message="No orders for this user")
+        return jsonify(code=201, message="No orders for this user")
 

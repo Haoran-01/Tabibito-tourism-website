@@ -3,13 +3,56 @@ from datetime import datetime
 from flask_login import UserMixin
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
+from enum import Enum
+from sqlalchemy import Enum as DBEnum
+
+association_table = db.Table(
+    'product_product_type', db.Model.metadata,
+    db.Column('product_id', db.Integer, ForeignKey('product.id')),
+    db.Column('product_type_id', db.Integer, ForeignKey('product_type.id'))
+    )
+
+
+class PictureType(Enum):
+    Cover = "Cover"
+    Banner = "Banner"
+    Gallery = 'Gallery'
+
+
+class ProductStatus(Enum):
+    Delisted = "Delisted"
+    Launched = "Launched"
+
+
+class UserJob(Enum):
+    Customer = "Customer"
+    Staff = "Staff"
+
+
+class PType(Enum):
+    WildlifeTour = "WildlifeTour"
+    AdventureTour = 'AdventureTour'
+    CityTour = 'CityTour'
+    MuseumTour = 'MuseumTour'
+    BeachesTour = 'BeachesTour'
+
+
+class CommentKey(Enum):
+    Service = "Service"
+    Cost_effective = "Cost_effective"
+    Scenery = "Scenery"
 
 
 class Comment(db.Model):
     __tablename__ = "comment"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    key = db.Column(db.CHAR(20), nullable=False)  # 服务 service, 性价比 cost_effective, 风景scenery
-    value = db.Column(db.Float, nullable=False)
+    # key = db.Column(db.CHAR(20), nullable=False)  # 服务 service, 性价比 cost_effective, 风景scenery
+    # key = db.Column(DBEnum(CommentKey), default=CommentKey.Scenery)
+    # value = db.Column(db.Float, nullable=False)
+    # 三方面评分
+    service_grade = db.Column(db.Float, nullable=False)
+    cost_effective_grade = db.Column(db.Float, nullable=False)
+    scenery_grade = db.Column(db.Float, nullable=False)
     datetime = db.Column(db.DateTime, nullable=False)
     des = db.Column(db.Text, nullable=False)
     like_num = db.Column(db.Integer, default=0)
@@ -22,6 +65,29 @@ class Comment(db.Model):
 
     def __repr__(self):
         return "<Comment(key='%s', value='%2.2f')>" % (self.key, self.value)
+
+    def serialize_homepage(self):
+        return {
+            'id': self.id,
+            'datetime': self.datetime.timestamp(),
+            'pictures': [picture.address for picture in self.pictures],
+            'user_portrait': self.user.profile.picture_address,
+            'product_name': self.product.name,
+            'des': self.des
+        }
+
+    def serialize_product_page(self):
+        return {
+            'id': self.id,
+            'datetime': self.datetime.timestamp(),
+            'pictures': [picture.address for picture in self.pictures],
+            'user_portrait': self.user.profile.picture_address,
+            'product_name': self.product.name,
+            'des': self.des,
+            'service_grade': self.service_grade,
+            'cost_effective_grade': self.cost_effective_grade,
+            'scenery_grade': self.scenery_grade
+        }
 
 
 class CommentPicture(db.Model):
@@ -43,8 +109,8 @@ class EmailCaptchaModel(db.Model):
 class FeeDes(db.Model):
     __tablename__ = "fee_des"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.CHAR(25), nullable=False)
-    description = db.Column(db.CHAR(50), nullable=False)
+    name = db.Column(db.CHAR(50), nullable=False)
+    description = db.Column(db.CHAR(100), nullable=False)
 
     product_id = db.Column(db.Integer, ForeignKey('product.id', ondelete='CASCADE', onupdate='CASCADE'))
     product = relationship('Product', back_populates="fee_des")
@@ -52,11 +118,12 @@ class FeeDes(db.Model):
     def __repr__(self):
         return "<FeeDes(key='%s', value='%s')>" % (self.key, self.value)
 
+
 class Order(db.Model):
     __tablename__ = 'order'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    user_id = db.Column(db.Integer, ForeignKey('user.user_id'), nullable=False)
-    product_id = db.Column(db.Integer, ForeignKey('product.id'), nullable=False)
+    user_id = db.Column(db.Integer, ForeignKey('user.user_id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False)
+    product_id = db.Column(db.Integer, ForeignKey('product.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False)
     create_time = db.Column(db.DateTime, default=datetime.now)
     order_status = db.Column(db.CHAR(50), nullable=False)
     total = db.Column(db.Float, nullable=False)
@@ -85,7 +152,7 @@ class Product(db.Model):
     start_time = db.Column(db.DateTime, nullable=False, default=datetime.now())
     end_time = db.Column(db.DateTime, nullable=False, default=datetime.now())
     app_ddl = db.Column(db.DateTime, nullable=False, default=datetime.now())
-    status = db.Column(db.CHAR(10), default='Delisted')
+    status = db.Column(DBEnum(ProductStatus), default=ProductStatus.Launched)
 
     comments = relationship('Comment', order_by='Comment.id', back_populates="product")
     trips = relationship('Trip', order_by='Trip.id', back_populates="product")
@@ -94,6 +161,11 @@ class Product(db.Model):
     pictures = relationship('ProductPicture', order_by='ProductPicture.id', back_populates="product")
     user_browses = relationship('UserBrowse', order_by='UserBrowse.id', back_populates='product')
     orders = relationship('Order', order_by="Order.id", back_populates='product')
+    types = relationship('ProductType', secondary=association_table, back_populates='products')
+
+
+    def duration(self):
+        return datetime.fromtimestamp(self.end_time) - datetime.fromtimestamp(self.start_time)
 
     def get_mark(self):
         total = 0
@@ -107,10 +179,15 @@ class Product(db.Model):
 
     def get_cover(self):
         for picture in self.pictures:
-            if picture.type == 'cover':
+            if picture.type == 'Cover':
                 return picture.address
         return None
-
+    def banners(self):
+        result = []
+        for picture in self.pictures:
+            if picture.type == 'Banner':
+                result.append(picture.address)
+        return result
     def serialize(self):
         return {
             'id': self.id,
@@ -121,21 +198,18 @@ class Product(db.Model):
             'price': self.ori_price,
             'discount': self.discount,
             'mark': self.get_mark(),
-            'status': self.status
+            'status': str(self.status)
         }
 
-    def serialize_home_page(self):
+    def serialize_homepage(self):
         return {
             'id': self.id,
             'name': self.name,
             'raw_loc': self.raw_loc,
-            'start_time': self.start_time,
-            'end_time': self.end_time,
-            'app_ddl': self.app_ddl,
+            'duration': self.duration(),
             'price': self.ori_price * self.discount,
-            'mark': self.get_mark(),
             'reviews': len(self.comments),
-            'pictures': [picture.address for picture in self.pictures]
+            'banners': self.banners()
         }
 
     def serialize_staff_page(self):
@@ -149,7 +223,7 @@ class Product(db.Model):
             'discount': self.discount,
             'mark': self.get_mark(),
             'review': len(self.comments),
-            'status': self.status
+            'status': str(self.status)
         }
 
     def serialize_search(self):
@@ -168,13 +242,18 @@ class Product(db.Model):
     def __repr__(self):
         return "<Product(name='%s', description='%s', group_number='%s')>" % (self.name, self.description, self.group_number)
 
+class ProductType(db.Model):
+    __tablename__ = "product_type"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    type = db.Column(DBEnum(PType), default=PType.CityTour)
+    products = relationship('Product', secondary=association_table, back_populates='types')
 
 class ProductPicture(db.Model):
     __tablename__ = "product_picture"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     address = db.Column(db.CHAR(200), nullable=False)
     # 1-cover image 2-banner_image 3-gallery 待会我写到config里
-    type = db.Column(db.CHAR(15), nullable=False)
+    type = db.Column(DBEnum(PictureType), default=PictureType.Gallery)
     product_id = db.Column(db.Integer, ForeignKey('product.id', ondelete='CASCADE', onupdate='CASCADE'))
     product = relationship('Product', back_populates="pictures")
 
@@ -184,9 +263,9 @@ class Tag(db.Model):
     __tablename__ = "tag"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     key = db.Column(db.CHAR(25), nullable=False)
-    value = db.Column(db.CHAR(25), nullable=False)
+    value = db.Column(db.CHAR(100), nullable=False)
 
-    product_id = db.Column(db.Integer, ForeignKey('product.id',ondelete='CASCADE', onupdate='CASCADE'))
+    product_id = db.Column(db.Integer, ForeignKey('product.id', ondelete='CASCADE', onupdate='CASCADE'))
     product = relationship('Product', back_populates="tags")
 
 
@@ -206,7 +285,7 @@ class Trip(db.Model):
     map_latitude = db.Column(db.CHAR(200), nullable=False)
     map_longitude = db.Column(db.CHAR(200), nullable=False)
     map_zoom = db.Column(db.Float, nullable=False)
-    activity = db.Column(db.CHAR(100), nullable=False)
+    activity = db.Column(db.CHAR(250), nullable=False)
     picture = db.Column(db.CHAR(200))
     day = db.Column(db.CHAR(5), nullable=False)
     time_of_day = db.Column(db.CHAR(10), nullable=False)
@@ -234,12 +313,15 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return "<User(email='%s')>" % self.user_email
 
+    def get_id(self):
+        return self.user_id
+
 
 class UserBrowse(db.Model):
     __tablename__ = 'user_browse'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    user_id = db.Column(db.Integer, ForeignKey('user.user_id'), nullable=False)
-    product_id = db.Column(db.Integer, ForeignKey('product.id'), nullable=False)
+    user_id = db.Column(db.Integer, ForeignKey('user.user_id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False)
+    product_id = db.Column(db.Integer, ForeignKey('product.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     duration = db.Column(db.Integer, nullable=False)
 
@@ -265,6 +347,7 @@ class UserProfile(db.Model):
     __tablename__ = 'user_profile'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     picture_address = db.Column(db.CHAR(200))
+    job = db.Column(DBEnum(UserJob), default=UserJob.Customer)
     user_id = db.Column(db.Integer, ForeignKey('user.user_id', ondelete='CASCADE', onupdate='CASCADE'))
     user = relationship('User', back_populates="profile")
 

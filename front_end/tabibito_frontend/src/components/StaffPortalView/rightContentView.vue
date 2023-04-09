@@ -192,7 +192,6 @@
 
         </div>
 
-        <footer-view></footer-view>
 
       </div>
 
@@ -475,6 +474,8 @@ export default defineComponent({
   border-radius: 4px;
   background-color: #FFFFFF !important;
   box-shadow: 0px 10px 30px 0px #05103608;
+  margin-bottom: 30px;
+  overflow-x: scroll;
 }
 
 .echarts {
@@ -545,16 +546,37 @@ export default defineComponent({
   background-color: #F5F5F5 !important;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 1600px) {
+  .dashboard_content{
+    padding: 45px;
+  }
+}
+@media (max-width: 1245px) {
+  .dashboard_content{
+    padding: 35px;
+  }
+}
+@media (max-width: 910px) {
+  .dashboard_content {
+    padding: 25px;
+  }
+}
+@media (max-width: 768px) {
   .dashboard_content {
     padding: 30px;
     padding-bottom: 0;
   }
 }
+@media (max-width: 670px) {
 
+  .dashboard_content {
+    padding: 27px;
+    padding-bottom: 0;
+  }
+}
 @media (max-width: 575px) {
   .dashboard_content {
-    padding: 20px;
+    padding: 10px;
     padding-bottom: 0;
   }
 }
@@ -688,7 +710,11 @@ export default defineComponent({
   .row-cols-md-4>*{flex:0 0 auto;width:25%}
   .row-cols-md-5>*{flex:0 0 auto;width:20%}
   .row-cols-md-6>*{flex:0 0 auto;width:16.66667%}
-  .col-md-6{flex:0 0 auto;width:50%}
+  .col-md-6{
+    flex:0 0 auto;
+    /*width:50%;*/
+    width: 100%;
+  }
 }
 
 @media (min-width:992px){
@@ -734,7 +760,11 @@ export default defineComponent({
   }
 
   .col-xl-3{flex:0 0 auto;width:25%}
-  .col-xl-5{flex:0 0 auto;width:41.66667%}
+  .col-xl-5{
+    flex:0 0 auto;
+    /*width:41.66667%;*/
+    width: 100%;
+  }
 }
 
 @media (min-width:1400px){

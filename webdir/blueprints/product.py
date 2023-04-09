@@ -5,14 +5,15 @@ import os
 from exts import db
 from config import Config
 from werkzeug.utils import secure_filename
-from models import Product, ProductPicture, Tag, Trip, FeeDes
+from models import Product, ProductPicture, Tag, Trip, FeeDes, ProductType
 bp = Blueprint("Product", __name__, url_prefix="/product")
 
 
 @bp.route("/add", methods=["POST", "GET"])
 def add_product():
     data = request.get_json()
-    print(data)
+    for i in data:
+        print(i, ':', data[i])
     if 'name' in data and 'description' in data and 'group_number' in data:
         name = data['name']
         description = data['description']
@@ -44,17 +45,26 @@ def add_product():
             app_ddl = data['app_ddl']
             if app_ddl:
                 product.app_ddl = datetime.datetime.fromtimestamp(int(app_ddl)/1000)
+
             db.session.add(product)
             db.session.commit()
 
-            cover_image = data['cover']
+            types = data['types']
+            if types:
+                product_types = []
+                for i in types:
+                    t = ProductType.query.filter(ProductType.type == i).first()
+                    product.types.append(t)
+
+
+            cover_image = data['cover_image']
             if cover_image:
-                p = ProductPicture(product_id=product.id, address=cover_image, type='cover_image')
+                p = ProductPicture(product_id=product.id, address=cover_image, type='cover')
                 db.session.add(p)
-            banner_image = data['banner']
+            banner_image = data['banner_image']
             if banner_image:
                 for p in banner_image:
-                    p = ProductPicture(product_id=product.id, address=banner_image, type='banner_image')
+                    p = ProductPicture(product_id=product.id, address=p, type='banner')
                     db.session.add(p)
             gallery = data['gallery']
             if gallery:
@@ -102,5 +112,14 @@ def upload_picture():
     file.save(os.path.join(Config.UPLOAD_FOLDER, filename))  # 将文件保存到服务器的指定目录
     # 存入数据库的操作
     return os.path.join(Config.UPLOAD_FOLDER, filename)
+
+
+@bp.route("/type_products",methods=["POST","GET"])
+def get_type_products():
+
+    type = request.json.get('type')
+
+    products = Product.query.join(Product.types).filter(ProductType.type == type).all()
+    return jsonify(products=[product.serialize() for product in products])
 
 

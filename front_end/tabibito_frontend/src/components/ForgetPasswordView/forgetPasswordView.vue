@@ -223,7 +223,8 @@ export default {
 
 .container{
   display: flex;
-
+  padding: 90px 0;
+  box-sizing: border-box;
   justify-content: center;
 }
 
@@ -235,7 +236,7 @@ export default {
 
   height: 740px;
 
-  top: 120px;
+  top: 80px;
 
   background-color: #ffffff;
 }

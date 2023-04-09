@@ -8,12 +8,12 @@
         </div>
 
         <div class="but">
-          <button class="nBtn nBtn1">
+          <button class="nBtn nBtn1" @click="this.$router.push('/login')">
             Sign In
             <div class="icon_add"></div>
           </button>
 
-          <button class="nBtn nBtn2">
+          <button class="nBtn nBtn2" @click="this.$router.push('/register')">
             Register
             <div class="icon_add"></div>
           </button>
@@ -160,6 +160,8 @@ export default {
 @media (min-width: 370px) {
   .notContainer{
     max-width: 350px;
+    padding-right:0px;
+    padding-left:0px;
   }
   .nBtn{
     margin-top: 0px;

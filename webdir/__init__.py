@@ -8,7 +8,7 @@ from models import User
 from flask import Flask, g, session
 from config import config
 from exts import mail, db
-from webdir.blueprints import user_bp, product_bp, search_bp, recommend_bp, homepage_bp, order_bp, staff_bp
+from webdir.blueprints import user_bp, product_bp, search_bp, recommend_bp, homepage_bp, order_bp, staff_bp, comment_bp
 from flask_cors import CORS
 import nltk
 # nltk.download('stopwords')
@@ -39,6 +39,7 @@ app.register_blueprint(recommend_bp)
 app.register_blueprint(homepage_bp)
 app.register_blueprint(staff_bp)
 app.register_blueprint(order_bp)
+app.register_blueprint(comment_bp)
 
 
 
@@ -50,12 +51,14 @@ login_manager.login_message_category = 'info'
 login_manager.login_message = 'Access denied'
 login_manager.init_app(app)
 
+
 @login_manager.user_loader
-def load_user(user_email):
-    if User.query.filter_by(user_email=user_email).first() is not None:
-        curr_user = User()
-        curr_user.user_email = user_email
-        return curr_user
+def load_user(user_id):
+    user = User.query.filter_by(user_id=user_id).first()
+    if user is not None:
+        return user
+    else:
+        return User()
 
 
 @app.errorhandler(ValidationError)

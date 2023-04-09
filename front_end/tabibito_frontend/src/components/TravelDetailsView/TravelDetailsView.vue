@@ -1,6 +1,7 @@
 <template>
-  <section class="pd">
-    <div class="TDCon">
+  <navigation-bar></navigation-bar>
+  <section class="pd" >
+    <div class="TDCon" style="margin-top: 80px;">
       <div class="space">
         <div class="TDTit">
           <h1 class="TDT">Stonehenge, Windsor Castle, and Bath from London</h1>
@@ -166,12 +167,34 @@
 
   </section>
 
+  <charge-list></charge-list>
 
+  <div class="TDLine full"></div>
+
+  <guest-reviews></guest-reviews>
+
+  <div class="TDLine full"></div>
+
+  <leave-reply></leave-reply>
+
+  <div class="TDLine full"></div>
+
+  <similar-experiences></similar-experiences>
+
+  <footer-view></footer-view>
 </template>
 
 <script>
+import ChargeList from "./chargeList.vue";
+import GuestReviews from "./guestReviews.vue";
+import LeaveReply from "./leaveReply.vue";
+import SimilarExperiences from "./similarExperiences.vue";
+import NavigationBar from "../GeneralComponents/navigationBar.vue";
+import footerView from "../GeneralComponents/footerView.vue";
 export default {
   name: "TravelDetailsView",
+  components: {NavigationBar, SimilarExperiences, LeaveReply, GuestReviews, ChargeList, footerView},
+
 
   data() {
     return {
@@ -364,11 +387,11 @@ export default {
 }
 
 .full{
-  margin-top: 90px !important;
+  margin-top: 40px !important;
   margin-bottom: 40px !important;
   margin-left: auto;
   margin-right: auto;
-  width: 75%;
+  max-width: 1320px;
 }
 
 .TDOverview{
@@ -382,12 +405,13 @@ export default {
 .TDTex2{
   font-size: 22px;
   font-weight: 500;
+  margin: 0;
 }
 
 .TDTex3{
   color: #051036;
   font-size: 15px;
-  //margin-top: 20px !important;
+  margin: 20px 0 0;
   line-height: 2.5;
   font-weight: 100;
 }
