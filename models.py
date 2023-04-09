@@ -198,7 +198,7 @@ class Product(db.Model):
     def banners(self):
         result = []
         for picture in self.pictures:
-            if picture.type == 'Banner':
+            if picture.type == PictureType.Banner:
                 result.append(picture.address)
         return result
 
