@@ -194,7 +194,7 @@ def get_user_orders():
     if len(all_orders != 0):
         for order in all_orders:
             result.append(order.id)
-        jsonify(code=200, all_orders=result)
+        return jsonify(code=200, all_orders=result)
     else:
-        jsonify(code=201, message="No orders for this user")
+        return jsonify(code=201, message="No orders for this user")
 

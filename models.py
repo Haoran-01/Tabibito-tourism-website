@@ -18,6 +18,7 @@ class PictureType(Enum):
     Banner = "Banner"
     Gallery = 'Gallery'
 
+
 class ProductStatus(Enum):
     Delisted = "Delisted"
     Launched = "Launched"
@@ -36,11 +37,22 @@ class PType(Enum):
     BeachesTour = 'BeachesTour'
 
 
+class CommentKey(Enum):
+    Service = "Service"
+    Cost_effective = "Cost_effective"
+    Scenery = "Scenery"
+
+
 class Comment(db.Model):
     __tablename__ = "comment"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    key = db.Column(db.CHAR(20), nullable=False)  # 服务 service, 性价比 cost_effective, 风景scenery
-    value = db.Column(db.Float, nullable=False)
+    # key = db.Column(db.CHAR(20), nullable=False)  # 服务 service, 性价比 cost_effective, 风景scenery
+    # key = db.Column(DBEnum(CommentKey), default=CommentKey.Scenery)
+    # value = db.Column(db.Float, nullable=False)
+    # 三方面评分
+    service_grade = db.Column(db.Float, nullable=False)
+    cost_effective_grade = db.Column(db.Float, nullable=False)
+    scenery_grade = db.Column(db.Float, nullable=False)
     datetime = db.Column(db.DateTime, nullable=False)
     des = db.Column(db.Text, nullable=False)
     like_num = db.Column(db.Integer, default=0)
@@ -53,6 +65,29 @@ class Comment(db.Model):
 
     def __repr__(self):
         return "<Comment(key='%s', value='%2.2f')>" % (self.key, self.value)
+
+    def serialize_homepage(self):
+        return {
+            'id': self.id,
+            'datetime': self.datetime.timestamp(),
+            'pictures': [picture.address for picture in self.pictures],
+            'user_portrait': self.user.profile.picture_address,
+            'product_name': self.product.name,
+            'des': self.des
+        }
+
+    def serialize_product_page(self):
+        return {
+            'id': self.id,
+            'datetime': self.datetime.timestamp(),
+            'pictures': [picture.address for picture in self.pictures],
+            'user_portrait': self.user.profile.picture_address,
+            'product_name': self.product.name,
+            'des': self.des,
+            'service_grade': self.service_grade,
+            'cost_effective_grade': self.cost_effective_grade,
+            'scenery_grade': self.scenery_grade
+        }
 
 
 class CommentPicture(db.Model):
