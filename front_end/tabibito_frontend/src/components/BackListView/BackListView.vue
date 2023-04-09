@@ -52,7 +52,7 @@
 <!--            @dblclick="cellClickHandler"-->
 
             <!--      一行17个      -->
-            <n-pagination class="page" v-model:page="page" :on-update:page="pageChange"	:page-count="count"/>
+            <n-pagination class="page" v-model:page="page" :on-update:page="pageChange"	:page-count="countPage"/>
 
           </div>
       </div>
@@ -123,6 +123,7 @@ import {useToast} from "vue-toastification";
 import listButton from "../BackListView/listButton.vue";
 import delistButton from "../BackListView/delistButton.vue";
 import editButton from "./editButton.vue";
+import {ref} from "vue";
 
 export default {
   name: "staffView",
@@ -138,7 +139,7 @@ export default {
   },
   data(){
     return{
-      count: 10,
+      countPage: ref(),
       columns: [
         { name: "Name", prop: "name", size: 190,
           cellTemplate: (createElement, props) => {
@@ -429,7 +430,8 @@ export default {
         .then((response)=>{
           const code = response.status
           if (code === 200){
-            this.count = response.data
+            const count = response.data
+            this.countPage  = Math.floor(count / 17) + (count % 17 > 0 ? 1 : 0);
           }
         })
   },
