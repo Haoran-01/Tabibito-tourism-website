@@ -42,7 +42,6 @@ def search():
 
 @bp.route("/location", methods=['GET'])
 def locations():
-    # 统计所有location出现的次数
     all_locations = [p.raw_loc for p in Product.query.all()]
     location_counts = Counter(all_locations)
 
@@ -53,12 +52,24 @@ def locations():
     # 为每个location选出一个对应的cover
     covers = {}
     for loc in most_common_locations:
-        # 找到该location的第一个product作为cover
+        # 找到该location的第一个product的第一张图片作为cover
         product = Product.query.filter_by(raw_loc=loc).first()
         if product:
             covers[loc] = product.pictures[0].address
 
-    return jsonify(locations=covers)
+    # 构造返回结果
+    result = {
+        "locations": [
+            {
+                "name": loc,
+                "project_count": location_counts[loc],
+                "picture": covers[loc]
+            }
+            for loc in most_common_locations
+        ]
+    }
+
+    return result
 
 
 @bp.route("/lowest_discount", methods=['GET'])
@@ -71,10 +82,18 @@ def lowest_discount_products():
 def four_number():
     reviews = Comment.query.count()
     products = Product.query.count()
-    users_count = db.session.query(User).join(Comment).group_by(User.user_id).having(func.avg(Comment.value) > 4).count()
+    # 计算平均分大于4的用户数量
+    users_count = (
+        db.session.query(User)
+        .join(Comment)
+        .with_entities(User.user_id)
+        .group_by(User.user_id)
+        .having(func.avg(Comment.location_grade + Comment.staff_grade + Comment.cleanliness_grade + Comment.value_for_money_grade + Comment.comfort_grade +Comment.facilities_grade + Comment.free_wifi_grade) > 4.5)
+        .count()
+    )
     orders = Order.query.count()
 
-    return jsonify(reviwe_count=reviews, product_count=products, happy_customer_count=users_count, order_count=orders)
+    return jsonify(review_count=reviews, product_count=products, happy_customer_count=users_count, order_count=orders)
 
 
 @bp.route("/next_two_months", methods=['GET'])

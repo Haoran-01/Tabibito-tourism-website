@@ -78,7 +78,7 @@
           <div class="discountCoverBookButton">Book Now</div>
         </div>
       </div>
-      <discount-items></discount-items>
+      <discount-items :discount-data="discountData"></discount-items>
     </div>
   </section>
 
@@ -86,26 +86,26 @@
     <div class="figure">
       <n-number-animation show-separator
                           :from="0"
-                          :to="10"></n-number-animation>
+                          :to="figures.review_count"></n-number-animation>
       <div class="figureName">Reviews</div>
     </div>
     <div class="figure">
       <n-number-animation show-separator
                           :from="0"
-                          :to="10"></n-number-animation>
+                          :to="figures.product_count"></n-number-animation>
       <div class="figureName">Travel Projects</div>
     </div>
     <div class="figure">
       <n-number-animation show-separator
                           :from="0"
-                          :to="10"></n-number-animation>
+                          :to="figures.happy_customer_count"></n-number-animation>
       <div class="figureName">Happy customers</div>
     </div>
     <div class="figure">
       <n-number-animation show-separator
                           :from="0"
-                          :to="10"></n-number-animation>
-      <div class="figureName">Monthly Income</div>
+                          :to="figures.order_count"></n-number-animation>
+      <div class="figureName">Orders</div>
     </div>
   </section>
 
@@ -150,7 +150,7 @@
 
 <script>
 import NavigationBar from "../GeneralComponents/navigationBar.vue";
-import {h, ref} from "vue";
+import {h, onMounted, ref} from "vue";
 import {NIcon, NTag} from "naive-ui";
 import {Location} from "@vicons/ionicons5";
 import MostPopularTours from "./mostPopularTours.vue";
@@ -176,6 +176,73 @@ export default {
     FooterView,
     Inspiration, CustomerReview, HotLocation, ChooseTourTypes, DiscountItems, MostPopularTours, NavigationBar},
   setup(){
+    let figures = {
+      "review_count": 0,
+      "order_count": 0,
+      "happy_customer_count": 0,
+      "product_count": 0
+    };
+    let discountData = {
+      "products": [
+        {
+          "name": "",
+          "review": 10,
+          "price": 92,
+          "end_time": "",
+          "start_time": "",
+          "raw_loc": "",
+          "pictures": [""],
+          "id": 93
+        },
+        {
+          "name": "",
+          "review": 10,
+          "price": 92,
+          "end_time": "",
+          "start_time": "",
+          "raw_loc": "",
+          "pictures": [""],
+          "id": 93
+        },
+        {
+          "name": "",
+          "review": 10,
+          "price": 92,
+          "end_time": "",
+          "start_time": "",
+          "raw_loc": "",
+          "pictures": [""],
+          "id": 93
+        }
+      ]
+    };
+    onMounted(() =>{
+      axios.get('http://127.0.0.1:5000/homepage/four_number')
+          .then(function (response) {
+            figures = response.data
+          })
+      axios.get('http://127.0.0.1:5000/homepage/lowest_discount')
+          .then(function (res){
+            discountData = res.data.products
+            for(let i = 0; i < discountData.length; i++){
+              let raw_time = discountData[i].duration;
+              let hour = Math.round(raw_time/3600);
+              let day = Math.round(hour/24);
+              if (hour > 24 && day === 1){
+                discountData[i].duration = '1 Day'
+              }
+              if (hour > 24 && day > 1){
+                discountData[i].duration = day + ' Days'
+              }
+              if (hour === 1){
+                discountData.duration = '1 Hour'
+              }
+              if (hour < 24 && hour !== 1){
+                discountData.duration = hour + ' Hours'
+              }
+            }
+          })
+    })
     let startTime = ref();
     let endTime = ref();
     let currentLocation = ref("select");
@@ -200,6 +267,7 @@ export default {
       currentLocation,
       startTime,
       endTime,
+      figures,
       range: ref([]),
       tagValue: ref([]),
       tags: [
@@ -260,16 +328,17 @@ export default {
         if (startTime.value === 0 || startTime.value === null || endTime.value === null || endTime.value === 0 || currentLocation.value === "select"){
           return;
         }
-        axios.post("",
+        axios.post("http://127.0.0.1:5000/homepage/search",
             {
-              startTime: startTime.value,
-              endTime: endTime.value,
-              currentLocation: currentLocation.value
+              start_time: startTime.value,
+              end_time: endTime.value,
+              location: currentLocation.value,
+              tags: this.tagValue
             }
         )
             .then(function (response){
               if (response.data.code === 200){
-                this.router.push()
+                this.router.push('/search_result')
               }
             })
       }

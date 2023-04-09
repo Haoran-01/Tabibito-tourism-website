@@ -17,110 +17,85 @@
 
       <!--      第一个图片区块-->
       <div class="blocks">
+        <div v-for="location in locations" :key="location.name">
         <div class="rect">
           <a class="clickArea">
             <div class="box">
-            <img class="image" src="../../assets/1.png" alt="">
+            <img class="image" src="{{ location.picture }}" alt="">
             </div>
             <div class="text">
-            <div class="text1">Miami</div>
-            <div class="text2">4,090 properties</div>
+            <div class="text1">{{ location.name }}</div>
+            <div class="text2">{{ location.project_count }} projects</div>
             </div>
           </a>
         </div>
-
-      <!--      第二图片区块-->
-        <div class="rect">
-          <a class="clickArea">
-            <div class="box">
-              <img class="image" src="../../assets/1.png" alt="">
-            </div>
-            <div class="text">
-              <div class="text1">Miami</div>
-              <div class="text2">4,090 properties</div>
-            </div>
-          </a>
-
         </div>
 
-      <!--      第三图片区块-->
-        <div class="rect">
-          <a class="clickArea">
-            <div class="box">
-              <img class="image" src="../../assets/1.png" alt="">
-            </div>
-            <div class="text">
-              <div class="text1">Miami</div>
-              <div class="text2">4,090 properties</div>
-            </div>
-          </a>
-        </div>
 
-        <!--      第四个图片区块-->
-        <div class="rect">
-          <a class="clickArea">
-            <div class="box">
-              <img class="image" src="../../assets/1.png" alt="">
-            </div>
-            <div class="text">
-              <div class="text1">Miami</div>
-              <div class="text2">4,090 properties</div>
-            </div>
-          </a>
-        </div>
+<!--        &lt;!&ndash;      第四个图片区块&ndash;&gt;-->
+<!--        <div class="rect">-->
+<!--          <a class="clickArea">-->
+<!--            <div class="box">-->
+<!--              <img class="image" src="../../assets/1.png" alt="">-->
+<!--            </div>-->
+<!--            <div class="text">-->
+<!--              <div class="text1">Miami</div>-->
+<!--              <div class="text2">4,090 properties</div>-->
+<!--            </div>-->
+<!--          </a>-->
+<!--        </div>-->
 
-        <!--      第五个图片区块-->
-        <div class="rect">
-          <a class="clickArea">
-            <div class="box">
-              <img class="image" src="../../assets/1.png" alt="">
-            </div>
-            <div class="text">
-              <div class="text1">Miami</div>
-              <div class="text2">4,090 properties</div>
-            </div>
-          </a>
-        </div>
+<!--        &lt;!&ndash;      第五个图片区块&ndash;&gt;-->
+<!--        <div class="rect">-->
+<!--          <a class="clickArea">-->
+<!--            <div class="box">-->
+<!--              <img class="image" src="../../assets/1.png" alt="">-->
+<!--            </div>-->
+<!--            <div class="text">-->
+<!--              <div class="text1">Miami</div>-->
+<!--              <div class="text2">4,090 properties</div>-->
+<!--            </div>-->
+<!--          </a>-->
+<!--        </div>-->
 
-        <!--      第六个图片区块-->
-        <div class="rect">
-          <a class="clickArea">
-            <div class="box">
-              <img class="image" src="../../assets/1.png" alt="">
-            </div>
-            <div class="text">
-              <div class="text1">Miami</div>
-              <div class="text2">4,090 properties</div>
-            </div>
-          </a>
-        </div>
+<!--        &lt;!&ndash;      第六个图片区块&ndash;&gt;-->
+<!--        <div class="rect">-->
+<!--          <a class="clickArea">-->
+<!--            <div class="box">-->
+<!--              <img class="image" src="../../assets/1.png" alt="">-->
+<!--            </div>-->
+<!--            <div class="text">-->
+<!--              <div class="text1">Miami</div>-->
+<!--              <div class="text2">4,090 properties</div>-->
+<!--            </div>-->
+<!--          </a>-->
+<!--        </div>-->
 
-        <!--      第七个图片区块-->
-        <div class="rect">
-          <a class="clickArea">
-            <div class="box">
-              <img class="image" src="../../assets/1.png" alt="">
-            </div>
-            <div class="text">
-              <div class="text1">Miami</div>
-              <div class="text2">4,090 properties</div>
-            </div>
-          </a>
-        </div>
+<!--        &lt;!&ndash;      第七个图片区块&ndash;&gt;-->
+<!--        <div class="rect">-->
+<!--          <a class="clickArea">-->
+<!--            <div class="box">-->
+<!--              <img class="image" src="../../assets/1.png" alt="">-->
+<!--            </div>-->
+<!--            <div class="text">-->
+<!--              <div class="text1">Miami</div>-->
+<!--              <div class="text2">4,090 properties</div>-->
+<!--            </div>-->
+<!--          </a>-->
+<!--        </div>-->
 
-        <!--      第八个图片区块-->
-        <div class="rect">
-          <a class="clickArea">
-            <div class="box">
-              <img class="image" src="../../assets/1.png" alt="">
-            </div>
-            <div class="text">
-              <div class="text1">Miami</div>
-              <div class="text2">4,090 properties</div>
-            </div>
-          </a>
-        </div>
-
+<!--        &lt;!&ndash;      第八个图片区块&ndash;&gt;-->
+<!--        <div class="rect">-->
+<!--          <a class="clickArea">-->
+<!--            <div class="box">-->
+<!--              <img class="image" src="../../assets/1.png" alt="">-->
+<!--            </div>-->
+<!--            <div class="text">-->
+<!--              <div class="text1">Miami</div>-->
+<!--              <div class="text2">4,090 properties</div>-->
+<!--            </div>-->
+<!--          </a>-->
+<!--        </div>-->
 
       </div>
 
@@ -129,20 +104,31 @@
 
   </section>
 
-<!--  <customer-review></customer-review>-->
-<!--  <inspiration></inspiration>-->
-<!--  <not-a-member></not-a-member>-->
-
 </template>
 
 <script>
 import CustomerReview from "./customerReview.vue";
 import Inspiration from "./inspiration.vue";
 import NotAMember from "./notMember.vue";
+import axios from 'axios';
 
 export default {
-name: "hotLocation",
-  components: {NotAMember, Inspiration, CustomerReview}
+  name: "hotLocation",
+  components: {NotAMember, Inspiration, CustomerReview},
+  data() {
+    return {
+      locations: []  // 保存从后端获取到的数据
+    }
+  },
+  mounted() {
+    axios.get('http://127.0.0.1:5000/homepage/location')
+        .then(response => {
+          this.locations = response.data.locations;
+        })
+        .catch(error => {
+          console.error(error);
+        });
+  }
 }
 </script>
 
