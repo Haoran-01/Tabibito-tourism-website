@@ -123,7 +123,7 @@ export default {
   mounted() {
     axios.get('http://127.0.0.1:5000/homepage/location')
         .then(response => {
-          this.locations = response.data;
+          this.locations = response.data.locations;
         })
         .catch(error => {
           console.error(error);
