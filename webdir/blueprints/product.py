@@ -122,4 +122,12 @@ def get_type_products():
     products = Product.query.join(Product.types).filter(ProductType.type == type).all()
     return jsonify(products=[product.serialize() for product in products])
 
+@bp.route("/detail", methods=['POST', 'GET'])
+def product_detail():
+    product_id = request.json.get('product_id')
+
+    product = Product.query.filter(Product.id==product_id).first()
+
+
+    return jsonify(product.serialize_detail())
 
