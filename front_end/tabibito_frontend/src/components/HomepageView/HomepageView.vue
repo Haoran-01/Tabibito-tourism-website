@@ -86,25 +86,25 @@
     <div class="figure">
       <n-number-animation show-separator
                           :from="0"
-                          :to="figures.review_count"></n-number-animation>
+                          :to="this.figures.review_count"></n-number-animation>
       <div class="figureName">Reviews</div>
     </div>
     <div class="figure">
       <n-number-animation show-separator
                           :from="0"
-                          :to="figures.product_count"></n-number-animation>
+                          :to="this.figures.product_count"></n-number-animation>
       <div class="figureName">Travel Projects</div>
     </div>
     <div class="figure">
       <n-number-animation show-separator
                           :from="0"
-                          :to="figures.happy_customer_count"></n-number-animation>
+                          :to="this.figures.happy_customer_count"></n-number-animation>
       <div class="figureName">Happy customers</div>
     </div>
     <div class="figure">
       <n-number-animation show-separator
                           :from="0"
-                          :to="figures.order_count"></n-number-animation>
+                          :to="this.figures.order_count"></n-number-animation>
       <div class="figureName">Orders</div>
     </div>
   </section>
@@ -150,7 +150,7 @@
 
 <script>
 import NavigationBar from "../GeneralComponents/navigationBar.vue";
-import {h, onMounted, ref} from "vue";
+import {h, onBeforeMount, onMounted, ref} from "vue";
 import {NIcon, NTag} from "naive-ui";
 import {Location} from "@vicons/ionicons5";
 import MostPopularTours from "./mostPopularTours.vue";
@@ -176,73 +176,35 @@ export default {
     FooterView,
     Inspiration, CustomerReview, HotLocation, ChooseTourTypes, DiscountItems, MostPopularTours, NavigationBar},
   setup(){
-    let figures = {
-      "review_count": 0,
-      "order_count": 0,
-      "happy_customer_count": 0,
-      "product_count": 0
-    };
-    let discountData = {
-      "products": [
-        {
-          "name": "",
-          "review": 10,
-          "price": 92,
-          "end_time": "",
-          "start_time": "",
-          "raw_loc": "",
-          "pictures": [""],
-          "id": 93
-        },
-        {
-          "name": "",
-          "review": 10,
-          "price": 92,
-          "end_time": "",
-          "start_time": "",
-          "raw_loc": "",
-          "pictures": [""],
-          "id": 93
-        },
-        {
-          "name": "",
-          "review": 10,
-          "price": 92,
-          "end_time": "",
-          "start_time": "",
-          "raw_loc": "",
-          "pictures": [""],
-          "id": 93
-        }
-      ]
-    };
-    onMounted(() =>{
-      axios.get('http://127.0.0.1:5000/homepage/four_number')
-          .then(function (response) {
-            figures = response.data
-          })
-      axios.get('http://127.0.0.1:5000/homepage/lowest_discount')
-          .then(function (res){
-            discountData = res.data.products
-            for(let i = 0; i < discountData.length; i++){
-              let raw_time = discountData[i].duration;
-              let hour = Math.round(raw_time/3600);
-              let day = Math.round(hour/24);
-              if (hour > 24 && day === 1){
-                discountData[i].duration = '1 Day'
-              }
-              if (hour > 24 && day > 1){
-                discountData[i].duration = day + ' Days'
-              }
-              if (hour === 1){
-                discountData.duration = '1 Hour'
-              }
-              if (hour < 24 && hour !== 1){
-                discountData.duration = hour + ' Hours'
-              }
+    let figures = ref({});
+    axios.get('http://127.0.0.1:5000/homepage/four_number')
+        .then(function (response) {
+          figures.value = response.data
+        })
+    let discountData = ref({});
+    axios.get('http://127.0.0.1:5000/homepage/lowest_discount')
+        .then(function (res){
+          discountData.value = res.data.products
+          console.log(discountData.value)
+          for(let i = 0; i < discountData.value.length; i++){
+            let raw_time = discountData.value[i].duration;
+            let hour = Math.round(raw_time/3600);
+            let day = Math.round(hour/24);
+            if (hour > 24 && day === 1){
+              discountData.value[i].duration = '1 Day'
             }
-          })
-    })
+            if (hour > 24 && day > 1){
+              discountData.value[i].duration = day + ' Days'
+            }
+            if (hour === 1){
+              discountData.value[i].duration = '1 Hour'
+            }
+            if (hour < 24 && hour !== 1){
+              discountData.value[i].duration = hour + ' Hours'
+            }
+          }
+        })
+    onBeforeMount(() =>{})
     let startTime = ref();
     let endTime = ref();
     let currentLocation = ref("select");
@@ -268,6 +230,7 @@ export default {
       startTime,
       endTime,
       figures,
+      discountData,
       range: ref([]),
       tagValue: ref([]),
       tags: [
