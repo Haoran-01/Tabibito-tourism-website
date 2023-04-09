@@ -111,11 +111,6 @@
                        :count-graphemes="countGraphemes"/>
             </div>
             <div class="form_input">
-              <n-input v-model:value="value" type="text" size="large" placeholder="Email" clearable show-count
-                       :maxlength="12"
-                       :count-graphemes="countGraphemes"/>
-            </div>
-            <div class="form_input">
               <n-input
                   v-model:value="value"
                   type="textarea"

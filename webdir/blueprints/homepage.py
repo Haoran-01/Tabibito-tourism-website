@@ -6,6 +6,7 @@ from config import Config
 from werkzeug.utils import secure_filename
 from models import Product, ProductPicture, Tag, Trip, FeeDes, UserBrowse, Comment, User, Order
 from collections import Counter
+from sqlalchemy import and_
 
 bp = Blueprint("Homepage", __name__, url_prefix="/homepage")
 
@@ -26,7 +27,7 @@ def test():
 @bp.route("/search", methods=['GET'])
 def search():
     location = request.json.get('location')
-    tag = request.json.get('tag')
+    tags = request.json.get('tags')
     start_time = datetime.datetime.fromtimestamp(request.json.get('start_time') / 1000)
     end_time = datetime.datetime.fromtimestamp(request.json.get('end_time') / 1000)
     print(start_time, end_time)
@@ -34,14 +35,13 @@ def search():
     products = Product.query.filter(Product.raw_loc.ilike(f'%{location}%'),
                                     Product.start_time >= start_time,
                                     Product.end_time <= end_time,
-                                    Product.tags.any(Tag.key.ilike(f'%{tag}%'))
+                                    Product.tags.any(Tag.key.in_(tags))
                                     ).all()
     return jsonify(products=[product.serialize_search() for product in products])
 
 
 @bp.route("/location", methods=['GET'])
 def locations():
-    # 统计所有location出现的次数
     all_locations = [p.raw_loc for p in Product.query.all()]
     location_counts = Counter(all_locations)
 
@@ -52,29 +52,49 @@ def locations():
     # 为每个location选出一个对应的cover
     covers = {}
     for loc in most_common_locations:
-        # 找到该location的第一个product作为cover
+        # 找到该location的第一个product的第一张图片作为cover
         product = Product.query.filter_by(raw_loc=loc).first()
         if product:
             covers[loc] = product.pictures[0].address
 
-    return jsonify(covers=covers)
+    # 构造返回结果
+    result = {
+        "locations": [
+            {
+                "name": loc,
+                "project_count": location_counts[loc],
+                "picture": covers[loc]
+            }
+            for loc in most_common_locations
+        ]
+    }
+
+    return result
 
 
-@bp.route("lowest_discount", methods=['GET'])
+@bp.route("/lowest_discount", methods=['GET'])
 def lowest_discount_products():
     products = Product.query.order_by(Product.discount).limit(3).all()
     return jsonify(products=[product.serialize_homepage() for product in products])
 
 
-@bp.route("four_number", methods=['GET'])
+@bp.route("/four_number", methods=['GET'])
 def four_number():
     reviews = Comment.query.count()
     products = Product.query.count()
-    users_count = db.session.query(User).join(Comment).group_by(User.user_id).having(
-        func.avg(Comment.value) > 4).count()
+    users_count = db.session.query(User).join(Comment).group_by(User.user_id).having(func.avg(Comment.value) > 4).count()
     orders = Order.query.count()
 
     return jsonify(reviwe_count=reviews, product_count=products, happy_customer_count=users_count, order_count=orders)
+
+
+@bp.route("/next_two_months", methods=['GET'])
+def next_two_months():
+    now = datetime.datetime.now()
+    end_date = now + datetime.timedelta(days=60)
+
+    products = Product.query.filter(and_(Product.start_time >= now, Product.start_time <= end_date)).all()
+    return jsonify(products=[product.serialize_homepage() for product in products])
 
 
 @bp.route("/most_popular_comments", methods=["GET"])
