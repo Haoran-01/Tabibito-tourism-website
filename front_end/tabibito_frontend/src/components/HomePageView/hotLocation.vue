@@ -24,7 +24,7 @@
             <img class="image" src="{{ location.picture }}" alt="">
             </div>
             <div class="text">
-            <div class="text1">{{ loaction.name }}</div>
+            <div class="text1">{{ location.name }}</div>
             <div class="text2">{{ location.project_count }} projects</div>
             </div>
           </a>
@@ -45,57 +45,57 @@
 <!--          </a>-->
 <!--        </div>-->
 
-        <!--      第五个图片区块-->
-        <div class="rect">
-          <a class="clickArea">
-            <div class="box">
-              <img class="image" src="../../assets/1.png" alt="">
-            </div>
-            <div class="text">
-              <div class="text1">Miami</div>
-              <div class="text2">4,090 properties</div>
-            </div>
-          </a>
-        </div>
+<!--        &lt;!&ndash;      第五个图片区块&ndash;&gt;-->
+<!--        <div class="rect">-->
+<!--          <a class="clickArea">-->
+<!--            <div class="box">-->
+<!--              <img class="image" src="../../assets/1.png" alt="">-->
+<!--            </div>-->
+<!--            <div class="text">-->
+<!--              <div class="text1">Miami</div>-->
+<!--              <div class="text2">4,090 properties</div>-->
+<!--            </div>-->
+<!--          </a>-->
+<!--        </div>-->
 
-        <!--      第六个图片区块-->
-        <div class="rect">
-          <a class="clickArea">
-            <div class="box">
-              <img class="image" src="../../assets/1.png" alt="">
-            </div>
-            <div class="text">
-              <div class="text1">Miami</div>
-              <div class="text2">4,090 properties</div>
-            </div>
-          </a>
-        </div>
+<!--        &lt;!&ndash;      第六个图片区块&ndash;&gt;-->
+<!--        <div class="rect">-->
+<!--          <a class="clickArea">-->
+<!--            <div class="box">-->
+<!--              <img class="image" src="../../assets/1.png" alt="">-->
+<!--            </div>-->
+<!--            <div class="text">-->
+<!--              <div class="text1">Miami</div>-->
+<!--              <div class="text2">4,090 properties</div>-->
+<!--            </div>-->
+<!--          </a>-->
+<!--        </div>-->
 
-        <!--      第七个图片区块-->
-        <div class="rect">
-          <a class="clickArea">
-            <div class="box">
-              <img class="image" src="../../assets/1.png" alt="">
-            </div>
-            <div class="text">
-              <div class="text1">Miami</div>
-              <div class="text2">4,090 properties</div>
-            </div>
-          </a>
-        </div>
+<!--        &lt;!&ndash;      第七个图片区块&ndash;&gt;-->
+<!--        <div class="rect">-->
+<!--          <a class="clickArea">-->
+<!--            <div class="box">-->
+<!--              <img class="image" src="../../assets/1.png" alt="">-->
+<!--            </div>-->
+<!--            <div class="text">-->
+<!--              <div class="text1">Miami</div>-->
+<!--              <div class="text2">4,090 properties</div>-->
+<!--            </div>-->
+<!--          </a>-->
+<!--        </div>-->
 
-        <!--      第八个图片区块-->
-        <div class="rect">
-          <a class="clickArea">
-            <div class="box">
-              <img class="image" src="../../assets/1.png" alt="">
-            </div>
-            <div class="text">
-              <div class="text1">Miami</div>
-              <div class="text2">4,090 properties</div>
-            </div>
-          </a>
-        </div>
+<!--        &lt;!&ndash;      第八个图片区块&ndash;&gt;-->
+<!--        <div class="rect">-->
+<!--          <a class="clickArea">-->
+<!--            <div class="box">-->
+<!--              <img class="image" src="../../assets/1.png" alt="">-->
+<!--            </div>-->
+<!--            <div class="text">-->
+<!--              <div class="text1">Miami</div>-->
+<!--              <div class="text2">4,090 properties</div>-->
+<!--            </div>-->
+<!--          </a>-->
+<!--        </div>-->
 
       </div>
 
