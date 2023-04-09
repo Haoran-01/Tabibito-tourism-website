@@ -176,8 +176,46 @@ export default {
     FooterView,
     Inspiration, CustomerReview, HotLocation, ChooseTourTypes, DiscountItems, MostPopularTours, NavigationBar},
   setup(){
-    let figures = null;
-    let discountData = null;
+    let figures = {
+      "review_count": 0,
+      "order_count": 0,
+      "happy_customer_count": 0,
+      "product_count": 0
+    };
+    let discountData = {
+      "products": [
+        {
+          "name": "",
+          "review": 10,
+          "price": 92,
+          "end_time": "",
+          "start_time": "",
+          "raw_loc": "",
+          "pictures": [""],
+          "id": 93
+        },
+        {
+          "name": "",
+          "review": 10,
+          "price": 92,
+          "end_time": "",
+          "start_time": "",
+          "raw_loc": "",
+          "pictures": [""],
+          "id": 93
+        },
+        {
+          "name": "",
+          "review": 10,
+          "price": 92,
+          "end_time": "",
+          "start_time": "",
+          "raw_loc": "",
+          "pictures": [""],
+          "id": 93
+        }
+      ]
+    };
     onMounted(() =>{
       axios.get('http://127.0.0.1:5000/homepage/four_number')
           .then(function (response) {

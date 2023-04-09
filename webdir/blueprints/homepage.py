@@ -82,10 +82,18 @@ def lowest_discount_products():
 def four_number():
     reviews = Comment.query.count()
     products = Product.query.count()
-    users_count = db.session.query(User).join(Comment).group_by(User.user_id).having(func.avg(Comment.value) > 4).count()
+    # 计算平均分大于4的用户数量
+    users_count = (
+        db.session.query(User)
+        .join(Comment)
+        .with_entities(User.user_id)
+        .group_by(User.user_id)
+        .having(func.avg(Comment.location_grade + Comment.staff_grade + Comment.cleanliness_grade + Comment.value_for_money_grade + Comment.comfort_grade +Comment.facilities_grade + Comment.free_wifi_grade) > 4.5)
+        .count()
+    )
     orders = Order.query.count()
 
-    return jsonify(reviwe_count=reviews, product_count=products, happy_customer_count=users_count, order_count=orders)
+    return jsonify(review_count=reviews, product_count=products, happy_customer_count=users_count, order_count=orders)
 
 
 @bp.route("/next_two_months", methods=['GET'])

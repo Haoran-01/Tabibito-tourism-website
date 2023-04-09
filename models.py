@@ -49,10 +49,14 @@ class Comment(db.Model):
     # key = db.Column(db.CHAR(20), nullable=False)  # 服务 service, 性价比 cost_effective, 风景scenery
     # key = db.Column(DBEnum(CommentKey), default=CommentKey.Scenery)
     # value = db.Column(db.Float, nullable=False)
-    # 三方面评分
-    service_grade = db.Column(db.Float, nullable=False)
-    cost_effective_grade = db.Column(db.Float, nullable=False)
-    scenery_grade = db.Column(db.Float, nullable=False)
+    #七方面评分
+    location_grade = db.Column(db.Float, nullable=False, default=0)
+    staff_grade = db.Column(db.Float, nullable=False)
+    cleanliness_grade = db.Column(db.Float, nullable=False)
+    value_for_money_grade = db.Column(db.Float, nullable=False, default=0)
+    comfort_grade = db.Column(db.Float, nullable=False, default=0)
+    facilities_grade = db.Column(db.Float, nullable=False, default=0)
+    free_wifi_grade = db.Column(db.Float, nullable=False, default=0)
     datetime = db.Column(db.DateTime, nullable=False)
     des = db.Column(db.Text, nullable=False)
     like_num = db.Column(db.Integer, default=0)
@@ -85,9 +89,13 @@ class Comment(db.Model):
             'user_portrait': self.user.profile.picture_address,
             'product_name': self.product.name,
             'des': self.des,
-            'service_grade': self.service_grade,
-            'cost_effective_grade': self.cost_effective_grade,
-            'scenery_grade': self.scenery_grade
+            'value_for_money_grade': self.value_for_money_grade,
+            'comfort_grade': self.comfort_grade,
+            'facilities_grade': self.facilities_grade,
+            'location_grade': self.location_grade,
+            'staff_grade': self.staff_grade,
+            'cleanliness_grade': self.cleanliness_grade,
+            'free_wifi_grade': self.free_wifi_grade
         }
 
 
