@@ -31,68 +31,6 @@
         </div>
         </div>
 
-<!--        <div class="con">-->
-<!--          <div class="img">-->
-<!--            <img src="../../assets/quote_bg.svg" alt="">-->
-<!--            <img src="../../assets/av.png" alt="">-->
-<!--          </div>-->
-
-<!--          <h4 class="tex1">Hotel Equatorial Melaka</h4>-->
-<!--          <div class="tex2">"Our family was traveling via bullet train between cities in Japan with our luggage - the location for this hotel made that so easy. Agoda price was fantastic. "</div>-->
-
-<!--          <div class="author">-->
-<!--            <h5 class="tex3">Brooklyn Simmons</h5>-->
-<!--            <div class="tex4">Web Developer</div>-->
-<!--          </div>-->
-
-<!--        </div>-->
-
-<!--        <div class="con">-->
-<!--          <div class="img">-->
-<!--            <img src="../../assets/quote_bg.svg" alt="">-->
-<!--            <img src="../../assets/av.png" alt="">-->
-<!--          </div>-->
-
-<!--          <h4 class="tex1">Hotel Equatorial Melaka</h4>-->
-<!--          <div class="tex2">"Our family was traveling via bullet train between cities in Japan with our luggage - the location for this hotel made that so easy. Agoda price was fantastic. "</div>-->
-
-<!--          <div class="author">-->
-<!--            <h5 class="tex3">Brooklyn Simmons</h5>-->
-<!--            <div class="tex4">Web Developer</div>-->
-<!--          </div>-->
-<!--        </div>-->
-
-<!--        <div class="con">-->
-<!--          <div class="img">-->
-<!--            <img src="../../assets/quote_bg.svg" alt="">-->
-<!--            <img src="../../assets/av.png" alt="">-->
-<!--          </div>-->
-
-<!--          <h4 class="tex1">Hotel Equatorial Melaka</h4>-->
-<!--          <div class="tex2">"Our family was traveling via bullet train between cities in Japan with our luggage - the location for this hotel made that so easy. Agoda price was fantastic. "</div>-->
-
-<!--          <div class="author">-->
-<!--            <h5 class="tex3">Brooklyn Simmons</h5>-->
-<!--            <div class="tex4">Web Developer</div>-->
-<!--          </div>-->
-<!--        </div>-->
-
-<!--        <div class="con">-->
-<!--          <div class="img">-->
-<!--            <img src="../../assets/quote_bg.svg" alt="">-->
-<!--            <img src="../../assets/av.png" alt="">-->
-<!--          </div>-->
-
-<!--          <h4 class="tex1">Hotel Equatorial Melaka</h4>-->
-<!--          <div class="tex2">"Our family was traveling via bullet train between cities in Japan with our luggage - the location for this hotel made that so easy. Agoda price was fantastic. "</div>-->
-
-<!--          <div class="author">-->
-<!--            <h5 class="tex3">Brooklyn Simmons</h5>-->
-<!--            <div class="tex4">Web Developer</div>-->
-<!--          </div>-->
-
-<!--        </div>-->
-
         <template #arrow="{ prev, next }">
           <div class="custom-arrow">
             <button type="button" class="custom-arrow--left" @click="prev">
@@ -138,7 +76,7 @@ export default {
   mounted() {
     axios.get('http://127.0.0.1:5000/homepage/get_popular_comment')
         .then(response => {
-          this.reviews = response.data;
+          this.reviews = response.data.reviews;
         })
         .catch(error => {
           console.error(error);

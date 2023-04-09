@@ -8,44 +8,46 @@
 
       <div class="line">
 
-      <div class="iCon">
-        <a class="iBlock">
-          <div class="iImg">
-            <img class="imgI" src="../../assets/2.png" alt="">
-          </div>
+        <div v-for="inspiration in inspiration">
+          <div class="iCon">
+            <a class="iBlock">
+              <div class="iImg">
+                <img class="imgI" src="{{ inspiration.picture }}" alt="">
+              </div>
 
-          <div class="iTex3">
-            <h4 class="iTex4">10 European ski destinations you should visit this winter</h4>
-            <div class="iTex5">April 06, 2022</div>
+              <div class="iTex3">
+                <h4 class="iTex4">{{ inspiration.project_name }}</h4>
+                <div class="iTex5">{{ inspiration.date }}</div>
+              </div>
+            </a>
           </div>
-        </a>
-      </div>
+        </div>
 
-      <div class="iCon">
-        <a class="iBlock">
-          <div class="iImg">
-            <img class="imgI" src="../../assets/2.png" alt="">
-          </div>
+<!--      <div class="iCon">-->
+<!--        <a class="iBlock">-->
+<!--          <div class="iImg">-->
+<!--            <img class="imgI" src="../../assets/2.png" alt="">-->
+<!--          </div>-->
 
-          <div class="iTex3">
-            <h4 class="iTex4">10 European ski destinations you should visit this winter</h4>
-            <div class="iTex5">April 06, 2022</div>
-          </div>
-        </a>
-      </div>
+<!--          <div class="iTex3">-->
+<!--            <h4 class="iTex4">10 European ski destinations you should visit this winter</h4>-->
+<!--            <div class="iTex5">April 06, 2022</div>-->
+<!--          </div>-->
+<!--        </a>-->
+<!--      </div>-->
 
-      <div class="iCon">
-        <a class="iBlock">
-          <div class="iImg">
-            <img class="imgI" src="../../assets/2.png" alt="">
-          </div>
+<!--      <div class="iCon">-->
+<!--        <a class="iBlock">-->
+<!--          <div class="iImg">-->
+<!--            <img class="imgI" src="../../assets/2.png" alt="">-->
+<!--          </div>-->
 
-          <div class="iTex3">
-            <h4 class="iTex4">10 European ski destinations you should visit this winter</h4>
-            <div class="iTex5">April 06, 2022</div>
-          </div>
-        </a>
-      </div>
+<!--          <div class="iTex3">-->
+<!--            <h4 class="iTex4">10 European ski destinations you should visit this winter</h4>-->
+<!--            <div class="iTex5">April 06, 2022</div>-->
+<!--          </div>-->
+<!--        </a>-->
+<!--      </div>-->
 
       </div>
     </div>
@@ -55,8 +57,24 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
-  name: "inspiration"
+  name: "inspiration",
+  data() {
+    return {
+      inspirations: []  // 保存从后端获取到的数据
+    }
+  },
+  mounted() {
+    axios.get('http://127.0.0.1:5000/homepage/get_popular_comment')
+        .then(response => {
+          this.inspirations = response.data.inspirations;
+        })
+        .catch(error => {
+          console.error(error);
+        });
+  }
 }
 </script>
 
