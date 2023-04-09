@@ -10,7 +10,7 @@ association_table = db.Table(
     'product_product_type', db.Model.metadata,
     db.Column('product_id', db.Integer, ForeignKey('product.id')),
     db.Column('product_type_id', db.Integer, ForeignKey('product_type.id'))
-    )
+)
 
 
 class PictureType(Enum):
@@ -62,6 +62,7 @@ class Comment(db.Model):
     product = relationship('Product', back_populates="comments")
     user = relationship('User', back_populates="comments")
     pictures = relationship('CommentPicture', order_by='CommentPicture.id', back_populates="comment")
+    likes = relationship('CommentLike', order_by='CommentLike.id', back_populates="comment")
 
     def __repr__(self):
         return "<Comment(key='%s', value='%2.2f')>" % (self.key, self.value)
@@ -97,6 +98,16 @@ class CommentPicture(db.Model):
 
     comment_id = db.Column(db.Integer, ForeignKey('comment.id', ondelete='CASCADE', onupdate='CASCADE'))
     comment = relationship('Comment', back_populates="pictures")
+
+
+class CommentLike(db.Model):
+    __tablename__ = 'like'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer, ForeignKey('user.user_id', ondelete='CASCADE', onupdate='CASCADE'))
+    comment_id = db.Column(db.Integer, ForeignKey('comment.id', ondelete='CASCADE', onupdate='CASCADE'))
+
+    comment = relationship('Comment', back_populates="likes")
+    user = relationship('User', back_populates="likes")
 
 
 class EmailCaptchaModel(db.Model):
@@ -163,7 +174,6 @@ class Product(db.Model):
     orders = relationship('Order', order_by="Order.id", back_populates='product')
     types = relationship('ProductType', secondary=association_table, back_populates='products')
 
-
     def duration(self):
         return datetime.fromtimestamp(self.end_time) - datetime.fromtimestamp(self.start_time)
 
@@ -182,12 +192,14 @@ class Product(db.Model):
             if picture.type == 'Cover':
                 return picture.address
         return None
+
     def banners(self):
         result = []
         for picture in self.pictures:
             if picture.type == 'Banner':
                 result.append(picture.address)
         return result
+
     def serialize(self):
         return {
             'id': self.id,
@@ -240,13 +252,16 @@ class Product(db.Model):
         }
 
     def __repr__(self):
-        return "<Product(name='%s', description='%s', group_number='%s')>" % (self.name, self.description, self.group_number)
+        return "<Product(name='%s', description='%s', group_number='%s')>" % (
+        self.name, self.description, self.group_number)
+
 
 class ProductType(db.Model):
     __tablename__ = "product_type"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     type = db.Column(DBEnum(PType), default=PType.CityTour)
     products = relationship('Product', secondary=association_table, back_populates='types')
+
 
 class ProductPicture(db.Model):
     __tablename__ = "product_picture"
@@ -258,7 +273,6 @@ class ProductPicture(db.Model):
     product = relationship('Product', back_populates="pictures")
 
 
-
 class Tag(db.Model):
     __tablename__ = "tag"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -268,11 +282,11 @@ class Tag(db.Model):
     product_id = db.Column(db.Integer, ForeignKey('product.id', ondelete='CASCADE', onupdate='CASCADE'))
     product = relationship('Product', back_populates="tags")
 
-
     def serialize(self):
         return {
             self.key: self.value
         }
+
     def __repr__(self):
         return "<Tag(key='%s', value='%s')>" % (self.key, self.value)
 
@@ -309,6 +323,7 @@ class User(UserMixin, db.Model):
     profile = relationship('UserProfile', uselist=False, back_populates="user")
     user_browses = relationship('UserBrowse', order_by='UserBrowse.id', back_populates='user')
     orders = relationship('Order', order_by='Order.id', back_populates='user')
+    likes = relationship('CommentLike', order_by='CommentLike.id', back_populates="user")
 
     def __repr__(self):
         return "<User(email='%s')>" % self.user_email
@@ -350,5 +365,3 @@ class UserProfile(db.Model):
     job = db.Column(DBEnum(UserJob), default=UserJob.Customer)
     user_id = db.Column(db.Integer, ForeignKey('user.user_id', ondelete='CASCADE', onupdate='CASCADE'))
     user = relationship('User', back_populates="profile")
-
-
