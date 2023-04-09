@@ -167,14 +167,8 @@ class Product(db.Model):
         return datetime.timestamp(self.end_time) - datetime.timestamp(self.start_time)
 
     def get_mark(self):
-        total = 0
-        number = 0
-        for comment in self.comments:
-            total = total + comment.value
-            number = number + 1
-        if number == 0:
-            number = 1
-        return total / number
+
+        return 4.5
 
     def get_cover(self):
         for picture in self.pictures:
@@ -208,7 +202,8 @@ class Product(db.Model):
             'duration': self.duration(),
             'price': self.ori_price * self.discount,
             'reviews': len(self.comments),
-            'banners': self.banners()
+            'banners': self.banners(),
+            'types': [str(type.type) for type in self.types]
         }
 
     def serialize_staff_page(self):

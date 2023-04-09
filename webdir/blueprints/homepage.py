@@ -42,7 +42,6 @@ def search():
 
 @bp.route("/location", methods=['GET'])
 def locations():
-    # 统计所有location出现的次数
     all_locations = [p.raw_loc for p in Product.query.all()]
     location_counts = Counter(all_locations)
 
@@ -53,12 +52,24 @@ def locations():
     # 为每个location选出一个对应的cover
     covers = {}
     for loc in most_common_locations:
-        # 找到该location的第一个product作为cover
+        # 找到该location的第一个product的第一张图片作为cover
         product = Product.query.filter_by(raw_loc=loc).first()
         if product:
             covers[loc] = product.pictures[0].address
 
-    return jsonify(locations=covers)
+    # 构造返回结果
+    result = {
+        "locations": [
+            {
+                "name": loc,
+                "project_count": location_counts[loc],
+                "picture": covers[loc]
+            }
+            for loc in most_common_locations
+        ]
+    }
+
+    return result
 
 
 @bp.route("/lowest_discount", methods=['GET'])
