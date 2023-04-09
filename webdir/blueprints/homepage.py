@@ -85,6 +85,7 @@ def next_two_months():
     products = Product.query.filter(and_(Product.start_time >= now, Product.start_time <= end_date)).all()
     return jsonify(products=[product.serialize_homepage() for product in products])
 
+
 @bp.route("/most_popular_comments", methods=["GET"])
 def get_popular_comments():
     comments = db.session.query(Comment).order_by(Comment.like_num.desc()).limit(5).all()
