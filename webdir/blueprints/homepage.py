@@ -13,15 +13,15 @@ bp = Blueprint("Homepage", __name__, url_prefix="/homepage")
 
 @bp.route("/most_popular_products", methods=["POST", "GET"])
 def test():
-    top_three_products = (
-        db.session.query(Product)
-            .join(Product.user_browses)
-            .group_by(Product.id)
-            .order_by(func.count(UserBrowse.id).desc())
-            .limit(3)
-            .all()
-    )
-    return jsonify(result=[product.serialize_homepage() for product in top_three_products])
+
+    products = Product.query.all()
+
+    top_three_products = sorted(products, key=lambda x: len(x.user_browses), reverse=True)
+
+    if len(top_three_products) > 3:
+        top_three_products = top_three_products[:3]
+
+    return jsonify(products=[product.serialize_homepage() for product in top_three_products])
 
 
 @bp.route("/search", methods=['GET'])
