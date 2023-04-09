@@ -292,12 +292,15 @@ transition:opacity .25s
 }
 .fade-leave-to {opacity:0}
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 500px) {
   .actionButton{
     display: none;
   }
   .simpleSettings{
     width: 0;
+  }
+  .content{
+    padding-left: 3px;
   }
 }
 </style>

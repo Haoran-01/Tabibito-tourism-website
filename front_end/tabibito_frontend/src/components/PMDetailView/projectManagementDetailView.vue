@@ -117,6 +117,26 @@
                 <input type="text" v-model="tag.value" required @focus="resetInput($event)">
                 <label class="input_label" style="left: 200px">Tag Value</label>
               </div>
+
+              <div class="inputTitle">Types</div>
+
+              <div class="typesContainer">
+                <div class="type" @click="handleChooseType('WildlifeTour', $event)">
+                  <div class="typeTitle">Wildlife Tour</div>
+                </div>
+                <div class="type" @click="handleChooseType('AdventureTour', $event)">
+                  <div class="typeTitle">Adventure Tour</div>
+                </div>
+                <div class="type" @click="handleChooseType('CityTour', $event)">
+                  <div class="typeTitle">City Tour</div>
+                </div>
+                <div class="type" @click="handleChooseType('MuseumTour', $event)">
+                  <div class="typeTitle">Museum Tour</div>
+                </div>
+                <div class="type" @click="handleChooseType('BeachesTour', $event)">
+                  <div class="typeTitle">Beaches Tour</div>
+                </div>
+              </div>
             </div>
           </n-tab-pane>
 
@@ -408,6 +428,7 @@ export default {
       dayNumber: null,
       hourNumber: null,*/
       groupNumber: null,
+      typeList: [],
       cutoffDate: null,
       locationText: null,
       mapLatitude: null,
@@ -431,6 +452,15 @@ export default {
       if (!reg.test(value)){
         this[key] = "";
         e.currentTarget.classList.add("invalidInput");
+      }
+    },
+    handleChooseType(type, e){
+      if (this.typeList.indexOf(type) !== -1){
+        e.currentTarget.classList.remove('selectedType');
+        this.typeList.splice(this.typeList.indexOf(type), 1);
+      }else {
+        e.currentTarget.classList.add('selectedType');
+        this.typeList.push(type);
       }
     },
     /*changeDurationMode(value){
@@ -510,7 +540,8 @@ export default {
     end_time: this.endTime,
     app_ddl: this.cutoffDate,
     fee_des: fees,
-    trips: trips
+    trips: trips,
+    types: this.typeList
   })
 }
 }
@@ -696,5 +727,33 @@ export default {
   .invalidInput{
     border: 1px solid #D03050 !important;
     animation: shake .5s ease-in-out;
+  }
+  .typesContainer{
+    margin-left: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .type{
+    width: 150px;
+    height: 150px;
+    border-radius: 4px;
+    background-color: #E5F0FD;
+    display: flex;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  }
+  .typeTitle{
+    font-size: 20px;
+    margin: auto;
+  }
+  .type:hover{
+    background-color: var(--primary-color);
+    color: white;
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  }
+  .selectedType{
+    background-color: var(--primary-color);
+    color: white;
   }
 </style>

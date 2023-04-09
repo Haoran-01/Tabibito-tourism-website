@@ -163,9 +163,8 @@ class Product(db.Model):
     orders = relationship('Order', order_by="Order.id", back_populates='product')
     types = relationship('ProductType', secondary=association_table, back_populates='products')
 
-
     def duration(self):
-        return datetime.fromtimestamp(self.end_time) - datetime.fromtimestamp(self.start_time)
+        return datetime.timestamp(self.end_time) - datetime.timestamp(self.start_time)
 
     def get_mark(self):
         total = 0
