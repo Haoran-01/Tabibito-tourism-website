@@ -1,5 +1,6 @@
 <template>
-  <section class="mostPopularLayout-pb">
+
+  <section class="mostPopularLayout-pt mostPopularLayout-pb">
     <div class="container">
       <div class="mostPopularHead">
         <div class="col-auto">
@@ -10,7 +11,7 @@
 
           <div class="col-auto">
             <a href="#" class="button -md -blue-1 bg-blue-1-05 text-blue-1">
-              See All <div class="icon"></div>
+              More <div class="icon"></div>
             </a>
           </div>
         </div>
@@ -18,23 +19,19 @@
 
       <div class="most-popular-contents" data-gap="30" data-slider-cols="xl-5 lg-4 md-2 sm-2 base-1" data-nav-prev="js-team-prev" data-pagination="js-team-pag" data-nav-next="js-team-next">
         <n-carousel :slides-per-view=slides_per_view :space-between=space_between :loop="false" show-arrow>
-          <div v-for="i in count" :key="i">
+          <div v-for="product in recommends" :key="product.id">
             <n-carousel show-arrow autoplay :space-between="2">
               <img
                   class="carousel-img"
-                  src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel1.jpeg"
+                  src="{{ product.banners[0] }}"
               >
               <img
                   class="carousel-img"
-                  src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel2.jpeg"
+                  src="{{ product.banners[1] }}"
               >
               <img
                   class="carousel-img"
-                  src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel3.jpeg"
-              >
-              <img
-                  class="carousel-img"
-                  src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel4.jpeg"
+                  src="{{ product.banners[2] }}"
               >
               <template #arrow="{ prev, next }">
                 <div class="custom-arrow">
@@ -60,16 +57,16 @@
             <n-card>
               <div class="tourCardContent">
                 <div class="tourCardTime">
-                  <div class="hours">16+ hours</div>
+                  <div class="hours">{{ product.duration }}+ hours</div>
                   <div class="dot"></div>
-                  <div class="days">Full-day Tours</div>
+                  <div class="days">{{ product.types[0] }}</div>
                 </div>
 
                 <h4 class="tourCardTitle">
-                  <span>Stonehenge, Windsor Castle and Bath with Pub Lunch in Lacock</span>
+                  <span>{{ product.name }}</span>
                 </h4>
 
-                <p class="tourCardText">Westminster Borough, London</p>
+                <p class="tourCardText">{{ product.raw_loc }}</p>
 
                 <div class="row starsLayout">
                   <div class="col-auto">
@@ -88,14 +85,14 @@
 
                       </div>
 
-                      <div class="review">3,014 reviews</div>
+                      <div class="review">{{ product.reviews }} reviews</div>
                     </div>
                   </div>
 
                   <div class="col-auto">
                     <div class="footer">
                       From
-                      <span class="price">US$72</span>
+                      <span class="price">US${{ product.price }}</span>
                     </div>
                   </div>
                 </div>
@@ -110,22 +107,33 @@
 
 
   </section>
+
 </template>
 
 <script>
 import { ArrowBack, ArrowForward } from '@vicons/ionicons5'
 import {defineComponent, onMounted, ref} from 'vue'
+import axios from "axios";
 export default {
   components: {
     ArrowBack,
     ArrowForward
   },
-  name: "similarExperiences",
+  name: "similarExperience",
   data() {
     return {
       windowWidth: document.documentElement.clientWidth,
-      count: 5, // 这里可以根据后台数据来设置重复次数
+      recommends: []
     }
+  },
+  mounted() {
+    axios.get('http://127.0.0.1:5000/recommend/products')
+        .then(response => {
+          this.recommends = response.data.products;
+        })
+        .catch(error => {
+          console.error(error);
+        });
   },
   setup() {
     let slides_per_view= ref(3);
@@ -666,4 +674,5 @@ export default {
 .text-blue-1 {
   color: #3554D1;
 }
+
 </style>
