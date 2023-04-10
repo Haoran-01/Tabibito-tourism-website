@@ -1,9 +1,7 @@
 from sqlalchemy import func
 from flask import Blueprint, jsonify, request
-import os, datetime
+import datetime
 from exts import db
-from config import Config
-from werkzeug.utils import secure_filename
 from models import Product, ProductPicture, Tag, Trip, FeeDes, UserBrowse, Comment, User, Order
 from collections import Counter
 from sqlalchemy import and_
@@ -13,13 +11,14 @@ bp = Blueprint("Homepage", __name__, url_prefix="/homepage")
 
 @bp.route("/most_popular_products", methods=["POST", "GET"])
 def test():
-
-    products = Product.query.all()
-
-    top_three_products = sorted(products, key=lambda x: len(x.user_browses), reverse=True)
-
-    if len(top_three_products) > 3:
-        top_three_products = top_three_products[:3]
+    top_three_products = (
+        db.session.query(Product)
+        .outerjoin(UserBrowse)
+        .group_by(Product.id)
+        .order_by(func.count(UserBrowse.id).desc())
+        .limit(3)
+        .all()
+    )
 
     return jsonify(products=[product.serialize_homepage() for product in top_three_products])
 
@@ -88,7 +87,15 @@ def four_number():
         .join(Comment)
         .with_entities(User.user_id)
         .group_by(User.user_id)
-        .having(func.avg(Comment.location_grade + Comment.staff_grade + Comment.cleanliness_grade + Comment.value_for_money_grade + Comment.comfort_grade +Comment.facilities_grade + Comment.free_wifi_grade) > 4.5)
+        .having(func.avg(
+            Comment.location_grade +
+            Comment.staff_grade +
+            Comment.cleanliness_grade +
+            Comment.value_for_money_grade +
+            Comment.comfort_grade +
+            Comment.facilities_grade +
+            Comment.free_wifi_grade
+        ) > 4.5)
         .count()
     )
     orders = Order.query.count()
