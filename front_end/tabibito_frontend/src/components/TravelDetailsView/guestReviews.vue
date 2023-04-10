@@ -8,13 +8,13 @@
         </h3>
 
         <div class="exceptional">
-          <div class="ex_point">4.8</div>
+          <div class="ex_point">{{ scores.exceptional }}</div>
           <div class="ex_sub_wrap">
             <div class="ex_text">
               Exceptional
             </div>
             <div class="ex_sta">
-              3,014 reviews
+              {{ reviews.reviews_num }} reviews
             </div>
           </div>
         </div>
@@ -27,7 +27,7 @@
                   Location
                 </div>
                 <div class="bar_score">
-                  9.4
+                  {{ scores.location }}
                 </div>
               </div>
 
@@ -49,7 +49,7 @@
                   Staff
                 </div>
                 <div class="bar_score">
-                  9.4
+                  {{ scores.staff }}
                 </div>
               </div>
 
@@ -71,7 +71,7 @@
                   Cleanliness
                 </div>
                 <div class="bar_score">
-                  9.4
+                  {{ scores.cleanliness }}
                 </div>
               </div>
 
@@ -93,7 +93,7 @@
                   Value for money
                 </div>
                 <div class="bar_score">
-                  9.4
+                  {{ scores.value_for_money }}
                 </div>
               </div>
 
@@ -115,7 +115,7 @@
                   Comfort
                 </div>
                 <div class="bar_score">
-                  9.4
+                  {{ scores.comfort }}
                 </div>
               </div>
 
@@ -137,7 +137,7 @@
                   Facilities
                 </div>
                 <div class="bar_score">
-                  9.4
+                  {{ scores.facilities }}
                 </div>
               </div>
 
@@ -159,7 +159,7 @@
                   Free WiFi
                 </div>
                 <div class="bar_score">
-                  9.4
+                  {{ scores.free_wifi }}
                 </div>
               </div>
 
@@ -242,7 +242,7 @@
                   <ArrowForwardOutline />
                 </n-icon>
               </template>
-              Show all 116 reviews
+              Show all {{ reviews.reviews_num }} reviews
             </n-button>
           </div>
         </div>
@@ -256,6 +256,7 @@
 <script>
 import { defineComponent, ref } from 'vue'
 import {ThumbsUp, ThumbsDown, ArrowForwardOutline} from "@vicons/ionicons5";
+import axios from "axios";
 
 export default defineComponent({
   name: "guestReviews",
@@ -275,6 +276,48 @@ export default defineComponent({
       },
       loading: loadingRef
     }
+  },
+  data() {
+    return {
+      scores: {
+        exceptional: 9.4,
+        location: 9.4,
+        staff: 9.4,
+        cleanliness: 9.4,
+        value_for_money: 9.4,
+        comfort: 9.4,
+        facilities: 9.4,
+        free_wifi: 9.4,
+      },
+      reviews: {
+        reviews_num: 1314
+      },
+    }
+  },
+  mounted() {
+    axios.post('http://127.0.0.1:5000/product/review',
+        {
+          // 暂时给定值，不知道怎么拿到id
+          product_id: 1
+        }
+    )
+        .then(function (response){
+          this.scores = response.data;
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    axios.post('http://127.0.0.1:5000/product/get_reviews',
+        {
+          product_id: 1
+        }
+    )
+        .then(function (response){
+          this.reviews = response.data;
+        })
+        .catch(error => {
+          console.error(error);
+        });
   }
 })
 </script>
