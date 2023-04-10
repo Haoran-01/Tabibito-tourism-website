@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="chargeListTitle">Detailed List for Charges</div>
+    <div class="chargeListTitle">{{ $t('projectDetailPage.ChargeList.title')}}</div>
     <div class="chargeList">
       <n-card :title="item.chargeTitle" hoverable v-for="item in chargeListData">
         {{item.chargeDescription}}

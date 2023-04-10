@@ -9,11 +9,9 @@
 
           <div class="lower">
             <div class="TDRow">
-              <img class="star" src="../../assets/star.svg" alt="">
-              <img class="star" src="../../assets/star.svg" alt="">
-              <img class="star" src="../../assets/star.svg" alt="">
-              <img class="star" src="../../assets/star.svg" alt="">
-              <img class="star" src="../../assets/star.svg" alt="">
+              <!--       星级评分       -->
+              <n-rate size="small" readonly allow-half :default-value="details.mark" />
+
             </div>
             <div class="TDReview">{{ details.reviews }} reviews</div>
 
@@ -35,10 +33,21 @@
 
         <div class="TDInput_border">
 
-          <button type="submit" class="TDAdd_btn" @click="checkLogin">
+          <button type="submit" class="TDAdd_btn" @click="showModal = true">
             See All Photos
             <div class="icon_add"></div>
           </button>
+          <!--     显示图片     -->
+          <div v-if="showModal" class="modal">
+            <div class="modal-container">
+              <div class="close-button" @click="showModal = false">X</div>
+              <img :src="imageList[currentIndex]" :key="currentIndex" class="enlarge-image">
+              <div class="image-buttons">
+                <div class="prev-button" @click="prevImage">&lt;-</div>
+                <div class="next-button" @click="nextImage">-></div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <n-carousel show-arrow class="TDImg" draggable>
@@ -200,7 +209,12 @@ export default {
   components: {NavigationBar, SimilarExperiences, LeaveReply, GuestReviews, ChargeList, footerView},
 
   data() {
+    star: ref()
     return {
+      showModal: false,
+      currentIndex: 0,
+      imageList: ref(),
+
       blockHeight: 210, // 制作区块高度
       threshold: 650, // 页面滚动的阈值
       scrollTop: 0, // 页面滚动距离
@@ -218,7 +232,6 @@ export default {
     let groupNum = ref("groupNum");
 
     const toast = useToast();
-
 
     return{
       startTime,
@@ -277,6 +290,9 @@ export default {
           // 将毫秒数转换为天数
           this.duration = Math.floor(diffMs / (1000 * 60 * 60 * 24))
 
+          this.star = this.details.mark
+
+          this.imageList = this.details.gallery
         })
         .catch(error => {
           console.error(error);
@@ -290,6 +306,12 @@ export default {
     handleScroll() {
       this.scrollTop =
           window.pageYOffset || document.documentElement.scrollTop;
+    },
+    prevImage() {
+      this.currentIndex = (this.currentIndex - 1 + this.imageList.length) % this.imageList.length;
+    },
+    nextImage() {
+      this.currentIndex = (this.currentIndex + 1) % this.imageList.length;
     },
   },
   computed: {
@@ -634,6 +656,73 @@ export default {
   border-color:  #051036;
   background-color: #051036 !important;
   color: white !important;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: black;
+  opacity: 0.88;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000000 !important;
+}
+
+.modal-container {
+  background-color: transparent;
+//padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 44%;
+}
+
+.enlarge-image {
+  width: 100%;
+  height: auto;
+  border: none;
+}
+
+.image-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.prev-button,
+.next-button,
+.close-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  font-weight: bold;
+}
+
+.prev-button:hover,
+.next-button:hover,
+.close-button:hover {
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.prev-button {
+  margin-right: 10px;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
 
 .TDCon{

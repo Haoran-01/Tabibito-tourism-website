@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="itineraryTitle">Itinerary</div>
+    <div class="itineraryTitle">{{ $t('projectDetailPage.itinerary.title') }}</div>
     <div class="itineraryCore">
       <div class="timeLine">
         <div v-for="(item, index) in itineraryData">
