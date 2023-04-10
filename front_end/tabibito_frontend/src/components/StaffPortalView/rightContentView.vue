@@ -404,7 +404,7 @@ export default defineComponent({
         });
     axios.get('http://127.0.0.1:5000/staff_portal/get_statistic')
         .then(response => {
-          this.earns = response.data.earn;
+          this.earns = response.data;
         })
         .catch(error => {
           console.error(error);
