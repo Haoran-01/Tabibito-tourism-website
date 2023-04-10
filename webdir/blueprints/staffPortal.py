@@ -26,7 +26,7 @@ def view_all_order():
     return jsonify(all_orders=result, code=200)
 
 
-@bp.route("view_latest", methods=["GET"])
+@bp.route("/recent_product_list", methods=["GET"])
 def view_latest_order():
     latest_orders = db.session.query(Order).order_by("id").limit(10).all()
     return jsonify(code=200, orders=[order.serialize_latest() for order in latest_orders])
