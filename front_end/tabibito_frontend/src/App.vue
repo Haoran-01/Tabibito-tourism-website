@@ -1,5 +1,5 @@
 <template>
-  <n-config-provider :theme-overrides="themeOverrides">
+  <n-config-provider :locale="zhCN" :theme-overrides="themeOverrides">
     <n-message-provider>
       <router-view></router-view>
     </n-message-provider>
@@ -7,6 +7,7 @@
 </template>
 
 <script>
+  import {zhCN} from "naive-ui"
   export default {
     name: 'App',
     setup(){
@@ -19,7 +20,8 @@
         }
       }
       return{
-        themeOverrides
+        themeOverrides,
+        zhCN,
       }
     }
   }

@@ -44,7 +44,7 @@
                :dropdown_item="login_item"
                :is_currency="false"
                v-show="user_is_shown"
-               v-if="false"
+               v-if="!user_is_logged_in"
                style="position: absolute; right: 100px; top: 60px"
                :style="dropDownPosition"
                @change-currency="handleCurrencyChange"
@@ -54,9 +54,9 @@
            <user-drop-down
                @mouseenter="user_is_shown = true"
                @mouseleave="user_is_shown = false"
-               v-if="true"
                style="position: absolute; right: 0; top: 60px"
                v-show="user_is_shown"
+               v-if="user_is_logged_in"
            ></user-drop-down>
          </transition>
        </div>
@@ -70,6 +70,7 @@
 import {h, defineComponent, ref, onMounted} from "vue";
 import DropDown from "./dropDown.vue";
 import userDropDown from "./userDropDown.vue";
+import axios from "axios";
 export default defineComponent({
   props: {
     isTransparent: Boolean,
@@ -79,7 +80,11 @@ export default defineComponent({
   setup(props) {
     let currency_is_shown = ref(false);
     let user_is_shown = ref(false);
-    let user_is_logged_in = ref(true);
+    let user_is_logged_in = ref(false);
+    axios.get('http://127.0.0.1:5000/user/login_status')
+        .then((res)=>{
+          this.user_is_logged_in.value = res.data.id !== null;
+        })
     let currencyIcon = ref("background-image:url('src/assets/USD.svg')");
     let currencyText = ref('USD');
     let backgroundColor = ref("background-color: white;");
@@ -135,7 +140,7 @@ export default defineComponent({
         }
       ],
       login_item: [
-        {icon: "background-image:url('src/assets/login.svg')", text: this.$t('navi.login'), path: '/'},
+        {icon: "background-image:url('src/assets/login.svg')", text: this.$t('navi.login'), path: '/login'},
         {icon: "background-image:url('src/assets/signup.svg')", text: this.$t('navi.signup'), path: '/register'}
       ]
     }
@@ -151,6 +156,7 @@ export default defineComponent({
       } else {
         this.$i18n.locale = 'en'
       }
+      // window.location.reload();
     }
   }
 });
@@ -194,6 +200,7 @@ export default defineComponent({
   display: flex;
   align-items: center;
   justify-content: space-around;
+  user-select: none;
 }
 .logoIcon{
   margin: 10px;

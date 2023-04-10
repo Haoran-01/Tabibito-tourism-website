@@ -46,7 +46,7 @@ class CommentKey(Enum):
 class Comment(db.Model):
     __tablename__ = "comment"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    #七方面评分
+    # 七方面评分
     location_grade = db.Column(db.Float, nullable=False, default=0)
     staff_grade = db.Column(db.Float, nullable=False)
     cleanliness_grade = db.Column(db.Float, nullable=False)
@@ -55,6 +55,7 @@ class Comment(db.Model):
     facilities_grade = db.Column(db.Float, nullable=False, default=0)
     free_wifi_grade = db.Column(db.Float, nullable=False, default=0)
     datetime = db.Column(db.DateTime, nullable=False)
+    title = db.Column(db.Text, nullable=False)
     des = db.Column(db.Text, nullable=False)
     like_num = db.Column(db.Integer, default=0)
     product_id = db.Column(db.Integer, ForeignKey('product.id', ondelete='CASCADE', onupdate='CASCADE'))
@@ -75,6 +76,7 @@ class Comment(db.Model):
             'pictures': [picture.address for picture in self.pictures],
             'user_portrait': self.user.profile.picture_address,
             'product_name': self.product.name,
+            'title': self.title,
             'des': self.des
         }
 
@@ -85,6 +87,7 @@ class Comment(db.Model):
             'pictures': [picture.address for picture in self.pictures],
             'user_portrait': self.user.profile.picture_address,
             'product_name': self.product.name,
+            'title': self.title,
             'des': self.des,
             'value_for_money_grade': self.value_for_money_grade,
             'comfort_grade': self.comfort_grade,
@@ -93,6 +96,16 @@ class Comment(db.Model):
             'staff_grade': self.staff_grade,
             'cleanliness_grade': self.cleanliness_grade,
             'free_wifi_grade': self.free_wifi_grade
+        }
+
+    def serialize_product_page_simple(self):
+        return {
+            'user_name': self.user.user_first_name + self.user.user_last_name,
+            'profile_pic': self.user.profile.picture_address,
+            'date_time': self.datetime.timestamp() * 1000,
+            'pic': [picture.address for picture in self.pictures],
+            'des': self.des,
+            'title': self.title,
         }
 
 
@@ -131,7 +144,6 @@ class FeeDes(db.Model):
     product_id = db.Column(db.Integer, ForeignKey('product.id', ondelete='CASCADE', onupdate='CASCADE'))
     product = relationship('Product', back_populates="fee_des")
 
-
     def serialize(self):
         return {
             'name': self.name,
@@ -157,6 +169,16 @@ class Order(db.Model):
 
     def __repr__(self):
         return "<Order(id='%s', product_id='%2.2f')>" % (self.id, self.product_id)
+
+    def serialize_latest(self):
+        return {
+            "destination": self.product.raw_loc,
+            "price": self.total,
+            "discount": self.product.discount,
+            "status": self.order_status,
+            "date": self.create_time.strftime('%Y-%m-%d'),
+            "time": self.create_time.time().strftime('%H:%M:%S')
+        }
 
 
 class Product(db.Model):
@@ -189,6 +211,16 @@ class Product(db.Model):
     def duration(self):
         return datetime.timestamp(self.end_time) - datetime.timestamp(self.start_time)
 
+    def duration_time(self):
+        if datetime.timestamp(self.end_time) - datetime.timestamp(self.start_time) <= 604800:
+            return "1 week"
+        elif 604800 < datetime.timestamp(self.end_time) - datetime.timestamp(self.start_time) <= 1209600:
+            return "2 week"
+        elif 1209600 <= datetime.timestamp(self.end_time) - datetime.timestamp(self.start_time) <= 1814400:
+            return "3 week"
+        else:
+            return "1 month"
+
     def get_mark(self):
 
         comments = self.comments
@@ -202,8 +234,37 @@ class Product(db.Model):
             total_score += comment.facilities_grade
             total_score += comment.free_wifi_grade
 
+        return total_score / (7 * len(comments))
 
-        return total_score/ (7 * len(comments))
+    def get_each_part_mark(self):
+        comments = self.comments
+        comments_number = len(comments)
+        total_location_grade = 0
+        total_staff_grade = 0
+        total_cleanliness_grade = 0
+        total_value_for_money_grade = 0
+        total_comfort_grade = 0
+        total_facilities_grade = 0
+        total_free_wifi_grade = 0
+
+        for comment in comments:
+            total_location_grade += comment.location_grade
+            total_staff_grade += comment.staff_grade
+            total_cleanliness_grade += comment.cleanliness_grade
+            total_value_for_money_grade += comment.value_for_money_grade
+            total_comfort_grade += comment.comfort_grade
+            total_facilities_grade += comment.facilities_grade
+            total_free_wifi_grade += comment.free_wifi_grade
+
+        return {
+            "location": total_location_grade / comments_number,
+            "staff": total_staff_grade / comments_number,
+            "cleanliness": total_cleanliness_grade / comments_number,
+            "value_for_money": total_value_for_money_grade / comments_number,
+            "comfort": total_comfort_grade / comments_number,
+            "facilities": total_facilities_grade / comments_number,
+            "free_wifi": total_free_wifi_grade / comments_number
+        }
 
     def get_cover(self):
         for picture in self.pictures:
@@ -277,7 +338,6 @@ class Product(db.Model):
             'cover': self.get_cover()
         }
 
-
     def serialize_detail(self):
         return {
             'id': self.id,
@@ -298,10 +358,31 @@ class Product(db.Model):
 
         }
 
+    def serialize_product_list(self):
+        return {
+            'id': self.id,
+            'image': self.pictures[0].address,
+            'hours': (self.end_time.timestamp() - self.start_time.timestamp()) * 1000,
+            'types': [the_type.type for the_type in self.types],
+            'title': self.name,
+            'location': self.raw_loc,
+            'reviews': len(self.comments),
+            'price': self.ori_price * self.discount,
+            'map_latitude': self.map_latitude,
+            'map_longitude': self.map_longitude
+        }
+
+    def serialize_inspiration(self):
+        cover_page = self.get_cover()
+        return {
+            "project_name": self.name,
+            "picture": cover_page,
+            "date": self.start_time.timestamp() * 1000
+        }
 
     def __repr__(self):
         return "<Product(name='%s', description='%s', group_number='%s')>" % (
-        self.name, self.description, self.group_number)
+            self.name, self.description, self.group_number)
 
 
 class ProductType(db.Model):

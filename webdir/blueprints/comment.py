@@ -15,7 +15,8 @@ def add_comment():
                       cleanliness_grade=data["cleanliness_grade"]
                       , value_for_money_grade=data["value_for_money_grade"], comfort_grade=data["comfort_grade"],
                       facilities_grade=data["facilities_grade"], free_wifi_grade=data["free_wifi_grade"],
-                      datetime=datetime.now(), des=data["des"], user_id=data["user_id"], product_id=data["product_id"])
+                      datetime=datetime.now(), title=data["title"], des=data["des"], user_id=data["user_id"],
+                      product_id=data["product_id"])
     db.session.add(comment)
     db.session.commit()
 

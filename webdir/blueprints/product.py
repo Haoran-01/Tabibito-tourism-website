@@ -5,7 +5,8 @@ import os
 from exts import db
 from config import Config
 from werkzeug.utils import secure_filename
-from models import Product, ProductPicture, Tag, Trip, FeeDes, ProductType
+from models import Product, ProductPicture, Tag, Trip, FeeDes, ProductType, Comment
+
 bp = Blueprint("Product", __name__, url_prefix="/product")
 
 
@@ -124,6 +125,36 @@ def get_type_products():
 
     products = Product.query.join(Product.types).filter(ProductType.type == product_type).all()
     return jsonify(products=[product.serialize() for product in products])
+
+
+@bp.route("/get_proudct_grade", methods=["POST"])
+def get_product_grade():
+    product_id = request.get_json(silent=True)["product_id"]
+    product = Product.query.filter_by(id=product_id).first()
+    marks = product.get_each_part_mark()
+    return jsonify(code=200,
+                   exceptional=marks["exceptional"], location=marks["location"], staff=marks["staff"],
+                   cleanliness=marks["cleanliness"], value_for_money=marks["value_for_money"],
+                   comfort=marks["comfort"], facilities=marks["facilities"],
+                   free_wifi=marks["free_wifi"])
+
+
+@bp.route("/get_reviews", methods=["POST"])
+def get_reviews_number():
+    product_id = request.get_json(silent=True)["product_id"]
+    product = Product.query.filter_by(id=product_id).first()
+    return jsonify(code=200, reviews_num=len(product.comments))
+
+
+@bp.route("/get_comment", methods=["POST"])
+def get_comments():
+    data = request.get_json(silent=True)
+    product_id = data["product_id"]
+    page = data["page"]
+    page_size = 10
+    comments = Comment.query.filter_by(product_id=product_id).order_by(Comment.datetime.desc())\
+        .offset((page - 1) * page_size).limit(page_size).all()
+    return jsonify(code=200, comments=[comment.serialize_product_page_simple() for comment in comments])
 
 
 @bp.route("/uploadpicture", methods=["POST", "GET"])

@@ -1,8 +1,8 @@
 import datetime
 
 from flask import Blueprint, jsonify, request
-from sqlalchemy import or_
-from models import Product, Trip, Tag
+from sqlalchemy import or_, text
+from models import Product, Trip, Tag, ProductType
 import nltk
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
@@ -60,3 +60,29 @@ def search():
         'items': [product.serialize() for product in products.items]
     }
     return jsonify(result)
+
+
+@bp.route('/product_number')
+def get_product_number():
+    data = request.get_json(silent=True)
+    products = Product.query.filter_by(Product.start_time >= data["startTime"],
+                                       Product.end_time <= data["endTime"],
+                                       Product.currency == data["currentLocation"],
+                                       Product.types == data["tourType"],
+                                       Product.ori_price in range(data["low_price"], data["high_price"]),
+                                       Product.duration == data['duration'])
+    return jsonify(code=200, number=len(products))
+
+
+@bp.route('/product_list')
+def get_product_list():
+    data = request.get_json(silent=True)
+    products = Product.query.filter(Product.start_time >= data["startTime"],
+                                    Product.end_time <= data["endTime"],
+                                    Product.currency == data["currentLocation"],
+                                    Product.types.any(text(data["tourType"])),
+                                    Product.ori_price in range(int(data["low_price"]), int(data["high_price"])),
+                                    Product.duration == data['duration'])
+    page_number = data["page"]
+    select_product = products[page_number * 3 - 3: page_number * 3]
+    return jsonify(code=200, data=[product.serialize_product_list() for product in select_product])

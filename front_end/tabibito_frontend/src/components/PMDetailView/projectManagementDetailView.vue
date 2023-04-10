@@ -228,6 +228,7 @@ import {useMessage} from "naive-ui";
 import RouteStep from "./routeStep.vue";
 import PriceItem from "./priceItem.vue";
 import axios from "axios";
+import { useToast } from "vue-toastification";
 
 export default {
   name: "projectManagementDetailView",
@@ -485,6 +486,13 @@ export default {
       this.chargeDatas.splice(index, 1);
     },
     submitForm(){
+      console.log("ese")
+      const toast = useToast();
+      if (this.tags[0].value === "" || this.tags[1].value === "" || this.tags[2].value === ""){
+        this.tabValue = "Basic Information";
+        toast.error("Please enter all the three tags");
+        return;
+      }
   if(this.projectName === null || this.projectName === ""){
     this.tabValue = "Basic Information";
     this.projectNameStyle = "invalidInput";
