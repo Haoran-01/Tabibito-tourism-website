@@ -1,10 +1,11 @@
 <template>
   <navigation-bar></navigation-bar>
+
   <section class="pd" >
     <div class="TDCon" style="margin-top: 80px;">
       <div class="space">
         <div class="TDTit">
-          <h1 class="TDT">Stonehenge, Windsor Castle, and Bath from London</h1>
+          <h1 class="TDT">{{ details.name }}</h1>
 
           <div class="lower">
             <div class="TDRow">
@@ -14,10 +15,10 @@
               <img class="star" src="../../assets/star.svg" alt="">
               <img class="star" src="../../assets/star.svg" alt="">
             </div>
-            <div class="TDReview">3,014 reviews</div>
+            <div class="TDReview">{{ details.reviews }} reviews</div>
 
             <img class="loc" src="../../assets/location.svg" alt="">
-            <div class="TDLoc">Greater London, United Kingdom</div>
+            <div class="TDLoc">{{ details.location }}</div>
 
             <button class="map">Show on map</button>
 
@@ -43,20 +44,16 @@
         <n-carousel show-arrow class="TDImg" draggable>
           <img
               class="carousel-img"
-              src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel1.jpeg"
+              src="{{ details.cover_image }}"
           >
-          <img
-              class="carousel-img"
-              src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel2.jpeg"
-          >
-          <img
-              class="carousel-img"
-              src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel3.jpeg"
-          >
-          <img
-              class="carousel-img"
-              src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel4.jpeg"
-          >
+
+          <div v-for="imgURL in details.banner_image">
+            <img
+                class="carousel-img"
+                src="{{ imgURL }}"
+            >
+          </div>
+
         </n-carousel>
 
         <h3 class="TDTex1">
@@ -67,32 +64,34 @@
           <div class="TDR1">
             <img class="TDIcon1" src="../../assets/time_icon.svg" alt="">
             <div class="TDT1">
-              Duration:<br> 11h
+              Duration:<br> {{ duration }} Day
             </div>
           </div>
 
           <div class="TDR1">
             <img class="TDIcon1" src="../../assets/group.svg" alt="">
             <div class="TDT1">
-              Group Size:<br> 100
+              Group Size:<br> {{ details.group_number }}
             </div>
           </div>
 
+          <div v-for="tag in details.tags">
           <div class="TDR1">
             <img class="TDIcon1" src="../../assets/transport.svg" alt="">
             <div class="TDT1">
-              Convenient <br>Transportation
+              Tag: <br>{{ tag }}
             </div>
           </div>
 
-          <div class="TDR1">
-            <img class="TDIcon1" src="../../assets/no.svg" alt="">
-            <div class="TDT1">
-              Free Cancellation
-            </div>
-          </div>
+<!--          <div class="TDR1">-->
+<!--            <img class="TDIcon1" src="../../assets/no.svg" alt="">-->
+<!--            <div class="TDT1">-->
+<!--              Free Cancellation-->
+<!--            </div>-->
+<!--          </div>-->
         </div>
 
+        </div>
 
         <!--Draw a line to separate-->
         <div class="TDLine"></div>
@@ -101,7 +100,7 @@
           <h3 class="TDTex2">Overview</h3>
 
           <p class="TDTex3">
-            Unless you hire a car, visiting Stonehenge, Bath, and Windsor Castle in one day is next to impossible. Designed specifically for travelers with limited time in London, this tour allows you to check off a range of southern England's historical attractions in just one day by eliminating the hassle of traveling between each one independently. Travel by comfortable coach and witness your guide bring each UNESCO World Heritage Site to life with commentary. Plus, all admission tickets are included in the tour price.
+            {{ details.description }}
           </p>
         </div>
 
@@ -113,7 +112,7 @@
       <div class="TDConBox" :style="{top: blockTop}">
         <div class="TDBox">
           <div class="TDTex5">
-            Price <span class="TDTex6">US$72</span>
+            Price <span class="TDTex6">US${{ details.price }}</span>
           </div>
 
 
@@ -133,7 +132,7 @@
             <div class="TDOptionName">Number of travelers</div>
             <n-space vertical>
               <n-input-number
-                  v-model:value="value"
+                  v-model:value="groupNum"
                   placeholder="Group Number"
                   :min="1"
                   :max="10"
@@ -144,7 +143,7 @@
 
           <div class="book">
             <div class="input_border">
-              <button type="submit" class="add_step_btn c" @click="verify">
+              <button type="submit" class="add_step_btn c" @click="handleClickProject">
                 Book Now
               </button>
             </div>
@@ -163,7 +162,6 @@
 
     <!--Draw a line to separate-->
     <div class="TDLine full"></div>
-
 
   </section>
 
@@ -191,20 +189,99 @@ import LeaveReply from "./leaveReply.vue";
 import SimilarExperiences from "./similarExperiences.vue";
 import NavigationBar from "../GeneralComponents/navigationBar.vue";
 import footerView from "../GeneralComponents/footerView.vue";
+import axios from 'axios';
+import {ref} from "vue";
+import { useToast } from "vue-toastification";
+
+
+
 export default {
   name: "TravelDetailsView",
   components: {NavigationBar, SimilarExperiences, LeaveReply, GuestReviews, ChargeList, footerView},
-
 
   data() {
     return {
       blockHeight: 210, // 制作区块高度
       threshold: 650, // 页面滚动的阈值
       scrollTop: 0, // 页面滚动距离
+
+      // 后端拿到的数据
+      details: [],
+      duration: 0,
+
     };
   },
+
+  setup(){
+    let startTime = ref();
+    let endTime = ref();
+    let groupNum = ref("groupNum");
+
+    const toast = useToast();
+
+
+    return{
+      startTime,
+      endTime,
+      groupNum,
+      toast,
+
+      // 控制可以选择的时间范围
+      secureStartTime(ts) {
+        if (startTime.value != null){
+          return ts > startTime.value;
+        }
+        else {
+          return ts < Date.now();
+        }
+      },
+      secureEndTime(ts){
+        if (endTime.value != null){
+          return ts < endTime.value;
+        }
+        else {
+          return ts < Date.now();
+        }
+      },
+
+      handleClickProject() {
+        if (startTime.value === 0 || startTime.value === null || endTime.value === null || endTime.value === 0 || currentLocation.value === "select") {
+          return;
+      }
+        axios.post("http://127.0.0.1:5000/product/detail_post",
+            {
+              start_time: startTime.value,
+              end_time: endTime.value,
+              groupNum: groupNum,
+            }
+        )
+            .then(function (response){
+              if (response.data.code === 200){
+                this.toast.error("Successfully Reservation");
+              }
+            })
+    }
+    }
+  },
+
   mounted() {
     window.addEventListener("scroll", this.handleScroll);
+
+    axios.get('http://127.0.0.1:5000/product/detail')
+        .then(response => {
+          this.details = response.data.details;
+
+          const num1 = new Date(this.details.end_time).getTime()
+          const num2 = new Date(this.details.start_time).getTime()
+          let diffMs = num1-num2
+          // 将毫秒数转换为天数
+          this.duration = Math.floor(diffMs / (1000 * 60 * 60 * 24))
+
+        })
+        .catch(error => {
+          console.error(error);
+        });
+
   },
   destroyed() {
     window.removeEventListener("scroll", this.handleScroll);
