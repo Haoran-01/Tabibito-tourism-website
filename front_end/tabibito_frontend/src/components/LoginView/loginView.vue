@@ -9,9 +9,10 @@
 
         <div class="border">
 
-          <h1 class="font_login">Welcome back</h1>
-          <p class="font_acc">Don't have an account yet?
-            <router-link to="/register" class="font_blue">Sign up for free</router-link></p>
+          <h1 class="font_login">{{ $t('login.welcome') }}</h1>
+<!--          <h1 class="font_login">Welcome back</h1>-->
+          <p class="font_acc">{{ $t('login.noAccount')}}
+            <router-link to="/register" class="font_blue">{{ $t('login.signup')}}</router-link></p>
 
           <form autocomplete="off">
 
@@ -20,7 +21,7 @@
 
             <div class="input_form">
               <input type="text" v-model="inputEmail" required>
-              <label class="input_label">Email</label>
+              <label class="input_label">{{ $t('login.email') }}</label>
             </div>
 
           </div>
@@ -30,21 +31,21 @@
 
             <div class="input_form">
               <input type="password" v-model="inputPassword" required>
-              <label class="input_label">Password</label>
+              <label class="input_label">{{ $t('login.password')}}</label>
             </div>
 
           </div>
 
           <!--忘记密码-->
           <div class="input_border">
-            <router-link to="/forget" class="forget_link">Forgot your password?</router-link>
+            <router-link to="/forget" class="forget_link">{{ $t('login.forget')}}</router-link>
           </div>
 
           <!--按钮-->
           <div class="input_border">
 
             <button type="submit" class="add_step_btn" @click="checkLogin">
-              Sign In
+              {{ $t('login.signin')}}
               <div class="icon_add"></div>
             </button>
           </div>
@@ -53,18 +54,18 @@
 
 <!--          其他登陆方式-->
           <div class="input_border">
-            <div class="text_center">or sign in with</div>
+            <div class="text_center">{{ $t('login.signin2') }}</div>
 
             <button class="other_login_btn">
               <i class="google_icon"></i>
-              Google
+              {{$t("login.google")}}
             </button>
 
           </div>
 
           <div class="input_border">
 
-            <div class="text_note">By creating an account, you agree to our Terms of Service and Privacy Statement.</div>
+            <div class="text_note">{{$t('login.agree')}}</div>
 
 
 

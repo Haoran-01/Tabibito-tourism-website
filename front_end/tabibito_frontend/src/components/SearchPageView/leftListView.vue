@@ -70,7 +70,7 @@
     </div>
 
     <div class="row x-gap-10 y-gap-10 select_menu">
-      <n-select class="dropdown" v-model:value="value" :options="priceoptions" clearable placeholder="Price" @select="handleSelectPrice"/>
+      <n-select class="dropdown" v-model:value="value" :options="priceoptions" clearable placeholder="Price" @select="handleSelectPrice" :consistent-menu-width="false"/>
       <n-select class="dropdown" v-model:value="value" :options="durationoptions" clearable placeholder="Duration" @select="handleSelectDuration"/>
       <n-select class="dropdown" v-model:value="value" :options="languageoptions" clearable placeholder="Language" @select="handleSelectLanguage"/>
     </div>
@@ -502,12 +502,12 @@ export default defineComponent({
   }
 }
 .dropdown {
+  width: 160px !important;
   height: 40px;
   cursor: pointer;
   position: relative;
   display: flex;
   align-items: center;
-  border-radius: 8px;
 }
 .map_content {
   width: 100%;
