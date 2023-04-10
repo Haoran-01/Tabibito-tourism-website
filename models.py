@@ -174,7 +174,7 @@ class Order(db.Model):
             "destination": self.product.raw_loc,
             "price": self.total(),
             "discount": self.product.discount,
-            "status": self.order_status,
+            "status": self.order_status.name,
             "date": self.create_time.strftime('%Y-%m-%d'),
             "time": self.create_time.time().strftime('%H:%M:%S')
         }
