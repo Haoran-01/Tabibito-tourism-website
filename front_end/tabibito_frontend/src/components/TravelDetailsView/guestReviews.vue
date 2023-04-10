@@ -8,13 +8,13 @@
         </h3>
 
         <div class="exceptional">
-          <div class="ex_point">4.8</div>
+          <div class="ex_point">{{ scores.exceptional }}</div>
           <div class="ex_sub_wrap">
             <div class="ex_text">
               Exceptional
             </div>
             <div class="ex_sta">
-              3,014 reviews
+              {{ reviews.reviews_num }} reviews
             </div>
           </div>
         </div>
@@ -27,7 +27,7 @@
                   Location
                 </div>
                 <div class="bar_score">
-                  9.4
+                  {{ scores.location }}
                 </div>
               </div>
 
@@ -49,7 +49,7 @@
                   Staff
                 </div>
                 <div class="bar_score">
-                  9.4
+                  {{ scores.staff }}
                 </div>
               </div>
 
@@ -71,7 +71,7 @@
                   Cleanliness
                 </div>
                 <div class="bar_score">
-                  9.4
+                  {{ scores.cleanliness }}
                 </div>
               </div>
 
@@ -93,7 +93,7 @@
                   Value for money
                 </div>
                 <div class="bar_score">
-                  9.4
+                  {{ scores.value_for_money }}
                 </div>
               </div>
 
@@ -115,7 +115,7 @@
                   Comfort
                 </div>
                 <div class="bar_score">
-                  9.4
+                  {{ scores.comfort }}
                 </div>
               </div>
 
@@ -137,7 +137,7 @@
                   Facilities
                 </div>
                 <div class="bar_score">
-                  9.4
+                  {{ scores.facilities }}
                 </div>
               </div>
 
@@ -159,7 +159,7 @@
                   Free WiFi
                 </div>
                 <div class="bar_score">
-                  9.4
+                  {{ scores.free_wifi }}
                 </div>
               </div>
 
@@ -178,39 +178,39 @@
 
       <div class="col-xl-8">
         <div class="row y-gap-30">
-          <div class="col-12">
+          <div class="col-12" v-for="comment in comments">
 
             <div class="row y-gap-20 x-gap-20 comment_head">
               <div class="col-auto">
                 <img src="../../assets/avatars/2.png" alt="image">
               </div>
               <div class="col-auto">
-                <div class="user_name">Tonka</div>
-                <div class="date">March 2022</div>
+                <div class="user_name">{{ comment.user_name }}</div>
+                <div class="date">{{ comment.date_time }}</div>
               </div>
             </div>
 
 
             <h5 class="comment_title">
-              9.2 Superb
+              {{ comment.title }}
             </h5>
 
             <p class="comment_content">
-              Nice two level apartment in great London location. Located in quiet small street, but just 50 meters from main street and bus stop. Tube station is short walk, just like two grocery stores.
+              {{ comment.des }}
             </p>
 
             <div class="row x-gap-20 y-gap-30 comment_photos">
               <div class="col-auto">
-                <img src="../../assets/test_comment_photo.png" alt="image" class="photo">
+                <img src={{comment.pic[0]}} alt="image" class="photo">
               </div>
               <div class="col-auto">
-                <img src="../../assets/test_comment_photo.png" alt="image" class="photo">
+                <img src={{comment.pic[1]}} alt="image" class="photo">
               </div>
               <div class="col-auto">
-                <img src="../../assets/test_comment_photo.png" alt="image" class="photo">
+                <img src={{comment.pic[2]}} alt="image" class="photo">
               </div>
               <div class="col-auto">
-                <img src="../../assets/test_comment_photo.png" alt="image" class="photo">
+                <img src={{comment.pic[3]}} alt="image" class="photo">
               </div>
             </div>
 
@@ -235,16 +235,9 @@
             </div>
           </div>
 
-          <div class="col-auto">
-            <n-button strong ghost size="large" icon-placement="right">
-              <template #icon>
-                <n-icon>
-                  <ArrowForwardOutline />
-                </n-icon>
-              </template>
-              Show all 116 reviews
-            </n-button>
-          </div>
+          <n-pagination class="page" v-model:page="page" :on-update:page="pageChange"	:page-count="countPage"/>
+
+
         </div>
       </div>
 
@@ -256,6 +249,7 @@
 <script>
 import { defineComponent, ref } from 'vue'
 import {ThumbsUp, ThumbsDown, ArrowForwardOutline} from "@vicons/ionicons5";
+import axios from "axios";
 
 export default defineComponent({
   name: "guestReviews",
@@ -275,6 +269,99 @@ export default defineComponent({
       },
       loading: loadingRef
     }
+  },
+  data() {
+    return {
+      countPage: ref(),
+      comments:[
+        {
+          user_name:"Tonka",
+          profile_pic:"../../assets/avatars/2.png",
+          date_time:"March 2022",
+          pic:["../../assets/test_comment_photo.png","../../assets/test_comment_photo.png","../../assets/test_comment_photo.png","../../assets/test_comment_photo.png"],
+          des:"Nice two level apartment in great London location. Located in quiet small street, \n" +
+              "              but just 50 meters from main street and bus stop. Tube station is short walk, \n" +
+              "              just like two grocery stores.",
+          title:"9.2 Superb",
+        },
+      ],
+      scores: {
+        exceptional: 9.4,
+        location: 9.4,
+        staff: 9.4,
+        cleanliness: 9.4,
+        value_for_money: 9.4,
+        comfort: 9.4,
+        facilities: 9.4,
+        free_wifi: 9.4,
+      },
+      percentage: {},
+      reviews: {
+        reviews_num: 1314
+      },
+    }
+  },
+  created() {
+    axios.post('http://127.0.0.1:5000/product/get_comment',{
+      page: 1,
+      product_id: 1,
+    })
+        .then((response)=>{
+          const code = response.status
+          if (code === 200){
+            this.comments = response.data.comments
+          }
+        })
+
+    axios.get('http://127.0.0.1:5000/product/get_reviews')
+        .then((response)=>{
+          const code = response.status
+          if (code === 200){
+            const count = response.data.number
+            this.countPage  = Math.floor(count / 10) + (count % 10 > 0 ? 1 : 0);
+          }
+        })
+  },
+  methods:{
+    pageChange(newPage){
+      // console.log(`Current page is ${newPage}`);
+      axios.post('http://127.0.0.1:5000/product/get_comment',{
+        page: newPage
+      }).then(function (response){
+        this.comments = response.data.comments
+      }).catch(function (error){
+        console.log(error);
+      });
+    }
+
+  },
+  mounted() {
+    for (const [key, value] of Object.entries(this.scores)) {
+      this.$set(this.percentage, key, Math.round(value * 10));
+    }
+    axios.post('http://127.0.0.1:5000/product/review',
+        {
+          // 暂时给定值，不知道怎么拿到id
+          product_id: 1
+        }
+    )
+        .then(function (response){
+          this.scores = response.data;
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    axios.post('http://127.0.0.1:5000/product/get_reviews',
+        {
+          product_id: 1
+        }
+    )
+        .then(function (response){
+          this.reviews = response.data;
+        })
+        .catch(error => {
+          console.error(error);
+        });
   }
 })
 </script>

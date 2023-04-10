@@ -189,7 +189,9 @@ export default {
     }
   },
   created() {
-    axios.get('http://127.0.0.1:5000/staff_portal/reservation_list')
+    axios.post('http://127.0.0.1:5000/staff_portal/reservation_list',{
+      page: 1
+    })
         .then((response)=>{
           const code = response.status
           if (code === 200){

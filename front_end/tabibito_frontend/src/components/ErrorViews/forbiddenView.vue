@@ -7,9 +7,9 @@
         <span class="mainLeft">40</span>
         <span class="mainRight">3</span>
       </div>
-      <div class="title">Oops! It looks like you're forbidden.</div>
-      <div class="description">The page you're looking for isn't available. Try to search again or use the go to.</div>
-      <div class="backButton" @click="this.$router.push('/')">Go back to homepage</div>
+      <div class="title">{{ $t('fourZeroThreePage.slogan')}}</div>
+      <div class="description">{{ $t('fourZeroThreePage.subSlogan')}}</div>
+      <div class="backButton" @click="this.$router.push('/')">{{ $t('fourZeroThreePage.button')}}</div>
     </div>
   </div>
   <footer-view></footer-view>

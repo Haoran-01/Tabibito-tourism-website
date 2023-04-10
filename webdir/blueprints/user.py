@@ -1,7 +1,6 @@
 import random
 import string
 
-
 from flask import Blueprint, request, render_template, jsonify, g, session
 from forms import LoginFrom, RegisterForm, EmailCaptchaModel, ForgetFormPassword
 from flask_login import login_user, logout_user, login_required
@@ -12,11 +11,14 @@ from datetime import datetime
 from werkzeug.security import generate_password_hash
 from flask_login import current_user
 
+import flask
+import google_auth_oauthlib.flow
+
 bp = Blueprint("User", __name__, url_prefix="/user")
 
 
 # 用户登出
-@bp.route("/logout",methods=['GET'])
+@bp.route("/logout", methods=['GET'])
 @login_required
 def logout():
     logout_user()
@@ -56,21 +58,20 @@ def register_check():
     else:
         if register_form.errors.get("user_email"):
             print(1)
-            return jsonify({"code":400,"message": "invalidSignUpEmail"})
+            return jsonify({"code": 400, "message": "invalidSignUpEmail"})
         elif register_form.errors.get("captcha"):
             print(2)
-            return jsonify({"code":400, "message": "invalidSignUpCaptcha"})
+            return jsonify({"code": 400, "message": "invalidSignUpCaptcha"})
 
         elif register_form.errors.get("user_first_name"):
             print(3)
-            return jsonify({"code":400,"message":"invalidSignUpUserName"})
+            return jsonify({"code": 400, "message": "invalidSignUpUserName"})
         elif register_form.errors.get("user_last_name"):
             print(4)
-            return jsonify({"code":400,"message":"invalidSignUpUserLastName"})
+            return jsonify({"code": 400, "message": "invalidSignUpUserLastName"})
         else:
             print(5)
-            return jsonify({"code":400,"message":"invalidSignUpPassword"})
-
+            return jsonify({"code": 400, "message": "invalidSignUpPassword"})
 
 
 # 登录功能
@@ -86,7 +87,7 @@ def login_check():
         user = User.query.filter_by(user_email=user_email).first()
         login_user(user)
 
-        return jsonify({"code":200})
+        return jsonify({"code": 200})
     else:
         if login_form.errors.get("user_email"):
             return jsonify({"code": 400, "message": "email"})
@@ -150,7 +151,6 @@ def email_check():
 # 忘记密码功能-密码更改
 @bp.route("/reset_password", methods=['POST', 'GET'])
 def password_check():
-
     print(session.get("forget_email"))
     email = g.forget_email
     print(email)
@@ -198,3 +198,67 @@ def get_user_orders():
     else:
         return jsonify(code=201, message="No orders for this user")
 
+
+# 第三方登录
+API_SERVICE_NAME = 'people'
+API_VERSION = 'v1'
+SCOPES = ['openid',
+          'https://www.googleapis.com/auth/userinfo.email',
+          'https://www.googleapis.com/auth/userinfo.profile',
+          'https://www.googleapis.com/auth/cloud-platform.read-only']
+CLIENT_SECRETS_FILE = "client_secret.json"
+
+
+@bp.route('/authorize')
+def authorize():
+    # Create flow instance to manage the OAuth 2.0 Authorization Grant Flow steps.
+    flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(CLIENT_SECRETS_FILE, scopes=SCOPES)
+
+    # The URI created here must exactly match one of the authorized redirect URIs
+    # for the OAuth 2.0 client, which you configured in the API Console. If this
+    # value doesn't match an authorized URI, you will get a 'redirect_uri_mismatch'
+    # error.
+    flow.redirect_uri = flask.url_for('oauth2callback', _external=True)
+    authorization_url, state = flow.authorization_url(
+        # Enable offline access so that you can refresh an access token without
+        # re-prompting the user for permission. Recommended for web server apps.
+        access_type='offline',
+        # Enable incremental authorization. Recommended as a best practice.
+        include_granted_scopes='true')
+
+    # Store the state so the callback can verify the auth server response.
+    flask.session['state'] = state
+
+    return flask.redirect(authorization_url)
+
+
+@bp.route('/oauth2callback')
+def oauth2callback():
+    # Specify the state when creating the flow in the callback so that it can
+    # verified in the authorization server response.
+    state = flask.session['state']
+
+    flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(CLIENT_SECRETS_FILE, scopes=SCOPES, state=state)
+    flow.redirect_uri = flask.url_for('oauth2callback', _external=True)
+
+    # Use the authorization server's response to fetch the OAuth 2.0 tokens.
+    authorization_response = flask.request.url
+    flow.fetch_token(authorization_response=authorization_response, verify=False)
+
+    # Store credentials in the session.
+    # ACTION ITEM: In a production app, you likely want to save these
+    #              credentials in a persistent database instead.
+    credentials = flow.credentials
+    flask.session['credentials'] = credentials_to_dict(credentials)
+    print(flask.session['credentials'])
+    return flask.redirect("http://127.0.0.1:5173/")
+
+def credentials_to_dict(credentials):
+    return {
+        'token': credentials.token,
+        'refresh_token': credentials.refresh_token,
+        'token_uri': credentials.token_uri,
+        'client_id': credentials.client_id,
+        'client_secret': credentials.client_secret,
+        'scopes': credentials.scopes
+    }

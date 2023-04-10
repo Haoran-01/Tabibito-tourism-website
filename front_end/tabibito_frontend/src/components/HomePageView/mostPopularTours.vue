@@ -19,23 +19,19 @@
 
     <div class="most-popular-contents" data-gap="30" data-slider-cols="xl-5 lg-4 md-2 sm-2 base-1" data-nav-prev="js-team-prev" data-pagination="js-team-pag" data-nav-next="js-team-next">
       <n-carousel :slides-per-view=slides_per_view :space-between=space_between :loop="false" show-arrow>
-        <div v-for="i in count" :key="i">
+        <div v-for="popular in populars" :key="popular.id">
           <n-carousel show-arrow autoplay :space-between="2">
           <img
               class="carousel-img"
-              src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel1.jpeg"
+              src="{{ popular.banners[0] }}"
           >
           <img
               class="carousel-img"
-              src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel2.jpeg"
+              src="{{ popular.banners[1] }}"
           >
           <img
               class="carousel-img"
-              src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel3.jpeg"
-          >
-          <img
-              class="carousel-img"
-              src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel4.jpeg"
+              src="{{ popular.banners[2] }}"
           >
           <template #arrow="{ prev, next }">
             <div class="custom-arrow">
@@ -61,16 +57,16 @@
           <n-card>
             <div class="tourCardContent">
               <div class="tourCardTime">
-                <div class="hours">16+ hours</div>
+                <div class="hours">{{ popular.duration }}+ hours</div>
                 <div class="dot"></div>
-                <div class="days">Full-day Tours</div>
+                <div class="days">{{ popular.types[0] }}</div>
               </div>
 
               <h4 class="tourCardTitle">
-                <span>Stonehenge, Windsor Castle and Bath with Pub Lunch in Lacock</span>
+                <span>{{ popular.name }}</span>
               </h4>
 
-              <p class="tourCardText">Westminster Borough, London</p>
+              <p class="tourCardText">{{ popular.raw_loc }}</p>
 
               <div class="row starsLayout">
                 <div class="col-auto">
@@ -89,14 +85,14 @@
 
                     </div>
 
-                    <div class="review">3,014 reviews</div>
+                    <div class="review">{{ popular.reviews }} reviews</div>
                   </div>
                 </div>
 
                 <div class="col-auto">
                   <div class="footer">
                     From
-                    <span class="price">US$72</span>
+                    <span class="price">US${{ popular.price }}</span>
                   </div>
                 </div>
               </div>
@@ -117,6 +113,7 @@
 <script>
 import { ArrowBack, ArrowForward } from '@vicons/ionicons5'
 import {defineComponent, onMounted, ref} from 'vue'
+import axios from "axios";
 export default {
   components: {
     ArrowBack,
@@ -126,8 +123,17 @@ export default {
   data() {
     return {
       windowWidth: document.documentElement.clientWidth,
-      count: 5, // 这里可以根据后台数据来设置重复次数
+      populars: []
     }
+  },
+  mounted() {
+    axios.get('http://127.0.0.1:5000/homepage/most_popular_products')
+        .then(response => {
+          this.populars = response.data.products;
+        })
+        .catch(error => {
+          console.error(error);
+        });
   },
   setup() {
     let slides_per_view= ref(3);

@@ -5,18 +5,18 @@
       <div class="specialBackgroundLeft"></div>
       <div class="specialPartCore">
         <div class="specialCoreContainer">
-          <h1 class="specialTitle">Best Travel
-            <span class="specialTitleTail">Experience
+          <h1 class="specialTitle">{{ $t('homepage.searchPart.slogan1') }}
+            <span class="specialTitleTail">{{ $t('homepage.searchPart.slogan2') }}
               <span class="specialTitleDecoration">
                 <img class="decorationImg" src="../../assets/line.png"/>
               </span>
             </span>
           </h1>
-          <p class="specialSlogan">Experience the various exciting tour and travel packages and Make hotel reservations, find vacation packages, search cheap hotels and events</p>
+          <p class="specialSlogan">{{ $t('homepage.searchPart.sloganDescription')}}</p>
           <div class="searchBar">
             <div class="search">
               <div class="locationOption">
-                <div class="optionName">Location</div>
+                <div class="optionName">{{ $t('homepage.searchPart.loc')}}</div>
                 <n-dropdown
                   trigger="click"
                   placement="bottom-start"
@@ -27,17 +27,17 @@
                 </n-dropdown>
               </div>
               <div class="durationOption">
-                <div class="optionName">Start Date - End Date</div>
+                <div class="optionName">{{ $t('homepage.searchPart.stet')}}</div>
 <!--                <div class="optionValue" id="durationValue" @click="handleSelectTime">{{currentTimePeriod}}</div>-->
                 <div class="dataPickers">
-                  <n-date-picker v-model:value="startTime" type="date" :is-date-disabled="secureStartTime" size="small" clearable placeholder="Start Date"/>
+                  <n-date-picker v-model:value="startTime" type="date" :is-date-disabled="secureStartTime" size="small" clearable :placeholder="$t('homepage.searchPart.st')"/>
                   <span>-</span>
-                  <n-date-picker v-model:value="endTime" type="date" placement="bottom-end" :is-date-disabled="secureEndTime" size="small" clearable placeholder="End Date"/>
+                  <n-date-picker v-model:value="endTime" type="date" placement="bottom-end" :is-date-disabled="secureEndTime" size="small" clearable :placeholder="$t('homepage.searchPart.et')"/>
 
                 </div>
               </div>
               <div class="tagOption">
-                <div class="optionName">Tags</div>
+                <div class="optionName">{{ $t('homepage.searchPart.tags')}}</div>
 <!--                <div class="optionValue" id="tagValue">fdsfds</div>-->
                 <n-select
                     v-model:value="tagValue"
@@ -50,7 +50,7 @@
               <div class="searchButton" @click="handleSearchProject">
                 <div class="searchButtonContent">
                   <div class="searchButtonIcon"></div>
-                  <div class="searchButtonText">Search</div>
+                  <div class="searchButtonText">{{ $t('homepage.searchPart.button')}}</div>
                 </div>
               </div>
             </div>
@@ -67,15 +67,15 @@
 
   <section class="discountPart" style="overflow: hidden">
     <div class="discountTitleArea">
-      <div class="discountTitle">Deals & Discounts</div>
-      <div class="discountSlogan">We provide following discounts for you</div>
+      <div class="discountTitle">{{ $t('homepage.discountPart.title')}}</div>
+      <div class="discountSlogan">{{ $t('homepage.discountPart.slogan')}}</div>
     </div>
     <div class="discountMain">
       <div class="discountCover">
         <div class="discountCoverTextArea">
-          <div class="discountCoverTitle1">Enjoy Spring Deals</div>
-          <div class="discountCoverTitle2">Book Early to Save</div>
-          <div class="discountCoverBookButton">Book Now</div>
+          <div class="discountCoverTitle1">{{ $t('homepage.discountPart.period')}}</div>
+          <div class="discountCoverTitle2">{{ $t('homepage.discountPart.bookTitle')}}</div>
+          <div class="discountCoverBookButton">{{ $t('homepage.discountPart.button')}}</div>
         </div>
       </div>
       <discount-items :discount-data="discountData"></discount-items>
@@ -87,25 +87,25 @@
       <n-number-animation show-separator
                           :from="0"
                           :to="this.figures.review_count"></n-number-animation>
-      <div class="figureName">Reviews</div>
+      <div class="figureName">{{ $t('homepage.figurePart.reviews')}}</div>
     </div>
     <div class="figure">
       <n-number-animation show-separator
                           :from="0"
                           :to="this.figures.product_count"></n-number-animation>
-      <div class="figureName">Travel Projects</div>
+      <div class="figureName">{{ $t('homepage.figurePart.travelProjects')}}</div>
     </div>
     <div class="figure">
       <n-number-animation show-separator
                           :from="0"
                           :to="this.figures.happy_customer_count"></n-number-animation>
-      <div class="figureName">Happy customers</div>
+      <div class="figureName">{{ $t('homepage.figurePart.happyCustomers')}}</div>
     </div>
     <div class="figure">
       <n-number-animation show-separator
                           :from="0"
                           :to="this.figures.order_count"></n-number-animation>
-      <div class="figureName">Orders</div>
+      <div class="figureName">{{ $t('homepage.figurePart.orders')}}</div>
     </div>
   </section>
 
@@ -113,28 +113,28 @@
     <div class="whyChooseImg"></div>
     <div class="whyChooseCore">
       <div class="whyChooseContent">
-        <h2 class="whyChooseTitle">Why Choose Us</h2>
-        <div class="whyChooseSlogan">These popular destinations have a lot to offer</div>
+        <h2 class="whyChooseTitle">{{ $t('homepage.whyChoosePart.title')}}</h2>
+        <div class="whyChooseSlogan">{{ $t('homepage.whyChoosePart.slogan')}}</div>
         <div class="whyChooseFeatures">
           <div class="whyChooseFeature">
             <div class="featureIcon shieldIcon"></div>
             <div class="featureTextArea">
-              <h4 class="featureName">Precise Info Guarantee</h4>
-              <div class="featureText">We are trying our best to provide precise information about the trips.</div>
+              <h4 class="featureName">{{ $t('homepage.whyChoosePart.attr1')}}</h4>
+              <div class="featureText">{{ $t('homepage.whyChoosePart.val1')}}</div>
             </div>
           </div>
           <div class="whyChooseFeature">
             <div class="featureIcon bookingIcon"></div>
             <div class="featureTextArea">
-              <h4 class="featureName">Easy & Quick Reserving</h4>
-              <div class="featureText">By only a few steps, you can reserve a new trip easily.</div>
+              <h4 class="featureName">{{ $t('homepage.whyChoosePart.attr2')}}</h4>
+              <div class="featureText">{{ $t('homepage.whyChoosePart.val2')}}</div>
             </div>
           </div>
           <div class="whyChooseFeature">
             <div class="featureIcon careIcon"></div>
             <div class="featureTextArea">
-              <h4 class="featureName">Customer Care 24/7</h4>
-              <div class="featureText">Every customer can access to our customer service staffs.</div>
+              <h4 class="featureName">{{ $t('homepage.whyChoosePart.attr3')}}</h4>
+              <div class="featureText">{{ $t('homepage.whyChoosePart.val3')}}</div>
             </div>
           </div>
         </div>
@@ -162,6 +162,7 @@ import Inspiration from "./inspiration.vue";
 import FooterView from "../GeneralComponents/footerView.vue";
 import NotAMember from "./notMember.vue";
 import axios from "axios";
+import {useRouter} from 'vue-router';
 const renderIcon = (icon) => {
   return () => {
     return h(NIcon, null, {
@@ -177,6 +178,7 @@ export default {
     Inspiration, CustomerReview, HotLocation, ChooseTourTypes, DiscountItems, MostPopularTours, NavigationBar},
   setup(){
     let figures = ref({});
+    const route = useRouter();
     axios.get('http://127.0.0.1:5000/homepage/four_number')
         .then(function (response) {
           figures.value = response.data
@@ -226,6 +228,7 @@ export default {
       );
     };
     return{
+      route,
       currentLocation,
       startTime,
       endTime,
@@ -291,7 +294,7 @@ export default {
         if (startTime.value === 0 || startTime.value === null || endTime.value === null || endTime.value === 0 || currentLocation.value === "select"){
           return;
         }
-        axios.post("http://127.0.0.1:5000/homepage/search",
+        /*axios.post("http://127.0.0.1:5000/homepage/search",
             {
               start_time: startTime.value,
               end_time: endTime.value,
@@ -303,7 +306,17 @@ export default {
               if (response.data.code === 200){
                 this.router.push('/search_result')
               }
-            })
+            })*/
+
+       this.route.push({
+          path: '/search_result',
+          query: {
+            start_time: startTime.value,
+            end_time: endTime.value,
+            location: currentLocation.value,
+            tags: this.tagValue
+          }
+        })
       }
     }
   },

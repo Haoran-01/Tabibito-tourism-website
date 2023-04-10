@@ -7,9 +7,9 @@
         <span class="mainLeft">40</span>
         <span class="mainRight">4</span>
       </div>
-      <div class="title">Oops! It looks like you're lost.</div>
-      <div class="description">The page you're looking for isn't available. Try to search again or use the go to.</div>
-      <div class="backButton" @click="this.$router.push('/')">Go back to homepage</div>
+      <div class="title">{{ $t('fourZeroFourPage.slogan')}}</div>
+      <div class="description">{{ $t('fourZeroFourPage.subSlogan')}}</div>
+      <div class="backButton" @click="this.$router.push('/')">{{ $t('fourZeroFourPage.button')}}</div>
     </div>
   </div>
   <footer-view></footer-view>
