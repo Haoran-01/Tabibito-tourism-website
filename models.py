@@ -172,12 +172,15 @@ class Order(db.Model):
     def serialize_latest(self):
         return {
             "destination": self.product.raw_loc,
-            "price": self.total,
+            "price": self.total(),
             "discount": self.product.discount,
             "status": self.order_status,
             "date": self.create_time.strftime('%Y-%m-%d'),
             "time": self.create_time.time().strftime('%H:%M:%S')
         }
+
+    def total(self):
+        return self.product_number * self.product.ori_price * self.product.discount
 
 
 class Product(db.Model):
