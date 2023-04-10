@@ -51,11 +51,9 @@ def add_product():
 
             types = data['types']
             if types:
-                product_types = []
                 for i in types:
                     t = ProductType.query.filter(ProductType.type == i).first()
                     product.types.append(t)
-
 
             cover_image = data['cover_image']
             if cover_image:
@@ -82,7 +80,14 @@ def add_product():
             if trips:
                 for trip in trips:
                     print(trip)
-                    t = Trip(product_id=product.id, time=datetime.datetime.fromtimestamp(int(trip['time'])/1000), activity=trip['activity'], picture=trip['picture'], day=trip['day'], time_of_day=trip['time_of_day'])
+                    t = Trip(
+                        product_id=product.id,
+                        time=datetime.datetime.fromtimestamp(int(trip['time'])/1000),
+                        activity=trip['activity'],
+                        picture=trip['picture'],
+                        day=trip['day'],
+                        time_of_day=trip['time_of_day']
+                    )
                     print(trip['location'])
                     t.exact = trip['location']['exact']
                     t.map_latitude = trip['location']['map_latitude']
@@ -93,6 +98,7 @@ def add_product():
             if fee_des:
                 for f in fee_des:
                     fee = FeeDes(product_id=product.id, name=f['name'], description=f['description'])
+                    db.session.add(fee)
 
             db.session.commit()
             return jsonify(code=200)
@@ -102,7 +108,25 @@ def add_product():
         return jsonify(code=400, error="name or description or group_number missing")
 
 
-@bp.route("/uploadpicture",methods=["POST","GET"])
+@bp.route("/detail", methods=['POST', 'GET'])
+def product_detail():
+    product_id = request.json.get('product_id')
+
+    product = Product.query.filter(Product.id == product_id).first()
+
+    return jsonify(product.serialize_detail())
+
+
+@bp.route("/type_products", methods=["POST", "GET"])
+def get_type_products():
+
+    product_type = request.json.get('type')
+
+    products = Product.query.join(Product.types).filter(ProductType.type == product_type).all()
+    return jsonify(products=[product.serialize() for product in products])
+
+
+@bp.route("/uploadpicture", methods=["POST", "GET"])
 def upload_picture():
 
     file = request.files['file']  # 获取上传的文件
@@ -112,22 +136,3 @@ def upload_picture():
     file.save(os.path.join(Config.UPLOAD_FOLDER, filename))  # 将文件保存到服务器的指定目录
     # 存入数据库的操作
     return os.path.join(Config.UPLOAD_FOLDER, filename)
-
-
-@bp.route("/type_products",methods=["POST","GET"])
-def get_type_products():
-
-    type = request.json.get('type')
-
-    products = Product.query.join(Product.types).filter(ProductType.type == type).all()
-    return jsonify(products=[product.serialize() for product in products])
-
-@bp.route("/detail", methods=['POST', 'GET'])
-def product_detail():
-    product_id = request.json.get('product_id')
-
-    product = Product.query.filter(Product.id==product_id).first()
-
-
-    return jsonify(product.serialize_detail())
-

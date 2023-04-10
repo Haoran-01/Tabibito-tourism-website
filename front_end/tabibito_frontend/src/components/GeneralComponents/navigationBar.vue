@@ -31,9 +31,9 @@
            ></drop-down>
          </transition>
          <div class="divider"></div>
-         <div class="actionButton languageButton">
+         <div class="actionButton languageButton" @click="changeLang()">
            <div class="actionIcon"></div>
-           <div class="actionText">English</div>
+           <div class="actionText">{{ $t('navi.lang') }}</div>
          </div>
        </div>
        <div class="accountButton" @mouseenter="user_is_shown = true" @mouseleave="user_is_shown = false">
@@ -125,9 +125,9 @@ export default defineComponent({
   data(){
     return{
       currency_item: [
-        {icon: "background-image:url('src/assets/USD.svg')", text: 'USD'},
-        {icon: "background-image:url('src/assets/CNY.svg')", text: 'CNY'},
-        {icon: "background-image:url('src/assets/EUR.svg')", text: 'EUR'},
+        {icon: "background-image:url('src/assets/USD.svg')", text: this.$t('navi.USD')},
+        {icon: "background-image:url('src/assets/CNY.svg')", text: this.$t('navi.CNY')},
+        {icon: "background-image:url('src/assets/EUR.svg')", text: this.$t('navi.EUR')},
       ],
       user_item: [
         {
@@ -135,8 +135,8 @@ export default defineComponent({
         }
       ],
       login_item: [
-        {icon: "background-image:url('src/assets/login.svg')", text: 'Log In', path: '/'},
-        {icon: "background-image:url('src/assets/signup.svg')", text: 'Sign Up', path: '/register'}
+        {icon: "background-image:url('src/assets/login.svg')", text: this.$t('navi.login'), path: '/'},
+        {icon: "background-image:url('src/assets/signup.svg')", text: this.$t('navi.signup'), path: '/register'}
       ]
     }
   },
@@ -145,6 +145,13 @@ export default defineComponent({
       this.currencyIcon = icon;
       this.currencyText = text;
     },
+    changeLang() {
+      if (this.$i18n.locale === 'en') {
+        this.$i18n.locale = 'zh'
+      } else {
+        this.$i18n.locale = 'en'
+      }
+    }
   }
 });
 
