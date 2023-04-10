@@ -37,10 +37,10 @@ class PType(Enum):
     BeachesTour = 'BeachesTour'
 
 
-class CommentKey(Enum):
-    Service = "Service"
-    Cost_effective = "Cost_effective"
-    Scenery = "Scenery"
+class OrderStatus(Enum):
+    Pending = "pending"
+    Confirmed = "confirmed"
+    Cancelled = "cancelled"
 
 
 class Comment(db.Model):
@@ -131,7 +131,6 @@ class FeeDes(db.Model):
     product_id = db.Column(db.Integer, ForeignKey('product.id', ondelete='CASCADE', onupdate='CASCADE'))
     product = relationship('Product', back_populates="fee_des")
 
-
     def serialize(self):
         return {
             'name': self.name,
@@ -148,9 +147,9 @@ class Order(db.Model):
     user_id = db.Column(db.Integer, ForeignKey('user.user_id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False)
     product_id = db.Column(db.Integer, ForeignKey('product.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False)
     create_time = db.Column(db.DateTime, default=datetime.now)
-    order_status = db.Column(db.CHAR(50), nullable=False)
-    total = db.Column(db.Float, nullable=False)
-    paid = db.Column(db.Float, nullable=False)
+    order_status = db.Column(DBEnum(OrderStatus), default=OrderStatus.Pending)
+
+    product_number = db.Column(db.Integer, nullable=False)
 
     user = relationship('User', back_populates='orders')
     product = relationship('Product', back_populates='orders')
@@ -201,9 +200,10 @@ class Product(db.Model):
             total_score += comment.comfort_grade
             total_score += comment.facilities_grade
             total_score += comment.free_wifi_grade
-
-
-        return total_score/ (7 * len(comments))
+        if total_score == 0:
+            return 0
+        else:
+            return total_score / (7 * len(comments))
 
     def get_cover(self):
         for picture in self.pictures:
@@ -277,7 +277,6 @@ class Product(db.Model):
             'cover': self.get_cover()
         }
 
-
     def serialize_detail(self):
         return {
             'id': self.id,
@@ -294,14 +293,13 @@ class Product(db.Model):
             'banner_image': self.banners(),
             'start_time': self.start_time.date(),
             'end_time': self.end_time.date(),
-            "fee_des": [fee.serialize() for fee in self.fee_des],
-
+            "fee_des": [fee.serialize() for fee in self.fee_des]
         }
-
 
     def __repr__(self):
         return "<Product(name='%s', description='%s', group_number='%s')>" % (
-        self.name, self.description, self.group_number)
+            self.name, self.description, self.group_number
+        )
 
 
 class ProductType(db.Model):
