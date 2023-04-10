@@ -2,7 +2,7 @@
 
   <section class="chooseLayout-pt chooseLayout-pb" style="overflow: hidden">
     <div class="container">
-      <div class="row chooseHead">
+      <div class="row chooseHead y-gap-20">
         <div class="col-auto">
             <h2 class="sectionTitle">Choose Tour Types</h2>
             <p class="sectionText">Interdum et malesuada fames ac ante ipsum</p>
@@ -13,17 +13,6 @@
         <n-carousel :slides-per-view=slides_per_view :space-between=space_between :loop="false" show-arrow>
           <n-card title="" class="tourTypeCard">
             <div class="cardContent">
-            <a href="tour-single.html" class="cardHref">
-              <div class="tourTypeCardContent">
-                <i class="icon-nature icon"></i>
-                <h4 class="cardText">Wildlife Tour</h4>
-                <p class="cardPrice">5 Tours From 550$</p>
-              </div>
-            </a>
-            </div>
-          </n-card>
-          <n-card title="" class="tourTypeCard">
-            <div class="cardContent">
               <a href="tour-single.html" class="cardHref">
                 <div class="tourTypeCardContent">
                   <i class="icon-nature icon"></i>
@@ -38,7 +27,7 @@
               <a href="tour-single.html" class="cardHref">
                 <div class="tourTypeCardContent">
                   <i class="icon-nature icon"></i>
-                  <h4 class="cardText">Wildlife Tour</h4>
+                  <h4 class="cardText">Adventure Tour</h4>
                   <p class="cardPrice">5 Tours From 550$</p>
                 </div>
               </a>
@@ -49,7 +38,7 @@
               <a href="tour-single.html" class="cardHref">
                 <div class="tourTypeCardContent">
                   <i class="icon-nature icon"></i>
-                  <h4 class="cardText">Wildlife Tour</h4>
+                  <h4 class="cardText">City Tours</h4>
                   <p class="cardPrice">5 Tours From 550$</p>
                 </div>
               </a>
@@ -60,7 +49,7 @@
               <a href="tour-single.html" class="cardHref">
                 <div class="tourTypeCardContent">
                   <i class="icon-nature icon"></i>
-                  <h4 class="cardText">Wildlife Tour</h4>
+                  <h4 class="cardText">Museum Tours</h4>
                   <p class="cardPrice">5 Tours From 550$</p>
                 </div>
               </a>
@@ -71,29 +60,7 @@
               <a href="tour-single.html" class="cardHref">
                 <div class="tourTypeCardContent">
                   <i class="icon-nature icon"></i>
-                  <h4 class="cardText">Wildlife Tour</h4>
-                  <p class="cardPrice">5 Tours From 550$</p>
-                </div>
-              </a>
-            </div>
-          </n-card>
-          <n-card title="" class="tourTypeCard">
-            <div class="cardContent">
-              <a href="tour-single.html" class="cardHref">
-                <div class="tourTypeCardContent">
-                  <i class="icon-nature icon"></i>
-                  <h4 class="cardText">Wildlife Tour</h4>
-                  <p class="cardPrice">5 Tours From 550$</p>
-                </div>
-              </a>
-            </div>
-          </n-card>
-          <n-card title="" class="tourTypeCard">
-            <div class="cardContent">
-              <a href="tour-single.html" class="cardHref">
-                <div class="tourTypeCardContent">
-                  <i class="icon-nature icon"></i>
-                  <h4 class="cardText">Wildlife Tour</h4>
+                  <h4 class="cardText">Beaches Tour</h4>
                   <p class="cardPrice">5 Tours From 550$</p>
                 </div>
               </a>
@@ -210,21 +177,12 @@ export default {
 
 .tourTypeCardContent {
   text-align: center;
-  padding-top: 60px;
-  padding-bottom: 24px;
-  padding-right: 75px;
 }
 
 @media (max-width: 1050px) {
   .cardContent {
     width: 150px;
     height: 150px;
-  }
-
-  .tourTypeCardContent {
-    padding-top: 40px;
-    padding-bottom: 24px;
-    padding-right: 75px;
   }
   .cardText {
     color: #051036;
@@ -244,12 +202,6 @@ export default {
   .cardContent {
     width: 100px;
     height: 100px;
-  }
-
-  .tourTypeCardContent {
-    padding-top: 40px;
-    padding-bottom: 24px;
-    padding-right: 75px;
   }
   .cardText {
     color: #051036;
@@ -483,10 +435,18 @@ export default {
 }
 
 .chooseHead {
-  margin-top: -10px;
-  margin-bottom: -10px;
   justify-content: space-between !important;
   align-items: flex-end !important;
+}
+
+.y-gap-20 {
+  margin-top: -10px;
+  margin-bottom: -10px;
+}
+
+.y-gap-20 > * {
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .col-auto {

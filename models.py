@@ -10,7 +10,7 @@ association_table = db.Table(
     'product_product_type', db.Model.metadata,
     db.Column('product_id', db.Integer, ForeignKey('product.id')),
     db.Column('product_type_id', db.Integer, ForeignKey('product_type.id'))
-    )
+)
 
 
 class PictureType(Enum):
@@ -46,13 +46,14 @@ class CommentKey(Enum):
 class Comment(db.Model):
     __tablename__ = "comment"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    # key = db.Column(db.CHAR(20), nullable=False)  # 服务 service, 性价比 cost_effective, 风景scenery
-    # key = db.Column(DBEnum(CommentKey), default=CommentKey.Scenery)
-    # value = db.Column(db.Float, nullable=False)
-    # 三方面评分
-    service_grade = db.Column(db.Float, nullable=False)
-    cost_effective_grade = db.Column(db.Float, nullable=False)
-    scenery_grade = db.Column(db.Float, nullable=False)
+    #七方面评分
+    location_grade = db.Column(db.Float, nullable=False, default=0)
+    staff_grade = db.Column(db.Float, nullable=False)
+    cleanliness_grade = db.Column(db.Float, nullable=False)
+    value_for_money_grade = db.Column(db.Float, nullable=False, default=0)
+    comfort_grade = db.Column(db.Float, nullable=False, default=0)
+    facilities_grade = db.Column(db.Float, nullable=False, default=0)
+    free_wifi_grade = db.Column(db.Float, nullable=False, default=0)
     datetime = db.Column(db.DateTime, nullable=False)
     des = db.Column(db.Text, nullable=False)
     like_num = db.Column(db.Integer, default=0)
@@ -62,6 +63,7 @@ class Comment(db.Model):
     product = relationship('Product', back_populates="comments")
     user = relationship('User', back_populates="comments")
     pictures = relationship('CommentPicture', order_by='CommentPicture.id', back_populates="comment")
+    likes = relationship('CommentLike', order_by='CommentLike.id', back_populates="comment")
 
     def __repr__(self):
         return "<Comment(key='%s', value='%2.2f')>" % (self.key, self.value)
@@ -84,9 +86,13 @@ class Comment(db.Model):
             'user_portrait': self.user.profile.picture_address,
             'product_name': self.product.name,
             'des': self.des,
-            'service_grade': self.service_grade,
-            'cost_effective_grade': self.cost_effective_grade,
-            'scenery_grade': self.scenery_grade
+            'value_for_money_grade': self.value_for_money_grade,
+            'comfort_grade': self.comfort_grade,
+            'facilities_grade': self.facilities_grade,
+            'location_grade': self.location_grade,
+            'staff_grade': self.staff_grade,
+            'cleanliness_grade': self.cleanliness_grade,
+            'free_wifi_grade': self.free_wifi_grade
         }
 
 
@@ -97,6 +103,16 @@ class CommentPicture(db.Model):
 
     comment_id = db.Column(db.Integer, ForeignKey('comment.id', ondelete='CASCADE', onupdate='CASCADE'))
     comment = relationship('Comment', back_populates="pictures")
+
+
+class CommentLike(db.Model):
+    __tablename__ = 'like'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer, ForeignKey('user.user_id', ondelete='CASCADE', onupdate='CASCADE'))
+    comment_id = db.Column(db.Integer, ForeignKey('comment.id', ondelete='CASCADE', onupdate='CASCADE'))
+
+    comment = relationship('Comment', back_populates="likes")
+    user = relationship('User', back_populates="likes")
 
 
 class EmailCaptchaModel(db.Model):
@@ -114,6 +130,13 @@ class FeeDes(db.Model):
 
     product_id = db.Column(db.Integer, ForeignKey('product.id', ondelete='CASCADE', onupdate='CASCADE'))
     product = relationship('Product', back_populates="fee_des")
+
+
+    def serialize(self):
+        return {
+            'name': self.name,
+            'description': self.description
+        }
 
     def __repr__(self):
         return "<FeeDes(key='%s', value='%s')>" % (self.key, self.value)
@@ -167,26 +190,41 @@ class Product(db.Model):
         return datetime.timestamp(self.end_time) - datetime.timestamp(self.start_time)
 
     def get_mark(self):
-        total = 0
-        number = 0
-        for comment in self.comments:
-            total = total + comment.value
-            number = number + 1
-        if number == 0:
-            number = 1
-        return total / number
+
+        comments = self.comments
+        total_score = 0
+        for comment in comments:
+            total_score += comment.location_grade
+            total_score += comment.staff_grade
+            total_score += comment.cleanliness_grade
+            total_score += comment.value_for_money_grade
+            total_score += comment.comfort_grade
+            total_score += comment.facilities_grade
+            total_score += comment.free_wifi_grade
+
+
+        return total_score/ (7 * len(comments))
 
     def get_cover(self):
         for picture in self.pictures:
-            if picture.type == 'Cover':
+            if picture.type == PictureType.Cover:
                 return picture.address
         return None
+
+    def gallery(self):
+        result = []
+        for picture in self.pictures:
+            if picture.type == PictureType.Gallery:
+                result.append(picture.address)
+        return result
+
     def banners(self):
         result = []
         for picture in self.pictures:
-            if picture.type == 'Banner':
+            if picture.type == PictureType.Banner:
                 result.append(picture.address)
         return result
+
     def serialize(self):
         return {
             'id': self.id,
@@ -197,7 +235,7 @@ class Product(db.Model):
             'price': self.ori_price,
             'discount': self.discount,
             'mark': self.get_mark(),
-            'status': str(self.status)
+            'status': self.status.name
         }
 
     def serialize_homepage(self):
@@ -208,7 +246,8 @@ class Product(db.Model):
             'duration': self.duration(),
             'price': self.ori_price * self.discount,
             'reviews': len(self.comments),
-            'banners': self.banners()
+            'banners': self.banners(),
+            'types': [type.type.name for type in self.types]
         }
 
     def serialize_staff_page(self):
@@ -222,7 +261,7 @@ class Product(db.Model):
             'discount': self.discount,
             'mark': self.get_mark(),
             'review': len(self.comments),
-            'status': str(self.status)
+            'status': self.status.name
         }
 
     def serialize_search(self):
@@ -233,19 +272,44 @@ class Product(db.Model):
             'location': self.raw_loc,
             'price': self.ori_price * self.discount,
             'mark': self.get_mark(),
-            'review': len(self.comments),
+            'reviews': len(self.comments),
             'tags': [tag.serialize() for tag in self.tags],
             'cover': self.get_cover()
         }
 
+
+    def serialize_detail(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'description': self.description,
+            'location': self.raw_loc,
+            'price': self.ori_price * self.discount,
+            'mark': self.get_mark(),
+            'reviews': len(self.comments),
+            'group_number': self.group_number,
+            'tags': [tag.serialize() for tag in self.tags],
+            'cover_image': self.get_cover(),
+            'gallery': self.gallery(),
+            'banner_image': self.banners(),
+            'start_time': self.start_time.date(),
+            'end_time': self.end_time.date(),
+            "fee_des": [fee.serialize() for fee in self.fee_des],
+
+        }
+
+
     def __repr__(self):
-        return "<Product(name='%s', description='%s', group_number='%s')>" % (self.name, self.description, self.group_number)
+        return "<Product(name='%s', description='%s', group_number='%s')>" % (
+        self.name, self.description, self.group_number)
+
 
 class ProductType(db.Model):
     __tablename__ = "product_type"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     type = db.Column(DBEnum(PType), default=PType.CityTour)
     products = relationship('Product', secondary=association_table, back_populates='types')
+
 
 class ProductPicture(db.Model):
     __tablename__ = "product_picture"
@@ -257,7 +321,6 @@ class ProductPicture(db.Model):
     product = relationship('Product', back_populates="pictures")
 
 
-
 class Tag(db.Model):
     __tablename__ = "tag"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -267,11 +330,12 @@ class Tag(db.Model):
     product_id = db.Column(db.Integer, ForeignKey('product.id', ondelete='CASCADE', onupdate='CASCADE'))
     product = relationship('Product', back_populates="tags")
 
-
     def serialize(self):
         return {
-            self.key: self.value
+            'key': self.key,
+            'value': self.value
         }
+
     def __repr__(self):
         return "<Tag(key='%s', value='%s')>" % (self.key, self.value)
 
@@ -308,6 +372,7 @@ class User(UserMixin, db.Model):
     profile = relationship('UserProfile', uselist=False, back_populates="user")
     user_browses = relationship('UserBrowse', order_by='UserBrowse.id', back_populates='user')
     orders = relationship('Order', order_by='Order.id', back_populates='user')
+    likes = relationship('CommentLike', order_by='CommentLike.id', back_populates="user")
 
     def __repr__(self):
         return "<User(email='%s')>" % self.user_email
@@ -349,5 +414,3 @@ class UserProfile(db.Model):
     job = db.Column(DBEnum(UserJob), default=UserJob.Customer)
     user_id = db.Column(db.Integer, ForeignKey('user.user_id', ondelete='CASCADE', onupdate='CASCADE'))
     user = relationship('User', back_populates="profile")
-
-

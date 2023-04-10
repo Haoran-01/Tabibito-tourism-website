@@ -32,7 +32,7 @@ def product_number():
     return jsonify(number=number)
 
 
-@bp.route("/product_list", methods=['GET'])
+@bp.route("/product_list", methods=['GET', 'POST'])
 def product_list():
     data = request.get_json()
     page = data['page']

@@ -4,23 +4,11 @@
   <div class="container">
     <div class="most-popular-contents" data-gap="30" data-slider-cols="xl-5 lg-4 md-2 sm-2 base-1" data-nav-prev="js-team-prev" data-pagination="js-team-pag" data-nav-next="js-team-next">
       <n-carousel :slides-per-view=slides_per_view :space-between=space_between :loop="false" show-arrow>
-        <div class="tourItem">
+        <div v-for="item in discountData" class="tourItem">
           <n-carousel show-arrow autoplay :space-between="2">
-          <img
+          <img v-for="pic in item.banners"
               class="carousel-img"
-              src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel1.jpeg"
-          >
-          <img
-              class="carousel-img"
-              src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel2.jpeg"
-          >
-          <img
-              class="carousel-img"
-              src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel3.jpeg"
-          >
-          <img
-              class="carousel-img"
-              src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel4.jpeg"
+              :src="pic"
           >
           <template #arrow="{ prev, next }">
             <div class="custom-arrow">
@@ -46,16 +34,16 @@
           <n-card>
             <div class="tourCardContent">
               <div class="tourCardTime">
-                <div class="hours">16+ hours</div>
+                <div class="hours"></div>
                 <div class="dot"></div>
-                <div class="days">Full-day Tours</div>
+                <div class="days">{{item.duration}}</div>
               </div>
 
-              <h4 class="tourCardTitle">
-                <span>Stonehenge, Windsor Castle and Bath with Pub Lunch in Lacock</span>
+              <h4 class="tourCardTitle" @click="this.$router.push('/trip/' + item.id)">
+                <span>{{item.name}}</span>
               </h4>
 
-              <p class="tourCardText">Westminster Borough, London</p>
+              <p class="tourCardText">{{item.raw_pic}}</p>
 
               <div class="row starsLayout">
                 <div class="col-auto">
@@ -74,266 +62,14 @@
 
                     </div>
 
-                    <div class="review">3,014 reviews</div>
+                    <div class="review">{{item.reviews + ' reviews'}} </div>
                   </div>
                 </div>
 
                 <div class="col-auto">
                   <div class="footer">
                     From
-                    <span class="price">US$72</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </n-card>
-        </div>
-        <div class="tourItem">
-          <n-carousel show-arrow autoplay>
-            <img
-                class="carousel-img"
-                src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel1.jpeg"
-            >
-            <img
-                class="carousel-img"
-                src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel2.jpeg"
-            >
-            <img
-                class="carousel-img"
-                src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel3.jpeg"
-            >
-            <img
-                class="carousel-img"
-                src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel4.jpeg"
-            >
-            <template #arrow="{ prev, next }">
-              <div class="custom-arrow">
-                <button type="button" class="custom-arrow--left" @click="prev">
-                  <n-icon><ArrowBack /></n-icon>
-                </button>
-                <button type="button" class="custom-arrow--right" @click="next">
-                  <n-icon><ArrowForward /></n-icon>
-                </button>
-              </div>
-            </template>
-            <template #dots="{ total, currentIndex, to }">
-              <ul class="custom-dots">
-                <li
-                    v-for="index of total"
-                    :key="index"
-                    :class="{ ['is-active']: currentIndex === index - 1 }"
-                    @click="to(index - 1)"
-                />
-              </ul>
-            </template>
-          </n-carousel>
-          <n-card>
-            <div class="tourCardContent">
-              <div class="tourCardTime">
-                <div class="hours">16+ hours</div>
-                <div class="dot"></div>
-                <div class="days">Full-day Tours</div>
-              </div>
-
-              <h4 class="tourCardTitle">
-                <span>Stonehenge, Windsor Castle and Bath with Pub Lunch in Lacock</span>
-              </h4>
-
-              <p class="tourCardText">Westminster Borough, London</p>
-
-              <div class="row starsLayout">
-                <div class="col-auto">
-                  <div class="starsBefore">
-                    <div class="stars">
-
-                      <div class="icon-star iconStar"></div>
-
-                      <div class="icon-star iconStar"></div>
-
-                      <div class="icon-star iconStar"></div>
-
-                      <div class="icon-star iconStar"></div>
-
-                      <div class="icon-star iconStar"></div>
-
-                    </div>
-
-                    <div class="review">3,014 reviews</div>
-                  </div>
-                </div>
-
-                <div class="col-auto">
-                  <div class="footer">
-                    From
-                    <span class="price">US$72</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </n-card>
-        </div>
-        <div class="tourItem">
-          <n-carousel show-arrow autoplay>
-            <img
-                class="carousel-img"
-                src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel1.jpeg"
-            >
-            <img
-                class="carousel-img"
-                src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel2.jpeg"
-            >
-            <img
-                class="carousel-img"
-                src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel3.jpeg"
-            >
-            <img
-                class="carousel-img"
-                src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel4.jpeg"
-            >
-            <template #arrow="{ prev, next }">
-              <div class="custom-arrow">
-                <button type="button" class="custom-arrow--left" @click="prev">
-                  <n-icon><ArrowBack /></n-icon>
-                </button>
-                <button type="button" class="custom-arrow--right" @click="next">
-                  <n-icon><ArrowForward /></n-icon>
-                </button>
-              </div>
-            </template>
-            <template #dots="{ total, currentIndex, to }">
-              <ul class="custom-dots">
-                <li
-                    v-for="index of total"
-                    :key="index"
-                    :class="{ ['is-active']: currentIndex === index - 1 }"
-                    @click="to(index - 1)"
-                />
-              </ul>
-            </template>
-          </n-carousel>
-          <n-card>
-            <div class="tourCardContent">
-              <div class="tourCardTime">
-                <div class="hours">16+ hours</div>
-                <div class="dot"></div>
-                <div class="days">Full-day Tours</div>
-              </div>
-
-              <h4 class="tourCardTitle">
-                <span>Stonehenge, Windsor Castle and Bath with Pub Lunch in Lacock</span>
-              </h4>
-
-              <p class="tourCardText">Westminster Borough, London</p>
-
-              <div class="row starsLayout">
-                <div class="col-auto">
-                  <div class="starsBefore">
-                    <div class="stars">
-
-                      <div class="icon-star iconStar"></div>
-
-                      <div class="icon-star iconStar"></div>
-
-                      <div class="icon-star iconStar"></div>
-
-                      <div class="icon-star iconStar"></div>
-
-                      <div class="icon-star iconStar"></div>
-
-                    </div>
-
-                    <div class="review">3,014 reviews</div>
-                  </div>
-                </div>
-
-                <div class="col-auto">
-                  <div class="footer">
-                    From
-                    <span class="price">US$72</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </n-card>
-        </div>
-        <div class="tourItem">
-          <n-carousel show-arrow autoplay>
-            <img
-                class="carousel-img"
-                src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel1.jpeg"
-            >
-            <img
-                class="carousel-img"
-                src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel2.jpeg"
-            >
-            <img
-                class="carousel-img"
-                src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel3.jpeg"
-            >
-            <img
-                class="carousel-img"
-                src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel4.jpeg"
-            >
-            <template #arrow="{ prev, next }">
-              <div class="custom-arrow">
-                <button type="button" class="custom-arrow--left" @click="prev">
-                  <n-icon><ArrowBack /></n-icon>
-                </button>
-                <button type="button" class="custom-arrow--right" @click="next">
-                  <n-icon><ArrowForward /></n-icon>
-                </button>
-              </div>
-            </template>
-            <template #dots="{ total, currentIndex, to }">
-              <ul class="custom-dots">
-                <li
-                    v-for="index of total"
-                    :key="index"
-                    :class="{ ['is-active']: currentIndex === index - 1 }"
-                    @click="to(index - 1)"
-                />
-              </ul>
-            </template>
-          </n-carousel>
-          <n-card>
-            <div class="tourCardContent">
-              <div class="tourCardTime">
-                <div class="hours">16+ hours</div>
-                <div class="dot"></div>
-                <div class="days">Full-day Tours</div>
-              </div>
-
-              <h4 class="tourCardTitle">
-                <span>Stonehenge, Windsor Castle and Bath with Pub Lunch in Lacock</span>
-              </h4>
-
-              <p class="tourCardText">Westminster Borough, London</p>
-
-              <div class="row starsLayout">
-                <div class="col-auto">
-                  <div class="starsBefore">
-                    <div class="stars">
-
-                      <div class="icon-star iconStar"></div>
-
-                      <div class="icon-star iconStar"></div>
-
-                      <div class="icon-star iconStar"></div>
-
-                      <div class="icon-star iconStar"></div>
-
-                      <div class="icon-star iconStar"></div>
-
-                    </div>
-
-                    <div class="review">3,014 reviews</div>
-                  </div>
-                </div>
-
-                <div class="col-auto">
-                  <div class="footer">
-                    From
-                    <span class="price">US$72</span>
+                    <span class="price">{{'$' + item.price}}</span>
                   </div>
                 </div>
               </div>
@@ -356,6 +92,7 @@
 import { ArrowBack, ArrowForward } from '@vicons/ionicons5'
 import {defineComponent, onMounted, ref} from 'vue'
 export default {
+  props:['discountData'],
   components: {
     ArrowBack,
     ArrowForward

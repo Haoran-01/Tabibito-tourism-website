@@ -70,7 +70,7 @@
     </div>
 
     <div class="row x-gap-10 y-gap-10 select_menu">
-      <n-select class="dropdown" v-model:value="value" :options="priceoptions" clearable placeholder="Price" @select="handleSelectPrice"/>
+      <n-select class="dropdown" v-model:value="value" :options="priceoptions" clearable placeholder="Price" @select="handleSelectPrice" :consistent-menu-width="false"/>
       <n-select class="dropdown" v-model:value="value" :options="durationoptions" clearable placeholder="Duration" @select="handleSelectDuration"/>
       <n-select class="dropdown" v-model:value="value" :options="languageoptions" clearable placeholder="Language" @select="handleSelectLanguage"/>
     </div>
@@ -103,16 +103,16 @@
       <div class="col-12">
 
         <div class="content_wrap">
-          <div class="row x-gap-20 y-gap-20">
+          <div class="row x-gap-20 y-gap-20" v-for="item in items" :key="item.id">
             <div class="col-md-auto">
 
               <div class="content_left ratio ratio-1:1">
                 <div class="cardImage_content">
-                  <img class="cardImage col-12" src="../../assets/searchViewTest.png" alt="image">
+                  <img class="cardImage col-12" src="item.image" alt="image">
                 </div>
 
                 <div class="cardImage_wish">
-                  <n-button :loading="loading" @click="handleClick" strong secondary circle type="info">
+                  <n-button :loading="item.loading" @click="handleClick" strong secondary circle type="info">
                     <template #icon>
                       <n-icon><HeartOutline /></n-icon>
                     </template>
@@ -122,27 +122,23 @@
             </div>
 
             <div class="col-md">
-              <p class="hours">6+ hours</p>
-              <h3 class="title">Leeds Castle, Cliffs of Dover and Canterbury Day Trip from London with Guided Cathedral Tour</h3>
-              <p class="location">Westminster Borough, London</p>
+              <p class="hours">{{ item.hours }}</p>
+              <h3 class="title">{{  item.title }}</h3>
+              <p class="location">{{  item.location }}</p>
 
-              <div class="opt1">Taking safety measures</div>
-              <div class="opt2">Free cancellation</div>
+              <div class="opt1">{{  item.opt1 }}</div>
+              <div class="opt2">{{  item.opt2 }}</div>
             </div>
 
             <div class="col-md-auto content_right">
               <div class="stars x-gap-10">
-                <n-icon class="star"><Star /></n-icon>
-                <n-icon class="star"><Star /></n-icon>
-                <n-icon class="star"><Star /></n-icon>
-                <n-icon class="star"><Star /></n-icon>
-                <n-icon class="star"><Star /></n-icon>
+                <n-icon class="star" v-for="star in item.stars" :key="star"><Star /></n-icon>
               </div>
-              <div class="reviews">3,014 reviews</div>
+              <div class="reviews">{{ item.reviews }} reviews</div>
 
               <div class="from">From</div>
-              <div class="price">US$72</div>
-              <div class="per">per adult</div>
+              <div class="price">US${{ item.price }}</div>
+              <div class="per">{{ item.per }}</div>
 
 
               <a href="#" class="button -dark-1 btn_detail">
@@ -154,8 +150,10 @@
           </div>
         </div>
       </div>
-
     </div>
+
+    <n-pagination class="page" v-model:page="page" :on-update:page="pageChange"	:page-count="countPage"/>
+
 
   </div>
 
@@ -172,6 +170,11 @@ import { defineComponent, ref } from 'vue'
 import {Loader} from "@googlemaps/js-api-loader";
 import { useMessage } from "naive-ui";
 import { ArrowForward, Star, HeartOutline, LocationOutline, TodayOutline, CompassOutline, Search, StatsChartOutline } from "@vicons/ionicons5";
+import {VGridVueTemplate} from "@revolist/vue3-datagrid";
+import listButton from "../BackListView/listButton.vue";
+import delistButton from "../BackListView/delistButton.vue";
+import editButton from "../BackListView/editButton.vue";
+import axios from "axios";
 export default defineComponent({
   name: "leftListView",
   components: {
@@ -185,9 +188,23 @@ export default defineComponent({
     ArrowForward
   },
   setup () {
+    let startTime = ref();
+    let endTime = ref();
+    let currentLocation = ref("select");
+    let tourType = ref();
     const loadingRef = ref(false);
+    let price = ref();
+    let duration = ref();
+    let language = ref();
     const message = useMessage();
     return {
+      currentLocation,
+      startTime,
+      endTime,
+      tourType,
+      price,
+      duration,
+      language,
       handleClick() {
         loadingRef.value = true
         setTimeout(() => {
@@ -221,23 +238,23 @@ export default defineComponent({
       durationoptions: [
         {
           label: "1 week",
-          value: '1w',
-          key: '1w'
+          value: '1 week',
+          key: '1 week'
         },
         {
           label: '2 weeks',
-          value: '2w',
-          key: '2w'
+          value: '2 weeks',
+          key: '2 weeks'
         },
         {
           label: '3 weeks',
-          value: '3w',
-          key: '3w'
+          value: '3 weeks',
+          key: '3 weeks'
         },
         {
           label: "1 month",
-          value: '1m',
-          key: '1m'
+          value: '1 month',
+          key: '1 month'
         }],
       languageoptions: [
         {
@@ -298,42 +315,79 @@ export default defineComponent({
       ],
       typeOptions: [
         {
-          label: '滨海湾金沙，新加坡',
-          key: 'marina bay sands'
+          label: 'Wildlife Tour',
+          key: 'Wildlife Tour'
         },
         {
-          label: '布朗酒店，伦敦',
-          key: "brown's hotel, london"
+          label: 'Adventure Tour',
+          key: "Adventure Tour"
         },
         {
-          label: '亚特兰蒂斯巴哈马，拿骚',
-          key: 'atlantis nahamas, nassau'
+          label: 'City Tours',
+          key: 'City Tours'
         },
         {
-          label: '比佛利山庄酒店，洛杉矶',
-          key: 'the beverly hills hotel, los angeles'
+          label: 'Museum Tours',
+          key: 'Museum Tours'
+        },
+        {
+          label: 'Beaches Tour',
+          key: 'Beaches Tour'
         }
       ],
-      handleSelectLoc(key) {
-        message.info(String(key));
+      handleSelectLoc(val) {
+        currentLocation.value = val;
       },
-      handleSelectType(key) {
-        message.info(String(key));
+      handleSelectType(val) {
+        tourType.value = val;
       },
       handleSelectSort(key) {
         message.info(String(key));
       },
-      handleSelectPrice(key) {
-        message.info(String(key));
+      handleSelectPrice(val) {
+        price.value = val;
       },
-      handleSelectDuration(key) {
-        message.info(String(key));
+      handleSelectDuration(val) {
+        duration.value = val;
       },
-      handleSelectLanguage(key) {
-        message.info(String(key));
+      handleSelectLanguage(val) {
+        language.value = val;
       },
-      handleLocSelect (key) {
-        message.info(String(key))
+      handleSearchProject() {
+        axios.post("http://127.0.0.1:5000/search_page/product_list",
+            {
+              startTime: this.range[0],
+              endTime: this.range[1],
+              currentLocation: currentLocation.value,
+              tourType: tourType.value,
+              price: price.value,
+              duration: duration.value,
+              language: language.value
+            }
+        )
+            .then((response)=>{
+              const code = response.status
+              if (code === 200){
+                this.products = response.data
+              }
+            })
+        axios.post("http://127.0.0.1:5000/search_page/product_number",
+            {
+              startTime: this.range[0],
+              endTime: this.range[1],
+              currentLocation: currentLocation.value,
+              tourType: tourType.value,
+              price: price.value,
+              duration: duration.value,
+              language: language.value
+            }
+        )
+            .then((response)=>{
+              const code = response.status
+              if (code === 200){
+                this.count = response.data
+              }
+            })
       }
     }
   },
@@ -355,11 +409,81 @@ export default defineComponent({
       });
     });
   },
+  data(){
+    return{
+      countPage: ref(),
+      items:[
+        {
+          id: 1,
+          image: "../../assets/searchViewTest.png",
+          loading: false,
+          hours: "6+ hours",
+          title: "Leeds Castle, Cliffs of Dover and Canterbury Day Trip from London with Guided Cathedral Tour",
+          location: "Westminster Borough, London",
+          opt1: "Taking safety measures",
+          opt2: "Free cancellation",
+          stars: [1, 2, 3, 4, 5],
+          reviews: "3,014",
+          price: "72",
+          per: "per adult"
+        },
+        {
+          id: 2,
+          image: "../../assets/searchViewTest.png",
+          loading: false,
+          hours: "8+ hours",
+          title: "Day Trip to the Isle of Wight from London: including Osborne House Tickets",
+          location: "Isle of Wight, United Kingdom",
+          opt1: "Taking safety measures",
+          opt2: "Free cancellation",
+          stars: [1, 2, 3, 4],
+          reviews: "1,223",
+          price: "116",
+          per: "per adult"
+        },
+        {
+          id: 3,
+          image: "../../assets/searchViewTest.png",
+          loading: false,
+          hours: "7 hours",
+          title: "Stonehenge, Windsor Castle, and Bath with Pub Lunch in Lacock",
+          location: "Greater London, United Kingdom",
+          opt1: "Taking safety measures",
+          opt2: "Free cancellation",
+          stars: [1, 2, 3, 4],
+          reviews: "1,223",
+          price: "116",
+          per: "per adult"
+        }
+      ],
+    }
+  },
+
+  methods:{
+    pageChange(newPage){
+      // console.log(`Current page is ${newPage}`);
+      axios.post('http://127.0.0.1:5000/search_page/product_list',{
+        page: newPage
+      }).then(function (response){
+        this.products = response.data
+        console.log("分页成功嘞 yeeee")
+      }).catch(function (error){
+        console.log(error);
+      });
+    }
+
+  }
 })
 
 </script>
 
 <style scoped>
+.page{
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 30%;
+}
 .halfMap {
   display: flex;
   width: 100%;
@@ -378,12 +502,12 @@ export default defineComponent({
   }
 }
 .dropdown {
+  width: 160px !important;
   height: 40px;
   cursor: pointer;
   position: relative;
   display: flex;
   align-items: center;
-  border-radius: 8px;
 }
 .map_content {
   width: 100%;
