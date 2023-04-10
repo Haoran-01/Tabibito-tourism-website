@@ -178,9 +178,12 @@ def test_order():
 
 @bp.route("/login_status", methods=["GET"])
 def get_login_user():
-    if current_user and current_user.user.user_email is not None:
-        print(current_user)
-        return jsonify(id=current_user.user_id, job=current_user.user_profile.job)
+    if current_user:
+        if hasattr(current_user, 'user_id'):
+            return jsonify(id=current_user.user_id, job=current_user.user_profile.job)
+        else:
+            return jsonify(id=None, job=None)
+
     else:
         return jsonify(id=None, job=None)
 
