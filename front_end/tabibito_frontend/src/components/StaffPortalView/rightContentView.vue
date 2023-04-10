@@ -23,7 +23,7 @@
               <div class="row block_content">
                 <div class="col-auto">
                   <div class="block_title">Monthly Pending</div>
-                  <div class="block_money">$12,800</div>
+                  <div class="block_money">${{ earns.month_pending }}</div>
 <!--                  <div class="block_total">Total pending</div>-->
                 </div>
 
@@ -38,7 +38,7 @@
               <div class="row block_content">
                 <div class="col-auto">
                   <div class="block_title">Monthly Earning</div>
-                  <div class="block_money">$12,800</div>
+                  <div class="block_money">${{ earns.month_earning }}</div>
 <!--                  <div class="block_total">Total Confirmed</div>-->
                 </div>
 
@@ -53,7 +53,7 @@
               <div class="row block_content">
                 <div class="col-auto">
                   <div class="block_title">Quarterly Pending</div>
-                  <div class="block_money">$12,800</div>
+                  <div class="block_money">${{ earns.quarterly_pending }}</div>
 <!--                  <div class="block_total">Total pending</div>-->
                 </div>
 
@@ -68,7 +68,7 @@
               <div class="row block_content">
                 <div class="col-auto">
                   <div class="block_title">Quarterly Earning</div>
-                  <div class="block_money">$12,800</div>
+                  <div class="block_money">${{ earns.quarterly_earning }}</div>
 <!--                  <div class="block_total">Earning</div>-->
                 </div>
 
@@ -172,6 +172,7 @@ import {
 } from "echarts/components";
 import VChart, { THEME_KEY } from "vue-echarts";
 import FooterView from "../GeneralComponents/footerView.vue";
+import axios from "axios";
 
 use([
   CanvasRenderer,
@@ -364,6 +365,7 @@ export default defineComponent({
     },
   data(){
     return{
+      earns: [],
       items:[
         {
           destination: 'New York',
@@ -391,6 +393,22 @@ export default defineComponent({
         },
       ],
     }
+  },
+  mounted() {
+    axios.get('http://127.0.0.1:5000/staff_portal/recent_product_list')
+        .then(response => {
+          this.items = response.data.orders;
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    axios.get('http://127.0.0.1:5000/staff_portal/get_statistic')
+        .then(response => {
+          this.earns = response.data.earn;
+        })
+        .catch(error => {
+          console.error(error);
+        });
   }
 });
 
