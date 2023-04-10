@@ -3,50 +3,49 @@
   <div style="height: 91px; z-index: -100"></div>
  <div class="cover">
    <div class="coverSlogans">
-     <h1 class="mainSlogan">Looking for joy?</h1>
-     <div class="subSlogan">Your trusted trip companion</div>
+     <h1 class="mainSlogan">{{ $t('aboutUsPage.mainSlogan')}}</h1>
+     <div class="subSlogan">{{ $t('aboutUsPage.subSlogan')}}</div>
    </div>
  </div>
   <div class="whyChooseUsSection">
     <div class="whyChooseTextContainer">
       <div class="whyChooseTextArea">
-        <h2 class="whyChooseTitle">Why Choose Us</h2>
-        <div class="whyChooseSlogan">These popular destinations have a lot to offer</div>
+        <h2 class="whyChooseTitle">{{ $t('aboutUsPage.whyChooseTitle')}}</h2>
+        <div class="whyChooseSlogan">{{ $t('aboutUsPage.whyChooseSlogan')}}</div>
       </div>
     </div>
     <div class="advantages">
       <div class="advantage">
         <div class="advantageIcon shieldIcon"></div>
-        <h4 class="advantageName">Precise Info Guarantee</h4>
-        <div class="advantageText">We are trying our best to provide precise information about the trips.</div>
+        <h4 class="advantageName">{{ $t('aboutUsPage.advantageName1')}}</h4>
+        <div class="advantageText">{{ $t('aboutUsPage.advantageText1')}}</div>
       </div>
       <div class="advantage">
         <div class="advantageIcon bookingIcon"></div>
-        <h4 class="advantageName">Easy & Quick Reserving</h4>
-        <div class="advantageText">By only a few steps, you can reserve a new trip easily.</div>
+        <h4 class="advantageName">{{ $t('aboutUsPage.advantageName2')}}</h4>
+        <div class="advantageText">{{ $t('aboutUsPage.advantageText2')}}</div>
       </div>
       <div class="advantage">
         <div class="advantageIcon careIcon"></div>
-        <div class="advantageName">Customer Care 24/7</div>
-        <div class="advantageText">Every customer can access to our customer service staffs.</div>
+        <h4 class="advantageName">{{ $t('aboutUsPage.advantageName3')}}</h4>
+        <div class="advantageText">{{ $t('aboutUsPage.advantageText3')}}</div>
       </div>
     </div>
   </div>
   <div class="companyIntroSection">
     <div class="companyIntroTexts">
-      <h2 class="companyIntroTitle">About Tabibito</h2>
-      <div class="companyIntroSlogan">These popular destinations have a lot to offer</div>
-      <div class="companyIntroDescription">Welcome to Tabibito, your one-stop travel agency for all your vacation needs. Our name means "traveler" in Japanese, and we take pride in helping our customers explore the world with ease and comfort.<br/><br/>
+      <h2 class="companyIntroTitle">{{ $t('aboutUsPage.companyIntroTitle')}}</h2>
+      <div class="companyIntroSlogan">{{ $t('aboutUsPage.companyIntroSlogan')}}</div>
+      <div class="companyIntroDescription">{{ $t('aboutUsPage.intro1')}}<br/><br/>
 
-        At Tabibito, we understand that planning a vacation can be overwhelming. That's why we offer Precise Info Guarantee - we provide you with accurate and up-to-date information about your destination, so you can make informed decisions about your itinerary. We also offer Easy & Quick Reserving, allowing you to book your trip hassle-free and with confidence.
+        {{ $t('aboutUsPage.intro2')}}
 
-        <br/><br/>Our commitment to customer satisfaction is unwavering, and we provide Customer Care 24/7 to ensure that your trip goes smoothly. Whether you need assistance with your booking, have questions about your itinerary, or need help while you're on the go, our team is always here to help.
-
-        <br/><br/>We offer a wide range of travel services, including flights, accommodations, tours, and more. Our expert travel consultants can help you plan the perfect vacation based on your preferences and budget.
-
-        Tabibito is dedicated to providing our customers with unforgettable travel experiences. Let us help you embark on your next adventure - contact us today to start planning your dream vacation. </div>
+        <br><br/>{{ $t('aboutUsPage.intro3')}}
+        <br><br/>{{ $t('aboutUsPage.intro4')}}
+        <br><br/>{{ $t('aboutUsPage.intro5')}}    </div>
     </div>
     <div class="companyIntroImage"></div>
+
   </div>
   <div class="statistics">
     <div class="figure">
@@ -78,6 +77,7 @@
       <div class="figureName">Monthly Income</div>
     </div>
   </div>
+
   <n-divider />
   <our-team-view></our-team-view>
   <overheard-from-travelers-view></overheard-from-travelers-view>
