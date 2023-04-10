@@ -366,32 +366,7 @@ export default defineComponent({
   data(){
     return{
       earns: [],
-      items:[
-        {
-          destination: 'New York',
-          price: '130',
-          discount: '0',
-          status: 'pending',
-          date: '04/04/2022',
-          time: '08:16'
-        },
-        {
-          destination: 'New York',
-          price: '130',
-          discount: '0',
-          status: 'confirmed',
-          date: '04/04/2022',
-          time: '08:16'
-        },
-        {
-          destination: 'New York',
-          price: '130',
-          discount: '0',
-          status: 'cancelled',
-          date: '04/04/2022',
-          time: '08:16'
-        },
-      ],
+      items:[],
     }
   },
   mounted() {
