@@ -113,6 +113,20 @@
           </p>
         </div>
 
+        <div class="TDOverview">
+          <h3 class="TDTex2">Fee Description</h3>
+
+          <div v-for="fee in details.fee_des">
+            <p class="TDTex3 head">
+              {{ fee.name }}
+            </p>
+            <br>
+
+            <p class="TDTex3">
+              {{ fee.description }}
+            </p>
+          </div>
+        </div>
 
 
       </div>
@@ -233,11 +247,18 @@ export default {
 
     const toast = useToast();
 
+    let user_log_in = ref(false);
+    axios.get('http://127.0.0.1:5000/user/login_status')
+        .then((res)=>{
+          this.user_log_in.value = res.data.id !== null;
+        })
+
     return{
       startTime,
       endTime,
       groupNum,
       toast,
+      user_log_in,
 
       // 控制可以选择的时间范围
       secureStartTime(ts) {
@@ -258,14 +279,11 @@ export default {
       },
 
       handleClickProject() {
-        if (startTime.value === 0 || startTime.value === null || endTime.value === null || endTime.value === 0 || currentLocation.value === "select") {
-          return;
-      }
         axios.post("http://127.0.0.1:5000/product/detail_post",
             {
-              start_time: startTime.value,
-              end_time: endTime.value,
+              product_id: 1,
               groupNum: groupNum,
+              user_id: this.user_log_in.value
             }
         )
             .then(function (response){
@@ -277,10 +295,10 @@ export default {
     }
   },
 
-  mounted() {
-    window.addEventListener("scroll", this.handleScroll);
-
-    axios.get('http://127.0.0.1:5000/product/detail')
+  created() {
+    axios.post('http://127.0.0.1:5000/product/detail', {
+      product_id: 1
+    })
         .then(response => {
           this.details = response.data.details;
 
@@ -297,6 +315,29 @@ export default {
         .catch(error => {
           console.error(error);
         });
+  },
+
+  mounted() {
+    window.addEventListener("scroll", this.handleScroll);
+
+
+    // axios.post('http://127.0.0.1:5000/product/detail')
+    //     .then(response => {
+    //       this.details = response.data.details;
+    //
+    //       const num1 = new Date(this.details.end_time).getTime()
+    //       const num2 = new Date(this.details.start_time).getTime()
+    //       let diffMs = num1-num2
+    //       // 将毫秒数转换为天数
+    //       this.duration = Math.floor(diffMs / (1000 * 60 * 60 * 24))
+    //
+    //       this.star = this.details.mark
+    //
+    //       this.imageList = this.details.gallery
+    //     })
+    //     .catch(error => {
+    //       console.error(error);
+    //     });
 
   },
   destroyed() {
@@ -513,6 +554,11 @@ export default {
   margin: 20px 0 0;
   line-height: 2.5;
   font-weight: 100;
+}
+
+.head{
+  font-size: 17px;
+  font-weight: 700;
 }
 
 .DTCols1{
