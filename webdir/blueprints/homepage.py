@@ -116,3 +116,10 @@ def next_two_months():
 def get_popular_comments():
     comments = db.session.query(Comment).order_by(Comment.like_num.desc()).limit(5).all()
     return jsonify(code=200, data=[comment.serialize_homepage() for comment in comments])
+
+
+# 可以使用推荐算法筛选3个项目
+@bp.route("/inspiration", methods=["GET"])
+def get_inspiration():
+    products = db.session.query(Product).limit(3).all()
+    return jsonify(code=200, proudcts=[product.serialize_inspiration() for product in products])

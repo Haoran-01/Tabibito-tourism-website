@@ -2,6 +2,8 @@ import datetime
 
 from flask import Blueprint, jsonify, request
 from sqlalchemy import or_, text
+
+from exts import db
 from models import Product, Trip, Tag, ProductType
 import nltk
 from nltk.corpus import stopwords
@@ -65,13 +67,67 @@ def search():
 @bp.route('/product_number')
 def get_product_number():
     data = request.get_json(silent=True)
-    products = Product.query.filter_by(Product.start_time >= data["startTime"],
-                                       Product.end_time <= data["endTime"],
-                                       Product.currency == data["currentLocation"],
-                                       Product.types == data["tourType"],
-                                       Product.ori_price in range(data["low_price"], data["high_price"]),
-                                       Product.duration == data['duration'])
-    return jsonify(code=200, number=len(products))
+    products = db.session.query(Product).all()
+    # products = Product.query.filter(Product.start_time >= data["startTime"],
+    #                                 Product.end_time <= data["endTime"],
+    #                                 Product.currency == data["currentLocation"],
+    #                                 Product.types.any(text(data["tourType"])),
+    #                                 Product.ori_price in range(int(data["low_price"]), int(data["high_price"])),
+    #                                 Product.duration == data['duration']).all()
+
+    # 构造筛选条件
+    filters = []
+    if 'startTime' in data:
+        filters.append({'field': 'startTime', 'operator': '>=', 'value': data['startTime']})
+    if 'endTime' in data:
+        filters.append({'field': 'endTime', 'operator': '<=', 'value': data['endTime']})
+    if 'currentLocation' in data:
+        filters.append({'field': 'currentLocation', 'operator': '==', 'value': data['currentLocation']})
+    if 'tourType' in data:
+        filters.append({'field': 'tourType', 'operator': '==', 'value': data['tourType']})
+    if 'low_price' in data:
+        filters.append({'field': 'price', 'operator': '>=', 'value': data['low_price']})
+    if 'high_price' in data:
+        filters.append({'field': 'price', 'operator': '<=', 'value': data['high_price']})
+    if 'duration' in data:
+        filters.append({'field': 'duration', 'operator': '==', 'value': data['duration']})
+
+    # 使用筛选条件查询产品数据
+    results = []
+    for product in products:
+        match = True
+        for f in filters:
+            if f['operator'] == '==':
+                if f['field'] == 'currentLocation' and product.currency != f['value']:
+                    match = False
+                    break
+                elif f['field'] == 'tourType' and product.currency != f['value']:
+                    match = False
+                    break
+                elif f['field'] == 'duration' and product.currency != f['value']:
+                    match = False
+                    break
+            elif f['operator'] == '>=':
+                if f['field'] == 'startTime' and product.start_time.timestamp() < f['value']:
+                    match = False
+                    break
+                elif f['field'] == 'low_price' and product.ori_price < f['value']:
+                    match = False
+                    break
+            elif f['operator'] == '<=':
+                if f['field'] == 'endTime' and product.start_time.timestamp() < f['value']:
+                    match = False
+                    break
+                elif f['field'] == 'high_price' and product.ori_price < f['value']:
+                    match = False
+                    break
+        if match:
+            results.append(product)
+
+    return jsonify(code=200, number=len(results))
+
+
+
 
 
 @bp.route('/product_list')
@@ -82,7 +138,7 @@ def get_product_list():
                                     Product.currency == data["currentLocation"],
                                     Product.types.any(text(data["tourType"])),
                                     Product.ori_price in range(int(data["low_price"]), int(data["high_price"])),
-                                    Product.duration == data['duration'])
+                                    Product.duration == data['duration']).all()
     page_number = data["page"]
     select_product = products[page_number * 3 - 3: page_number * 3]
     return jsonify(code=200, data=[product.serialize_product_list() for product in select_product])

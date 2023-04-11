@@ -25,3 +25,9 @@ def get_order_detail():
     else:
         return jsonify(code=400, message="not found")
 
+
+@bp.route("/create_order", methods=["POST"])
+def add_order():
+    data = request.get_json(silent=True)
+    user_id = data["user_id"]
+    product_id = data["product_id"]
