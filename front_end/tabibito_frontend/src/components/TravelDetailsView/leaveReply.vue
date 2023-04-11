@@ -168,6 +168,7 @@ export default defineComponent({
         const response = await axios.post('http://127.0.0.1:5000/comment/add_comment', {
           title: this.title,
           comment: this.comment,
+          pics: []
         })
         console.log(response.data)
         // 处理成功响应
