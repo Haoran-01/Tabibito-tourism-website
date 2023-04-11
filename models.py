@@ -366,8 +366,8 @@ class Product(db.Model):
             'cover_image': self.get_cover(),
             'gallery': self.gallery(),
             'banner_image': self.banners(),
-            'start_time': self.start_time.date(),
-            'end_time': self.end_time.date(),
+            'start_time': self.start_time.strftime("%A, %d %B %Y"),
+            'end_time': self.end_time.strftime("%A, %d %B %Y"),
             "fee_des": [fee.serialize() for fee in self.fee_des]
         }
 
@@ -471,6 +471,12 @@ class User(UserMixin, db.Model):
 
     def __repr__(self):
         return "<User(email='%s')>" % self.user_email
+
+    def browsed_products(self):
+        result = set()
+        for browse in self.user_browses:
+            result.add(browse.product)
+        return result
 
     def get_id(self):
         return self.user_id

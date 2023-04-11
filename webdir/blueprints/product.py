@@ -114,8 +114,7 @@ def product_detail():
     product_id = request.json.get('product_id')
 
     product = Product.query.filter(Product.id == product_id).first()
-
-    return jsonify(product.serialize_detail())
+    return jsonify(product=product.serialize_detail())
 
 
 @bp.route("/type_products", methods=["POST", "GET"])

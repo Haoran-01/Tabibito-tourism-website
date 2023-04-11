@@ -1,133 +1,68 @@
-import datetime
-
+import nltk
 from flask import Blueprint, jsonify, g
-import numpy as np
 from models import UserBrowse, Product, User
-from collections import defaultdict
 bp = Blueprint("Recommend", __name__, url_prefix="/recommend")
 
-
-def get_similarity_score(user1, user2, similarity_matrix):
-    # Get the products that both users have browsed
-    common_products = set(user1.browsed_products).intersection(set(user2.browsed_products))
-
-    # Calculate the sum of similarities between all common products
-    similarity_sum = 0
-    for product1 in common_products:
-        for product2 in common_products:
-            if product1 != product2:
-                similarity_sum += similarity_matrix[product1.id][product2.id]
-
-    # Calculate the similarity score as the average similarity of common products
-    similarity_score = similarity_sum / len(common_products)
-
-    return similarity_score
+# 首先，我们需要一个函数来计算两个字符串的相似度
+wnl = nltk.WordNetLemmatizer()
+stopwords = set(nltk.corpus.stopwords.words('english'))
 
 
-def build_similarity_matrix(users):
-    # keys: Product values: lists of users browsed
-    product_users = {}
-    for user in users:
-        for browse in user.user_browses:
-            if browse.product not in product_users:
-                product_users[browse.product] = []
-            product_users[browse.product].append(user)
-
-    # Compute pairwise similarity scores between all products based on their tags
-    similarity_matrix = {}
-    for product1 in product_users:
-        similarity_matrix[product1] = []
-        for product2 in product_users:
-            if product1 == product2:
-                continue
-            similarity_score = get_similarity_score(product1.tags, product2.tags)
-            similarity_matrix[product1].append((product2, similarity_score))
-
-        # Sort the list of similar products in descending order of similarity score
-        similarity_matrix[product1].sort(key=lambda x: x[1], reverse=True)
-
-    return similarity_matrix
+# 定义一个函数来清洗字符串
+def clean_string(s):
+    # 把字符串转换为小写
+    s = s.lower()
+    # 用nltk的WordPunctTokenizer来把字符串分成单词
+    tokens = nltk.tokenize.wordpunct_tokenize(s)
+    # 去掉单词中的标点符号和停用词
+    words = [w for w in tokens if w.isalpha() and w not in stopwords]
+    # 把单词还原为它们的基本形式
+    words = [wnl.lemmatize(w) for w in words]
+    # 把单词拼接成一个字符串
+    cleaned_string = ' '.join(words)
+    return cleaned_string
 
 
-def get_similarity_matrix():
-    if hasattr(g, "similarity_matrix"):
-        if (datetime.datetime.now()-g.datetime).seconds < 3600:
-            return g.similarity_matrix
-        else:
-            users = User.query.all()
-            g.similarity_matrix = build_similarity_matrix(users)
-            g.datetime = datetime.datetime.now()
-            return g.similarity_matrix
-    else:
-        users = User.query.all()
-        g.similarity_matrix = build_similarity_matrix(users)
-        g.datetime = datetime.datetime.now()
-        return g.similarity_matrix
+# 定义一个函数来计算两个字符串的相似度
+def calculate_similarity(str1, str2):
+    # 先清洗两个字符串
+    str1 = clean_string(str1)
+    str2 = clean_string(str2)
+    # 使用nltk的编辑距离算法来计算两个字符串的相似度
+    distance = nltk.edit_distance(str1, str2)
+    # 把编辑距离转换为相似度得分，得分越高表示相似
+    similarity = 1 - (distance / max(len(str1), len(str2)))
+    return similarity
 
 
-def get_user_ratings():
-    # 获取所有用户的评分
-    users = User.query.all()
-    products = Product.query.all()
-
-    # 构建用户评分矩阵
-    ratings = np.zeros((len(users), len(products)))
-    for i, user in enumerate(users):
-        for j, product in enumerate(products):
-            browse = UserBrowse.query.filter_by(user_id=user.user_id, product_id=product.id).first()
-            if browse is not None:
-                ratings[i][j] = browse.duration
-
-    return ratings
+def set_similar(set1, set2):
+    print(set1, set2)
+    return len(set1.intersection(set2)) / (len(set1) + len(set2)) > 0.3
 
 
-def recommend_products(user_id, n=5):
-    # 获取用户浏览过的所有产品的ID
-    browsed_products = [browse.product_id for browse in UserBrowse.query.filter_by(user_id=user_id).all()]
-
-    # 获取所有产品的tag列表
-    products = Product.query.all()
-    product_tags = defaultdict(list)
-    for product in products:
-        for tag in product.tags:
-            product_tags[product.id].append(tag.name)
-
-    # 构建用户浏览记录矩阵
-    user_matrix = defaultdict(list)
-    for browse in UserBrowse.query.filter_by(user_id=user_id).all():
-        user_matrix[browse.product_id].append(browse.duration)
-
-    # similarity_matrix:
-    similarity_matrix = get_similarity_matrix()
-    # 构建用户偏好向量
-    user_pref = defaultdict(float)
-    for product_id, durations in user_matrix.items():
-        product_similarities = [similarity_matrix[product_id][browsed_product] for browsed_product in browsed_products if browsed_product != product_id]
-        if len(product_similarities) > 0:
-            user_pref[product_id] = sum(product_similarities) / len(product_similarities)
-
-    # 获取推荐列表
-    recommendation_scores = defaultdict(float)
-    for product_id, tags in product_tags.items():
-        if product_id in user_matrix:
-            continue
-        product_similarities = [similarity_matrix[product_id][browsed_product] for browsed_product in browsed_products if browsed_product in similarity_matrix[product_id]]
-        if len(product_similarities) > 0:
-            recommendation_scores[product_id] = sum(product_similarities) / len(product_similarities)
-        else:
-            continue
-        for tag in tags:
-            if tag in user_pref:
-                recommendation_scores[product_id] += user_pref[tag]
-
-    # 根据推荐得分排序并返回前n个推荐结果
-    sorted_recommendations = sorted(recommendation_scores.items(), key=lambda x: x[1], reverse=True)
-    return [Product.query.get(rec[0]) for rec in sorted_recommendations[:n]]
+# 接下来，我们需要遍历用户的浏览记录，找到匹配的商品
+def find_similar_products(user_browse, all_products):
+    similar_products = set()
+    for browse in user_browse:
+        for product in all_products:
+            # 如果商品类型相同或者商品所在位置相似或者商品名称相似
+            if set_similar(set(product.types), set(browse.product.types)) or product.raw_loc == browse.product.raw_loc or calculate_similarity(product.name, browse.product.name) >= 0.8:
+                # 将商品添加到相似商品列表中
+                similar_products.add(product)
+            # 如果商品标签中的某些键和值相似
+            for tag in product.tags:
+                for browse_tag in browse.product.tags:
+                    if tag.key == browse_tag.key and calculate_similarity(tag.value, browse_tag.value) >= 0.8:
+                        # 将商品添加到相似商品列表中
+                        similar_products.add(product)
+                        break
+    # 返回所有匹配的相似商品
+    return similar_products
 
 
-@bp.route("/product", methods=["POST","GET"])
+@bp.route("/products", methods=["POST","GET"])
 def recommend_search():
 
-    result = []
+    result = list(find_similar_products(User.query.filter_by(user_id=2).first().user_browses, Product.query.all()))[:4]
 
-    return jsonify(result)
+    return jsonify(products=[product.serialize_homepage() for product in result])
