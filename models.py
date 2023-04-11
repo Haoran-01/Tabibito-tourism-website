@@ -180,7 +180,7 @@ class Order(db.Model):
         }
 
     def total(self):
-        return self.product_number * self.product.ori_price * self.product.discount
+        return round(self.product_number * self.product.ori_price * self.product.discount, 1)
 
 
 class Product(db.Model):
