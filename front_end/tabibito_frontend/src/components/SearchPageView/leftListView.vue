@@ -12,14 +12,16 @@
             <div class="loc_margin">
               <h4 class="loc_title">Destinations</h4>
               <div class="loc_input">
-                <n-dropdown
-                    trigger="click"
-                    placement="bottom-start"
-                    :options="locOptions"
-                    @select="handleSelectLoc"
-                >
-                  <n-button> Select </n-button>
-                </n-dropdown>
+                <n-select class="dropdown" v-model:value="currentLocation" :options="locOptions" clearable placeholder="Select" @select="handleSelectLoc"/>
+
+<!--                <n-dropdown-->
+<!--                    trigger="click"-->
+<!--                    placement="bottom-start"-->
+<!--                    :options="locOptions"-->
+<!--                    @select="handleSelectLoc"-->
+<!--                >-->
+<!--                  <n-button> Select </n-button>-->
+<!--                </n-dropdown>-->
               </div>
             </div>
           </div>
@@ -33,8 +35,12 @@
             <div class="loc_margin">
               <h4 class="loc_title">Check in - Check out</h4>
               <div class="loc_input">
-                <n-date-picker v-model:value="range" type="daterange" clearable />
+<!--                <n-date-picker v-model:value="range" type="daterange" clearable @select="handleSelectTime"/>-->
 <!--                <pre>{{ JSON.stringify(range) }}</pre>-->
+                <n-date-picker v-model:value="startTime" type="date" :is-date-disabled="secureStartTime" size="small" clearable :placeholder="$t('homepage.searchPart.st')"/>
+                <span>-</span>
+                <n-date-picker v-model:value="endTime" type="date" placement="bottom-end" :is-date-disabled="secureEndTime" size="small" clearable :placeholder="$t('homepage.searchPart.et')"/>
+
               </div>
             </div>
           </div>
@@ -48,21 +54,22 @@
             <div class="loc_margin">
               <h4 class="loc_title">Tour Type</h4>
               <div class="loc_input">
-                <n-dropdown
-                    trigger="click"
-                    placement="bottom-start"
-                    :options="typeOptions"
-                      @select="handleSelectType"
-                >
-                  <n-button> choose type </n-button>
-                </n-dropdown>
+<!--                <n-dropdown-->
+<!--                    trigger="click"-->
+<!--                    placement="bottom-start"-->
+<!--                    :options="typeOptions"-->
+<!--                      @select="handleSelectType"-->
+<!--                >-->
+<!--                  <n-button> choose type </n-button>-->
+<!--                </n-dropdown>-->
+                <n-select class="dropdown" v-model:value="tourType" :options="typeOptions" clearable placeholder="Tour Type" @select="handleSelectType"/>
               </div>
             </div>
           </div>
         </div>
 
         <div class="search_btn">
-          <n-button class="btn_search" color="#3554D1">
+          <n-button class="btn_search" color="#3554D1" @click="handleSearchProject">
             <n-icon class="icon_search"><Search /></n-icon>
           </n-button>
         </div>
@@ -70,9 +77,9 @@
     </div>
 
     <div class="row x-gap-10 y-gap-10 select_menu">
-      <n-select class="dropdown" v-model:value="value" :options="priceoptions" clearable placeholder="Price" @select="handleSelectPrice" :consistent-menu-width="false"/>
-      <n-select class="dropdown" v-model:value="value" :options="durationoptions" clearable placeholder="Duration" @select="handleSelectDuration"/>
-      <n-select class="dropdown" v-model:value="value" :options="languageoptions" clearable placeholder="Language" @select="handleSelectLanguage"/>
+      <n-select class="dropdown" v-model:value="price" :options="priceoptions" clearable placeholder="Price" @select="handleSelectPrice"/>
+      <n-select class="dropdown" v-model:value="duration" :options="durationoptions" clearable placeholder="Duration" @select="handleSelectDuration"/>
+      <n-select class="dropdown" v-model:value="language" :options="languageoptions" clearable placeholder="Language" @select="handleSelectLanguage"/>
     </div>
 
     <div class="row y-gap-10 property">
@@ -213,7 +220,6 @@ export default defineComponent({
       },
       loading: loadingRef,
       range: ref([118313526e4, Date.now()]),
-      value: ref(null),
       priceoptions: [
         {
           label: "Less than $500",
@@ -298,41 +304,50 @@ export default defineComponent({
       locOptions: [
         {
           label: '滨海湾金沙，新加坡',
-          key: 'marina bay sands'
+          key: 'marina bay sands',
+          value: 'marina bay sands'
         },
         {
           label: '布朗酒店，伦敦',
-          key: "brown's hotel, london"
+          key: "brown's hotel, london",
+          value: "brown's hotel, london"
         },
         {
           label: '亚特兰蒂斯巴哈马，拿骚',
-          key: 'atlantis nahamas, nassau'
+          key: 'atlantis nahamas, nassau',
+          value: "atlantis nahamas, nassau"
         },
         {
           label: '比佛利山庄酒店，洛杉矶',
-          key: 'the beverly hills hotel, los angeles'
+          key: 'the beverly hills hotel, los angeles',
+          value: "the beverly hills hotel, los angeles"
         }
       ],
       typeOptions: [
         {
           label: 'Wildlife Tour',
-          key: 'Wildlife Tour'
+          key: 'Wildlife Tour',
+          value: 'Wildlife Tour'
         },
         {
           label: 'Adventure Tour',
-          key: "Adventure Tour"
+          key: "Adventure Tour",
+          value: "Adventure Tour"
         },
         {
           label: 'City Tours',
-          key: 'City Tours'
+          key: 'City Tours',
+          value: 'City Tours'
         },
         {
           label: 'Museum Tours',
-          key: 'Museum Tours'
+          key: 'Museum Tours',
+          value: 'Museum Tours'
         },
         {
           label: 'Beaches Tour',
-          key: 'Beaches Tour'
+          key: 'Beaches Tour',
+          value: 'Beaches Tour'
         }
       ],
       handleSelectLoc(val) {
@@ -353,11 +368,27 @@ export default defineComponent({
       handleSelectLanguage(val) {
         language.value = val;
       },
+      secureStartTime(ts) {
+        if (endTime.value != null){
+          return ts < Date.now() || ts > endTime.value;
+        }
+        else {
+          return ts < Date.now();
+        }
+      },
+      secureEndTime(ts){
+        if (startTime.value != null){
+          return ts < Date.now() || ts < startTime.value;
+        }
+        else {
+          return ts < Date.now();
+        }
+      },
       handleSearchProject() {
-        axios.post("http://127.0.0.1:5000/search_page/product_list",
+        axios.post("http://127.0.0.1:5000/search/product_list",
             {
-              startTime: this.range[0],
-              endTime: this.range[1],
+              startTime: startTime.value,
+              endTime: endTime.value,
               currentLocation: currentLocation.value,
               tourType: tourType.value,
               price: price.value,
@@ -371,7 +402,7 @@ export default defineComponent({
                 this.products = response.data
               }
             })
-        axios.post("http://127.0.0.1:5000/search_page/product_number",
+        axios.post("http://127.0.0.1:5000/search/product_number",
             {
               startTime: this.range[0],
               endTime: this.range[1],
@@ -385,7 +416,8 @@ export default defineComponent({
             .then((response)=>{
               const code = response.status
               if (code === 200){
-                this.count = response.data
+                const count = response.data.number
+                this.countPage  = Math.floor(count / 17) + (count % 17 > 0 ? 1 : 0);
               }
             })
       }
