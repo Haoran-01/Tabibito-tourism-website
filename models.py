@@ -366,8 +366,8 @@ class Product(db.Model):
             'cover_image': self.get_cover(),
             'gallery': self.gallery(),
             'banner_image': self.banners(),
-            'start_time': self.start_time.date(),
-            'end_time': self.end_time.date(),
+            'start_time': self.start_time.strftime("%A, %d %B %Y"),
+            'end_time': self.end_time.strftime("%A, %d %B %Y"),
             "fee_des": [fee.serialize() for fee in self.fee_des]
         }
 
