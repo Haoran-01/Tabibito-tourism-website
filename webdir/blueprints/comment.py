@@ -20,10 +20,11 @@ def add_comment():
     db.session.add(comment)
     db.session.commit()
 
-    for picture in data["pics"]:
-        comment_picture = CommentPicture(address=picture["pic_url"], comment_id=comment.id)
-        db.session.add(comment_picture)
-    db.session.commit()
+    if data["pics"] != []:
+        for picture in data["pics"]:
+            comment_picture = CommentPicture(address=picture["pic_url"], comment_id=comment.id)
+            db.session.add(comment_picture)
+        db.session.commit()
 
     return jsonify(code=200, message="add comment success")
 
@@ -41,8 +42,10 @@ def delete_comment():
 def get_comment_detail():
     data = request.get_json(silent=True)
     comment = Comment.query.filter_by(id=data["comment_id"]).first()
-
-    return jsonify(code=200, detail=comment.serialize_product_page())
+    if comment:
+        return jsonify(code=200, detail=comment.serialize_product_page())
+    else:
+        return jsonify(code=201, message="Wrong comment id")
 
 
 @bp.route("/add_like", methods=["POST"])

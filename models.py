@@ -180,7 +180,7 @@ class Order(db.Model):
         }
 
     def total(self):
-        return self.product_number * self.product.ori_price * self.product.discount
+        return round(self.product_number * self.product.ori_price * self.product.discount, 1)
 
 
 class Product(db.Model):
@@ -261,14 +261,24 @@ class Product(db.Model):
             total_free_wifi_grade += comment.free_wifi_grade
 
         return {
-            "location": total_location_grade / comments_number,
-            "staff": total_staff_grade / comments_number,
-            "cleanliness": total_cleanliness_grade / comments_number,
-            "value_for_money": total_value_for_money_grade / comments_number,
-            "comfort": total_comfort_grade / comments_number,
-            "facilities": total_facilities_grade / comments_number,
-            "free_wifi": total_free_wifi_grade / comments_number
+            "exceptional": round(
+                (total_location_grade + total_staff_grade + total_cleanliness_grade + total_value_for_money_grade +
+                 total_comfort_grade + total_facilities_grade + total_free_wifi_grade) / 7, 1),
+            "location": round(total_location_grade / comments_number, 1),
+            "staff": round(total_staff_grade / comments_number, 1),
+            "cleanliness": round(total_cleanliness_grade / comments_number, 1),
+            "value_for_money": round(total_value_for_money_grade / comments_number, 1),
+            "comfort": round(total_comfort_grade / comments_number, 1),
+            "facilities": round(total_facilities_grade / comments_number, 1),
+            "free_wifi": round(total_free_wifi_grade / comments_number, 1)
         }
+
+    def get_types_list(self):
+        result = []
+        for the_type in self.types:
+            result.append(the_type.type.name)
+        return result
+
 
     def get_cover(self):
         for picture in self.pictures:
@@ -366,7 +376,7 @@ class Product(db.Model):
             'id': self.id,
             'image': self.pictures[0].address,
             'hours': (self.end_time.timestamp() - self.start_time.timestamp()) * 1000,
-            'types': [the_type.type for the_type in self.types],
+            'types': [the_type.type.name for the_type in self.types],
             'title': self.name,
             'location': self.raw_loc,
             'reviews': len(self.comments),

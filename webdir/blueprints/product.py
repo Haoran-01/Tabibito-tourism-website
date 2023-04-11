@@ -127,19 +127,22 @@ def get_type_products():
     return jsonify(products=[product.serialize() for product in products])
 
 
-@bp.route("/get_proudct_grade", methods=["POST"])
+@bp.route("/get_product_grade", methods=["POST", "GET"])
 def get_product_grade():
     product_id = request.get_json(silent=True)["product_id"]
     product = Product.query.filter_by(id=product_id).first()
-    marks = product.get_each_part_mark()
-    return jsonify(code=200,
-                   exceptional=marks["exceptional"], location=marks["location"], staff=marks["staff"],
-                   cleanliness=marks["cleanliness"], value_for_money=marks["value_for_money"],
-                   comfort=marks["comfort"], facilities=marks["facilities"],
-                   free_wifi=marks["free_wifi"])
+    if len(product.comments) != 0:
+        marks = product.get_each_part_mark()
+        return jsonify(code=200,
+                       exceptional=marks["exceptional"], location=marks["location"], staff=marks["staff"],
+                       cleanliness=marks["cleanliness"], value_for_money=marks["value_for_money"],
+                       comfort=marks["comfort"], facilities=marks["facilities"],
+                       free_wifi=marks["free_wifi"])
+    else:
+        return jsonify(code=201, message="No comments for the project")
 
 
-@bp.route("/get_reviews", methods=["POST"])
+@bp.route("/get_reviews", methods=["POST", "GET"])
 def get_reviews_number():
     product_id = request.get_json(silent=True)["product_id"]
     product = Product.query.filter_by(id=product_id).first()
@@ -167,3 +170,4 @@ def upload_picture():
     file.save(os.path.join(Config.UPLOAD_FOLDER, filename))  # 将文件保存到服务器的指定目录
     # 存入数据库的操作
     return os.path.join(Config.UPLOAD_FOLDER, filename)
+
