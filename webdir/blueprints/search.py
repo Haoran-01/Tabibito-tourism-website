@@ -68,13 +68,6 @@ def search():
 def get_product_number():
     data = request.get_json(silent=True)
     products = db.session.query(Product).all()
-    # products = Product.query.filter(Product.start_time >= data["startTime"],
-    #                                 Product.end_time <= data["endTime"],
-    #                                 Product.currency == data["currentLocation"],
-    #                                 Product.types.any(text(data["tourType"])),
-    #                                 Product.ori_price in range(int(data["low_price"]), int(data["high_price"])),
-    #                                 Product.duration == data['duration']).all()
-
     # 构造筛选条件
     filters = []
     if 'startTime' in data:
@@ -101,10 +94,10 @@ def get_product_number():
                 if f['field'] == 'currentLocation' and product.currency != f['value']:
                     match = False
                     break
-                elif f['field'] == 'tourType' and product.currency != f['value']:
+                elif f['field'] == 'tourType' and not f['value'] in product.get_types_list():
                     match = False
                     break
-                elif f['field'] == 'duration' and product.currency != f['value']:
+                elif f['field'] == 'duration' and product.duration() != f['value']:
                     match = False
                     break
             elif f['operator'] == '>=':
@@ -123,22 +116,71 @@ def get_product_number():
                     break
         if match:
             results.append(product)
-
     return jsonify(code=200, number=len(results))
-
-
-
 
 
 @bp.route('/product_list')
 def get_product_list():
     data = request.get_json(silent=True)
-    products = Product.query.filter(Product.start_time >= data["startTime"],
-                                    Product.end_time <= data["endTime"],
-                                    Product.currency == data["currentLocation"],
-                                    Product.types.any(text(data["tourType"])),
-                                    Product.ori_price in range(int(data["low_price"]), int(data["high_price"])),
-                                    Product.duration == data['duration']).all()
+    # products = Product.query.filter(Product.start_time >= data["startTime"],
+    #                                 Product.end_time <= data["endTime"],
+    #                                 Product.currency == data["currentLocation"],
+    #                                 Product.types.any(text(data["tourType"])),
+    #                                 Product.ori_price in range(int(data["low_price"]), int(data["high_price"])),
+    #                                 Product.duration == data['duration']).all()
+
+    products = db.session.query(Product).all()
+    # 构造筛选条件
+    filters = []
+    if 'startTime' in data:
+        filters.append({'field': 'startTime', 'operator': '>=', 'value': data['startTime']})
+    if 'endTime' in data:
+        filters.append({'field': 'endTime', 'operator': '<=', 'value': data['endTime']})
+    if 'currentLocation' in data:
+        filters.append({'field': 'currentLocation', 'operator': '==', 'value': data['currentLocation']})
+    if 'tourType' in data:
+        filters.append({'field': 'tourType', 'operator': '==', 'value': data['tourType']})
+    if 'low_price' in data:
+        filters.append({'field': 'price', 'operator': '>=', 'value': data['low_price']})
+    if 'high_price' in data:
+        filters.append({'field': 'price', 'operator': '<=', 'value': data['high_price']})
+    if 'duration' in data:
+        filters.append({'field': 'duration', 'operator': '==', 'value': data['duration']})
+
+    # 使用筛选条件查询产品数据
+    results = []
+    for product in products:
+        match = True
+        for f in filters:
+            if f['operator'] == '==':
+                if f['field'] == 'currentLocation' and product.currency != f['value']:
+                    match = False
+                    break
+                elif f['field'] == 'tourType' and not f['value'] in product.get_types_list():
+                    match = False
+                    break
+                elif f['field'] == 'duration' and product.duration() != f['value']:
+                    match = False
+                    break
+            elif f['operator'] == '>=':
+                if f['field'] == 'startTime' and product.start_time.timestamp() < f['value']:
+                    match = False
+                    break
+                elif f['field'] == 'low_price' and product.ori_price < f['value']:
+                    match = False
+                    break
+            elif f['operator'] == '<=':
+                if f['field'] == 'endTime' and product.start_time.timestamp() < f['value']:
+                    match = False
+                    break
+                elif f['field'] == 'high_price' and product.ori_price < f['value']:
+                    match = False
+                    break
+        if match:
+            results.append(product)
     page_number = data["page"]
-    select_product = products[page_number * 3 - 3: page_number * 3]
-    return jsonify(code=200, data=[product.serialize_product_list() for product in select_product])
+    select_product = results[page_number * 3 - 3: page_number * 3]
+    if len(results) == 0:
+        return jsonify(code=201, message="No qualified projects")
+    else:
+        return jsonify(code=200, data=[product.serialize_product_list() for product in select_product])

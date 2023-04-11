@@ -273,6 +273,12 @@ class Product(db.Model):
             "free_wifi": round(total_free_wifi_grade / comments_number, 1)
         }
 
+    def get_types_list(self):
+        result = []
+        for the_type in self.types:
+            result.append(the_type.type.name)
+        return result
+
 
     def get_cover(self):
         for picture in self.pictures:
