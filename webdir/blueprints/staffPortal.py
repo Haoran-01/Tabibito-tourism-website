@@ -16,14 +16,10 @@ def change_order_status():
     return jsonify(message="modify successfully", code=200)
 
 
-@bp.route("/view_all", methods=['POST'])
+@bp.route("/view_all", methods=['GET'])
 def view_all_order():
     all_orders = db.session.query(Order).all()
-    result = []
-    for i in all_orders:
-        order_id = i.id
-        result.append(order_id)
-    return jsonify(all_orders=result, code=200)
+    return jsonify(all_orders=[order.serialize_latest() for order in all_orders], code=200)
 
 
 @bp.route("/recent_product_list", methods=["GET"])

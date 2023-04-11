@@ -29,7 +29,7 @@
             </div>
             <div class="col-sm-6">
               <div class="star_title">
-                Location
+                Staff
               </div>
               <div class="star_wrap">
                 <n-icon class="star"><star /></n-icon>
@@ -41,7 +41,7 @@
             </div>
             <div class="col-sm-6">
               <div class="star_title">
-                Location
+                Cleanliness
               </div>
               <div class="star_wrap">
                 <n-icon class="star"><star /></n-icon>
@@ -53,7 +53,7 @@
             </div>
             <div class="col-sm-6">
               <div class="star_title">
-                Location
+                Value for money
               </div>
               <div class="star_wrap">
                 <n-icon class="star"><star /></n-icon>
@@ -65,7 +65,7 @@
             </div>
             <div class="col-sm-6">
               <div class="star_title">
-                Location
+                Comfort
               </div>
               <div class="star_wrap">
                 <n-icon class="star"><star /></n-icon>
@@ -77,7 +77,7 @@
             </div>
             <div class="col-sm-6">
               <div class="star_title">
-                Location
+                Facilities
               </div>
               <div class="star_wrap">
                 <n-icon class="star"><star /></n-icon>
@@ -89,7 +89,7 @@
             </div>
             <div class="col-sm-6">
               <div class="star_title">
-                Location
+                Free WiFi
               </div>
               <div class="star_wrap">
                 <n-icon class="star"><star /></n-icon>
@@ -105,14 +105,14 @@
         <div class="list_wrap">
           <n-space vertical>
             <div class="form_input">
-              <n-input v-model:value="value" type="text" size="large" placeholder="Text" clearable
+              <n-input v-model:value="title" type="text" size="large" placeholder="Title" clearable
                        show-count
                        :maxlength="12"
                        :count-graphemes="countGraphemes"/>
             </div>
             <div class="form_input">
               <n-input
-                  v-model:value="value"
+                  v-model:value="des"
                   type="textarea"
                   size="large"
                   placeholder="Write Your Comment"
@@ -122,7 +122,7 @@
                   :count-graphemes="countGraphemes"
               />
             </div>
-            <n-button strong secondary type="info" size="large" icon-placement="right">
+            <n-button strong secondary type="info" size="large" icon-placement="right" @click="handleComment">
               <template #icon>
                 <n-icon>
                   <ArrowForwardOutline />
@@ -144,6 +144,7 @@
 import { defineComponent, ref } from 'vue'
 import {StarHalf as star} from "@vicons/ionicons5";
 import {ArrowForwardOutline} from "@vicons/ionicons5";
+import axios from "axios";
 
 export default defineComponent({
   name: "leaveReply",
@@ -151,11 +152,39 @@ export default defineComponent({
     star,
     ArrowForwardOutline
   },
-  setup () {
+  data() {
     return {
-      value: ref(null)
+      value: ref(null),
     }
-  }
+  },
+  setup () {
+    const title = ref("");
+    const des = ref("");
+
+    const handleComment = async () => {
+      try {
+        const response = await axios.post("http://127.0.0.1:5000/comment/add_comment", {
+          title: title.value,
+          des: des.value,
+          user_id: null,
+          product_id: 9,
+          location_grade: 9,
+          staff_grade: 9,
+          cleanliness_grade: 9,
+          value_for_money_grade: 9,
+          comfort_grade: 9,
+          facilities_grade: 9,
+          free_wifi_grade: 9,
+          pics: [],
+        });
+        console.log(response.data); // 输出后端返回的数据
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    return {title, des, handleComment}
+  },
 })
 </script>
 
