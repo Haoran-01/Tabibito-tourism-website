@@ -1,14 +1,12 @@
-import datetime
 import nltk
 from flask import Blueprint, jsonify, g
-import numpy as np
 from models import UserBrowse, Product, User
-from collections import defaultdict
 bp = Blueprint("Recommend", __name__, url_prefix="/recommend")
 
 # 首先，我们需要一个函数来计算两个字符串的相似度
 wnl = nltk.WordNetLemmatizer()
 stopwords = set(nltk.corpus.stopwords.words('english'))
+
 
 # 定义一个函数来清洗字符串
 def clean_string(s):
@@ -24,6 +22,7 @@ def clean_string(s):
     cleaned_string = ' '.join(words)
     return cleaned_string
 
+
 # 定义一个函数来计算两个字符串的相似度
 def calculate_similarity(str1, str2):
     # 先清洗两个字符串
@@ -34,6 +33,7 @@ def calculate_similarity(str1, str2):
     # 把编辑距离转换为相似度得分，得分越高表示相似
     similarity = 1 - (distance / max(len(str1), len(str2)))
     return similarity
+
 
 def set_similar(set1, set2):
     print(set1, set2)
@@ -58,6 +58,7 @@ def find_similar_products(user_browse, all_products):
                         break
     # 返回所有匹配的相似商品
     return similar_products
+
 
 @bp.route("/products", methods=["POST","GET"])
 def recommend_search():
