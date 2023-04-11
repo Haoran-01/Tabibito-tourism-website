@@ -472,6 +472,12 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return "<User(email='%s')>" % self.user_email
 
+    def browsed_products(self):
+        result = set()
+        for browse in self.user_browses:
+            result.add(browse.product)
+        return result
+
     def get_id(self):
         return self.user_id
 
