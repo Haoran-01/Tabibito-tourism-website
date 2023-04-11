@@ -362,7 +362,7 @@ class Product(db.Model):
             'mark': self.get_mark(),
             'reviews': len(self.comments),
             'group_number': self.group_number,
-            'tags': [tag.serialize() for tag in self.tags[:2]],
+            'tags': [tag.serialize() for tag in self.tags],
             'cover_image': self.get_cover(),
             'gallery': self.gallery(),
             'banner_image': self.banners(),
