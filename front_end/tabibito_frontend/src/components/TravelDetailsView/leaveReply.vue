@@ -112,7 +112,7 @@
             </div>
             <div class="form_input">
               <n-input
-                  v-model:value="comment"
+                  v-model:value="des"
                   type="textarea"
                   size="large"
                   placeholder="Write Your Comment"
@@ -122,7 +122,7 @@
                   :count-graphemes="countGraphemes"
               />
             </div>
-            <n-button @click="submitComment" strong secondary type="info" size="large" icon-placement="right">
+            <n-button strong secondary type="info" size="large" icon-placement="right" @click="handleComment">
               <template #icon>
                 <n-icon>
                   <ArrowForwardOutline />
@@ -144,6 +144,7 @@
 import { defineComponent, ref } from 'vue'
 import {StarHalf as star} from "@vicons/ionicons5";
 import {ArrowForwardOutline} from "@vicons/ionicons5";
+import axios from "axios";
 
 export default defineComponent({
   name: "leaveReply",
@@ -151,32 +152,38 @@ export default defineComponent({
     star,
     ArrowForwardOutline
   },
-  setup () {
-    return {
-      value: ref(null)
-    }
-  },
   data() {
     return {
-      title: '',
-      comment: '',
+      value: ref(null),
     }
   },
-  methods: {
-    async submitComment() {
+  setup () {
+    const title = ref("");
+    const des = ref("");
+
+    const handleComment = async () => {
       try {
-        const response = await axios.post('http://127.0.0.1:5000/comment/add_comment', {
-          title: this.title,
-          comment: this.comment,
-          pics: []
-        })
-        console.log(response.data)
-        // 处理成功响应
+        const response = await axios.post("http://127.0.0.1:5000/comment/add_comment", {
+          title: title.value,
+          des: des.value,
+          user_id: null,
+          product_id: 9,
+          location_grade: 9,
+          staff_grade: 9,
+          cleanliness_grade: 9,
+          value_for_money_grade: 9,
+          comfort_grade: 9,
+          facilities_grade: 9,
+          free_wifi_grade: 9,
+          pics: [],
+        });
+        console.log(response.data); // 输出后端返回的数据
       } catch (error) {
-        console.log(error)
-        // 处理错误响应
+        console.error(error);
       }
-    },
+    };
+
+    return {title, des, handleComment}
   },
 })
 </script>

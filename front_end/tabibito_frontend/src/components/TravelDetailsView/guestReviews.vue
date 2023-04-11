@@ -304,7 +304,7 @@ export default defineComponent({
   created() {
     axios.post('http://127.0.0.1:5000/product/get_comment',{
       page: 1,
-      product_id: 1,
+      product_id: 9,
     })
         .then((response)=>{
           const code = response.status
@@ -313,7 +313,10 @@ export default defineComponent({
           }
         })
 
-    axios.get('http://127.0.0.1:5000/product/get_reviews')
+    axios.post('http://127.0.0.1:5000/product/get_reviews',
+        {
+          product_id: 9
+        })
         .then((response)=>{
           const code = response.status
           if (code === 200){
@@ -342,7 +345,7 @@ export default defineComponent({
     axios.post('http://127.0.0.1:5000/product/review',
         {
           // 暂时给定值，不知道怎么拿到id
-          product_id: 1
+          product_id: 9
         }
     )
         .then(function (response){
@@ -353,7 +356,7 @@ export default defineComponent({
         });
     axios.post('http://127.0.0.1:5000/product/get_reviews',
         {
-          product_id: 1
+          product_id: 9
         }
     )
         .then(function (response){

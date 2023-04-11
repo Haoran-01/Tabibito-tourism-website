@@ -404,8 +404,8 @@ export default defineComponent({
             })
         axios.post("http://127.0.0.1:5000/search/product_number",
             {
-              startTime: this.range[0],
-              endTime: this.range[1],
+              startTime: startTime.value,
+              endTime: endTime.value,
               currentLocation: currentLocation.value,
               tourType: tourType.value,
               price: price.value,
