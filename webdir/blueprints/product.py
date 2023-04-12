@@ -170,3 +170,22 @@ def upload_picture():
     # 存入数据库的操作
     return os.path.join(Config.UPLOAD_FOLDER, filename)
 
+
+@bp.route("/charge_detail", methods=["POST", "GET"])
+def charge_detail():
+    product_id = request.json.get("product_id")
+    fee_des = FeeDes.query.filter(FeeDes.product_id == product_id).all()
+    if len(fee_des) == 0:
+        return jsonify(code="product not found")
+    else:
+        return jsonify(charges=[fee.serialize() for fee in fee_des])
+
+
+@bp.route("/trips", methods=["POST", "GET"])
+def get_trips():
+    product_id = request.json.get("product_id")
+    trips = Trip.query.filter(Trip.product_id == product_id).all()
+    if len(trips) == 0:
+        return jsonify(code="product not found")
+    else:
+        return jsonify(trips=[trip.serialize() for trip in trips])
