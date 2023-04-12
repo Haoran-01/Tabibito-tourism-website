@@ -216,7 +216,6 @@ export default {
 
         self.toast.success("Captcha send Successfully.");
 
-        console.log(213123123)
         axios.post('http://127.0.0.1:5000/user/captcha', {
           email: emailValue,
 
@@ -226,7 +225,7 @@ export default {
           if (code === 200) {
             self.toast.success("Register successfully. You can login now!");
           } else if (code === 400) {
-            if (message === 'email') {
+            if (message === 'invalidSignUpEmail') {
               self.toast.error("The email is not available");
             }
           }
@@ -292,10 +291,11 @@ export default {
               let message=response.data['message'];
               if (code === 200){
                 self.$router.push('/login');
-              } else if (code === 400){
-                if (message === 'email'){
-                  self.toast.error("Email is already registered");
-                } else if (message === 'code'){
+              } else if (code === 400) {
+                if (message === 'invalidSignUpEmail') {
+                  self.toast.error("This email is already registered");
+                }
+                if (message === 'invalidSignUpCaptcha') {
                   self.toast.error("The Verification Code is not correct");
                 }
               }
