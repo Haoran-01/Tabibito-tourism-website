@@ -10,7 +10,7 @@
           <div class="lower">
             <div class="TDRow">
               <!--       星级评分       -->
-              <n-rate size="small" readonly allow-half :default-value="details.mark" />
+              <n-rate size="small" readonly allow-half :value="details.mark" />
 
             </div>
             <div class="TDReview">{{ details.reviews }} reviews</div>
@@ -88,7 +88,7 @@
           <div class="TDR1">
             <img class="TDIcon1" src="../../assets/transport.svg" alt="">
             <div class="TDT1">
-              Tag: <br>{{ tag }}
+              {{ tag.key }}: <br>{{ tag.value }}
             </div>
           </div>
 
@@ -112,6 +112,9 @@
             {{ details.description }}
           </p>
         </div>
+
+        <!--Leave a space to separate-->
+        <div class="TDSpace"></div>
 
         <div class="TDOverview">
           <h3 class="TDTex2">Fee Description</h3>
@@ -142,11 +145,10 @@
           <!--     date chosen     -->
           <div class="TDDate">
             <div class="TDOptionName">Date</div>
-            <!--                <div class="optionValue" id="durationValue" @click="handleSelectTime">{{currentTimePeriod}}</div>-->
             <div class="TDDataPickers">
-              <n-date-picker v-model:value="startTime" type="date" :is-date-disabled="secureStartTime" size="medium" clearable placeholder="Start Date"/>
+              {{ details.start_time }}
               <span>—</span>
-              <n-date-picker v-model:value="endTime" type="date" placement="bottom-end" :is-date-disabled="secureEndTime" size="medium" clearable placeholder="End Date"/>
+              {{ details.end_time }}
             </div>
           </div>
 
@@ -155,10 +157,10 @@
             <div class="TDOptionName">Number of travelers</div>
             <n-space vertical>
               <n-input-number
-                  v-model:value="groupNum"
+                  v-model:value="value"
                   placeholder="Group Number"
                   :min="1"
-                  :max="10"
+                  :max="details.group_number"
                   size="large"
               />
             </n-space>
@@ -229,8 +231,8 @@ export default {
       currentIndex: 0,
       imageList: ref(),
 
-      blockHeight: 210, // 制作区块高度
-      threshold: 650, // 页面滚动的阈值
+      blockHeight: 310, // 制作区块高度
+      threshold: 550, // 页面滚动的阈值
       scrollTop: 0, // 页面滚动距离
 
       // 后端拿到的数据
@@ -279,11 +281,12 @@ export default {
       },
 
       handleClickProject() {
-        axios.post("http://127.0.0.1:5000/product/detail_post",
+        axios.post("http://127.0.0.1:5000/order/create_order",
             {
-              product_id: 1,
+              product_id: 9,
               groupNum: groupNum,
-              user_id: this.user_log_in.value
+              user_id: 2
+
             }
         )
             .then(function (response){
@@ -297,10 +300,12 @@ export default {
 
   created() {
     axios.post('http://127.0.0.1:5000/product/detail', {
-      product_id: 1
+      product_id: 9
     })
         .then(response => {
-          this.details = response.data.details;
+          this.details = response.data.product;
+          console.log(123123123)
+          console.log(this.details.fee_des)
 
           const num1 = new Date(this.details.end_time).getTime()
           const num2 = new Date(this.details.start_time).getTime()
@@ -358,9 +363,9 @@ export default {
   computed: {
     blockTop() {
       if (this.scrollTop > this.threshold) {
-        return `${this.threshold+70 -this.scrollTop}px`;
-      } else if (this.scrollTop > this.blockHeight-70) {
-        return "70px";
+        return `${this.threshold+182 -this.scrollTop}px`;
+      } else if (this.scrollTop > this.blockHeight-182) {
+        return "182px";
       } else {
         return `${this.blockHeight - this.scrollTop}px`;
       }
@@ -526,6 +531,12 @@ export default {
   width: 100%;
 }
 
+.TDSpace{
+  margin-top: 20px !important;
+  margin-bottom: 40px !important;
+  width: 100%;
+}
+
 .full{
   margin-top: 40px !important;
   margin-bottom: 40px !important;
@@ -553,7 +564,6 @@ export default {
   font-size: 15px;
   margin: 20px 0 0;
   line-height: 2.5;
-  font-weight: 100;
 }
 
 .head{
@@ -635,6 +645,10 @@ export default {
 
 .TDDataPickers{
   display: flex;
+  text-align: center;
+  margin-right: auto;
+  margin-left: auto;
+  color: #464649;
 }
 
 .input_border{
