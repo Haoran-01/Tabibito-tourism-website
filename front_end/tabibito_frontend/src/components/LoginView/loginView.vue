@@ -143,7 +143,7 @@ export default {
               let code=response.data['code'];
               let message=response.data['message'];
               if (code === 200){
-                self.$router.push('/homepage');
+                self.$router.push('/');
               } else if (code === 400){
                 if (message === 'email'){
                   self.toast.error("Email is not correct");
