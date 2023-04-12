@@ -180,7 +180,8 @@ def test_order():
 def get_login_user():
     if current_user:
         if hasattr(current_user, 'user_id'):
-            return jsonify(id=current_user.user_id, job=current_user.user_profile.job)
+
+            return jsonify(id=current_user.user_id, job=current_user.profile.job.name)
         else:
             return jsonify(id=None, job=None)
 

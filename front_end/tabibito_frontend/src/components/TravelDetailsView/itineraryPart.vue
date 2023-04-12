@@ -3,7 +3,7 @@
     <div class="itineraryTitle">{{ $t('projectDetailPage.itinerary.title') }}</div>
     <div class="itineraryCore">
       <div class="timeLine">
-        <div v-for="(item, index) in itineraryData">
+        <div v-for="(item, index) in this.itineraryData">
           <itinerary-step :item="item" :index="index"></itinerary-step>
         </div>
       </div>
@@ -15,87 +15,97 @@
 <script>
 import ItineraryStep from "./itineraryStep.vue";
 import {Loader} from "@googlemaps/js-api-loader";
+import axios from "axios";
+import {useRoute} from 'vue-router';
+import {ref} from 'vue';
 export default {
   name: "itineraryPart",
   components: {ItineraryStep},
-  mounted() {
-    const loader = new Loader({
-      apiKey: "AIzaSyBctzU8ocpP_0j4IdTRqA-GABIAnaXd0ow",
-      version: "beta",
-      libraries: ["marker"],
-      language: "en-US"
-    });
-
-    loader.load().then((google) => {
-      const center = { lat: 34.84555, lng: -111.8035 };
-      let map = new google.maps.Map(document.getElementById("map"), {
-        center: center,
-        zoom: 12,
-        mapId: "fdhssdfkhsdjkhasdfjkh"
-      });
-      const tourStops = [
-        {
-          position: { lat: 34.8791806, lng: -111.8265049 },
-          title: "Boynton Pass",
-        },
-        {
-          position: { lat: 34.8559195, lng: -111.7988186 },
-          title: "Airport Mesa",
-        },
-        {
-          position: { lat: 34.832149, lng: -111.7695277 },
-          title: "Chapel of the Holy Cross",
-        },
-        {
-          position: { lat: 34.823736, lng: -111.8001857 },
-          title: "Red Rock Crossing",
-        },
-        {
-          position: { lat: 34.800326, lng: -111.7665047 },
-          title: "Bell Rock",
-        },
-      ];
-      // Create an info window to share between markers.
-      const infoWindow = new google.maps.InfoWindow();
-      tourStops.forEach(({ position, title }, i) => {
-        const pinView = new google.maps.marker.PinView({
-          glyph: `${i + 1}`,
-        });
-        const marker = new google.maps.marker.AdvancedMarkerView({
-          position,
-          map,
-          title: `${i + 1}. ${title}`,
-          content: pinView.element,
+  setup(){
+    let project_loc = null;
+    let project_zoom = 1;
+    const raw_trip_data = ref([]);
+    const locations = [];
+    // const itineraryData = [];
+    return{
+      raw_trip_data,
+      project_loc,
+      project_zoom,
+      locations,
+      // itineraryData,
+      loadMap(){
+        const loader = new Loader({
+          apiKey: "AIzaSyBctzU8ocpP_0j4IdTRqA-GABIAnaXd0ow",
+          version: "beta",
+          libraries: ["marker"],
+          language: "en-US"
         });
 
-        // Add a click listener for each marker, and set up the info window.
-        marker.addListener("click", ({ domEvent, latLng }) => {
-          const { target } = domEvent;
+        loader.load().then((google) => {
+          const center = this.project_loc;
+          let map = new google.maps.Map(document.getElementById("map"), {
+            center: center,
+            zoom: this.project_zoom,
+            mapId: "jkhjkhkjhjkh"
+          });
+          const tourStops = this.locations;
+          // Create an info window to share between markers.
+          const infoWindow = new google.maps.InfoWindow();
+          tourStops.forEach(({ position, title }, i) => {
+            const pinView = new google.maps.marker.PinView({
+              glyph: `${i + 1}`,
+            });
+            const marker = new google.maps.marker.AdvancedMarkerView({
+              position,
+              map,
+              title: `${i + 1}. ${title}`,
+              content: pinView.element,
+            });
 
-          infoWindow.close();
-          infoWindow.setContent(marker.title);
-          infoWindow.open(marker.map, marker);
+            // Add a click listener for each marker, and set up the info window.
+            marker.addListener("click", ({ domEvent, latLng }) => {
+              const { target } = domEvent;
+
+              infoWindow.close();
+              infoWindow.setContent(marker.title);
+              infoWindow.open(marker.map, marker);
+            });
+          });
+
         });
-      });
-
-    });
+      }
+    }
+  },
+  created() {
+    const route = useRoute();
+    axios.post('http://127.0.0.1:5000/product/trips', {
+        product_id: route.params.trip_id
+      })
+        .then((res) => {
+          this.project_loc = {
+            lat: res.data.location.map_latitude,
+            lng: res.data.location.map_longitude
+          }
+          this.project_zoom = res.data.location.map_zoom;
+          this.raw_trip_data.value = res.data.trips
+          for (let i = 0; i < this.raw_trip_data.value.length; i++){
+            this.locations.push({
+              position: {lat: this.raw_trip_data.value[i].location.map_latitude, lng: this.raw_trip_data.value[i].location.map_longitude},
+              title: this.raw_trip_data.value[i].location.exact
+            });
+            this.itineraryData.push({
+              name: this.raw_trip_data.value[i].activity,
+              time: "Day " + this.raw_trip_data.value[i].day + ", " + this.raw_trip_data.value[i].time_of_day + " " + this.raw_trip_data.value[i].time,
+              description: this.raw_trip_data.value[i].location.exact,
+              picture: this.raw_trip_data.value[i].picture
+            })
+          }
+          this.loadMap();
+        })
   },
   data(){
     return{
-      itineraryData: [
-        {
-          name: "test",
-          time: "test",
-          description: "test",
-          picture: "test"
-        },
-        {
-          name: "test",
-          time: "test",
-          description: "test",
-          picture: "test"
-        },
-      ]
+      itineraryData: []
     }
   }
 }

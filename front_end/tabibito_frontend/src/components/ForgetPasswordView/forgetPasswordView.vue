@@ -136,29 +136,32 @@ export default {
         }
       }, 1000);
 
-      // const tester = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
-      // if (!tester.test(this.inputEmail1)){
-      //   this.toast.error("This email is not valid");
-      // }
-
       let emailValue = this.inputE;
 
-      axios.post('http://127.0.0.1:5000/user/captcha', {
-        email: emailValue,
+      const tester = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+      if (!tester.test(emailValue)) {
+        self.toast.error("This email is not valid");
+      } else {
 
-      }).then(function (response){
-        let code=response.data['code'];
-        let message=response.data['message'];
-        if (code === 200){
+        this.toast.success("Captcha sends successfully");
 
-        } else if (code === 400){
-          if (message === 'email'){
-            self.toast.error("Email is not registered");
+        axios.post('http://127.0.0.1:5000/user/captcha', {
+          email: emailValue,
+
+        }).then(function (response) {
+          let code = response.data['code'];
+          let message = response.data['message'];
+          if (code === 200) {
+            self.toast.success("Captcha sends successfully");
+          } else if (code === 400) {
+            if (message === 'email') {
+              self.toast.error("Email is not registered");
+            }
           }
-        }
-      }).catch(function (error) {
-        console.log(error);
-      });
+        }).catch(function (error) {
+          console.log(error);
+        });
+      }
     },
 
     verify(){
@@ -183,11 +186,14 @@ export default {
         let code=response.data['code'];
         let message=response.data['message'];
         if (code === 200){
-          console.log("code")
+          console.log("成功")
           self.$router.push('/reset');
         } else if (code === 400){
-          if (message === 'verifyCode'){
-            this.toast.error("The verification code is not correctly");
+          if (message === 'captcha'){
+            self.toast.error("The verification code is not correctly");
+          }
+          if (message === 'email'){
+            self.toast.error("This email is not valid");
           }
         }
       }).catch(function (error) {

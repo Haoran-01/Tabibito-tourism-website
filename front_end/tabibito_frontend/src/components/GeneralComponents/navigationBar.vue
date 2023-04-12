@@ -71,6 +71,7 @@ import {h, defineComponent, ref, onMounted} from "vue";
 import DropDown from "./dropDown.vue";
 import userDropDown from "./userDropDown.vue";
 import axios from "axios";
+import {useStore} from "../../store.js";
 export default defineComponent({
   props: {
     isTransparent: Boolean,
@@ -81,9 +82,11 @@ export default defineComponent({
     let currency_is_shown = ref(false);
     let user_is_shown = ref(false);
     let user_is_logged_in = ref(false);
+    let store = useStore();
     axios.get('http://127.0.0.1:5000/user/login_status')
         .then((res)=>{
-          this.user_is_logged_in.value = res.data.id !== null;
+          user_is_logged_in.value = res.data.id !== null;
+          store.user_login_status = user_is_logged_in.value;
         })
     let currencyIcon = ref("background-image:url('src/assets/USD.svg')");
     let currencyText = ref('USD');

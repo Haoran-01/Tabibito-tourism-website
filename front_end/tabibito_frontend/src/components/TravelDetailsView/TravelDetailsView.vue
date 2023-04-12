@@ -184,21 +184,21 @@
 
   </section>
 
-<!--  <charge-list></charge-list>-->
+  <charge-list></charge-list>
 
-<!--  <div class="TDLine full"></div>-->
+<!--  <div class="TDLine full"></div>
 
-<!--  <guest-reviews></guest-reviews>-->
+  <guest-reviews></guest-reviews>
 
-<!--  <div class="TDLine full"></div>-->
+  <div class="TDLine full"></div>
 
-<!--  <leave-reply></leave-reply>-->
+  <leave-reply></leave-reply>
 
-<!--  <div class="TDLine full"></div>-->
+  <div class="TDLine full"></div>
 
-<!--  <similar-experiences></similar-experiences>-->
+  <similar-experiences></similar-experiences>-->
 
-<!--  <footer-view></footer-view>-->
+  <footer-view></footer-view>
 </template>
 
 <script>
@@ -211,6 +211,8 @@ import footerView from "../GeneralComponents/footerView.vue";
 import axios from 'axios';
 import {ref} from "vue";
 import { useToast } from "vue-toastification";
+import {useRoute} from "vue-router";
+import {useStore} from "../../store.js";
 
 
 
@@ -237,6 +239,7 @@ export default {
   },
 
   setup(){
+    let store = useStore();
     let startTime = ref();
     let endTime = ref();
     let groupNum = ref();
@@ -246,10 +249,7 @@ export default {
 
     let user_log_in = ref(false);
 
-    axios.get('http://127.0.0.1:5000/user/login_status')
-        .then((res)=>{
-          this.user_log_in.value = res.data.id !== null;
-        })
+    user_log_in.value = store.user_login_status;
 
     return{
       startTime,
@@ -280,8 +280,9 @@ export default {
   },
 
   created() {
+    let route = useRoute();
     axios.post('http://127.0.0.1:5000/product/detail', {
-      product_id: 9
+      product_id: route.params.trip_id
     })
         .then(response => {
           this.details = response.data.product;
