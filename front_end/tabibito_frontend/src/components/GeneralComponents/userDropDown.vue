@@ -17,6 +17,9 @@
 </template>
 
 <script>
+import axios from "axios";
+import {useStore} from "../../store.js";
+
 export default {
   setup(){
     return{
@@ -29,7 +32,7 @@ export default {
         {
           icon: "background-image:url('src/assets/logout.svg')",
           text: "Log out",
-          path: ""
+          path: "/login"
         }
       ]
     }
@@ -37,6 +40,16 @@ export default {
   name: "userDropDown",
   methods:{
     handleClick(item){
+      if (item.path === "/login"){
+        const store = useStore();
+        axios.get('http://127.0.0.1:5000/user/logout')
+            .then((res) => {
+              if (res.status === 200){
+                store.user_login_status = false;
+                this.$router.push(item.path);
+              }
+            })
+      }
 
     }
   }
