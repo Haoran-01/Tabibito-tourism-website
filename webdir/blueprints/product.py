@@ -184,8 +184,9 @@ def charge_detail():
 @bp.route("/trips", methods=["POST", "GET"])
 def get_trips():
     product_id = request.json.get("product_id")
-    trips = Trip.query.filter(Trip.product_id == product_id).all()
+    product = Product.query.filter(Product.id == product_id).first()
+    trips = product.trips
     if len(trips) == 0:
         return jsonify(code="product not found")
     else:
-        return jsonify(trips=[trip.serialize() for trip in trips])
+        return jsonify(location=product.location(),trips=[trip.serialize() for trip in trips])
