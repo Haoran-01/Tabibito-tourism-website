@@ -70,19 +70,19 @@ def get_product_number():
     products = db.session.query(Product).all()
     # 构造筛选条件
     filters = []
-    if data['startTime'] is not "":
+    if data['startTime'] != "":
         filters.append({'field': 'startTime', 'operator': '>=', 'value': data['startTime']})
-    if data['endTime'] is not "":
+    if data['endTime'] != "":
         filters.append({'field': 'endTime', 'operator': '<=', 'value': data['endTime']})
-    if data['currentLocation'] is not "":
+    if data['currentLocation'] != "":
         filters.append({'field': 'currentLocation', 'operator': '==', 'value': data['currentLocation']})
-    if data['tourType'] is not "":
+    if data['tourType'] != "":
         filters.append({'field': 'tourType', 'operator': '==', 'value': data['tourType']})
-    if data['low_price'] is not "":
+    if data['low_price'] != "":
         filters.append({'field': 'price', 'operator': '>=', 'value': data['low_price']})
-    if data['high_price'] is not "":
+    if data['high_price'] != "":
         filters.append({'field': 'price', 'operator': '<=', 'value': data['high_price']})
-    if data['duration'] is not "":
+    if data['duration'] != "":
         filters.append({'field': 'duration', 'operator': '==', 'value': data['duration']})
 
     # 使用筛选条件查询产品数据
@@ -132,19 +132,19 @@ def get_product_list():
     products = db.session.query(Product).all()
     # 构造筛选条件
     filters = []
-    if data['startTime'] is not "":
+    if data['startTime'] != "":
         filters.append({'field': 'startTime', 'operator': '>=', 'value': data['startTime']})
-    if data['endTime'] is not "":
+    if data['endTime'] != "":
         filters.append({'field': 'endTime', 'operator': '<=', 'value': data['endTime']})
-    if data['currentLocation'] is not "":
+    if data['currentLocation'] != "":
         filters.append({'field': 'currentLocation', 'operator': '==', 'value': data['currentLocation']})
-    if data['tourType'] is not "":
+    if data['tourType'] != "":
         filters.append({'field': 'tourType', 'operator': '==', 'value': data['tourType']})
-    if data['low_price'] is not "":
+    if data['low_price'] != "":
         filters.append({'field': 'price', 'operator': '>=', 'value': data['low_price']})
-    if data['high_price'] is not "":
+    if data['high_price'] != "":
         filters.append({'field': 'price', 'operator': '<=', 'value': data['high_price']})
-    if data['duration'] is not "":
+    if data['duration'] != "":
         filters.append({'field': 'duration', 'operator': '==', 'value': data['duration']})
 
     # 使用筛选条件查询产品数据
