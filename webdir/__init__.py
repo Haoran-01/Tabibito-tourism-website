@@ -11,21 +11,24 @@ from exts import mail, db
 from webdir.blueprints import user_bp, product_bp, search_bp, recommend_bp, homepage_bp, order_bp, staff_bp, comment_bp
 from flask_cors import CORS
 import nltk
+
 # nltk.download('stopwords')
 # nltk.download('wordnet')
+
 
 def create_app(config_name):
     # nltk.download('stopwords')
     # nltk.download('wordnet')
+
     app = Flask(__name__, template_folder="templates", static_folder="static", static_url_path="")
     app.config.from_object(config[config_name])
     config[config_name].init_app(app)
 
-
-
     CORS(app, supports_credentials=True)
     return app
 
+# nltk.download('stopwords')
+# nltk.download('wordnet')
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 db.init_app(app)
 mail.init_app(app)
@@ -40,9 +43,6 @@ app.register_blueprint(homepage_bp)
 app.register_blueprint(staff_bp)
 app.register_blueprint(order_bp)
 app.register_blueprint(comment_bp)
-
-
-
 
 app.secret_key = os.getenv("SECRET_KEY", "mou107b6vsfxor82bbc4bzf4mcu7")
 
@@ -84,12 +84,13 @@ def context_processor():
 
 
 @app.after_request
-def af_req(resp):  #解决跨域session丢失
+def af_req(resp):  # 解决跨域session丢失
     resp = make_response(resp)
     resp.headers['Access-Control-Allow-Origin'] = 'http://127.0.0.1:5173'
     resp.headers['Access-Control-Allow-Methods'] = 'PUT,POST,GET,DELETE,OPTIONS'
     resp.headers['Access-Control-Allow-Headers'] = 'x-requested-with,content-type'
-    resp.headers['Access-Control-Allow-Headers'] = 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild'
+    resp.headers[
+        'Access-Control-Allow-Headers'] = 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild'
     resp.headers['Access-Control-Allow-Credentials'] = 'true'
 
     resp.headers['X-Powered-By'] = '3.2.1'

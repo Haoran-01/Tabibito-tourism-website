@@ -358,16 +358,16 @@ class Product(db.Model):
             'name': self.name,
             'description': self.description,
             'location': self.raw_loc,
-            'price': self.ori_price * self.discount,
-            'mark': self.get_mark(),
+            'price': round(self.ori_price * self.discount, 1),
+            'mark': round(self.get_mark(), 1),
             'reviews': len(self.comments),
             'group_number': self.group_number,
             'tags': [tag.serialize() for tag in self.tags],
             'cover_image': self.get_cover(),
             'gallery': self.gallery(),
             'banner_image': self.banners(),
-            'start_time': self.start_time.date(),
-            'end_time': self.end_time.date(),
+            'start_time': self.start_time.strftime("%A, %d %B %Y"),
+            'end_time': self.end_time.strftime("%A, %d %B %Y"),
             "fee_des": [fee.serialize() for fee in self.fee_des]
         }
 
