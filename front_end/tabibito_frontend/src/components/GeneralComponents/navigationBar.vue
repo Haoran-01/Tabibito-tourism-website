@@ -129,11 +129,11 @@ export default defineComponent({
   },
   data(){
     return{
-      currency_item: [
+      currency_item: ref([
         {icon: "background-image:url('src/assets/USD.svg')", text: this.$t('navi.USD')},
         {icon: "background-image:url('src/assets/CNY.svg')", text: this.$t('navi.CNY')},
         {icon: "background-image:url('src/assets/EUR.svg')", text: this.$t('navi.EUR')},
-      ],
+      ]),
       user_item: [
         {
 

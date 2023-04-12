@@ -1,6 +1,6 @@
 export default {
     login: {
-        welcome: "welcome",
+        welcome: "Welcome come",
         noAccount: "Don't have an account yet?",
         signup: "Sign up for free",
         password: "Password",
@@ -94,5 +94,9 @@ export default {
             seeDetail: "See details & photo",
             collapse: "See less"
         },
+    },
+    footer: {
+        journey1: "Your Travel Journey Starts Here",
+        journey2: "Sign up and we'll send the best deals to you",
     }
 }
