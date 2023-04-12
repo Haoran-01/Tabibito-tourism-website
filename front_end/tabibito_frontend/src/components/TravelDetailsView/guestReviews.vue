@@ -275,14 +275,14 @@ export default defineComponent({
       countPage: ref(),
       comments:[
         {
-          user_name:"Tonka",
-          profile_pic:"../../assets/avatars/2.png",
-          date_time:"March 2022",
-          pic:["../../assets/test_comment_photo.png","../../assets/test_comment_photo.png","../../assets/test_comment_photo.png","../../assets/test_comment_photo.png"],
-          des:"Nice two level apartment in great London location. Located in quiet small street, \n" +
-              "              but just 50 meters from main street and bus stop. Tube station is short walk, \n" +
-              "              just like two grocery stores.",
-          title:"9.2 Superb",
+          // user_name:"Tonka",
+          // profile_pic:"../../assets/avatars/2.png",
+          // date_time:"March 2022",
+          // pic:["../../assets/test_comment_photo.png","../../assets/test_comment_photo.png","../../assets/test_comment_photo.png","../../assets/test_comment_photo.png"],
+          // des:"Nice two level apartment in great London location. Located in quiet small street, \n" +
+          //     "              but just 50 meters from main street and bus stop. Tube station is short walk, \n" +
+          //     "              just like two grocery stores.",
+          // title:"9.2 Superb",
         },
       ],
       scores: {
@@ -297,11 +297,12 @@ export default defineComponent({
       },
       percentage: {},
       reviews: {
-        reviews_num: 1314
+        // reviews_num: 1314
       },
     }
   },
   created() {
+    var self = this;
     axios.post('http://127.0.0.1:5000/product/get_comment',{
       page: 1,
       product_id: 9,
@@ -309,7 +310,8 @@ export default defineComponent({
         .then((response)=>{
           const code = response.status
           if (code === 200){
-            this.comments = response.data.comments
+            self.comments = response.data.comments
+            console()
           }
         })
 
@@ -321,7 +323,7 @@ export default defineComponent({
           const code = response.status
           if (code === 200){
             const count = response.data.number
-            this.countPage  = Math.floor(count / 10) + (count % 10 > 0 ? 1 : 0);
+            self.countPage  = Math.floor(count / 10) + (count % 10 > 0 ? 1 : 0);
           }
         })
   },
@@ -342,14 +344,15 @@ export default defineComponent({
     for (const [key, value] of Object.entries(this.scores)) {
       this.$set(this.percentage, key, Math.round(value * 10));
     }
-    axios.post('http://127.0.0.1:5000/product/review',
+    var self = this;
+    axios.post('http://127.0.0.1:5000/product/get_product_grade',
         {
           // 暂时给定值，不知道怎么拿到id
           product_id: 9
         }
     )
         .then(function (response){
-          this.scores = response.data;
+          self.scores = response.data;
         })
         .catch(error => {
           console.error(error);
@@ -360,7 +363,7 @@ export default defineComponent({
         }
     )
         .then(function (response){
-          this.reviews = response.data;
+          self.reviews = response.data;
         })
         .catch(error => {
           console.error(error);
