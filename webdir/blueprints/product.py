@@ -172,7 +172,8 @@ def upload_picture():
 
 @bp.route("/charge_detail", methods=["POST", "GET"])
 def charge_detail():
-    product_id = request.json.get("product_id")
+    data = request.get_json(silent=True)
+    product_id = data['product_id']
     fee_des = FeeDes.query.filter(FeeDes.product_id == product_id).all()
     if len(fee_des) == 0:
         return jsonify(code="product not found")
@@ -182,9 +183,11 @@ def charge_detail():
 
 @bp.route("/trips", methods=["POST", "GET"])
 def get_trips():
-    product_id = request.json.get("product_id")
-    trips = Trip.query.filter(Trip.product_id == product_id).all()
+    data = request.get_json(silent=True)
+    product_id = data['product_id']
+    product = Product.query.filter(Product.id == product_id).first()
+    trips = product.trips
     if len(trips) == 0:
         return jsonify(code="product not found")
     else:
-        return jsonify(trips=[trip.serialize() for trip in trips])
+        return jsonify(location=product.location(),trips=[trip.serialize() for trip in trips])
