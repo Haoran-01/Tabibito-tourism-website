@@ -157,7 +157,7 @@
             <div class="TDOptionName">Number of travelers</div>
             <n-space vertical>
               <n-input-number
-                  v-model:value="value"
+                  v-model:value="groupNum"
                   placeholder="Group Number"
                   :min="1"
                   :max="details.group_number"
@@ -190,21 +190,21 @@
 
   </section>
 
-  <charge-list></charge-list>
+<!--  <charge-list></charge-list>-->
 
-  <div class="TDLine full"></div>
+<!--  <div class="TDLine full"></div>-->
 
-  <guest-reviews></guest-reviews>
+<!--  <guest-reviews></guest-reviews>-->
 
-  <div class="TDLine full"></div>
+<!--  <div class="TDLine full"></div>-->
 
-  <leave-reply></leave-reply>
+<!--  <leave-reply></leave-reply>-->
 
-  <div class="TDLine full"></div>
+<!--  <div class="TDLine full"></div>-->
 
-  <similar-experiences></similar-experiences>
+<!--  <similar-experiences></similar-experiences>-->
 
-  <footer-view></footer-view>
+<!--  <footer-view></footer-view>-->
 </template>
 
 <script>
@@ -258,7 +258,7 @@ export default {
     return{
       startTime,
       endTime,
-      groupNum,
+      groupNum: ref(),
       toast,
       user_log_in,
 
