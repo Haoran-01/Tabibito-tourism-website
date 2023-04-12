@@ -11,8 +11,8 @@
             </div>
 
             <div class="col-auto">
-              <div class="journey-start-title">Your Travel Journey Starts Here</div>
-              <div class="journey-start-text">Sign up and we'll send the best deals to you</div>
+              <div class="journey-start-title">{{ $t('footer.journey1')}}</div>
+              <div class="journey-start-text">{{$t('footer.journey2')}}</div>
             </div>
           </div>
         </div>

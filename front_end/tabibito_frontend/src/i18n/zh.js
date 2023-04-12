@@ -94,5 +94,9 @@ export default {
             seeDetail: "查看详情",
             collapse: "收起"
         },
+    },
+    footer: {
+        journey1: "你的旅行从这里开始",
+        journey2: "注册，我们会给你发送最好的交易",
     }
 }
