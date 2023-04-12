@@ -69,7 +69,7 @@
                 <div class="col-auto">
                   <div class="footer">
                     From
-                    <span class="price">{{'$' + item.price}}</span>
+                    <span class="price">{{'$' + item.price.toFixed(2)}}</span>
                   </div>
                 </div>
               </div>
@@ -366,6 +366,7 @@ export default {
   font-size: 18px;
   line-height: 1.6 !important;
   font-weight: 500;
+  cursor: pointer;
 }
 .tourCardTitle span{
   background-image: linear-gradient(transparent 24px, black 20px);
@@ -487,6 +488,7 @@ export default {
     font-size: 14px;
     margin-top: 5px;
     margin-bottom: 5px;
+
   }
   .starsLayout{
     padding-top: 0px;

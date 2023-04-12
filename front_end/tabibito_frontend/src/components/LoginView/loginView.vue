@@ -119,11 +119,18 @@ export default {
     return {
       inputEmail: '',
       inputPassword:'',
+      from: '',
     };
+  },
+  beforeRouteEnter(to, from, next){
+    next(vm =>{
+      vm.from = from;
+    })
   },
   methods: {
 
     checkLogin() {
+      event.preventDefault();
       let self = this;
 
       if (this.inputEmail === ''){
@@ -143,7 +150,7 @@ export default {
               let code=response.data['code'];
               let message=response.data['message'];
               if (code === 200){
-                self.$router.push('/');
+                self.$router.push(self.from.path);
               } else if (code === 400){
                 if (message === 'email'){
                   self.toast.error("Email is not correct");

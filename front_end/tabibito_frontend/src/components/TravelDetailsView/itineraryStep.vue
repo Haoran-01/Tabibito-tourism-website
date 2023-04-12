@@ -2,11 +2,11 @@
 <div class="container">
   <div class="index">{{parseInt(index) + 1}}</div>
   <div class="information">
-    <div class="title">{{item.name}}</div>
+    <div class="title">{{item.description}}</div>
     <div class="time">{{item.time}}</div>
     <n-collapse-transition :show="show">
-      <div class="picture" style="background-image: url('../../assets/beach.jpg')"></div>
-      <div class="description">{{item.description}}</div>
+      <div class="picture" :style="'background-image: url(' + item.picture + ')'"></div>
+      <div class="description">{{item.name}}</div>
     </n-collapse-transition>
     <div class="moreInfo" @click="handleInfo">{{moreInfoText}}</div>
   </div>
@@ -18,7 +18,8 @@ import {ref} from "vue";
 export default {
   props: ['item', 'index'],
   name: "itineraryStep",
-  setup(){
+  setup(prop){
+    console.log(prop.item)
     let show = ref(false);
     let moreInfoText = ref("See details & photo");
     return{
@@ -28,7 +29,6 @@ export default {
         if (show.value === false){
           show.value = true;
           moreInfoText.value = "See Less"
-
         }else {
           show.value = false;
           moreInfoText.value = "See details & photo"
@@ -74,6 +74,7 @@ export default {
   line-height: 1.5;
   color: var(--primary-color);
   cursor: pointer;
+  user-select: none;
 }
 .picture{
   width: 290px;

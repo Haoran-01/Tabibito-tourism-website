@@ -13,15 +13,6 @@
               <h4 class="loc_title">Destinations</h4>
               <div class="loc_input">
                 <n-select class="dropdown" v-model:value="currentLocation" :options="locOptions" clearable placeholder="Select" @select="handleSelectLoc"/>
-
-<!--                <n-dropdown-->
-<!--                    trigger="click"-->
-<!--                    placement="bottom-start"-->
-<!--                    :options="locOptions"-->
-<!--                    @select="handleSelectLoc"-->
-<!--                >-->
-<!--                  <n-button> Select </n-button>-->
-<!--                </n-dropdown>-->
               </div>
             </div>
           </div>
@@ -54,14 +45,6 @@
             <div class="loc_margin">
               <h4 class="loc_title">Tour Type</h4>
               <div class="loc_input">
-<!--                <n-dropdown-->
-<!--                    trigger="click"-->
-<!--                    placement="bottom-start"-->
-<!--                    :options="typeOptions"-->
-<!--                      @select="handleSelectType"-->
-<!--                >-->
-<!--                  <n-button> choose type </n-button>-->
-<!--                </n-dropdown>-->
                 <n-select class="dropdown" v-model:value="tourType" :options="typeOptions" clearable placeholder="Tour Type" @select="handleSelectType"/>
               </div>
             </div>
@@ -79,7 +62,6 @@
     <div class="row x-gap-10 y-gap-10 select_menu">
       <n-select class="dropdown" v-model:value="price" :options="priceoptions" clearable placeholder="Price" @select="handleSelectPrice"/>
       <n-select class="dropdown" v-model:value="duration" :options="durationoptions" clearable placeholder="Duration" @select="handleSelectDuration"/>
-      <n-select class="dropdown" v-model:value="language" :options="languageoptions" clearable placeholder="Language" @select="handleSelectLanguage"/>
     </div>
 
     <div class="row y-gap-10 property">
@@ -194,15 +176,38 @@ export default defineComponent({
     Star,
     ArrowForward
   },
+  created() {
+    axios.post('http://127.0.0.1:5000/search/product_list',{
+      page: 1,
+    })
+        .then((response)=>{
+          const code = response.status
+          if (code === 200){
+            self.products = response.data.products
+          }
+        })
+
+    axios.post("http://127.0.0.1:5000/search/product_number",
+        {
+        }
+    )
+        .then((response)=>{
+          const code = response.status
+          if (code === 200){
+            const count = response.data.number
+            self.countPage  = Math.floor(count / 3) + (count % 3 > 0 ? 1 : 0);
+          }
+        })
+  },
   setup () {
-    let startTime = ref();
-    let endTime = ref();
-    let currentLocation = ref("select");
+    var self = this;
+    let startTime = ref(Date.now());
+    let endTime = ref(2*Date.now());
+    let currentLocation = ref();
     let tourType = ref();
     const loadingRef = ref(false);
     let price = ref();
     let duration = ref();
-    let language = ref();
     const message = useMessage();
     return {
       currentLocation,
@@ -211,7 +216,6 @@ export default defineComponent({
       tourType,
       price,
       duration,
-      language,
       handleClick() {
         loadingRef.value = true
         setTimeout(() => {
@@ -219,7 +223,6 @@ export default defineComponent({
         }, 2000)
       },
       loading: loadingRef,
-      range: ref([118313526e4, Date.now()]),
       priceoptions: [
         {
           label: "Less than $500",
@@ -351,22 +354,19 @@ export default defineComponent({
         }
       ],
       handleSelectLoc(val) {
-        currentLocation.value = val;
+        self.currentLocation = val;
       },
       handleSelectType(val) {
-        tourType.value = val;
+        self.tourType = val;
       },
       handleSelectSort(key) {
         message.info(String(key));
       },
       handleSelectPrice(val) {
-        price.value = val;
+        self.price= val;
       },
       handleSelectDuration(val) {
-        duration.value = val;
-      },
-      handleSelectLanguage(val) {
-        language.value = val;
+        self.duration = val;
       },
       secureStartTime(ts) {
         if (endTime.value != null){
@@ -387,37 +387,36 @@ export default defineComponent({
       handleSearchProject() {
         axios.post("http://127.0.0.1:5000/search/product_list",
             {
-              startTime: startTime.value,
-              endTime: endTime.value,
-              currentLocation: currentLocation.value,
-              tourType: tourType.value,
-              price: price.value,
-              duration: duration.value,
-              language: language.value
+              page: 1,
+              startTime: this.startTime.value,
+              endTime: this.endTime.value,
+              currentLocation: this.currentLocation.value,
+              tourType: this.tourType.value,
+              price: this.price.value,
+              duration: this.duration.value,
             }
         )
             .then((response)=>{
               const code = response.status
               if (code === 200){
-                this.products = response.data
+                self.products = response.data.products
               }
             })
         axios.post("http://127.0.0.1:5000/search/product_number",
             {
-              startTime: startTime.value,
-              endTime: endTime.value,
-              currentLocation: currentLocation.value,
-              tourType: tourType.value,
-              price: price.value,
-              duration: duration.value,
-              language: language.value
+              startTime: self.startTime.value,
+              endTime: self.endTime.value,
+              currentLocation: self.currentLocation.value,
+              tourType: self.tourType.value,
+              price: self.price.value,
+              duration: self.duration.value,
             }
         )
             .then((response)=>{
               const code = response.status
               if (code === 200){
                 const count = response.data.number
-                this.countPage  = Math.floor(count / 17) + (count % 17 > 0 ? 1 : 0);
+                self.countPage  = Math.floor(count / 3) + (count % 3 > 0 ? 1 : 0);
               }
             })
       }
@@ -490,14 +489,20 @@ export default defineComponent({
       ],
     }
   },
-
   methods:{
     pageChange(newPage){
+      var self = this;
       // console.log(`Current page is ${newPage}`);
-      axios.post('http://127.0.0.1:5000/search_page/product_list',{
-        page: newPage
+      axios.post('http://127.0.0.1:5000/search/product_list',{
+        page: newPage,
+        startTime: self.startTime.value,
+        endTime: self.endTime.value,
+        currentLocation: self.currentLocation.value,
+        tourType: self.tourType.value,
+        price: self.price.value,
+        duration: self.duration.value,
       }).then(function (response){
-        this.products = response.data
+        self.products = response.data
         console.log("分页成功嘞 yeeee")
       }).catch(function (error){
         console.log(error);

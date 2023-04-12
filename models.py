@@ -240,6 +240,14 @@ class Product(db.Model):
         else:
             return total_score / (7 * len(comments))
 
+    def location(self):
+        return {
+            "raw_loc": self.raw_loc,
+            "map_longitude": self.map_longitude,
+            "map_latitude": self.map_latitude,
+            "map_zoom": self.map_zoom
+        }
+
     def get_each_part_mark(self):
         comments = self.comments
         comments_number = len(comments)
