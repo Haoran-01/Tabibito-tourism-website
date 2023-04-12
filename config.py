@@ -22,12 +22,7 @@ class DevelopmentConfig(Config):
     SESSION_COOKIE_SAMESITE = None
     SESSION_COOKIE_SECURE = True
     # 数据库的配置变量
-    HOSTNAME = '127.0.0.1'
-    PORT = '3306'
-    DATABASE = 'tabibito'
-    USERNAME = 'root'
-    PASSWORD = 'Wwj13049995918()'
-    DB_URI = 'mysql+pymysql://{}:{}@{}:{}/{}?charset=utf8'.format(USERNAME, PASSWORD, HOSTNAME, PORT, DATABASE)
+    DB_URI = 'sqlite:///tabibito.db'
     SQLALCHEMY_DATABASE_URI = DB_URI
     SQLALCHEMY_TRACK_MODIFICATIONS = True
     # SQLALCHEMY_POOL_RECYCLE = 28800

@@ -22,7 +22,7 @@ bp = Blueprint("User", __name__, url_prefix="/user")
 @login_required
 def logout():
     logout_user()
-    return None
+    return jsonify(code=200)
 
 
 # 注册功能
@@ -106,7 +106,7 @@ def my_mail():
         message = Message(
             subject="Tabibito verification",
             recipients=[email],
-            html=render_template("email.html", email_captcha=captcha)
+            html=render_template("email.html", email_captcha=captcha, user_email=email)
         )
         mail.send(message)
         captcha_model = EmailCaptchaModel.query.filter_by(email=email).first()
