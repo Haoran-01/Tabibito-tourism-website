@@ -175,7 +175,6 @@ def get_product_list():
             filters.append({'field': 'low_price', 'operator': '>=', 'value': low_price})
     if 'duration' in data and data['duration'] != "":
         filters.append({'field': 'duration', 'operator': '==', 'value': data['duration']})
-    print(filters)
     # 使用筛选条件查询产品数据
     results = []
     for product in products:
@@ -210,6 +209,6 @@ def get_product_list():
     page_number = data["page"]
     select_product = results[page_number * 3 - 3: page_number * 3]
     if len(results) == 0:
-        return jsonify(code=201, message="No qualified projects")
+        return jsonify(code=201, data=[product.serialize_product_list() for product in select_product])
     else:
         return jsonify(code=200, data=[product.serialize_product_list() for product in select_product])
