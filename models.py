@@ -190,8 +190,8 @@ class Product(db.Model):
     description = db.Column(db.Text, nullable=False, default="des")
     group_number = db.Column(db.Integer, nullable=False, default=5)
     raw_loc = db.Column(db.CHAR(100), nullable=False, default="location")
-    map_latitude = db.Column(db.CHAR(200), nullable=False, default="location")
-    map_longitude = db.Column(db.CHAR(200), nullable=False, default="location")
+    map_latitude = db.Column(db.Float, nullable=False, default="location")
+    map_longitude = db.Column(db.Float, nullable=False, default="location")
     map_zoom = db.Column(db.Float, nullable=False, default=1.0)
     discount = db.Column(db.Float, nullable=True, default=1.0)
     currency = db.Column(db.CHAR(200), nullable=False, default='USD')
@@ -440,8 +440,8 @@ class Trip(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     time = db.Column(db.DateTime, nullable=False)
     exact = db.Column(db.CHAR(100), nullable=False)
-    map_latitude = db.Column(db.CHAR(200), nullable=False)
-    map_longitude = db.Column(db.CHAR(200), nullable=False)
+    map_latitude = db.Column(db.Float, nullable=False)
+    map_longitude = db.Column(db.Float, nullable=False)
     map_zoom = db.Column(db.Float, nullable=False)
     activity = db.Column(db.CHAR(250), nullable=False)
     picture = db.Column(db.CHAR(200))
@@ -451,6 +451,20 @@ class Trip(db.Model):
     product_id = db.Column(db.Integer, ForeignKey('product.id', ondelete='CASCADE', onupdate='CASCADE'))
     product = relationship('Product', back_populates="trips")
 
+    def serialize(self):
+        return {
+            "time": self.time,
+            "location": {
+                "exact": self.exact,
+                "map_latitude": self.map_latitude,
+                "map_longitude": self.map_longitude,
+                "map_zoom": self.map_zoom,
+            },
+            "activity": self.activity,
+            "picture": self.picture,
+            "day": self.day,
+            "time_of_day": self.time_of_day
+        }
     def __repr__(self):
         return "<Trip(time='%s', loc_detail='%s', activity='%s')>" % (self.time, self.loc_detail, self.activity)
 

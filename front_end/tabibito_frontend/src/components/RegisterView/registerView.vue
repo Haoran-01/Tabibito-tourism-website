@@ -169,34 +169,71 @@ export default {
     startCountdown() {
       let self = this;
 
-      this.countingDown = true;
-      this.remainingTime = 60; // add this line to reset remainingTime to 60
-      this.countdownInterval = setInterval(() => {
-        if (this.remainingTime > 0) {
-          this.remainingTime--;
-        } else {
-          clearInterval(this.countdownInterval);
-          this.countingDown = false;
-        }
-      }, 1000);
+      if (this.inputFirst === ''){
+        this.toast.error("First name can't be blank");
+      }
+      const tester = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+      if (!tester.test(this.inputEmail1)){
+        this.toast.error("This email is not valid");
+      }
 
-      let emailValue = this.inputEmail1;
-
-      axios.post('http://127.0.0.1:5000/user/captcha', {
-        email: emailValue,
-
-      }).then(function (response){
-        let code=response.data['code'];
-        let message=response.data['message'];
-        if (code === 200){
-        } else if (code === 400){
-          if (message === 'email'){
-            self.toast.error("Email is already registered");
+      if (this.inputLast === ''){
+        this.toast.error("Last name can't be blank");
+      }
+      if (this.inputEmail1 === ''){
+        this.toast.error("Email can't be blank");
+      }
+      if (this.inputPassword1 === ''){
+        this.toast.error("Password can't be blank");
+      }
+      if (this.inputPassword1.length > 20){
+        this.toast.error("Your password is too long");
+      }
+      if (this.inputPassword1.length < 5){
+        this.toast.error("Your password is too easy");
+      }
+      if (this.inputConfirm === ''){
+        this.toast.error("Please confirm your password");
+      }
+      if (this.inputPassword1 !== this.inputConfirm){
+        this.toast.error("The passwords are not the same");
+      }
+      if (this.inputEmail1 === '' || this.inputPassword1 === '' || this.inputFirst === '' || this.inputLast === '' || this.inputConfirm === '' ){
+        this.toast.error("Please finish the information above first");
+      } else {
+        this.countingDown = true;
+        this.remainingTime = 60; // add this line to reset remainingTime to 60
+        this.countdownInterval = setInterval(() => {
+          if (this.remainingTime > 0) {
+            this.remainingTime--;
+          } else {
+            clearInterval(this.countdownInterval);
+            this.countingDown = false;
           }
-        }
-      }).catch(function (error) {
-            console.log(error);
-          });
+        }, 1000);
+
+        let emailValue = this.inputEmail1;
+
+        self.toast.success("Captcha send Successfully.");
+
+        console.log(213123123)
+        axios.post('http://127.0.0.1:5000/user/captcha', {
+          email: emailValue,
+
+        }).then(function (response) {
+          let code = response.data['code'];
+          let message = response.data['message'];
+          if (code === 200) {
+            self.toast.success("Register successfully. You can login now!");
+          } else if (code === 400) {
+            if (message === 'email') {
+              self.toast.error("The email is not available");
+            }
+          }
+        }).catch(function (error) {
+          console.log(error);
+        });
+      }
     },
 
     checkRegister() {
@@ -221,6 +258,9 @@ export default {
       }
       if (this.inputPassword1.length > 20){
         this.toast.error("Your password is too long");
+      }
+      if (this.inputPassword1.length < 5){
+        this.toast.error("Your password is too easy");
       }
       if (this.inputConfirm === ''){
         this.toast.error("Please confirm your password");

@@ -74,7 +74,7 @@ export default {
     }
   },
   mounted() {
-    axios.get('http://127.0.0.1:5000/homepage/get_popular_comment')
+    axios.get('http://127.0.0.1:5000//homepage/most_popular_comments')
         .then(response => {
           this.reviews = response.data.reviews;
         })

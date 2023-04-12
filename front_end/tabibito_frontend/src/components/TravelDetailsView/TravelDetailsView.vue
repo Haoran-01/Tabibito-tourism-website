@@ -92,12 +92,6 @@
             </div>
           </div>
 
-<!--          <div class="TDR1">-->
-<!--            <img class="TDIcon1" src="../../assets/no.svg" alt="">-->
-<!--            <div class="TDT1">-->
-<!--              Free Cancellation-->
-<!--            </div>-->
-<!--          </div>-->
         </div>
 
         </div>
@@ -157,7 +151,7 @@
             <div class="TDOptionName">Number of travelers</div>
             <n-space vertical>
               <n-input-number
-                  v-model:value="value"
+                  v-model:value="groupNum"
                   placeholder="Group Number"
                   :min="1"
                   :max="details.group_number"
@@ -190,21 +184,21 @@
 
   </section>
 
-  <charge-list></charge-list>
+<!--  <charge-list></charge-list>-->
 
-  <div class="TDLine full"></div>
+<!--  <div class="TDLine full"></div>-->
 
-  <guest-reviews></guest-reviews>
+<!--  <guest-reviews></guest-reviews>-->
 
-  <div class="TDLine full"></div>
+<!--  <div class="TDLine full"></div>-->
 
-  <leave-reply></leave-reply>
+<!--  <leave-reply></leave-reply>-->
 
-  <div class="TDLine full"></div>
+<!--  <div class="TDLine full"></div>-->
 
-  <similar-experiences></similar-experiences>
+<!--  <similar-experiences></similar-experiences>-->
 
-  <footer-view></footer-view>
+<!--  <footer-view></footer-view>-->
 </template>
 
 <script>
@@ -245,11 +239,13 @@ export default {
   setup(){
     let startTime = ref();
     let endTime = ref();
-    let groupNum = ref("groupNum");
+    let groupNum = ref();
 
     const toast = useToast();
 
+
     let user_log_in = ref(false);
+
     axios.get('http://127.0.0.1:5000/user/login_status')
         .then((res)=>{
           this.user_log_in.value = res.data.id !== null;
@@ -262,36 +258,21 @@ export default {
       toast,
       user_log_in,
 
-      // 控制可以选择的时间范围
-      secureStartTime(ts) {
-        if (startTime.value != null){
-          return ts > startTime.value;
-        }
-        else {
-          return ts < Date.now();
-        }
-      },
-      secureEndTime(ts){
-        if (endTime.value != null){
-          return ts < endTime.value;
-        }
-        else {
-          return ts < Date.now();
-        }
-      },
-
       handleClickProject() {
+        let self = this;
+
         axios.post("http://127.0.0.1:5000/order/create_order",
             {
               product_id: 9,
-              groupNum: groupNum,
+              groupNum: this.groupNum,
               user_id: 2
-
             }
         )
             .then(function (response){
               if (response.data.code === 200){
-                this.toast.error("Successfully Reservation");
+                self.toast.success("Successfully Reservation",{
+                  position: "bottom-right",
+                });
               }
             })
     }
@@ -324,25 +305,6 @@ export default {
 
   mounted() {
     window.addEventListener("scroll", this.handleScroll);
-
-
-    // axios.post('http://127.0.0.1:5000/product/detail')
-    //     .then(response => {
-    //       this.details = response.data.details;
-    //
-    //       const num1 = new Date(this.details.end_time).getTime()
-    //       const num2 = new Date(this.details.start_time).getTime()
-    //       let diffMs = num1-num2
-    //       // 将毫秒数转换为天数
-    //       this.duration = Math.floor(diffMs / (1000 * 60 * 60 * 24))
-    //
-    //       this.star = this.details.mark
-    //
-    //       this.imageList = this.details.gallery
-    //     })
-    //     .catch(error => {
-    //       console.error(error);
-    //     });
 
   },
   destroyed() {
