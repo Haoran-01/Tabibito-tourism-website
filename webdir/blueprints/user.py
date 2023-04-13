@@ -4,7 +4,7 @@ import string
 from flask import Blueprint, request, render_template, jsonify, g, session
 from forms import LoginFrom, RegisterForm, EmailCaptchaModel, ForgetFormPassword
 from flask_login import login_user, logout_user, login_required
-from models import User, Product, UserProfile, Order
+from models import User, Product, UserProfile, Order, Language
 from exts import db, mail
 from flask_mail import Message
 from datetime import datetime
@@ -266,3 +266,28 @@ def credentials_to_dict(credentials):
         'client_secret': credentials.client_secret,
         'scopes': credentials.scopes
     }
+
+
+@bp.route("/get_language", methods=['GET', 'POST'])
+@login_required
+def get_language():
+    if current_user is not None:
+        return jsonify(language=current_user.profile.language.name)
+    else:
+        return jsonify(message="Not login")
+
+
+@bp.route("/set_language", methods=['GET', 'POST'])
+@login_required
+def set_language():
+    if current_user is not None:
+        language = Language(request.json.get("language"))
+        profile = UserProfile.query.filter(UserProfile.user_id == current_user.user_id).first()
+        if language:
+            profile.language = language
+            db.session.commit()
+        else:
+            return jsonify(message="no such language")
+        return jsonify(code=200)
+    else:
+        return jsonify(message="Not login")

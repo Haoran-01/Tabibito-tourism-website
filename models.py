@@ -43,6 +43,10 @@ class OrderStatus(Enum):
     Cancelled = "cancelled"
 
 
+class Language(Enum):
+    en = "en"
+    ch = "ch"
+
 class Comment(db.Model):
     __tablename__ = "comment"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -536,5 +540,6 @@ class UserProfile(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     picture_address = db.Column(db.CHAR(200))
     job = db.Column(DBEnum(UserJob), default=UserJob.Customer)
+    language = db.Column(DBEnum(Language), default=Language.en)
     user_id = db.Column(db.Integer, ForeignKey('user.user_id', ondelete='CASCADE', onupdate='CASCADE'))
     user = relationship('User', back_populates="profile")
