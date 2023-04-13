@@ -34,7 +34,8 @@ const routes = [
     { path: '/management/project_detail/:id', component: projectManagementDetailView},
     { path: '/management/project_detail/add', component: projectManagementDetailView},
     { path: '/trip/:trip_id', component: TravelDetailsView},
-    { path: '/search_result', component: leftListView},
+    { path: '/search_result', name: 'search', component: leftListView},
+
 ]
 
 const router = createRouter({

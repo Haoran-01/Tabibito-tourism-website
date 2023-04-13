@@ -11,9 +11,9 @@
 
       <div class="chooseCards">
         <n-carousel :slides-per-view=slides_per_view :space-between=space_between :loop="false" show-arrow>
-          <n-card title="" class="tourTypeCard">
+          <n-card title="" class="tourTypeCard" @click="handleSelectWT">
             <div class="cardContent">
-              <a href="tour-single.html" class="cardHref">
+              <a href="" class="cardHref">
                 <div class="tourTypeCardContent">
                   <i class="icon-nature icon"></i>
                   <h4 class="cardText">Wildlife Tour</h4>
@@ -22,9 +22,9 @@
               </a>
             </div>
           </n-card>
-          <n-card title="" class="tourTypeCard">
+          <n-card title="" class="tourTypeCard" @click="handleSelectAT">
             <div class="cardContent">
-              <a href="tour-single.html" class="cardHref">
+              <a href="" class="cardHref">
                 <div class="tourTypeCardContent">
                   <i class="icon-nature icon"></i>
                   <h4 class="cardText">Adventure Tour</h4>
@@ -33,9 +33,9 @@
               </a>
             </div>
           </n-card>
-          <n-card title="" class="tourTypeCard">
+          <n-card title="" class="tourTypeCard" @click="handleSelectCT">
             <div class="cardContent">
-              <a href="tour-single.html" class="cardHref">
+              <a href="" class="cardHref">
                 <div class="tourTypeCardContent">
                   <i class="icon-nature icon"></i>
                   <h4 class="cardText">City Tours</h4>
@@ -44,9 +44,9 @@
               </a>
             </div>
           </n-card>
-          <n-card title="" class="tourTypeCard">
+          <n-card title="" class="tourTypeCard" @click="handleSelectMT">
             <div class="cardContent">
-              <a href="tour-single.html" class="cardHref">
+              <a href="" class="cardHref">
                 <div class="tourTypeCardContent">
                   <i class="icon-nature icon"></i>
                   <h4 class="cardText">Museum Tours</h4>
@@ -55,9 +55,9 @@
               </a>
             </div>
           </n-card>
-          <n-card title="" class="tourTypeCard">
+          <n-card title="" class="tourTypeCard" @click="handleSelectBT">
             <div class="cardContent">
-              <a href="tour-single.html" class="cardHref">
+              <a href="" class="cardHref">
                 <div class="tourTypeCardContent">
                   <i class="icon-nature icon"></i>
                   <h4 class="cardText">Beaches Tour</h4>
@@ -97,6 +97,7 @@
 <script>
 import { ArrowBack, ArrowForward } from '@vicons/ionicons5'
 import {defineComponent, onMounted, ref} from 'vue'
+import {useRouter} from "vue-router";
 export default {
   components: {
     ArrowBack,
@@ -109,6 +110,7 @@ export default {
     }
   },
   setup() {
+    const route = useRouter();
     let slides_per_view= ref(5);
     let space_between = ref(20);
     window.fullWidth = document.documentElement.clientWidth;
@@ -161,7 +163,53 @@ export default {
     })
     return{
       slides_per_view,
-      space_between
+      route,
+      space_between,
+      handleSelectWT() {
+        this.route.push({
+          path: '/search_result',
+          query: {
+            state: "type",
+            type: "Wildlife Tour"
+          }
+        })
+      },
+      handleSelectAT() {
+        this.route.push({
+          path: '/search_result',
+          query: {
+            state: "type",
+            type: "Adventure Tour"
+          }
+        })
+      },
+      handleSelectCT() {
+        this.route.push({
+          path: '/search_result',
+          query: {
+            state: "type",
+            type: "City Tours"
+          }
+        })
+      },
+      handleSelectMT() {
+        this.route.push({
+          path: '/search_result',
+          query: {
+            state: "type",
+            type: "Museum Tours"
+          }
+        })
+      },
+      handleSelectBT() {
+        this.route.push({
+          path: '/search_result',
+          query: {
+            state: "type",
+            type: "Beaches Tour"
+          }
+        })
+      },
     }
   },
 

@@ -4,7 +4,7 @@
   >
     <template #trigger>
       <button type="submit" class="deListBtn" @click="checkList">
-        Launch
+        Launch {{ title }}22
       </button>
     </template>
     Are you sure you want to launch this travel project?
@@ -16,14 +16,16 @@ import {NButton, NIcon, NPopconfirm} from "naive-ui";
 import {CancelRound} from "@vicons/material";
 import axios from "axios";
 export default {
-  props: ["rowIndex", "prop"],
+  props: [],
   components: {NButton, NIcon, CancelRound, NPopconfirm},
   name: "listButton",
   methods:{
     handlePositiveClick(){
+      console.log(1111111)
+      console.log(this.title)
       axios.post('http://127.0.0.1:5000/staff_portal/product_status',{
         operation: "launch",
-        id: this.itemId,
+        id: this.title,
       })
     }
   }

@@ -113,7 +113,7 @@
                 </h2>
 
                 <div class="">
-                  <a href="#" class="table_head_href">View All</a>
+                  <h4 class="table_head_href" @click="this.$router.push('/management/project_list')">View All</h4>
                 </div>
               </div>
 
@@ -266,72 +266,6 @@ export default defineComponent({
         },
         scale: true
       },
-      // series: [
-      //   {
-      //     name: "1990",
-      //     data: data[0],
-      //     type: "scatter",
-      //     symbolSize(data) {
-      //       return Math.sqrt(data[2]) / 5e2;
-      //     },
-      //     emphasis: {
-      //       label: {
-      //         show: true,
-      //         formatter({ data }) {
-      //           return data[3];
-      //         },
-      //         position: "top"
-      //       }
-      //     },
-      //     itemStyle: {
-      //       shadowBlur: 10,
-      //       shadowColor: "rgba(120, 36, 50, 0.5)",
-      //       shadowOffsetY: 5,
-      //       color: new graphic.RadialGradient(0.4, 0.3, 1, [
-      //         {
-      //           offset: 0,
-      //           color: "rgb(251, 118, 123)"
-      //         },
-      //         {
-      //           offset: 1,
-      //           color: "rgb(204, 46, 72)"
-      //         }
-      //       ])
-      //     }
-      //   },
-      //   {
-      //     name: "2015",
-      //     data: data[1],
-      //     type: "scatter",
-      //     symbolSize(data) {
-      //       return Math.sqrt(data[2]) / 5e2;
-      //     },
-      //     emphasis: {
-      //       label: {
-      //         show: true,
-      //         formatter({ data }) {
-      //           return data[3];
-      //         },
-      //         position: "top"
-      //       }
-      //     },
-      //     itemStyle: {
-      //       shadowBlur: 10,
-      //       shadowColor: "rgba(25, 100, 150, 0.5)",
-      //       shadowOffsetY: 5,
-      //       color: new graphic.RadialGradient(0.4, 0.3, 1, [
-      //         {
-      //           offset: 0,
-      //           color: "rgb(129, 227, 238)"
-      //         },
-      //         {
-      //           offset: 1,
-      //           color: "rgb(25, 183, 207)"
-      //         }
-      //       ])
-      //     }
-      //   }
-      // ]
     });
     return {
       options: [
@@ -435,11 +369,28 @@ export default defineComponent({
 }
 
 .table_head_href {
-  font-size: 14px !important;
-  color: #3554D1;
+  color: #051036;
+  font-size: 18px;
+  line-height: 1.6 !important;
   font-weight: 500;
-  text-decoration: underline;
+  cursor: pointer;
 }
+
+@media (max-width: 900px) {
+  .table_head_href {
+    color: #051036;
+    font-size: 9px !important;
+    line-height: 1.6 !important;
+    font-weight: 500;
+  }
+}
+
+/*.table_head_href {*/
+/*  font-size: 14px !important;*/
+/*  color: #3554D1;*/
+/*  font-weight: 500;*/
+/*  text-decoration: underline;*/
+/*}*/
 
 .table_head_text {
   font-size: 18px !important;
