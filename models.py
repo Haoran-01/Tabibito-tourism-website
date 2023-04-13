@@ -38,9 +38,9 @@ class PType(Enum):
 
 
 class OrderStatus(Enum):
-    Pending = "pending"
-    Confirmed = "confirmed"
-    Cancelled = "cancelled"
+    Processing = "Processing"
+    Cancelled = "Cancelled"
+    Completed = "Completed"
 
 
 class Language(Enum):
@@ -164,7 +164,7 @@ class Order(db.Model):
     user_id = db.Column(db.Integer, ForeignKey('user.user_id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False)
     product_id = db.Column(db.Integer, ForeignKey('product.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False)
     create_time = db.Column(db.DateTime, default=datetime.now)
-    order_status = db.Column(DBEnum(OrderStatus), default=OrderStatus.Pending)
+    order_status = db.Column(DBEnum(OrderStatus), default=OrderStatus.Processing)
     product_number = db.Column(db.Integer, nullable=False)
 
     user = relationship('User', back_populates='orders')

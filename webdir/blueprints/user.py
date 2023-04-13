@@ -87,7 +87,7 @@ def login_check():
         user = User.query.filter_by(user_email=user_email).first()
         login_user(user)
 
-        return jsonify({"code": 200})
+        return jsonify(code=200, job=user.profile.job)
     else:
         if login_form.errors.get("user_email"):
             return jsonify({"code": 400, "message": "email"})
