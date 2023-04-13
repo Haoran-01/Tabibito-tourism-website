@@ -1,5 +1,5 @@
 <template>
-  <n-config-provider :locale="zhCN" :theme-overrides="themeOverrides">
+  <n-config-provider :locale="naiveLang" :theme-overrides="themeOverrides">
     <n-message-provider>
       <router-view></router-view>
     </n-message-provider>
@@ -7,7 +7,11 @@
 </template>
 
 <script>
-  import {zhCN} from "naive-ui"
+  import {zhCN, enUS} from "naive-ui"
+  import axios from "axios";
+  import {useLangStore} from "./store.js";
+  import {useI18n} from "vue-i18n";
+  import {ref} from "vue";
   export default {
     name: 'App',
     setup(){
@@ -19,11 +23,32 @@
           primaryColorSuppl: '#7E53F9'
         }
       }
+      let langStore = useLangStore();
+      let i18n = useI18n();
+      let naiveLang = ref(enUS);
+      axios.get('http://127.0.0.1:4523/m1/2418665-0-default/user/get_language')
+          .then((res) =>{
+            i18n.locale = res.data.language;
+            langStore.language = res.data.language;
+            if (res.data.language === 'zh')
+              naiveLang.value = zhCN;
+            else {
+              naiveLang.value = enUS;
+            }
+          })
+      langStore.$subscribe((mutation, state) => {
+        if (state.language === 'zh'){
+          naiveLang.value = zhCN;
+        }else {
+          naiveLang.value = enUS;
+        }
+      })
       return{
         themeOverrides,
+        langStore,
         zhCN,
       }
-    }
+    },
   }
 </script>
 
