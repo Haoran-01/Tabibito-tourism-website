@@ -22,7 +22,7 @@ export default {
         signup: "注册"
     },
     homepage: {
-        searchPart:{
+        searchPart: {
             slogan1: "最好的",
             slogan2: "旅游体验",
             sloganDescription: "体验各种令人兴奋的旅游和旅行套餐，并进行酒店预订、寻找度假套餐、搜索便宜的酒店和活动",
@@ -33,20 +33,20 @@ export default {
             tags: "标签",
             button: "搜索",
         },
-        discountPart:{
+        discountPart: {
             title: "优惠和折扣",
             slogan: "我们为您提供以下优惠",
             period: "享受春季优惠",
             bookTitle: "尽早预定来享受优惠",
             button: "现在预定",
         },
-        figurePart:{
+        figurePart: {
             reviews: "评价",
             travelProjects: "旅行项目",
             happyCustomers: "满意的顾客",
             orders: "订单"
         },
-        whyChoosePart:{
+        whyChoosePart: {
             title: "为什么选择我们",
             slogan: "有很多可供选择的热门目的地",
             attr1: "精准信息保障",
@@ -77,17 +77,17 @@ export default {
         intro4: "我们提供广泛的旅游服务，包括机票、住宿、旅游等。 我们的专业旅行顾问可以根据您的喜好和预算帮助您规划完美的假期。",
         intro5: "Tabibito致力于为我们的客户提供难忘的旅行体验。 让我们帮助您踏上下一次冒险之旅——立即联系我们，开始规划您的梦想假期。",
     },
-    fourZeroFourPage:{
+    fourZeroFourPage: {
         slogan: "哎呀！看来你迷路了。",
         subSlogan: "您要查找的页面不可用。 尝试再次搜索或使用下方按钮。",
         button: "返回首页"
     },
-    fourZeroThreePage:{
+    fourZeroThreePage: {
         slogan: "哎呀！看来你被阻止了。",
         subSlogan: "您要查找的页面暂时不可用。 尝试再次搜索或使用下方按钮。",
         button: "返回首页"
     },
-    projectDetailPage:{
+    projectDetailPage: {
         ChargeList: {title: "收费详情"},
         itinerary: {
             title: "行程",
@@ -98,5 +98,76 @@ export default {
     footer: {
         journey1: "你的旅行从这里开始",
         journey2: "注册，我们会给你发送最好的交易",
+    },
+    hotLocation: {
+        explore: "探索热门地点",
+        choose: "选择热门旅游地点",
+        more: "更多"
+    },
+    chooseTourTypes: {
+        choose: "选择旅游类型"
+    },
+    customerReview: {
+        title: "客户评价",
+        showcase: "最杰出的评价展示"
+    },
+    inspiration: {
+        get: "获取下一次旅行的灵感",
+        great: "伟大的旅行想法"
+    },
+    mostPopularTours: {
+        most: '最受欢迎的旅游'
+    },
+    notMember: {
+        not: "还不是会员？",
+        slogan: "加入我们！我们的会员可以在预订时享受高达50％的折扣并赚取旅游币。",
+        sign: "登录",
+        reg: "注册"
+    },
+    overheard: {
+        overheard: "旅行者的传闻",
+        these: "这些热门目的地有很多提供"
+    },
+    our: {
+        team: "我们的团队"
+    },
+    reg: {
+        sign: "登录或创建帐户",
+        alr: "已经有一个帐户？",
+        log: "登录",
+        fir: "名字",
+        las: "姓氏",
+        email: "电子邮件",
+        pass: "密码",
+        con: "确认密码",
+        ver: "验证码",
+        sig: "登录",
+        or: "或使用以下方式登录",
+        goo: "谷歌",
+        by: "通过登录，我同意Tabibito的使用条款和隐私政策。",
+        get: "获取"
+    },
+    forget: {
+        res: "重置密码",
+        rem: "记得密码了吗？",
+        log: "现在登录",
+        email: "电子邮件",
+        veri: "验证码",
+        get: "获取",
+        conti: "继续",
+        or: "或用以下方式登录",
+        Google: "谷歌",
+        reset: "使用验证码重置密码或使用Google登录。"
+    },
+    reset: {
+        reset: "重置密码",
+        rem: "记得密码了吗？",
+        log: "现在登录",
+        enter: "输入新密码",
+        con: "确认密码",
+        res: "重置密码",
+        or: "或使用以下方式登录",
+        goo: "谷歌",
+        rese: "使用验证码重置密码或使用Google登录。"
     }
 }

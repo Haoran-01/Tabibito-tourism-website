@@ -9,9 +9,9 @@
 
         <div class="border">
 
-          <h1 class="font_login">Reset Your Password</h1>
-          <p class="font_acc">Remembered the password?
-            <router-link to="/login" class="font_blue">Login in Now</router-link></p>
+          <h1 class="font_login">{{ $t('reset.reset')}}</h1>
+          <p class="font_acc">{{ $t('reset.rem')}}
+            <router-link to="/login" class="font_blue">{{ $t('reset.log')}}</router-link></p>
 
           <form autocomplete="off"  >
 
@@ -20,7 +20,7 @@
 
               <div class="input_form">
                 <input type="password" v-model="p1" required>
-                <label class="input_label">Enter your new password</label>
+                <label class="input_label">{{ $t('reset.enter')}}</label>
               </div>
 
             </div>
@@ -31,7 +31,7 @@
               <div class="input_form">
 
                   <input type="password" v-model="p2" required>
-                  <label class="input_label">Confirm your password</label>
+                  <label class="input_label">{{ $t('reset.con')}}</label>
               </div>
             </div>
 
@@ -40,7 +40,7 @@
             <div class="input_border">
 
               <div class="add_step_btn c" @click="reset">
-                Reset Password
+                {{ $t('reset.res')}}
                 <!--                <div class="icon_login"></div>-->
               </div>
 
@@ -50,18 +50,18 @@
 
           <!--          其他登陆方式-->
           <div class="input_border">
-            <div class="text_center">or sign in with</div>
+            <div class="text_center">{{ $t('reset.or')}}</div>
 
             <button class="other_login_btn">
               <i class="google_icon"></i>
-              Google
+              {{ $t('reset.goo')}}
             </button>
 
           </div>
 
           <div class="input_border">
 
-            <div class="text_note">Reset your password with a verification code or log in with google.</div>
+            <div class="text_note">{{ $t('reset.rese')}}</div>
 
 
           </div>

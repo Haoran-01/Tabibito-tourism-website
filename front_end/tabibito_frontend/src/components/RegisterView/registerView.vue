@@ -9,10 +9,10 @@
 
         <div class="border">
 
-          <h1 class="font_login">Sign in or create an account
+          <h1 class="font_login">{{ $t('reg.sign')}}
           </h1>
-          <p class="font_acc">Already have an account?
-            <router-link to="/login" class="font_blue">Log in</router-link></p>
+          <p class="font_acc">{{ $t('reg.alr')}}
+            <router-link to="/login" class="font_blue">{{ $t('reg.log')}}</router-link></p>
 
           <form autocomplete="off" >
 
@@ -21,7 +21,7 @@
 
             <div class="input_form">
               <input type="text" v-model="inputFirst" required>
-              <label class="input_label">First Name</label>
+              <label class="input_label">{{ $t('reg.fir')}}</label>
             </div>
 
           </div>
@@ -30,7 +30,7 @@
 
             <div class="input_form">
               <input type="text" v-model="inputLast" required>
-              <label class="input_label">Last Name</label>
+              <label class="input_label">{{$t('reg.las')}}</label>
             </div>
 
           </div>
@@ -40,7 +40,7 @@
 
             <div class="input_form">
               <input type="text" v-model="inputEmail1" required>
-              <label class="input_label">Email</label>
+              <label class="input_label">{{ $t('reg.email')}}</label>
             </div>
 
           </div>
@@ -50,7 +50,7 @@
 
             <div class="input_form">
               <input type="password" v-model="inputPassword1" required>
-              <label class="input_label">Password</label>
+              <label class="input_label">{{ $t('reg.pass')}}</label>
             </div>
 
           </div>
@@ -60,7 +60,7 @@
 
             <div class="input_form">
               <input type="password" v-model="inputConfirm" required>
-              <label class="input_label">Confirm Password</label>
+              <label class="input_label">{{ $t('reg.con')}}</label>
             </div>
 
           </div>
@@ -71,13 +71,13 @@
             <div class="input_form">
               <div class="half_1">
                 <input type="text" v-model="inputCode" required>
-                <label class="input_label">Verification Code</label>
+                <label class="input_label">{{ $t('reg.ver')}}</label>
               </div>
 
               <div class="half_2">
                 <!--          验证码按钮-->
                 <a class="add_step_btn verify" @click="startCountdown" v-show="!countingDown">
-                  Get
+                  {{ $t('reg.get')}}
                 </a>
                 <a class="add_step_btn verify" v-if="countingDown">{{ remainingTime }} s </a>
               </div>
@@ -89,7 +89,7 @@
           <div class="input_border">
 
             <button type="submit" class="add_step_btn" @click="checkRegister">
-              Sign In <div class="icon_add"></div>
+              {{$t('sig')}} <div class="icon_add"></div>
             </button>
 
           </div>
@@ -98,19 +98,18 @@
 
           <!--          其他登陆方式-->
           <div class="input_border">
-            <div class="text_center">or sign in with</div>
+            <div class="text_center">{{ $t('reg.or')}}</div>
 
             <button class="other_login_btn">
               <i class="google_icon"></i>
-              Google
+              {{ $t('reg.goo')}}
             </button>
 
           </div>
 
           <div class="input_border">
 
-            <div class="text_note">By signing in, I agree to Tabibito Terms of Use and Privacy Policy.
-            </div>
+            <div class="text_note">{{$t('reg.by')}}</div>
 
           </div>
 

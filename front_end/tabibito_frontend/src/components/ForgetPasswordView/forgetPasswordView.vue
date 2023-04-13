@@ -9,9 +9,9 @@
 
         <div class="border">
 
-          <h1 class="font_login">Reset Your Password</h1>
-          <p class="font_acc">Remembered the password?
-            <router-link to="/login" class="font_blue">Login in Now</router-link></p>
+          <h1 class="font_login">{{ $t('forget.res')}}</h1>
+          <p class="font_acc">{{ $t('forget.rem')}}
+            <router-link to="/login" class="font_blue">{{ $t('forget.log')}}</router-link></p>
 
           <form autocomplete="off">
 
@@ -20,7 +20,7 @@
 
               <div class="input_form">
                 <input type="text" v-model="inputE" required>
-                <label class="input_label">Email</label>
+                <label class="input_label">{{ $t('forget.email')}}</label>
               </div>
 
             </div>
@@ -32,13 +32,13 @@
 
                 <div class="half_1">
                   <input type="text" v-model="code" required>
-                  <label class="input_label">Verification Code</label>
+                  <label class="input_label">{{ $t('forget.veri')}}</label>
                 </div>
 
                 <div class="half_2">
                   <!--          验证码按钮-->
                   <a class="add_step_btn verify" @click="startCountdown" v-show="!countingDown">
-                    Get
+                    {{ $t('forget.get')}}
                   </a>
                   <a class="add_step_btn verify" v-if="countingDown">{{ remainingTime }} s </a>
                 </div>
@@ -52,7 +52,7 @@
             <div class="input_border">
 
               <button type="submit" class="add_step_btn c" @click="verify">
-                Continue
+                {{ $t('forget.conti')}}
               </button>
 
             </div>
@@ -61,18 +61,18 @@
 
           <!--          其他登陆方式-->
           <div class="input_border">
-            <div class="text_center">or sign in with</div>
+            <div class="text_center">{{ $t('forget.or')}}</div>
 
             <button class="other_login_btn">
               <i class="google_icon"></i>
-              Google
+              {{ $t('forget.Google')}}
             </button>
 
           </div>
 
           <div class="input_border">
 
-            <div class="text_note">Reset your password with a verification code or log in with google.</div>
+            <div class="text_note">{{ $t('forget.reset')}}</div>
 
 
           </div>

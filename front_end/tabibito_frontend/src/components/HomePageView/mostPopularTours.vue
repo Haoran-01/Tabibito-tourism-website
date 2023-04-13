@@ -5,7 +5,7 @@
     <div class="mostPopularHead">
       <div class="col-auto">
         <div class="sectionTitle -md">
-          <h2 class="sectionTitle__title">Most Popular Tours</h2>
+          <h2 class="sectionTitle__title">{{$t('mostPopularTours.most')}}</h2>
           <p class="sectionTitle__text">Interdum et malesuada fames ac ante ipsum</p>
         </div>
 
