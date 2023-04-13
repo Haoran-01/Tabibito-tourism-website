@@ -68,7 +68,7 @@
               <div class="row block_content">
                 <div class="col-auto">
                   <div class="block_title">Quarterly Earning</div>
-                  <div class="block_money">${{ Number(earns.quarterly_earning).toFixed() }}</div>
+                  <div class="block_money">${{ Number(earns.quarterly_earning).toFixed(2) }}</div>
 <!--                  <div class="block_total">Earning</div>-->
                 </div>
 
