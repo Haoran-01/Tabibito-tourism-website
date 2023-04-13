@@ -404,7 +404,7 @@ class Product(db.Model):
         return {
             "project_name": self.name,
             "picture": cover_page,
-            "date": self.start_time.strftime('%Y-%m-%d'),
+            "date": self.start_time.strftime("%A, %d %B %Y")
         }
 
     def __repr__(self):
