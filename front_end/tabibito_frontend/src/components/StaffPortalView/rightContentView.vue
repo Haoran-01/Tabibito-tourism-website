@@ -23,7 +23,7 @@
               <div class="row block_content">
                 <div class="col-auto">
                   <div class="block_title">Monthly Pending</div>
-                  <div class="block_money">${{ earns.month_pending }}</div>
+                  <div class="block_money">${{ Number(earns.month_pending).toFixed(2) }}</div>
 <!--                  <div class="block_total">Total pending</div>-->
                 </div>
 
@@ -38,7 +38,7 @@
               <div class="row block_content">
                 <div class="col-auto">
                   <div class="block_title">Monthly Earning</div>
-                  <div class="block_money">${{ earns.month_earning }}</div>
+                  <div class="block_money">${{ Number(earns.month_earning).toFixed(2) }}</div>
 <!--                  <div class="block_total">Total Confirmed</div>-->
                 </div>
 
@@ -53,7 +53,7 @@
               <div class="row block_content">
                 <div class="col-auto">
                   <div class="block_title">Quarterly Pending</div>
-                  <div class="block_money">${{ earns.quarterly_pending }}</div>
+                  <div class="block_money">${{ Number(earns.quarterly_pending).toFixed(2) }}</div>
 <!--                  <div class="block_total">Total pending</div>-->
                 </div>
 
@@ -68,7 +68,7 @@
               <div class="row block_content">
                 <div class="col-auto">
                   <div class="block_title">Quarterly Earning</div>
-                  <div class="block_money">${{ earns.quarterly_earning }}</div>
+                  <div class="block_money">${{ Number(earns.quarterly_earning).toFixed() }}</div>
 <!--                  <div class="block_total">Earning</div>-->
                 </div>
 
