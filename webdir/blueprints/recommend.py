@@ -63,9 +63,12 @@ def find_similar_products(user_browse, all_products):
     return similar_products
 
 
-@bp.route("/products", methods=["POST","GET"])
+@bp.route("/products", methods=["POST", "GET"])
 def recommend_search():
 
-    result = list(find_similar_products(User.query.filter_by(user_id=2).first().user_browses, Product.query.all()))[:4]
+    browses = User.query.filter_by(user_id=2).first().user_browses
+    prducts = Product.query.all()
+
+    result = list(find_similar_products(browses, prducts))[:4]
 
     return jsonify(products=[product.serialize_homepage() for product in result])

@@ -5,7 +5,7 @@ import os
 from exts import db
 from config import Config
 from werkzeug.utils import secure_filename
-from models import Product, ProductPicture, Tag, Trip, FeeDes, ProductType, Comment
+from models import Product, ProductPicture, Tag, Trip, FeeDes, ProductType, Comment, PictureType
 
 bp = Blueprint("Product", __name__, url_prefix="/product")
 
@@ -58,17 +58,17 @@ def add_product():
 
             cover_image = data['cover_image']
             if cover_image:
-                p = ProductPicture(product_id=product.id, address=cover_image, type='cover')
+                p = ProductPicture(product_id=product.id, address=cover_image, type=PictureType.Cover)
                 db.session.add(p)
             banner_image = data['banner_image']
             if banner_image:
                 for p in banner_image:
-                    p = ProductPicture(product_id=product.id, address=p, type='banner')
+                    p = ProductPicture(product_id=product.id, address=p, type=PictureType.Banner)
                     db.session.add(p)
             gallery = data['gallery']
             if gallery:
                 for picture in gallery:
-                    p = ProductPicture(product_id=product.id, address=picture, type='gallery')
+                    p = ProductPicture(product_id=product.id, address=picture, type=PictureType.Gallery)
                     db.session.add(p)
 
             tags = data['tags']

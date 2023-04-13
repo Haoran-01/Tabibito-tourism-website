@@ -238,7 +238,7 @@ class Product(db.Model):
         if total_score == 0:
             return 0
         else:
-            return total_score / (7 * len(comments))
+            return round(total_score / (7 * len(comments)), 2)
 
     def location(self):
         return {
@@ -327,7 +327,7 @@ class Product(db.Model):
             'name': self.name,
             'raw_loc': self.raw_loc,
             'duration': self.duration(),
-            'price': self.ori_price * self.discount,
+            'price': round(self.ori_price * self.discount, 2),
             'reviews': len(self.comments),
             'banners': self.banners(),
             'types': [type.type.name for type in self.types]
@@ -353,7 +353,7 @@ class Product(db.Model):
             'name': self.name,
             'duration': (self.end_time.timestamp() - self.start_time.timestamp()) * 1000,
             'location': self.raw_loc,
-            'price': self.ori_price * self.discount,
+            'price': round(self.ori_price * self.discount, 2),
             'mark': self.get_mark(),
             'reviews': len(self.comments),
             'tags': [tag.serialize() for tag in self.tags],
@@ -366,7 +366,7 @@ class Product(db.Model):
             'name': self.name,
             'description': self.description,
             'location': self.raw_loc,
-            'price': round(self.ori_price * self.discount, 1),
+            'price': round(self.ori_price * self.discount, 2),
             'mark': round(self.get_mark(), 1),
             'reviews': len(self.comments),
             'group_number': self.group_number,
@@ -377,6 +377,7 @@ class Product(db.Model):
             'start_time': self.start_time.strftime("%A, %d %B %Y"),
             'end_time': self.end_time.strftime("%A, %d %B %Y"),
             "fee_des": [fee.serialize() for fee in self.fee_des]
+
         }
 
     def serialize_product_list(self):
@@ -388,7 +389,7 @@ class Product(db.Model):
             'title': self.name,
             'location': self.raw_loc,
             'reviews': len(self.comments),
-            'price': self.ori_price * self.discount,
+            'price': round(self.ori_price * self.discount, 2),
             'map_latitude': self.map_latitude,
             'map_longitude': self.map_longitude
         }
