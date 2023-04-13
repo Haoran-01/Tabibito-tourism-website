@@ -122,4 +122,4 @@ def get_popular_comments():
 @bp.route("/inspiration", methods=["GET"])
 def get_inspiration():
     products = db.session.query(Product).limit(3).all()
-    return jsonify(code=200, proudcts=[product.serialize_inspiration() for product in products])
+    return jsonify(code=200, inspirations=[product.serialize_inspiration() for product in products])

@@ -47,6 +47,7 @@ class Language(Enum):
     en = "en"
     ch = "ch"
 
+
 class Comment(db.Model):
     __tablename__ = "comment"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -76,7 +77,8 @@ class Comment(db.Model):
     def serialize_homepage(self):
         return {
             'id': self.id,
-            'datetime': self.datetime.timestamp(),
+            "time": self.datetime.time().strftime('%H:%M:%S'),
+            "date": self.datetime.strftime('%Y-%m-%d'),
             'pictures': [picture.address for picture in self.pictures],
             'user_portrait': self.user.profile.picture_address,
             'product_name': self.product.name,
@@ -291,7 +293,6 @@ class Product(db.Model):
             result.append(the_type.type.name)
         return result
 
-
     def get_cover(self):
         for picture in self.pictures:
             if picture.type == PictureType.Cover:
@@ -403,7 +404,7 @@ class Product(db.Model):
         return {
             "project_name": self.name,
             "picture": cover_page,
-            "date": self.start_time.timestamp() * 1000
+            "date": self.start_time.strftime("%A, %d %B %Y")
         }
 
     def __repr__(self):
@@ -478,6 +479,7 @@ class Trip(db.Model):
             "day": self.day,
             "time_of_day": self.time_of_day
         }
+
     def __repr__(self):
         return "<Trip(time='%s', loc_detail='%s', activity='%s')>" % (self.time, self.loc_detail, self.activity)
 
