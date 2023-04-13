@@ -40,6 +40,7 @@
                 <div class="optionName">{{ $t('homepage.searchPart.tags')}}</div>
 <!--                <div class="optionValue" id="tagValue">fdsfds</div>-->
                 <n-select
+                    class="selector"
                     v-model:value="tagValue"
                     multiple
                     :render-tag="renderTag"
@@ -488,7 +489,11 @@ export default {
     .searchButton{
     }
   }
-
+  @media screen and (max-width: 575px) {
+    .selector {
+      width: 92%;
+    }
+  }
   @media screen and (max-width: 500px) {
     .specialBackgroundLeft{
       width: 100%;

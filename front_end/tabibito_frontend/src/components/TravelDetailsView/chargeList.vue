@@ -2,8 +2,8 @@
   <div class="container">
     <div class="chargeListTitle">{{ $t('projectDetailPage.ChargeList.title')}}</div>
     <div class="chargeList">
-      <n-card :title="item.chargeTitle" hoverable v-for="item in chargeListData">
-        {{item.chargeDescription}}
+      <n-card :title="item.name" hoverable v-for="item in this.chargeListData">
+        {{item.description}}
       </n-card>
     </div>
   </div>
@@ -13,32 +13,32 @@
 
 <script>
 import ItineraryPart from "./itineraryPart.vue";
+import axios from "axios";
+import {useRoute, useRouter} from "vue-router";
 export default {
   name: "chargeList",
   components: {ItineraryPart},
+  setup(){
+
+  },
+  created() {
+    const route = useRoute();
+    const router = useRouter();
+    axios.post('http://127.0.0.1:5000/product/charge_detail', {
+        product_id: route.params.trip_id
+      })
+        .then((res) => {
+          if (res.status === 200){
+            this.chargeListData = res.data.charges;
+            console.log(this.chargeListData)
+          }else {
+            router.push('/404');
+          }
+        })
+  },
   data(){
     return{
-      chargeListData: [
-        {
-          chargeTitle: "test",
-          chargeDescription: "test"
-        },
-        {
-          chargeTitle: "test",
-          chargeDescription: "test"
-        },
-        {
-          chargeTitle: "test",
-          chargeDescription: "test"
-        },
-        {
-          chargeTitle: "test",
-          chargeDescription: "test"
-        },{
-          chargeTitle: "test",
-          chargeDescription: "test"
-        },
-      ]
+      chargeListData: []
     }
   }
 }
