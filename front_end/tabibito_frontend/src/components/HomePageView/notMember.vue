@@ -3,18 +3,18 @@
     <div class="notContainer">
       <div class="nLine">
         <div class="nTex">
-          <h2 class="nTex1">Not a Member Yet?</h2>
-          <div class="slogan">Join us! Our members can access savings of up to 50% and earn Trip Coins while booking.</div>
+          <h2 class="nTex1">{{ $t('notMember.not')}}</h2>
+          <div class="slogan">{{ $t('notMember.slogan')}}</div>
         </div>
 
         <div class="but">
           <button class="nBtn nBtn1" @click="this.$router.push('/login')">
-            Sign In
+            {{ $t('notMember.sign')}}
             <div class="icon_add"></div>
           </button>
 
           <button class="nBtn nBtn2" @click="this.$router.push('/register')">
-            Register
+            {{ $t('notMember.reg')}}
             <div class="icon_add"></div>
           </button>
 

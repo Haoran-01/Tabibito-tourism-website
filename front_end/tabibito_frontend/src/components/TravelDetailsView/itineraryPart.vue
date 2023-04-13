@@ -18,6 +18,7 @@ import {Loader} from "@googlemaps/js-api-loader";
 import axios from "axios";
 import {useRoute} from 'vue-router';
 import {ref} from 'vue';
+import {useLangStore} from "../../store.js";
 export default {
   name: "itineraryPart",
   components: {ItineraryStep},
@@ -27,6 +28,11 @@ export default {
     const raw_trip_data = ref([]);
     const locations = [];
     // const itineraryData = [];
+    const langStore = useLangStore();
+    let mapLanguage = 'en-US';
+    if (langStore.language === 'zh'){
+      mapLanguage = 'zh-CN'
+    }
     return{
       raw_trip_data,
       project_loc,
@@ -38,7 +44,7 @@ export default {
           apiKey: "AIzaSyBctzU8ocpP_0j4IdTRqA-GABIAnaXd0ow",
           version: "beta",
           libraries: ["marker"],
-          language: "en-US"
+          language: mapLanguage
         });
 
         loader.load().then((google) => {

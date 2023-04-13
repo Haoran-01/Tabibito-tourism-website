@@ -5,7 +5,7 @@
         <div class="row our-team-nav">
           <div class="col-auto">
             <div class="sectionTitle-our-team">
-              <h2 class="sectionTitle__title">Our Team</h2>
+              <h2 class="sectionTitle__title">{{ $t('our.team')}}</h2>
               <p class="sectionTitle__text">Lorem ipsum dolor sit amet</p>
             </div>
           </div>

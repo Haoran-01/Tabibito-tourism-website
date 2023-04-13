@@ -41,10 +41,13 @@
                     :readonly="true"
                 ></v-grid>
                 <!--        传递id        -->
+                <child-component2 :title="aaa"></child-component2>
+
+
                 <div style="display: none" v-for="item in products">
-                  <ChildComponent1 :itemId="item.id" />
-                  <ChildComponent2 :itemId="item.id" />
-                  <ChildComponent3 :itemId="item.id" />
+                  <ChildComponent1 :itemIdB="item.id" />
+                  <child-component2 :title="aaa"></child-component2>
+                  <ChildComponent3 :itemIdB="item.id" />
                 </div>
 
               </div>
@@ -139,6 +142,7 @@ export default {
   },
   data(){
     return{
+      aaa: '2',
       countPage: ref(),
       columns: [
         { name: "Name", prop: "name", size: 190,

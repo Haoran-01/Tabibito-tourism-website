@@ -3,12 +3,12 @@
     <div class="hotContainer">
       <div class="hotHeader">
         <div class="column">
-          <h2 class="title">Explore Hot Locations</h2>
-          <p class="title2">Choose The Popular Travel Places</p>
+          <h2 class="title">{{ $t('hotLocation.explore') }}</h2>
+          <p class="title2">{{ $t('hotLocation.choose')}}</p>
         </div>
         <div class="column">
           <button class="moreBtn">
-            More
+            {{ $t('hotLocation.more')}}
             <div class="icon"></div>
           </button>
         </div>
@@ -19,12 +19,12 @@
       <div class="blocks">
         <div v-for="location in locations" :key="location.name">
         <div class="rect">
-          <a class="clickArea">
+          <a class="clickArea"  @click="this.$router.push({ name:'search', query: {state:'hot', hot: location.name}})">
             <div class="box">
             <img class="image" src="{{ location.picture }}" alt="">
             </div>
             <div class="text">
-            <div class="text1">{{ location.name }}</div>
+            <div class="text1" >{{ location.name }}</div>
             <div class="text2">{{ location.project_count }} projects</div>
             </div>
           </a>
