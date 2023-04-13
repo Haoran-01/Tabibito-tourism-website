@@ -163,6 +163,7 @@ import {VGridVueTemplate} from "@revolist/vue3-datagrid";
 import listButton from "../BackListView/listButton.vue";
 import delistButton from "../BackListView/delistButton.vue";
 import editButton from "../BackListView/editButton.vue";
+import {useRouter} from 'vue-router';
 import axios from "axios";
 export default defineComponent({
   name: "leftListView",
@@ -176,46 +177,29 @@ export default defineComponent({
     Star,
     ArrowForward
   },
-  created() {
-    axios.post('http://127.0.0.1:5000/search/product_list',{
-      page: 1,
-    })
-        .then((response)=>{
-          const code = response.status
-          if (code === 200){
-            self.products = response.data.products
-          }
-        })
-
-    axios.post("http://127.0.0.1:5000/search/product_number",
-        {
-        }
-    )
-        .then((response)=>{
-          const code = response.status
-          if (code === 200){
-            const count = response.data.number
-            self.countPage  = Math.floor(count / 3) + (count % 3 > 0 ? 1 : 0);
-          }
-        })
-  },
   setup () {
+    const route = useRouter();
     var self = this;
-    let startTime = ref(Date.now());
-    let endTime = ref(2*Date.now());
-    let currentLocation = ref();
-    let tourType = ref();
+    let startTime = ref(null);
+    let endTime = ref(null);
+    let currentLocation = ref(null);
+    let tourType = ref(null);
     const loadingRef = ref(false);
-    let price = ref();
-    let duration = ref();
+    let price = ref(null);
+    let duration = ref(null);
+    let products = ref(null);
+    let countPage = 1;
     const message = useMessage();
     return {
+      route,
       currentLocation,
       startTime,
       endTime,
       tourType,
       price,
       duration,
+      products,
+      countPage,
       handleClick() {
         loadingRef.value = true
         setTimeout(() => {
@@ -354,19 +338,19 @@ export default defineComponent({
         }
       ],
       handleSelectLoc(val) {
-        self.currentLocation = val;
+        // self.currentLocation = val;
       },
       handleSelectType(val) {
-        self.tourType = val;
+        // self.tourType = val;
       },
       handleSelectSort(key) {
         message.info(String(key));
       },
       handleSelectPrice(val) {
-        self.price= val;
+        // self.price= val;
       },
       handleSelectDuration(val) {
-        self.duration = val;
+        // self.duration = val;
       },
       secureStartTime(ts) {
         if (endTime.value != null){
@@ -388,104 +372,127 @@ export default defineComponent({
         axios.post("http://127.0.0.1:5000/search/product_list",
             {
               page: 1,
-              startTime: this.startTime.value,
-              endTime: this.endTime.value,
-              currentLocation: this.currentLocation.value,
-              tourType: this.tourType.value,
-              price: this.price.value,
-              duration: this.duration.value,
+              startTime: startTime.value,
+              endTime: endTime.value,
+              currentLocation: currentLocation.value,
+              tourType: tourType.value,
+              price: price.value,
+              duration: duration.value,
             }
         )
             .then((response)=>{
               const code = response.status
               if (code === 200){
-                self.products = response.data.products
+                products.value = response.data.products
               }
             })
         axios.post("http://127.0.0.1:5000/search/product_number",
             {
-              startTime: self.startTime.value,
-              endTime: self.endTime.value,
-              currentLocation: self.currentLocation.value,
-              tourType: self.tourType.value,
-              price: self.price.value,
-              duration: self.duration.value,
+              startTime: startTime.value,
+              endTime: endTime.value,
+              currentLocation: currentLocation.value,
+              tourType: tourType.value,
+              price: price.value,
+              duration: duration.value,
             }
         )
             .then((response)=>{
               const code = response.status
               if (code === 200){
                 const count = response.data.number
-                self.countPage  = Math.floor(count / 3) + (count % 3 > 0 ? 1 : 0);
+                countPage  = Math.floor(count / 3) + (count % 3 > 0 ? 1 : 0);
               }
             })
       }
     }
   },
-  mounted() {
-    const loader = new Loader({
-      apiKey: "AIzaSyBctzU8ocpP_0j4IdTRqA-GABIAnaXd0ow",
-      version: "weekly",
-    });
+  created() {
+    axios.post('http://127.0.0.1:5000/search/product_list',{
+      page: 1,
+      startTime: Date.now(),
+      endTime: 2 * Date.now(),
+      currentLocation: ref(),
+      tourType: ref(),
+      price: ref(),
+      duration: ref(),
+      state: this.$route.query.state,
+      if_type: this.$route.query.type,
+      if_hot: this.$route.query.hot,
+    })
+        .then((response)=>{
+          const code = response.status
+          if (code === 200){
+            this.products = response.data.products
+          }
+        })
 
-    loader.load().then(() => {
-      const Beijing = { lat: 40, lng: 116 };
-      let map = new google.maps.Map(document.getElementById("map"), {
-        center: Beijing,
-        zoom: 8,
-      });
-      const marker = new google.maps.Marker({
-        position: Beijing,
-        map: map,
-      });
-    });
+    axios.post("http://127.0.0.1:5000/search/product_number",
+        {
+          startTime: Date.now(),
+          endTime: 2 * Date.now(),
+          currentLocation: ref(),
+          tourType: ref(),
+          price: ref(),
+          duration: ref(),
+          state: this.$route.query.state,
+          if_type: this.$route.query.type,
+          if_hot: this.$route.query.hot,
+        }
+    )
+        .then((response)=>{
+          const code = response.status
+          if (code === 200){
+            const count = response.data.number
+            self.countPage  = Math.floor(count / 3) + (count % 3 > 0 ? 1 : 0);
+          }
+        })
   },
   data(){
     return{
       countPage: ref(),
       items:[
-        {
-          id: 1,
-          image: "../../assets/searchViewTest.png",
-          loading: false,
-          hours: "6+ hours",
-          title: "Leeds Castle, Cliffs of Dover and Canterbury Day Trip from London with Guided Cathedral Tour",
-          location: "Westminster Borough, London",
-          opt1: "Taking safety measures",
-          opt2: "Free cancellation",
-          stars: [1, 2, 3, 4, 5],
-          reviews: "3,014",
-          price: "72",
-          per: "per adult"
-        },
-        {
-          id: 2,
-          image: "../../assets/searchViewTest.png",
-          loading: false,
-          hours: "8+ hours",
-          title: "Day Trip to the Isle of Wight from London: including Osborne House Tickets",
-          location: "Isle of Wight, United Kingdom",
-          opt1: "Taking safety measures",
-          opt2: "Free cancellation",
-          stars: [1, 2, 3, 4],
-          reviews: "1,223",
-          price: "116",
-          per: "per adult"
-        },
-        {
-          id: 3,
-          image: "../../assets/searchViewTest.png",
-          loading: false,
-          hours: "7 hours",
-          title: "Stonehenge, Windsor Castle, and Bath with Pub Lunch in Lacock",
-          location: "Greater London, United Kingdom",
-          opt1: "Taking safety measures",
-          opt2: "Free cancellation",
-          stars: [1, 2, 3, 4],
-          reviews: "1,223",
-          price: "116",
-          per: "per adult"
-        }
+        // {
+        //   id: 1,
+        //   image: "../../assets/searchViewTest.png",
+        //   loading: false,
+        //   hours: "6+ hours",
+        //   title: "Leeds Castle, Cliffs of Dover and Canterbury Day Trip from London with Guided Cathedral Tour",
+        //   location: "Westminster Borough, London",
+        //   opt1: "Taking safety measures",
+        //   opt2: "Free cancellation",
+        //   stars: [1, 2, 3, 4, 5],
+        //   reviews: "3,014",
+        //   price: "72",
+        //   per: "per adult"
+        // },
+        // {
+        //   id: 2,
+        //   image: "../../assets/searchViewTest.png",
+        //   loading: false,
+        //   hours: "8+ hours",
+        //   title: "Day Trip to the Isle of Wight from London: including Osborne House Tickets",
+        //   location: "Isle of Wight, United Kingdom",
+        //   opt1: "Taking safety measures",
+        //   opt2: "Free cancellation",
+        //   stars: [1, 2, 3, 4],
+        //   reviews: "1,223",
+        //   price: "116",
+        //   per: "per adult"
+        // },
+        // {
+        //   id: 3,
+        //   image: "../../assets/searchViewTest.png",
+        //   loading: false,
+        //   hours: "7 hours",
+        //   title: "Stonehenge, Windsor Castle, and Bath with Pub Lunch in Lacock",
+        //   location: "Greater London, United Kingdom",
+        //   opt1: "Taking safety measures",
+        //   opt2: "Free cancellation",
+        //   stars: [1, 2, 3, 4],
+        //   reviews: "1,223",
+        //   price: "116",
+        //   per: "per adult"
+        // }
       ],
     }
   },
@@ -495,21 +502,84 @@ export default defineComponent({
       // console.log(`Current page is ${newPage}`);
       axios.post('http://127.0.0.1:5000/search/product_list',{
         page: newPage,
-        startTime: self.startTime.value,
-        endTime: self.endTime.value,
-        currentLocation: self.currentLocation.value,
-        tourType: self.tourType.value,
-        price: self.price.value,
-        duration: self.duration.value,
+        startTime: startTime.value,
+        endTime: endTime.value,
+        currentLocation: currentLocation.value,
+        tourType: tourType.value,
+        price: price.value,
+        duration: duration.value,
       }).then(function (response){
-        self.products = response.data
+        products.value = response.data
         console.log("分页成功嘞 yeeee")
       }).catch(function (error){
         console.log(error);
       });
     }
 
-  }
+  },
+  mounted() {
+    const loader = new Loader({
+      apiKey: "AIzaSyBctzU8ocpP_0j4IdTRqA-GABIAnaXd0ow",
+      version: "beta",
+      libraries: ["marker"],
+      language: "en-US"
+    });
+
+    loader.load().then((google) => {
+      const center = { lat: 34.84555, lng: -111.8035 };
+      let map = new google.maps.Map(document.getElementById("map"), {
+        center: center,
+        zoom: 12,
+        mapId: "fdhssdfkhsdjkhasdfjkh"
+      });
+      const tourStops = [
+        {
+          position: { lat: 34.8791806, lng: -111.8265049 },
+          title: "Boynton Pass",
+        },
+        {
+          position: { lat: 34.8559195, lng: -111.7988186 },
+          title: "Airport Mesa",
+        },
+        {
+          position: { lat: 34.832149, lng: -111.7695277 },
+          title: "Chapel of the Holy Cross",
+        },
+        {
+          position: { lat: 34.823736, lng: -111.8001857 },
+          title: "Red Rock Crossing",
+        },
+        {
+          position: { lat: 34.800326, lng: -111.7665047 },
+          title: "Bell Rock",
+        },
+      ];
+      // Create an info window to share between markers.
+      const infoWindow = new google.maps.InfoWindow();
+      tourStops.forEach(({ position, title }, i) => {
+        const pinView = new google.maps.marker.PinView({
+          glyph: `${i + 1}`,
+        });
+        const marker = new google.maps.marker.AdvancedMarkerView({
+          position,
+          map,
+          title: `${i + 1}. ${title}`,
+          content: pinView.element,
+        });
+
+        // Add a click listener for each marker, and set up the info window.
+        marker.addListener("click", ({ domEvent, latLng }) => {
+          const { target } = domEvent;
+
+          infoWindow.close();
+          infoWindow.setContent(marker.title);
+          infoWindow.open(marker.map, marker);
+        });
+      });
+
+    });
+
+  },
 })
 
 </script>

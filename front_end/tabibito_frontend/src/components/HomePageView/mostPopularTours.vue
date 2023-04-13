@@ -10,7 +10,7 @@
         </div>
 
         <div class="col-auto">
-          <a href="#" class="button -md -blue-1 bg-blue-1-05 text-blue-1">
+          <a href="#" class="button -md -blue-1 bg-blue-1-05 text-blue-1" @click="handlePopularProject">
             More <div class="icon"></div>
           </a>
         </div>
@@ -21,18 +21,10 @@
       <n-carousel :slides-per-view=slides_per_view :space-between=space_between :loop="false" show-arrow>
         <div v-for="popular in populars" :key="popular.id">
           <n-carousel show-arrow autoplay :space-between="2">
-          <img
-              class="carousel-img"
-              src="{{ popular.banners[0] }}"
-          >
-          <img
-              class="carousel-img"
-              src="{{ popular.banners[1] }}"
-          >
-          <img
-              class="carousel-img"
-              src="{{ popular.banners[2] }}"
-          >
+            <img v-for="pic in popular.banners"
+                 class="carousel-img"
+                 :src="pic"
+            >
           <template #arrow="{ prev, next }">
             <div class="custom-arrow">
               <button type="button" class="custom-arrow--left" @click="prev">
@@ -57,12 +49,12 @@
           <n-card>
             <div class="tourCardContent">
               <div class="tourCardTime">
-                <div class="hours">{{ popular.duration }}+ hours</div>
+                <div class="hours">{{ popular.duration }}</div>
                 <div class="dot"></div>
                 <div class="days">{{ popular.types[0] }}</div>
               </div>
 
-              <h4 class="tourCardTitle">
+              <h4 class="tourCardTitle" @click="this.$router.push('/trip/' + popular.id)">
                 <span>{{ popular.name }}</span>
               </h4>
 
@@ -92,7 +84,7 @@
                 <div class="col-auto">
                   <div class="footer">
                     From
-                    <span class="price">US${{ popular.price }}</span>
+                    <span class="price">US${{ popular.price.toFixed(2) }}</span>
                   </div>
                 </div>
               </div>
@@ -114,6 +106,7 @@
 import { ArrowBack, ArrowForward } from '@vicons/ionicons5'
 import {defineComponent, onMounted, ref} from 'vue'
 import axios from "axios";
+import {useRouter} from 'vue-router';
 export default {
   components: {
     ArrowBack,
@@ -126,16 +119,33 @@ export default {
       populars: []
     }
   },
-  mounted() {
+  setup() {
+    const route = useRouter();
+    let populars = ref({});
     axios.get('http://127.0.0.1:5000/homepage/most_popular_products')
         .then(response => {
-          this.populars = response.data.products;
+          populars.value = response.data.products;
+          for(let i = 0; i < populars.value.length; i++){
+            let raw_time = populars.value[i].duration;
+            let hour = Math.round(raw_time/3600);
+            let day = Math.round(hour/24);
+            if (hour > 24 && day === 1){
+              populars.value[i].duration = '1 Day'
+            }
+            if (hour > 24 && day > 1){
+              populars.value[i].duration = day + ' Days'
+            }
+            if (hour === 1){
+              populars.value[i].duration = '1 Hour'
+            }
+            if (hour < 24 && hour !== 1){
+              populars.value[i].duration = hour + ' Hours'
+            }
+          }
         })
         .catch(error => {
           console.error(error);
         });
-  },
-  setup() {
     let slides_per_view= ref(3);
     let space_between = ref(20);
     window.fullWidth = document.documentElement.clientWidth;
@@ -178,8 +188,18 @@ export default {
       });
     })
     return{
+      route,
       slides_per_view,
-      space_between
+      space_between,
+      populars,
+      handlePopularProject() {
+        this.route.push({
+          path: '/search_result',
+          query: {
+            state: "popular"
+          }
+        })
+      }
     }
   },
 }
@@ -480,6 +500,7 @@ export default {
   font-size: 18px;
   line-height: 1.6 !important;
   font-weight: 500;
+  cursor: pointer;
 }
 
 .tourCardText {

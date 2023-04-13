@@ -17,7 +17,8 @@ const i18n = createI18n({
     messages: {
         en: enLocale,
         zh: zhLocale
-    }
+    },
+    legacy: false
 })
 
 app.use(router);

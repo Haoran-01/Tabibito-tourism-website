@@ -64,7 +64,7 @@ def search():
     return jsonify(result)
 
 
-@bp.route('/product_number')
+@bp.route('/product_number', methods=["POST"])
 def get_product_number():
     data = request.get_json(silent=True)
     products = db.session.query(Product).all()
@@ -135,7 +135,7 @@ def get_product_number():
         return jsonify(code=201, message='Wrong range')
 
 
-@bp.route('/product_list')
+@bp.route('/product_list', methods=["POST"])
 def get_product_list():
     data = request.get_json(silent=True)
     # products = Product.query.filter(Product.start_time >= data["startTime"],
@@ -148,15 +148,15 @@ def get_product_list():
     products = db.session.query(Product).all()
     # 构造筛选条件
     filters = []
-    if 'startTime' in data and data['startTime'] != "":
+    if 'startTime' in data and data['startTime'] is not None:
         filters.append({'field': 'startTime', 'operator': '>=', 'value': data['startTime']})
-    if 'endTime' in data and data['endTime'] != "":
+    if 'endTime' in data and data['endTime'] is not None:
         filters.append({'field': 'endTime', 'operator': '<=', 'value': data['endTime']})
-    if 'currentLocation' in data and data['currentLocation'] != "":
+    if 'currentLocation' in data and data['currentLocation'] is not None:
         filters.append({'field': 'currentLocation', 'operator': '==', 'value': data['currentLocation']})
-    if 'tourType' in data and data['tourType'] != "":
+    if 'tourType' in data and data['tourType'] is not None:
         filters.append({'field': 'tourType', 'operator': '==', 'value': data['tourType']})
-    if 'price' in data and data['price'] != "":
+    if 'price' in data and data['price'] is not None:
         if data['price'] == '-500':
             high_price = 500
             filters.append({'field': 'high_price', 'operator': '<=', 'value': high_price})
@@ -173,7 +173,7 @@ def get_product_list():
         elif data['price'] == '2000+':
             low_price = 2000
             filters.append({'field': 'low_price', 'operator': '>=', 'value': low_price})
-    if 'duration' in data and data['duration'] != "":
+    if 'duration' in data and data['duration'] is not None:
         filters.append({'field': 'duration', 'operator': '==', 'value': data['duration']})
     # 使用筛选条件查询产品数据
     results = []
