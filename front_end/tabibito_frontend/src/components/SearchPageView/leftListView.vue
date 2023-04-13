@@ -163,6 +163,7 @@ import {VGridVueTemplate} from "@revolist/vue3-datagrid";
 import listButton from "../BackListView/listButton.vue";
 import delistButton from "../BackListView/delistButton.vue";
 import editButton from "../BackListView/editButton.vue";
+import {useRouter} from 'vue-router';
 import axios from "axios";
 export default defineComponent({
   name: "leftListView",
@@ -177,6 +178,7 @@ export default defineComponent({
     ArrowForward
   },
   setup () {
+    const route = useRouter();
     var self = this;
     let startTime = ref(null);
     let endTime = ref(null);
@@ -189,6 +191,7 @@ export default defineComponent({
     let countPage = 1;
     const message = useMessage();
     return {
+      route,
       currentLocation,
       startTime,
       endTime,
@@ -412,6 +415,9 @@ export default defineComponent({
       tourType: ref(),
       price: ref(),
       duration: ref(),
+      state: this.$route.query.state,
+      if_type: this.$route.query.type,
+      if_hot: this.$route.query.hot,
     })
         .then((response)=>{
           const code = response.status
@@ -428,6 +434,9 @@ export default defineComponent({
           tourType: ref(),
           price: ref(),
           duration: ref(),
+          state: this.$route.query.state,
+          if_type: this.$route.query.type,
+          if_hot: this.$route.query.hot,
         }
     )
         .then((response)=>{
