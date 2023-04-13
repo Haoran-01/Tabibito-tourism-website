@@ -64,7 +64,7 @@ def search():
     return jsonify(result)
 
 
-@bp.route('/product_number')
+@bp.route('/product_number', methods=["POST"])
 def get_product_number():
     data = request.get_json(silent=True)
     products = db.session.query(Product).all()
@@ -135,7 +135,7 @@ def get_product_number():
         return jsonify(code=201, message='Wrong range')
 
 
-@bp.route('/product_list')
+@bp.route('/product_list', methods=["POST"])
 def get_product_list():
     data = request.get_json(silent=True)
     # products = Product.query.filter(Product.start_time >= data["startTime"],
