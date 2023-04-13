@@ -21,17 +21,9 @@
         <n-carousel :slides-per-view=slides_per_view :space-between=space_between :loop="false" show-arrow>
           <div v-for="product in recommends" :key="product.id">
             <n-carousel show-arrow autoplay :space-between="2">
-              <img
-                  class="carousel-img"
-                  src="{{ product.banners[0] }}"
-              >
-              <img
-                  class="carousel-img"
-                  src="{{ product.banners[1] }}"
-              >
-              <img
-                  class="carousel-img"
-                  src="{{ product.banners[2] }}"
+              <img v-for="pic in product.banners"
+                   class="carousel-img"
+                   :src="pic"
               >
               <template #arrow="{ prev, next }">
                 <div class="custom-arrow">
@@ -57,12 +49,12 @@
             <n-card>
               <div class="tourCardContent">
                 <div class="tourCardTime">
-                  <div class="hours">{{ product.duration }}+ hours</div>
+                  <div class="hours">{{ product.duration }}</div>
                   <div class="dot"></div>
                   <div class="days">{{ product.types[0] }}</div>
                 </div>
 
-                <h4 class="tourCardTitle">
+                <h4 class="tourCardTitle" @click="this.$router.push('/trip/' + product.id)">
                   <span>{{ product.name }}</span>
                 </h4>
 
@@ -92,7 +84,7 @@
                   <div class="col-auto">
                     <div class="footer">
                       From
-                      <span class="price">US${{ product.price }}</span>
+                      <span class="price">US${{ product.price.toFixed(2) }}</span>
                     </div>
                   </div>
                 </div>
@@ -126,18 +118,34 @@ export default {
       recommends: []
     }
   },
-  mounted() {
+  setup() {
+    let slides_per_view= ref(3);
+    let space_between = ref(20);
+    let recommends = ref({});
     axios.get('http://127.0.0.1:5000/recommend/products')
         .then(response => {
-          this.recommends = response.data.products;
+          recommends.value = response.data.products;
+          for(let i = 0; i < recommends.value.length; i++){
+            let raw_time = recommends.value[i].duration;
+            let hour = Math.round(raw_time/3600);
+            let day = Math.round(hour/24);
+            if (hour > 24 && day === 1){
+              recommends.value[i].duration = '1 Day'
+            }
+            if (hour > 24 && day > 1){
+              recommends.value[i].duration = day + ' Days'
+            }
+            if (hour === 1){
+              recommends.value[i].duration = '1 Hour'
+            }
+            if (hour < 24 && hour !== 1){
+              recommends.value[i].duration = hour + ' Hours'
+            }
+          }
         })
         .catch(error => {
           console.error(error);
         });
-  },
-  setup() {
-    let slides_per_view= ref(3);
-    let space_between = ref(20);
     window.fullWidth = document.documentElement.clientWidth;
     if (window.fullWidth < 550) {
       slides_per_view.value = 1;
@@ -179,7 +187,8 @@ export default {
     })
     return{
       slides_per_view,
-      space_between
+      space_between,
+      recommends
     }
   },
 }
@@ -480,6 +489,7 @@ export default {
   font-size: 18px;
   line-height: 1.6 !important;
   font-weight: 500;
+  cursor: pointer;
 }
 
 .tourCardText {

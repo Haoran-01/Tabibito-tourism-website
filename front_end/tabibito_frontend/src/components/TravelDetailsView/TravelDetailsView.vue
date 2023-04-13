@@ -186,7 +186,7 @@
 
   <charge-list></charge-list>
 
-<!--  <div class="TDLine full"></div>
+  <div class="TDLine full"></div>
 
   <guest-reviews></guest-reviews>
 
@@ -196,7 +196,7 @@
 
   <div class="TDLine full"></div>
 
-  <similar-experiences></similar-experiences>-->
+  <similar-experiences></similar-experiences>
 
   <footer-view></footer-view>
 </template>
