@@ -9,17 +9,19 @@ bp = Blueprint("Staff", __name__, url_prefix="/staff_portal")
 @bp.route("/change_order_status", methods=['POST'])
 def change_order_status():
     data = request.get_json(silent=True)
-    order_id = data['order_id']
+    order_id = data['id']
     order = Order.query.filter_by(id=order_id)
-    order.order_status = data['order_status']
+    order.order_status = data['operation']
     db.session.commit()
     return jsonify(message="modify successfully", code=200)
 
 
-@bp.route("/view_all", methods=['GET'])
+@bp.route("/view_all", methods=['GET', 'POST'])
 def view_all_order():
-    all_orders = db.session.query(Order).all()
-    return jsonify(all_orders=[order.serialize_latest() for order in all_orders], code=200)
+    page = request.get_json()["page"]
+    per_page = 10  # 每页10个对象
+    all_orders = Order.query.order_by(Order.id).paginate(page=page, per_page=per_page, error_out=False).items
+    return jsonify(all_orders=[order.serialize_all() for order in all_orders], code=200)
 
 
 @bp.route("/recent_product_list", methods=["GET"])
@@ -51,8 +53,11 @@ def change_product_status():
     new_status = data['operation']
     product = Product.query.filter_by(id=product_id).first()
     if product is not None:
-        product.status = ProductStatus(new_status)
-        db.session.commit()
+        if product.status == ProductStatus(new_status):
+            return jsonify(code=400, error="product is already '%s'" % (product.status.name))
+        else:
+            product.status = ProductStatus(new_status)
+            db.session.commit()
         return jsonify(code=200)
     else:
         return jsonify(code=400, error='product not found')

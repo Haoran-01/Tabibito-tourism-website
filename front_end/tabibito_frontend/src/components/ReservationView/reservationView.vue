@@ -264,7 +264,7 @@ export default {
     }
 
     function complete(row){
-      axios.post('http://127.0.0.1:5000/staff_portal/product_status',{
+      axios.post('http://127.0.0.1:5000/staff_portal/change_order_status',{
         operation: "Complete",
         id: `${row.id}`,
       }).then((response)=>{
@@ -312,21 +312,11 @@ export default {
       // console.log( `${row.key}`)
     }
 
-    axios.post('http://127.0.0.1:5000/staff_portal/change_order_status',{
-      page: 1
-    }).then((response)=>{
-      const code = response.status
-      if (code === 200){
-        data = response.data.products
-        // console.log(data)
-      }
-    })
-
     function page(newPage){
       axios.post('http://127.0.0.1:5000/staff_portal/change_order_status',{
         page: newPage
       }).then(function (response){
-        this.data = response.data.products
+        data = response.data.all_orders
         console.log(this.data)
       }).catch(function (error){
         console.log(error);
@@ -344,12 +334,12 @@ export default {
   },
 
   created() {
-    axios.post('http://127.0.0.1:5000//staff_portal/view_all',{
+    axios.post('http://127.0.0.1:5000/staff_portal/view_all',{
       page: 1
     }).then((response)=>{
       const code = response.status
       if (code === 200){
-        this.data = response.data.products
+        this.data = response.data.all_orders
         // console.log(this.data)
 
       }
