@@ -7,17 +7,18 @@
           <div class="TTex2">Manage the tourism programs</div>
 
           <div class="but">
-            <router-link to="/staff_portal" style="text-decoration: none">
+            <router-link to="/management" style="text-decoration: none">
               <button class="nBtn nBtn1">
                 Back To Dashboard
               </button>
             </router-link>
 
-            <router-link to="/management/project_detail" style="text-decoration: none">
-              <button class="nBtn nBtn2" @click="nextPage">
-              Add New Projects
+            <router-link to="/management/project_list" style="text-decoration: none">
+              <button class="nBtn nBtn2">
+                View all Programs
               </button>
             </router-link>
+
           </div>
         </div>
 
@@ -31,20 +32,16 @@
           <div class="tableArea">
 
             <div class="mainTable">
-              <v-grid
-                  theme="material"
-                  :source="rows"
+              <n-data-table
                   :columns="columns"
-                  :resize="true"
-                  :filter="true"
-                  :readonly="true"
-                  @dblclick="cellClickHandler"
-              ></v-grid>
+                  :data="data"
+                  :pagination="pagination"
+                  @update:sorter="handleUpdateSorter"
+              />
+
             </div>
           </div>
 
-          <!--      一行17个      -->
-          <n-pagination class="page" v-model:page="page" :on-update:page="pageChange"	:page-count="count"/>
 
         </div>
       </div>
@@ -103,130 +100,263 @@
 </template>
 
 <script>
-import VGrid, {VGridVueTemplate} from "@revolist/vue3-datagrid";
+import { h, ref, computed } from 'vue'
+import { NButton, useMessage } from 'naive-ui'
+import {useRouter} from 'vue-router';
 
 import axios from "axios";
 import {useToast} from "vue-toastification";
 
-import editBtn from "./editBtn.vue";
-import cancelBtn from "./cancelBtn.vue";
-import {ref} from "vue";
-
 export default {
   name: "staffView",
   components: {
-    VGrid
   },
-  setup(){
-    const tip = useToast();
-    return{tip};
-  },
-  data(){
-    return{
-      countPage: ref(),
-      columns: [
-        { name: "Tourism Title", prop: "name", size: 190,
-          cellTemplate: (createElement, props) => {
-            return createElement('span', {
-              style: {
-                fontWeight: 700,
+
+  setup () {
+
+    let data = ref()
+
+    const toast = useToast();
+
+    const route = useRouter();
+
+    const sortStatesRef = ref([])
+    const sortKeyMapOrderRef = computed(() =>
+        sortStatesRef.value.reduce((result, { columnKey, order }) => {
+          result[columnKey] = order
+          return result
+        }, {})
+    )
+    const paginationRef = ref({ pageSize: 10, onUpdatePage: page })
+
+    const columnsRef = computed(() => [
+      {
+        title: 'Tourism Title',
+        key: 'name'
+      },
+      {
+        title: 'Start Time',
+        key: 'start_time',
+        sortOrder: sortKeyMapOrderRef.value.start_time || false,
+        sorter (rowA, rowB) {
+          return rowA.start_time - rowB.start_time
+        },
+
+      },
+      {
+        title: 'End Time',
+        key: 'end_time',
+        sortOrder: sortKeyMapOrderRef.value.end_time || false,
+        sorter: {
+          compare: (a, b) => a.end_time - b.end_time,
+          multiple: 3
+        }
+      },
+      {
+        title: 'Reservation Time',
+        key: 'res_time',
+        sortOrder: sortKeyMapOrderRef.value.app_ddl || false,
+        sorter: {
+          compare: (a, b) => a.app_ddl - b.app_ddl,
+          multiple: 2
+        }
+      },
+      {
+        title: 'Price',
+        sortOrder: sortKeyMapOrderRef.value.price || false,
+        key: 'price',
+        sorter: {
+          compare: (a, b) => a.price - b.price,
+          multiple: 1
+        }
+      },
+      {
+        title: 'Discount',
+        sortOrder: sortKeyMapOrderRef.value.discount || false,
+        key: 'discount',
+        sorter: {
+          compare: (a, b) => a.discount - b.discount,
+          multiple: 1
+        }
+      },{
+        title: 'Booking Holder',
+        sortOrder: sortKeyMapOrderRef.value.mark || false,
+        key: 'holder',
+      },{
+        title: 'Status',
+        sortOrder: sortKeyMapOrderRef.value.status || false,
+        key: 'status',
+      },
+      {
+        title: 'Success',
+        key: 'actions',
+        render (row) {
+          return h(
+              NButton,
+              {
+                strong: true,
+                size: 'large',
+                type: "success",
+                bordered: true,
+                secondary: true,
+                onClick: () => complete(row)
               },
-
-            }, props.model[props.prop]);
-          },
+              { default: () => 'Complete' }
+          )
         },
-        { name: "Start Time", prop: "start_time", size: 180, sortable: true, filter: 'number', columnType: "date",},
-        { name: "End Time", prop: "end_time", size: 180, sortable: true, filter: 'number', columnType: "date"},
-        { name: "Reservation Time", prop: "app_ddl", size: 180,sortable: true,filter: 'number', click:"a"},
-        { name: "Price", prop: "ori_price", size: 180, sortable: true,filter: 'number'},
-        { name: "Discount", prop: "discount", size: 180, sortable: true,filter: 'number'},
-        { name: "Booking Holder", prop: "holder", size:180,sortable: true,filter: false},
-        { name: "Edit", cellTemplate: VGridVueTemplate(editBtn), size: 140, filter: false},
-        { name: "Cancel", cellTemplate: VGridVueTemplate(cancelBtn), size: 140, filter: false}
-
-      ],
-      rows: [
-        {
-          name: "1",
-          ori_price: "Zhou Zhongyang",
-          start_time: "1",
-          end_time: -1,
-          app_ddl: "retail",
-          discount:'90%',
-
-          mark: "Xie Wenbei"
+      }, {
+        title: 'Cancel',
+        key: 'actions',
+        render (row) {
+          return h(
+              NButton,
+              {
+                strong: true,
+                size: 'large',
+                type: "warning",
+                bordered: true,
+                secondary: true,
+                onClick: () => cancel(row)
+              },
+              { default: () => 'Cancel' }
+          )
         },
-        {
-          name: "1",
-          ori_price: "Zhou Zhongyang",
-          start_time: "1",
-          end_time: -1,
-          app_ddl: "retail",
-          discount:'90%',
-
-          mark: "Xie Wenbei"
-        },{
-          name: "1",
-          ori_price: "Zhou Zhongyang",
-          start_time: "1",
-          end_time: -1,
-          app_ddl: "retail",
-          discount:'90%',
-
-          mark: "Xie Wenbei"
+      },{
+        title: 'Delete',
+        key: 'actions',
+        render (row) {
+          return h(
+              NButton,
+              {
+                strong: true,
+                size: 'large',
+                type: "error",
+                bordered: true,
+                secondary: true,
+                onClick: () => deleteLine(row)
+              },
+              { default: () => 'Delete' }
+          )
         },
-        {
-          name: "1",
-          ori_price: "Zhou Zhongyang",
-          start_time: "1",
-          end_time: -1,
-          app_ddl: "retail",
-          discount:'90%',
-
-          mark: "Xie Wenbei"
+      },{
+        title: 'Edit',
+        key: 'actions',
+        render (row) {
+          return h(
+              NButton,
+              {
+                strong: true,
+                size: 'large',
+                type: "info",
+                bordered: true,
+                secondary: true,
+                onClick: () => edit(row)
+              },
+              { default: () => 'Edit' }
+          )
         },
-      ],
+      }
+    ])
+
+    function handleUpdateSorter (sorters) {
+      console.log(sorters)
+      sortStatesRef.value = [].concat(sorters)
     }
-  },
-  created() {
-    axios.post('http://127.0.0.1:5000/staff_portal/reservation_list',{
+
+    function complete(row){
+      axios.post('http://127.0.0.1:5000/staff_portal/product_status',{
+        operation: "Complete",
+        id: `${row.id}`,
+      }).then((response)=>{
+        const code = response.status
+        if (code === 200){
+          toast.success("This program is completed successfully")
+        } else {
+          toast.warning("This program has already been completed")
+        }
+      })
+      // console.log( `${row.key}`)
+    }
+
+    function cancel(row){
+      axios.post('http://127.0.0.1:5000/staff_portal/change_order_status',{
+        operation: "Cancel",
+        id: `${row.id}`,
+      }).then((response)=>{
+        const code = response.status
+        if (code === 200){
+          toast.success("This program is canceled successfully")
+        } else {
+          toast.warning("This program has already been canceled")
+        }
+      })
+      // console.log( `${row.key}`)
+    }
+
+    function deleteLine(row){
+      axios.post('http://127.0.0.1:5000/staff_portal/change_order_status',{
+        operation: "Delete",
+        id: `${row.id}`,
+      }).then((response)=>{
+        const code = response.status
+        if (code === 200){
+          toast.success("This program is deleted successfully")
+        }
+      })
+      // console.log( `${row.key}`)
+    }
+
+    function edit(row){
+      toast.warning('This will be done in the next stage')
+      // route.push('/management/project_detail/'+`${row.id}`)
+      // console.log( `${row.key}`)
+    }
+
+    axios.post('http://127.0.0.1:5000/staff_portal/change_order_status',{
       page: 1
+    }).then((response)=>{
+      const code = response.status
+      if (code === 200){
+        data = response.data.products
+        // console.log(data)
+      }
     })
-        .then((response)=>{
-          const code = response.status
-          if (code === 200){
-            this.rows = response.data.rows
-          }
-        })
 
-    axios.get('http://127.0.0.1:5000/staff_portal/reservation_number')
-        .then((response)=>{
-          const code = response.status
-          if (code === 200){
-            const count = response.data.number
-            this.countPage  = Math.floor(count / 17) + (count % 17 > 0 ? 1 : 0);
-          }
-        })
-  },
-
-  methods:{
-
-    cellClickHandler(event){
-      // console.log("aaaa",event)
-      this.$router.push({ name: 'Edit', params: { id: event.id } })
-    },
-
-    pageChange(newPage){
-      // console.log(`Current page is ${newPage}`);
-      axios.post('http://127.0.0.1:5000/user/backList',{
+    function page(newPage){
+      axios.post('http://127.0.0.1:5000/staff_portal/change_order_status',{
         page: newPage
       }).then(function (response){
-        this.rows = response.data.rows
+        this.data = response.data.products
+        console.log(this.data)
       }).catch(function (error){
         console.log(error);
       });
     }
 
+    return {
+      route,
+      columns: columnsRef,
+      handleUpdateSorter,
+      data,
+      pagination: paginationRef,
+      toast,
+    }
+  },
+
+  created() {
+    axios.post('http://127.0.0.1:5000//staff_portal/view_all',{
+      page: 1
+    }).then((response)=>{
+      const code = response.status
+      if (code === 200){
+        this.data = response.data.products
+        // console.log(this.data)
+
+      }
+    })
+  },
+
+  methods:{
   }
 
 }
