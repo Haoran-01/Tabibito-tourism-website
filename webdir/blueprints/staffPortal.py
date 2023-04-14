@@ -9,7 +9,7 @@ bp = Blueprint("Staff", __name__, url_prefix="/staff_portal")
 @bp.route("/change_order_status", methods=['POST'])
 def change_order_status():
     data = request.get_json(silent=True)
-    order_id = data['order_id']
+    order_id = data['id']
     order = Order.query.filter_by(id=order_id)
     order.order_status = data['operation']
     db.session.commit()
