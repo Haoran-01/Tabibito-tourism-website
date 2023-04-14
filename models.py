@@ -342,9 +342,9 @@ class Product(db.Model):
         return {
             'id': self.id,
             'name': self.name,
-            'start_time': self.start_time,
-            'end_time': self.end_time,
-            'app_ddl': self.app_ddl,
+            'start_time': self.start_time.strftime('%Y-%m-%d'),
+            'end_time': self.end_time.strftime('%Y-%m-%d'),
+            'app_ddl': self.app_ddl.strftime('%Y-%m-%d'),
             'price': self.ori_price,
             'discount': self.discount,
             'mark': self.get_mark(),
