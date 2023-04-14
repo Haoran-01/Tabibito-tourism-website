@@ -185,6 +185,20 @@ class Order(db.Model):
             "time": self.create_time.time().strftime('%H:%M:%S')
         }
 
+    def serialize_all(self):
+        return {
+            "id": self.id,
+            "discount": self.product.discount,
+            "status": self.order_status.name,
+            "price": self.total(),
+            "res_time": self.create_time.strftime('%Y-%m-%d'),
+            "holder": self.user.user_first_name + " " + self.user.user_last_name,
+            "name": self.product.name,
+            "destination": self.product.raw_loc,
+            "start_time": self.product.start_time.strftime('%Y-%m-%d'),
+            "end_time": self.product.end_time.strftime('%Y-%m-%d'),
+        }
+
     def total(self):
         return round(self.product_number * self.product.ori_price * self.product.discount, 1)
 
