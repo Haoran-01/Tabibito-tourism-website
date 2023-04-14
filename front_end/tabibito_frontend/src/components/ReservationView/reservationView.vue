@@ -315,9 +315,10 @@ export default {
     axios.post('http://127.0.0.1:5000/staff_portal/change_order_status',{
       page: 1
     }).then((response)=>{
-      const code = response.status
+      const code = response.data['code']
+      console.log(222)
       if (code === 200){
-        data = response.data.products
+        data = response.data.all_orders
         // console.log(data)
       }
     })
@@ -326,7 +327,7 @@ export default {
       axios.post('http://127.0.0.1:5000/staff_portal/change_order_status',{
         page: newPage
       }).then(function (response){
-        this.data = response.data.products
+        data = response.data.all_orders
         console.log(this.data)
       }).catch(function (error){
         console.log(error);
@@ -344,12 +345,13 @@ export default {
   },
 
   created() {
-    axios.post('http://127.0.0.1:5000//staff_portal/view_all',{
+    axios.post('http://127.0.0.1:5000/staff_portal/view_all',{
       page: 1
     }).then((response)=>{
       const code = response.status
+      console.log(555)
       if (code === 200){
-        this.data = response.data.products
+        this.data = response.data.all_orders
         // console.log(this.data)
 
       }
