@@ -233,6 +233,35 @@ import { useToast } from "vue-toastification";
 export default {
   name: "projectManagementDetailView",
   components: {PriceItem, RouteStep},
+  beforeRouteEnter(to, from, next){
+    next((vm) => {
+      axios.get('http://127.0.0.1:5000/user/login_status')
+          .then((res) =>{
+            if (res.data.job === 'Staff'){
+            }else {
+                vm.$router.push('/forbidden')
+            }
+          })
+          .catch((e) => {
+              vm.$router.push('/forbidden')
+          })
+    })
+    /*axios.get('http://127.0.0.1:5000/user/login_status')
+        .then((res) =>{
+          if (res.data.job === 'Staff'){
+            return;
+          }else {
+            next((vm) =>{
+              vm.$router.push('/forbidden')
+            })
+          }
+        })
+        .catch((e) => {
+          next((vm) =>{
+            vm.$router.push('/forbidden')
+          })
+        })*/
+  },
   setup(){
     // General
     let tabValue = ref("Basic Information");
