@@ -8,7 +8,7 @@
 
       <div class="line">
 
-        <div v-for="inspiration in inspiration">
+        <div v-for="inspiration in inspirations">
           <div class="iCon">
             <a class="iBlock">
               <div class="iImg">
@@ -23,31 +23,6 @@
           </div>
         </div>
 
-<!--      <div class="iCon">-->
-<!--        <a class="iBlock">-->
-<!--          <div class="iImg">-->
-<!--            <img class="imgI" src="../../assets/2.png" alt="">-->
-<!--          </div>-->
-
-<!--          <div class="iTex3">-->
-<!--            <h4 class="iTex4">10 European ski destinations you should visit this winter</h4>-->
-<!--            <div class="iTex5">April 06, 2022</div>-->
-<!--          </div>-->
-<!--        </a>-->
-<!--      </div>-->
-
-<!--      <div class="iCon">-->
-<!--        <a class="iBlock">-->
-<!--          <div class="iImg">-->
-<!--            <img class="imgI" src="../../assets/2.png" alt="">-->
-<!--          </div>-->
-
-<!--          <div class="iTex3">-->
-<!--            <h4 class="iTex4">10 European ski destinations you should visit this winter</h4>-->
-<!--            <div class="iTex5">April 06, 2022</div>-->
-<!--          </div>-->
-<!--        </a>-->
-<!--      </div>-->
 
       </div>
     </div>
@@ -70,6 +45,7 @@ export default {
     axios.get('http://127.0.0.1:5000//homepage/inspiration')
         .then(response => {
           this.inspirations = response.data.inspirations;
+          console.log(this.inspirations)
         })
         .catch(error => {
           console.error(error);
@@ -127,7 +103,8 @@ export default {
 
   position: relative;
   display: block;
-
+  width: 400px;
+  height: 200px;
   padding-bottom: 75%;
 
   border-radius: 8px;

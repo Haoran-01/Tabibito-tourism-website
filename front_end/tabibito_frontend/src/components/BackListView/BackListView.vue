@@ -7,14 +7,14 @@
           <div class="TTex2">Manage the tourism programs</div>
 
           <div class="but">
-            <router-link to="/staff_portal" style="text-decoration: none">
+            <router-link to="/management" style="text-decoration: none">
               <button class="nBtn nBtn1">
                 Back To Dashboard
               </button>
             </router-link>
 
-            <router-link to="/management/project_detail" style="text-decoration: none">
-              <button class="nBtn nBtn2" @click="nextPage">
+            <router-link to="/management/project_detail/add" style="text-decoration: none">
+              <button class="nBtn nBtn2">
                 Add New Program
               </button>
             </router-link>
@@ -134,7 +134,7 @@ export default {
 
     const columnsRef = computed(() => [
       {
-        title: 'Title',
+        title: 'Tourism Title',
         key: 'name'
       },
       {
@@ -255,7 +255,7 @@ export default {
 
     function launch(row){
       axios.post('http://127.0.0.1:5000/staff_portal/product_status',{
-        operation: "Launch",
+        operation: "Launched",
         id: `${row.id}`,
       }).then((response)=>{
         const code = response.status
@@ -270,7 +270,7 @@ export default {
 
     function delist(row){
       axios.post('http://127.0.0.1:5000/staff_portal/product_status',{
-        operation: "Delist",
+        operation: "Delisted",
         id: `${row.id}`,
       }).then((response)=>{
         const code = response.status

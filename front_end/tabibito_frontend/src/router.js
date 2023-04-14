@@ -6,6 +6,7 @@ const forgetPasswordView = () => import("./components/ForgetPasswordView/forgetP
 const resetView = () => import("./components/ForgetPasswordView/resetView.vue");
 const homepageView = () => import("./components/HomepageView/HomepageView.vue");
 const backListView = () => import("./components/BackListView/BackListView.vue");
+const reservationView = () => import("./components/ReservationView/reservationView.vue");
 const projectManagementDetailView = () => import("./components/PMDetailView/projectManagementDetailView.vue");
 const TravelDetailsView = () => import("./components/TravelDetailsView/TravelDetailsView.vue");
 const leftListView = () => import("./components/SearchPageView/leftListView.vue");
@@ -31,6 +32,7 @@ const routes = [
     },
     { path: '/management', component: StaffPortalView},
     { path: '/management/project_list', component: backListView},
+    { path: '/management/reservation_list', component: reservationView},
     { path: '/management/project_detail/:id', component: projectManagementDetailView},
     { path: '/management/project_detail/add', component: projectManagementDetailView},
     { path: '/trip/:trip_id', component: TravelDetailsView},

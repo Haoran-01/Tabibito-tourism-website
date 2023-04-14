@@ -80,7 +80,7 @@ export default {
         .then(response => {
           this.reviews = response.data.data;
 
-          console.log(this.reviews + 11231231)
+          console.log(this.reviews)
         })
         .catch(error => {
           console.error(error);
