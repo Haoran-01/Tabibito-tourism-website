@@ -258,7 +258,7 @@ export default {
         operation: "Launched",
         id: `${row.id}`,
       }).then((response)=>{
-        const code = response.status
+        const code = response.data['code']
         if (code === 200){
           toast.success("This program is launched successfully")
         } else {
@@ -273,7 +273,7 @@ export default {
         operation: "Delisted",
         id: `${row.id}`,
       }).then((response)=>{
-        const code = response.status
+        const code = response.data['code']
         if (code === 200){
           toast.success("This program is delisted successfully")
         } else {
@@ -287,22 +287,11 @@ export default {
       // console.log( `${row.key}`)
     }
 
-    axios.post('http://127.0.0.1:5000/staff_portal/product_list',{
-      page: 1
-    }).then((response)=>{
-      const code = response.status
-      if (code === 200){
-        data = response.data.products
-        // console.log(data)
-      }
-    })
-
     function page(newPage){
       axios.post('http://127.0.0.1:5000/staff_portal/product_list',{
         page: newPage
       }).then(function (response){
         this.data = response.data.products
-        console.log(this.data)
       }).catch(function (error){
         console.log(error);
       });
@@ -325,7 +314,6 @@ export default {
       const code = response.status
       if (code === 200){
         this.data = response.data.products
-        console.log(this.data)
 
       }
     })
