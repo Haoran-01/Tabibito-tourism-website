@@ -51,8 +51,11 @@ def change_product_status():
     new_status = data['operation']
     product = Product.query.filter_by(id=product_id).first()
     if product is not None:
-        product.status = ProductStatus(new_status)
-        db.session.commit()
+        if product.status == ProductStatus(new_status):
+            return jsonify(code=400, error="product is already '%s'" % (product.status.name))
+        else:
+            product.status = ProductStatus(new_status)
+            db.session.commit()
         return jsonify(code=200)
     else:
         return jsonify(code=400, error='product not found')
