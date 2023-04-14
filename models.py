@@ -8,8 +8,8 @@ from sqlalchemy import Enum as DBEnum
 
 association_table = db.Table(
     'product_product_type', db.Model.metadata,
-    db.Column('product_id', db.Integer, ForeignKey('product.id')),
-    db.Column('product_type_id', db.Integer, ForeignKey('product_type.id'))
+    db.Column('product_id', db.Integer, ForeignKey('product.id', ondelete='CASCADE', onupdate='CASCADE')),
+    db.Column('product_type_id', db.Integer, ForeignKey('product_type.id', ondelete='CASCADE', onupdate='CASCADE'))
 )
 
 

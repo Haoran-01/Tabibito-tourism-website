@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from datetime import datetime, timedelta
 from exts import db
-from models import Order, Product, OrderStatus
+from models import Order, Product, OrderStatus, ProductStatus
 
 bp = Blueprint("Staff", __name__, url_prefix="/staff_portal")
 
@@ -51,7 +51,7 @@ def change_product_status():
     new_status = data['operation']
     product = Product.query.filter_by(id=product_id).first()
     if product is not None:
-        product.status = new_status
+        product.status = ProductStatus(new_status)
         db.session.commit()
         return jsonify(code=200)
     else:

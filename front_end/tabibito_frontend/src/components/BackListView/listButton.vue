@@ -16,13 +16,13 @@ import {NButton, NIcon, NPopconfirm} from "naive-ui";
 import {CancelRound} from "@vicons/material";
 import axios from "axios";
 export default {
-  props: [],
+  props: ['qqqq'],
   components: {NButton, NIcon, CancelRound, NPopconfirm},
   name: "listButton",
   methods:{
     handlePositiveClick(){
       console.log(1111111)
-      console.log(this.title)
+      console.log(this.qqqq)
       axios.post('http://127.0.0.1:5000/staff_portal/product_status',{
         operation: "launch",
         id: this.title,
