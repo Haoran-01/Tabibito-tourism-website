@@ -16,9 +16,11 @@ def change_order_status():
     return jsonify(message="modify successfully", code=200)
 
 
-@bp.route("/view_all", methods=['GET'])
+@bp.route("/view_all", methods=['GET', 'POST'])
 def view_all_order():
-    all_orders = db.session.query(Order).all()
+    page = request.get_json()["page"]
+    per_page = 10  # 每页10个对象
+    all_orders = Order.query.order_by(Order.id).paginate(page=page, per_page=per_page, error_out=False).items
     return jsonify(all_orders=[order.serialize_all() for order in all_orders], code=200)
 
 
