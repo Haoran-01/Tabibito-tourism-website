@@ -6,7 +6,7 @@
 
   <aside :class="`${is_expanded && 'is-expanded'}`">
     <div class="logo">
-      <img src="../../assets/vue.svg" alt="Vue">
+      <img src="../../assets/logo.png" alt="logo">
     </div>
 
     <div class="menu-toggle-wrap">
@@ -17,21 +17,21 @@
 
     <h3>Menu</h3>
     <div class="menu">
-      <router-link class="button" to="/">
-        <span class="material-symbols-outlined">update</span>
+      <router-link class="button" to="/management">
+        <img class="material-symbols-outlined" src="../../assets/dashboard/sidebar/compass.svg" alt="icon">
         <span class="text">Dashboard</span>
       </router-link>
-      <router-link class="button" to="/">
-        <span class="material-symbols-outlined">update</span>
+      <router-link class="button" to="/management/project_list">
+        <img class="material-symbols-outlined" src="../../assets/dashboard/sidebar/booking.svg" alt="icon">
         <span class="text">History</span>
       </router-link><router-link class="button" to="/">
-      <span class="material-symbols-outlined">update</span>
+      <img class="material-symbols-outlined" src="../../assets/dashboard/sidebar/bookmark.svg" alt="icon">
       <span class="text">Wishlist</span>
     </router-link><router-link class="button" to="/">
-      <span class="material-symbols-outlined">update</span>
+      <img class="material-symbols-outlined" src="../../assets/dashboard/sidebar/gear.svg" alt="icon">
       <span class="text">Settings</span>
     </router-link><router-link class="button" to="/">
-      <span class="material-symbols-outlined">update</span>
+      <img class="material-symbols-outlined" src="../../assets/dashboard/sidebar/log-out.svg" alt="icon">
       <span class="text">Logout</span>
     </router-link>
     </div>
@@ -41,6 +41,7 @@
 
 <script setup>
 import { ref } from 'vue'
+import {  } from '@vicons/ionicons5'
 
 const is_expanded = ref(false)
 

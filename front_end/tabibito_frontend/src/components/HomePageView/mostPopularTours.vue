@@ -10,7 +10,7 @@
         </div>
 
         <div class="col-auto">
-          <a href="#" class="button -md -blue-1 bg-blue-1-05 text-blue-1" @click="handlePopularProject">
+          <a href="#" class="button -md -blue-1 bg-blue-1-05 text-blue-1" @click="this.$router.push('/search_result')">
             More <div class="icon"></div>
           </a>
         </div>
@@ -120,7 +120,6 @@ export default {
     }
   },
   setup() {
-    const route = useRouter();
     let populars = ref({});
     axios.get('http://127.0.0.1:5000/homepage/most_popular_products')
         .then(response => {
@@ -188,12 +187,11 @@ export default {
       });
     })
     return{
-      route,
       slides_per_view,
       space_between,
       populars,
       handlePopularProject() {
-        this.route.push({
+        this.$router.push({
           path: '/search_result',
           query: {
             state: "popular"
