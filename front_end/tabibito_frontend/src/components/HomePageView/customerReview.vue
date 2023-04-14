@@ -18,15 +18,17 @@
         <div class="con">
           <div class="img">
             <img src="../../assets/quote_bg.svg" alt="">
-            <img src="{{ review.picture }}" alt="">
+            <img src="{{ review.pictures }}" alt="">
           </div>
 
-          <h4 class="tex1">{{ review.product_name }}</h4>
+          <h4 class="tex1">{{ review.title }}</h4>
           <div class="tex2">{{ review.des }}</div>
 
           <div class="author">
             <h5 class="tex3"> {{ review.user_portrait }} </h5>
-            <div class="tex4">{{ review.datetime }}</div>
+            <div class="tex4">{{ review.date }}</div>
+            <div class="tex4">{{ review.time }}</div>
+
           </div>
         </div>
         </div>
@@ -76,7 +78,9 @@ export default {
   mounted() {
     axios.get('http://127.0.0.1:5000//homepage/most_popular_comments')
         .then(response => {
-          this.reviews = response.data.reviews;
+          this.reviews = response.data.data;
+
+          console.log(this.reviews + 11231231)
         })
         .catch(error => {
           console.error(error);

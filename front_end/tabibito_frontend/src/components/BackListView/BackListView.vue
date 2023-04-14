@@ -15,10 +15,10 @@
 
             <router-link to="/management/project_detail" style="text-decoration: none">
               <button class="nBtn nBtn2" @click="nextPage">
-                Add New Reservation
+                Add New Program
               </button>
             </router-link>
-              
+
           </div>
         </div>
 
@@ -32,30 +32,18 @@
             <div class="tableArea">
 
               <div class="mainTable">
-                <v-grid
-                    theme="material"
-                    :source="products"
+                <n-data-table
                     :columns="columns"
-                    :resize="true"
-                    :filter="true"
-                    :readonly="true"
-                ></v-grid>
-                <!--        传递id        -->
-                <child-component2 :title="aaa"></child-component2>
-
-
-                <div style="display: none" v-for="item in products">
-                  <ChildComponent1 :itemIdB="item.id" />
-                  <child-component2 :title="aaa"></child-component2>
-                  <ChildComponent3 :itemIdB="item.id" />
-                </div>
+                    :data="data"
+                    :pagination="pagination"
+                    @update:sorter="handleUpdateSorter"
+                />
 
               </div>
             </div>
-<!--            @dblclick="cellClickHandler"-->
 
             <!--      一行17个      -->
-            <n-pagination class="page" v-model:page="page" :on-update:page="pageChange"	:page-count="countPage"/>
+<!--            <n-pagination class="page" v-model:page="page" :on-update:page="pageChange"	:page-count="countPage"/>-->
 
           </div>
       </div>
@@ -114,105 +102,236 @@
 </template>
 
 <script>
-import ChildComponent1 from './delistButton.vue';
-import ChildComponent2 from './listButton.vue';
-import ChildComponent3 from './editButton.vue';
 
-import VGrid, {VGridVueTemplate} from "@revolist/vue3-datagrid";
+import { h, ref, computed } from 'vue'
+import { NButton, useMessage } from 'naive-ui'
+import {useRouter} from 'vue-router';
 
 import axios from "axios";
 import {useToast} from "vue-toastification";
 
-import listButton from "../BackListView/listButton.vue";
-import delistButton from "../BackListView/delistButton.vue";
-import editButton from "./editButton.vue";
-import {ref} from "vue";
-
 export default {
   name: "staffView",
   components: {
-    VGrid,
-    ChildComponent1,
-    ChildComponent2,
-    ChildComponent3,
   },
-  setup(){
-    const tip = useToast();
-    return{tip};
-  },
-  data(){
-    return{
-      aaa: '2',
-      countPage: ref(),
-      columns: [
-        { name: "Name", prop: "name", size: 190,
-          cellTemplate: (createElement, props) => {
-            return createElement('span', {
-              style: {
-                fontWeight: 700,
-              },
 
-            }, props.model[props.prop]);
-          },
+  setup () {
+
+    let data = ref()
+
+    const toast = useToast();
+
+    const route = useRouter();
+
+    const sortStatesRef = ref([])
+    const sortKeyMapOrderRef = computed(() =>
+        sortStatesRef.value.reduce((result, { columnKey, order }) => {
+          result[columnKey] = order
+          return result
+        }, {})
+    )
+    const paginationRef = ref({ pageSize: 10, onUpdatePage: page })
+
+    const columnsRef = computed(() => [
+      {
+        title: 'Title',
+        key: 'name'
+      },
+      {
+        title: 'Start Time',
+        key: 'start_time',
+        sortOrder: sortKeyMapOrderRef.value.start_time || false,
+        sorter (rowA, rowB) {
+          return rowA.start_time - rowB.start_time
         },
-        { name: "Start Time", prop: "start_time", size: 155, sortable: true, filter: 'number', columnType: "date",},
-        { name: "End Time", prop: "end_time", size: 135, sortable: true, filter: 'number', columnType: "date"},
-        { name: "Deadline", prop: "app_ddl", size: 135,sortable: true,filter: 'number'},
-        { name: "Price", prop: "price", size: 145, sortable: true,filter: 'number'},
-        { name: "Discount", prop: "discount", size: 145, sortable: true,filter: 'number'},
-        { name: "Mark", prop: "mark", size:155,sortable: true,filter: false},
-        { name: "Status", prop: "status", size:155,sortable: true,filter: false},
-        { name: "Launch", cellTemplate: VGridVueTemplate(listButton), size: 135, filter: false},
-        { name: "Delist", cellTemplate: VGridVueTemplate(delistButton), size: 135, filter: false},
-        { name: "Edit", cellTemplate: VGridVueTemplate(editButton), size: 90, filter: false},
-      ],
-      products: [
-          // {
-      //     name: "1",
-      //     ori_price: "Zhou Zhongyang",
-      //     start_time: "1",
-      //     end_time: -1,
-      //     app_ddl: "retail",
-      //     discount:'90%',
-      //
-      //     mark: "Xie Wenbei"
-      //   },
-      ],
+
+      },
+      {
+        title: 'End Time',
+        key: 'end_time',
+        sortOrder: sortKeyMapOrderRef.value.end_time || false,
+        sorter: {
+          compare: (a, b) => a.end_time - b.end_time,
+          multiple: 3
+        }
+      },
+      {
+        title: 'Deadline',
+        key: 'app_ddl',
+        sortOrder: sortKeyMapOrderRef.value.app_ddl || false,
+        sorter: {
+          compare: (a, b) => a.app_ddl - b.app_ddl,
+          multiple: 2
+        }
+      },
+      {
+        title: 'Price',
+        sortOrder: sortKeyMapOrderRef.value.price || false,
+        key: 'price',
+        sorter: {
+          compare: (a, b) => a.price - b.price,
+          multiple: 1
+        }
+      },
+      {
+        title: 'Discount',
+        sortOrder: sortKeyMapOrderRef.value.discount || false,
+        key: 'discount',
+        sorter: {
+          compare: (a, b) => a.discount - b.discount,
+          multiple: 1
+        }
+      },{
+        title: 'Mark',
+        sortOrder: sortKeyMapOrderRef.value.mark || false,
+        key: 'mark',
+        sorter: {
+          compare: (a, b) => a.mark - b.mark,
+          multiple: 1
+        }
+      },{
+        title: 'Status',
+        sortOrder: sortKeyMapOrderRef.value.status || false,
+        key: 'status',
+      },
+      {
+        title: 'Launch',
+        key: 'actions',
+        render (row) {
+          return h(
+              NButton,
+              {
+                strong: true,
+                size: 'large',
+                type: "success",
+                bordered: true,
+                secondary: true,
+                onClick: () => launch(row)
+              },
+              { default: () => 'Launch' }
+          )
+        },
+      }, {
+        title: 'Delist',
+        key: 'actions',
+        render (row) {
+          return h(
+              NButton,
+              {
+                strong: true,
+                size: 'large',
+                type: "warning",
+                bordered: true,
+                secondary: true,
+                onClick: () => delist(row)
+              },
+              { default: () => 'Delist' }
+          )
+        },
+      },{
+        title: 'Edit',
+        key: 'actions',
+        render (row) {
+          return h(
+              NButton,
+              {
+                strong: true,
+                size: 'large',
+                type: "info",
+                bordered: true,
+                secondary: true,
+                onClick: () => edit(row)
+              },
+              { default: () => 'Edit' }
+          )
+        },
+      }
+    ])
+
+    function handleUpdateSorter (sorters) {
+      console.log(sorters)
+      sortStatesRef.value = [].concat(sorters)
     }
-  },
-  created() {
+
+    function launch(row){
+      axios.post('http://127.0.0.1:5000/staff_portal/product_status',{
+        operation: "Launch",
+        id: `${row.id}`,
+      }).then((response)=>{
+        const code = response.status
+        if (code === 200){
+          toast.success("This program is launched successfully")
+        } else {
+          toast.warning("This program has already been launched")
+        }
+      })
+      // console.log( `${row.key}`)
+    }
+
+    function delist(row){
+      axios.post('http://127.0.0.1:5000/staff_portal/product_status',{
+        operation: "Delist",
+        id: `${row.id}`,
+      }).then((response)=>{
+        const code = response.status
+        if (code === 200){
+          toast.success("This program is delisted successfully")
+        } else {
+          toast.warning("This program has already been delisted")
+        }
+      })
+      // console.log( `${row.key}`)
+    }
+    function edit(row){
+      route.push('/management/project_detail/'+`${row.id}`)
+      // console.log( `${row.key}`)
+    }
+
     axios.post('http://127.0.0.1:5000/staff_portal/product_list',{
       page: 1
+    }).then((response)=>{
+      const code = response.status
+      if (code === 200){
+        data = response.data.products
+        // console.log(data)
+      }
     })
-        .then((response)=>{
-          const code = response.status
-          if (code === 200){
-            this.products = response.data.products
-          }
-        })
 
-    axios.get('http://127.0.0.1:5000/staff_portal/product_number')
-        .then((response)=>{
-          const code = response.status
-          if (code === 200){
-            const count = response.data.number
-            this.countPage  = Math.floor(count / 17) + (count % 17 > 0 ? 1 : 0);
-          }
-        })
-  },
-
-  methods:{
-    pageChange(newPage){
-      // console.log(`Current page is ${newPage}`);
+    function page(newPage){
       axios.post('http://127.0.0.1:5000/staff_portal/product_list',{
         page: newPage
       }).then(function (response){
-        this.products = response.data.products
+        this.data = response.data.products
+        console.log(this.data)
       }).catch(function (error){
         console.log(error);
       });
     }
 
+    return {
+      route,
+      columns: columnsRef,
+      handleUpdateSorter,
+      data,
+      pagination: paginationRef,
+      toast,
+    }
+  },
+
+  created() {
+    axios.post('http://127.0.0.1:5000/staff_portal/product_list',{
+      page: 1
+    }).then((response)=>{
+      const code = response.status
+      if (code === 200){
+        this.data = response.data.products
+        console.log(this.data)
+
+      }
+    })
+  },
+
+  methods:{
   }
 
 }
