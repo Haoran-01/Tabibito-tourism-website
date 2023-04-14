@@ -1,10 +1,10 @@
 import datetime
 
 from flask import Blueprint, jsonify, request
-from sqlalchemy import or_, text
+from sqlalchemy import or_, text, func
 
 from exts import db
-from models import Product, Trip, Tag, ProductType
+from models import Product, Trip, Tag, ProductType, Comment, UserBrowse
 import nltk
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
@@ -68,6 +68,14 @@ def search():
 def get_product_number():
     data = request.get_json(silent=True)
     products = db.session.query(Product).all()
+
+    if data["state"] == "hot":
+        get_hot_product()
+    if data["state"] == "popular":
+        get_popular_product()
+    if data["state"] == "type":
+        get_type_product(data["tourType"])
+
     # 构造筛选条件
     filters = []
     if 'startTime' in data and data['startTime'] is not None:
@@ -135,17 +143,45 @@ def get_product_number():
         return jsonify(code=201, message='Wrong range')
 
 
+def get_hot_product():
+    hot_product = db.session.query(Product, func.count(Comment.id).label('comment_count')) \
+        .outerjoin(Comment, Product.id == Comment.product_id) \
+        .group_by(Product.id) \
+        .order_by(func.count(Comment.id).desc()) \
+        .limit(5).all()
+    return jsonify(code=200, products=[product[0].serialize_product_list() for product in hot_product])
+
+
+def get_popular_product():
+    popular_product = db.session.query(
+        Product,
+        func.count(UserBrowse.id).label("browse_count")
+    ).join(Product.user_browses).group_by(Product.id).order_by(func.count(UserBrowse.id).desc()).limit(5).all()
+
+    return jsonify(code=200, products=[product[0].serialize_product_list() for product in popular_product])
+
+
+def get_type_product(tour_type):
+    products = db.session.query(Product).all()
+    result_product = []
+    for product in products:
+        if tour_type in product.get_types_list():
+            result_product.append(product)
+    return jsonify(code=200, products=[product.serialize_product_list() for product in result_product])
+
+
 @bp.route('/product_list', methods=["POST"])
 def get_product_list():
     data = request.get_json(silent=True)
-    # products = Product.query.filter(Product.start_time >= data["startTime"],
-    #                                 Product.end_time <= data["endTime"],
-    #                                 Product.currency == data["currentLocation"],
-    #                                 Product.types.any(text(data["tourType"])),
-    #                                 Product.ori_price in range(int(data["low_price"]), int(data["high_price"])),
-    #                                 Product.duration == data['duration']).all()
-
     products = db.session.query(Product).all()
+
+    if data["state"] == "hot":
+        get_hot_product()
+    if data["state"] == "popular":
+        get_popular_product()
+    if data["state"] == "type":
+        get_type_product(data["tourType"])
+
     # 构造筛选条件
     filters = []
     if 'startTime' in data and data['startTime'] is not None:
