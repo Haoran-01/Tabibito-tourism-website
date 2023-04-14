@@ -92,7 +92,7 @@
       <div class="col-12">
 
         <div class="content_wrap">
-          <div class="row x-gap-20 y-gap-20" v-for="item in items" :key="item.id">
+          <div class="row x-gap-20 y-gap-20" v-for="item in products" :key="item.id">
             <div class="col-md-auto">
 
               <div class="content_left ratio ratio-1:1">
@@ -178,8 +178,6 @@ export default defineComponent({
     ArrowForward
   },
   setup () {
-    const route = useRouter();
-    var self = this;
     let startTime = ref(null);
     let endTime = ref(null);
     let currentLocation = ref(null);
@@ -187,11 +185,10 @@ export default defineComponent({
     const loadingRef = ref(false);
     let price = ref(null);
     let duration = ref(null);
-    let products = ref(null);
+    let products = ref({});
     let countPage = 1;
     const message = useMessage();
     return {
-      route,
       currentLocation,
       startTime,
       endTime,
@@ -206,7 +203,6 @@ export default defineComponent({
           loadingRef.value = false
         }, 2000)
       },
-      loading: loadingRef,
       priceoptions: [
         {
           label: "Less than $500",
@@ -415,9 +411,6 @@ export default defineComponent({
       tourType: ref(),
       price: ref(),
       duration: ref(),
-      state: this.$route.query.state,
-      if_type: this.$route.query.type,
-      if_hot: this.$route.query.hot,
     })
         .then((response)=>{
           const code = response.status
@@ -450,56 +443,10 @@ export default defineComponent({
   data(){
     return{
       countPage: ref(),
-      items:[
-        // {
-        //   id: 1,
-        //   image: "../../assets/searchViewTest.png",
-        //   loading: false,
-        //   hours: "6+ hours",
-        //   title: "Leeds Castle, Cliffs of Dover and Canterbury Day Trip from London with Guided Cathedral Tour",
-        //   location: "Westminster Borough, London",
-        //   opt1: "Taking safety measures",
-        //   opt2: "Free cancellation",
-        //   stars: [1, 2, 3, 4, 5],
-        //   reviews: "3,014",
-        //   price: "72",
-        //   per: "per adult"
-        // },
-        // {
-        //   id: 2,
-        //   image: "../../assets/searchViewTest.png",
-        //   loading: false,
-        //   hours: "8+ hours",
-        //   title: "Day Trip to the Isle of Wight from London: including Osborne House Tickets",
-        //   location: "Isle of Wight, United Kingdom",
-        //   opt1: "Taking safety measures",
-        //   opt2: "Free cancellation",
-        //   stars: [1, 2, 3, 4],
-        //   reviews: "1,223",
-        //   price: "116",
-        //   per: "per adult"
-        // },
-        // {
-        //   id: 3,
-        //   image: "../../assets/searchViewTest.png",
-        //   loading: false,
-        //   hours: "7 hours",
-        //   title: "Stonehenge, Windsor Castle, and Bath with Pub Lunch in Lacock",
-        //   location: "Greater London, United Kingdom",
-        //   opt1: "Taking safety measures",
-        //   opt2: "Free cancellation",
-        //   stars: [1, 2, 3, 4],
-        //   reviews: "1,223",
-        //   price: "116",
-        //   per: "per adult"
-        // }
-      ],
     }
   },
   methods:{
     pageChange(newPage){
-      var self = this;
-      // console.log(`Current page is ${newPage}`);
       axios.post('http://127.0.0.1:5000/search/product_list',{
         page: newPage,
         startTime: startTime.value,
@@ -515,69 +462,6 @@ export default defineComponent({
         console.log(error);
       });
     }
-
-  },
-  mounted() {
-    const loader = new Loader({
-      apiKey: "AIzaSyBctzU8ocpP_0j4IdTRqA-GABIAnaXd0ow",
-      version: "beta",
-      libraries: ["marker"],
-      language: "en-US"
-    });
-
-    loader.load().then((google) => {
-      const center = { lat: 34.84555, lng: -111.8035 };
-      let map = new google.maps.Map(document.getElementById("map"), {
-        center: center,
-        zoom: 12,
-        mapId: "fdhssdfkhsdjkhasdfjkh"
-      });
-      const tourStops = [
-        {
-          position: { lat: 34.8791806, lng: -111.8265049 },
-          title: "Boynton Pass",
-        },
-        {
-          position: { lat: 34.8559195, lng: -111.7988186 },
-          title: "Airport Mesa",
-        },
-        {
-          position: { lat: 34.832149, lng: -111.7695277 },
-          title: "Chapel of the Holy Cross",
-        },
-        {
-          position: { lat: 34.823736, lng: -111.8001857 },
-          title: "Red Rock Crossing",
-        },
-        {
-          position: { lat: 34.800326, lng: -111.7665047 },
-          title: "Bell Rock",
-        },
-      ];
-      // Create an info window to share between markers.
-      const infoWindow = new google.maps.InfoWindow();
-      tourStops.forEach(({ position, title }, i) => {
-        const pinView = new google.maps.marker.PinView({
-          glyph: `${i + 1}`,
-        });
-        const marker = new google.maps.marker.AdvancedMarkerView({
-          position,
-          map,
-          title: `${i + 1}. ${title}`,
-          content: pinView.element,
-        });
-
-        // Add a click listener for each marker, and set up the info window.
-        marker.addListener("click", ({ domEvent, latLng }) => {
-          const { target } = domEvent;
-
-          infoWindow.close();
-          infoWindow.setContent(marker.title);
-          infoWindow.open(marker.map, marker);
-        });
-      });
-
-    });
 
   },
 })
