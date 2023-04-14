@@ -11,7 +11,7 @@ def change_order_status():
     data = request.get_json(silent=True)
     order_id = data['order_id']
     order = Order.query.filter_by(id=order_id)
-    order.order_status = data['order_status']
+    order.order_status = data['operation']
     db.session.commit()
     return jsonify(message="modify successfully", code=200)
 
@@ -19,7 +19,7 @@ def change_order_status():
 @bp.route("/view_all", methods=['GET'])
 def view_all_order():
     all_orders = db.session.query(Order).all()
-    return jsonify(all_orders=[order.serialize_latest() for order in all_orders], code=200)
+    return jsonify(all_orders=[order.serialize_all() for order in all_orders], code=200)
 
 
 @bp.route("/recent_product_list", methods=["GET"])
