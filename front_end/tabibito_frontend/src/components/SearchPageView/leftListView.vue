@@ -165,6 +165,7 @@ import delistButton from "../BackListView/delistButton.vue";
 import editButton from "../BackListView/editButton.vue";
 import {useRouter} from 'vue-router';
 import axios from "axios";
+import {useLangStore} from "../../store.js";
 export default defineComponent({
   name: "leftListView",
   components: {
@@ -178,6 +179,16 @@ export default defineComponent({
     ArrowForward
   },
   setup () {
+    let project_loc = null;
+    let project_zoom = 1;
+    const raw_trip_data = ref([]);
+    const locations = [];
+    // const itineraryData = [];
+    const langStore = useLangStore();
+    let mapLanguage = 'en-US';
+    if (langStore.language === 'zh'){
+      mapLanguage = 'zh-CN'
+    }
     let startTime = ref(null);
     let endTime = ref(null);
     let currentLocation = ref(null);
@@ -197,6 +208,52 @@ export default defineComponent({
       duration,
       products,
       countPage,
+      raw_trip_data,
+      project_loc,
+      project_zoom,
+      locations,
+      // itineraryData,
+      loadMap(){
+        const loader = new Loader({
+          apiKey: "AIzaSyBctzU8ocpP_0j4IdTRqA-GABIAnaXd0ow",
+          version: "beta",
+          libraries: ["marker"],
+          language: mapLanguage
+        });
+
+        loader.load().then((google) => {
+          const center = this.project_loc;
+          let map = new google.maps.Map(document.getElementById("map"), {
+            center: center,
+            zoom: this.project_zoom,
+            mapId: "jkhjkhkjhjkh"
+          });
+          const tourStops = this.locations;
+          // Create an info window to share between markers.
+          const infoWindow = new google.maps.InfoWindow();
+          tourStops.forEach(({ position, title }, i) => {
+            const pinView = new google.maps.marker.PinView({
+              glyph: `${i + 1}`,
+            });
+            const marker = new google.maps.marker.AdvancedMarkerView({
+              position,
+              map,
+              title: `${i + 1}. ${title}`,
+              content: pinView.element,
+            });
+
+            // Add a click listener for each marker, and set up the info window.
+            marker.addListener("click", ({ domEvent, latLng }) => {
+              const { target } = domEvent;
+
+              infoWindow.close();
+              infoWindow.setContent(marker.title);
+              infoWindow.open(marker.map, marker);
+            });
+          });
+
+        });
+      },
       handleClick() {
         loadingRef.value = true
         setTimeout(() => {
@@ -379,7 +436,26 @@ export default defineComponent({
             .then((response)=>{
               const code = response.status
               if (code === 200){
-                products.value = response.data.products
+                products.value = response.data.products;
+                this.project_loc = {
+                  lat: response.data.products.map_latitude,
+                  lng: response.data.products.map_longitude
+                }
+                this.project_zoom = response.data.products.map_zoom;
+                this.raw_trip_data.value = response.data.products
+                for (let i = 0; i < this.raw_trip_data.value.length; i++){
+                  this.locations.push({
+                    position: {lat: this.raw_trip_data.value[i].location.map_latitude, lng: this.raw_trip_data.value[i].location.map_longitude},
+                    title: this.raw_trip_data.value[i].location.exact
+                  });
+                  this.itineraryData.push({
+                    name: this.raw_trip_data.value[i].activity,
+                    time: "Day " + this.raw_trip_data.value[i].day + ", " + this.raw_trip_data.value[i].time_of_day + " " + this.raw_trip_data.value[i].time,
+                    description: this.raw_trip_data.value[i].location.exact,
+                    picture: this.raw_trip_data.value[i].picture
+                  })
+                }
+                this.loadMap();
               }
             })
         axios.post("http://127.0.0.1:5000/search/product_number",
@@ -415,7 +491,26 @@ export default defineComponent({
         .then((response)=>{
           const code = response.status
           if (code === 200){
-            this.products = response.data.products
+            this.products = response.data.products;
+            this.project_loc = {
+              lat: response.data.products.map_latitude,
+              lng: response.data.products.map_longitude
+            }
+            this.project_zoom = response.data.products.map_zoom;
+            this.raw_trip_data.value = response.data.products
+            for (let i = 0; i < this.raw_trip_data.value.length; i++){
+              this.locations.push({
+                position: {lat: this.raw_trip_data.value[i].location.map_latitude, lng: this.raw_trip_data.value[i].location.map_longitude},
+                title: this.raw_trip_data.value[i].location.exact
+              });
+              this.itineraryData.push({
+                name: this.raw_trip_data.value[i].activity,
+                time: "Day " + this.raw_trip_data.value[i].day + ", " + this.raw_trip_data.value[i].time_of_day + " " + this.raw_trip_data.value[i].time,
+                description: this.raw_trip_data.value[i].location.exact,
+                picture: this.raw_trip_data.value[i].picture
+              })
+            }
+            this.loadMap();
           }
         })
 
@@ -443,6 +538,7 @@ export default defineComponent({
   data(){
     return{
       countPage: ref(),
+      itineraryData: []
     }
   },
   methods:{
