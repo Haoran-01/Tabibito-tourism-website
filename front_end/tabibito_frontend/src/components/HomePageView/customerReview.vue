@@ -8,8 +8,8 @@
     <!--    文字标题部分-->
     <div class="CRContainer">
       <div class="tit">
-        <h2 class="t1">Customer Reviews</h2>
-        <p class="t2">A showcase of the most brilliant reviews</p>
+        <h2 class="t1">{{$t('customerReview.title')}}</h2>
+        <p class="t2">{{ $t('customerReview.showcase')}}</p>
       </div>
 
       <!--      图片+文字轮播图部分-->

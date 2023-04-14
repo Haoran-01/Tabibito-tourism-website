@@ -4,7 +4,7 @@
     <div class="container">
       <div class="row chooseHead y-gap-20">
         <div class="col-auto">
-            <h2 class="sectionTitle">Choose Tour Types</h2>
+            <h2 class="sectionTitle">{{ $t('chooseTourTypes.choose')}}</h2>
             <p class="sectionText">Interdum et malesuada fames ac ante ipsum</p>
         </div>
       </div>
@@ -15,7 +15,7 @@
             <div class="cardContent">
               <a href="" class="cardHref">
                 <div class="tourTypeCardContent">
-                  <i class="icon-nature icon"></i>
+                  <n-icon class="icon"><Leaf /></n-icon>
                   <h4 class="cardText">Wildlife Tour</h4>
                   <p class="cardPrice">5 Tours From 550$</p>
                 </div>
@@ -26,7 +26,7 @@
             <div class="cardContent">
               <a href="" class="cardHref">
                 <div class="tourTypeCardContent">
-                  <i class="icon-nature icon"></i>
+                  <n-icon class="icon"><Bonfire /></n-icon>
                   <h4 class="cardText">Adventure Tour</h4>
                   <p class="cardPrice">5 Tours From 550$</p>
                 </div>
@@ -37,7 +37,7 @@
             <div class="cardContent">
               <a href="" class="cardHref">
                 <div class="tourTypeCardContent">
-                  <i class="icon-nature icon"></i>
+                  <n-icon class="icon"><CarSport /></n-icon>
                   <h4 class="cardText">City Tours</h4>
                   <p class="cardPrice">5 Tours From 550$</p>
                 </div>
@@ -48,7 +48,7 @@
             <div class="cardContent">
               <a href="" class="cardHref">
                 <div class="tourTypeCardContent">
-                  <i class="icon-nature icon"></i>
+                  <n-icon class="icon"><Business /></n-icon>
                   <h4 class="cardText">Museum Tours</h4>
                   <p class="cardPrice">5 Tours From 550$</p>
                 </div>
@@ -59,7 +59,7 @@
             <div class="cardContent">
               <a href="" class="cardHref">
                 <div class="tourTypeCardContent">
-                  <i class="icon-nature icon"></i>
+                  <n-icon class="icon"><Boat /></n-icon>
                   <h4 class="cardText">Beaches Tour</h4>
                   <p class="cardPrice">5 Tours From 550$</p>
                 </div>
@@ -95,13 +95,18 @@
 </template>
 
 <script>
-import { ArrowBack, ArrowForward } from '@vicons/ionicons5'
+import { ArrowBack, ArrowForward, Leaf, Boat, Bonfire, Business, CarSport } from '@vicons/ionicons5'
 import {defineComponent, onMounted, ref} from 'vue'
 import {useRouter} from "vue-router";
 export default {
   components: {
     ArrowBack,
-    ArrowForward
+    ArrowForward,
+    Leaf,
+    Boat,
+    Bonfire,
+    Business,
+    CarSport
   },
   name: "chooseTourTypes",
   data() {

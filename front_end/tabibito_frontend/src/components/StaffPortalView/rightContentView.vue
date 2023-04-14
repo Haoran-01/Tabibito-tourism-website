@@ -28,7 +28,7 @@
                 </div>
 
                 <div class="col-auto">
-                  <img src="../../assets/dashboard_sample_icon.svg" alt="icon">
+                  <img src="../../assets/dashboard/icons/1.svg" alt="icon">
                 </div>
               </div>
             </div>
@@ -43,7 +43,7 @@
                 </div>
 
                 <div class="col-auto">
-                  <img src="../../assets/dashboard_sample_icon.svg" alt="icon">
+                  <img src="../../assets/dashboard/icons/2.svg" alt="icon">
                 </div>
               </div>
             </div>
@@ -58,7 +58,7 @@
                 </div>
 
                 <div class="col-auto">
-                  <img src="../../assets/dashboard_sample_icon.svg" alt="icon">
+                  <img src="../../assets/dashboard/icons/3.svg" alt="icon">
                 </div>
               </div>
             </div>
@@ -73,7 +73,7 @@
                 </div>
 
                 <div class="col-auto">
-                  <img src="../../assets/dashboard_sample_icon.svg" alt="icon">
+                  <img src="../../assets/dashboard/icons/4.svg" alt="icon">
                 </div>
               </div>
             </div>

@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from datetime import datetime, timedelta
 from exts import db
-from models import Order, Product, OrderStatus
+from models import Order, Product, OrderStatus, ProductStatus
 
 bp = Blueprint("Staff", __name__, url_prefix="/staff_portal")
 
@@ -51,7 +51,7 @@ def change_product_status():
     new_status = data['operation']
     product = Product.query.filter_by(id=product_id).first()
     if product is not None:
-        product.status = new_status
+        product.status = ProductStatus(new_status)
         db.session.commit()
         return jsonify(code=200)
     else:
@@ -66,35 +66,35 @@ def statistic():
 
     pending_orders_month = Order.query.filter(
         Order.create_time >= last_thirty_days,
-        Order.order_status == OrderStatus.Pending
+        Order.order_status == OrderStatus.Processing
     ).all()
 
     month_pending = sum(order.product.ori_price * order.product.discount * order.product_number for order in pending_orders_month)
 
     confirm_orders_month = Order.query.filter(
         Order.create_time >= last_thirty_days,
-        Order.order_status == OrderStatus.Confirmed
+        Order.order_status == OrderStatus.Completed
     ).all()
 
     month_earning = sum(order.product.ori_price * order.product.discount * order.product_number for order in confirm_orders_month)
 
     pending_orders_quarter = Order.query.filter(
         Order.create_time >= last_ninty_days,
-        Order.order_status == OrderStatus.Pending
+        Order.order_status == OrderStatus.Processing
     ).all()
 
     quarterly_pending = sum(order.product.ori_price * order.product.discount * order.product_number for order in pending_orders_quarter)
 
     confirm_orders_quarter = Order.query.filter(
         Order.create_time >= last_ninty_days,
-        Order.order_status == OrderStatus.Confirmed
+        Order.order_status == OrderStatus.Completed
     ).all()
 
     quarterly_earning = sum(order.product.ori_price * order.product.discount * order.product_number for order in confirm_orders_quarter)
 
     return jsonify(
-        month_pending=month_pending,
-        month_earning=month_earning,
-        quarterly_pending=quarterly_pending,
-        quarterly_earning=quarterly_earning
+        month_pending=round(month_pending),
+        month_earning=round(month_earning),
+        quarterly_pending=round(quarterly_pending),
+        quarterly_earning=round(quarterly_earning)
     )

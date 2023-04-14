@@ -7,8 +7,8 @@
       <div class="row sectionTitleLayout">
         <div class="col-auto">
           <div class="sectionTitle -md">
-            <h2 class="sectionOverheardTitle">Overheard from travelers</h2>
-            <p class="sectionOverheardText">These popular destinations have a lot to offer</p>
+            <h2 class="sectionOverheardTitle">{{ $t('overheard.overheard')}}</h2>
+            <p class="sectionOverheardText">{{ $t('overheard.these')}}</p>
           </div>
         </div>
       </div>

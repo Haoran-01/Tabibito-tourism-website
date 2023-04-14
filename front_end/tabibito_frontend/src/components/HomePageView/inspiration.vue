@@ -2,8 +2,8 @@
   <section class="pos">
     <div class="iContainer">
       <div class="iTex">
-        <h2 class="iTex1">Get inspiration for your next trip</h2>
-        <p class="iTex2">Great travelling ideas</p>
+        <h2 class="iTex1">{{ $t('inspiration.get')}}</h2>
+        <p class="iTex2">{{ $t('inspiration.great')}}</p>
       </div>
 
       <div class="line">

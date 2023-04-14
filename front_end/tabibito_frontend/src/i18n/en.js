@@ -98,5 +98,76 @@ export default {
     footer: {
         journey1: "Your Travel Journey Starts Here",
         journey2: "Sign up and we'll send the best deals to you",
+    },
+    hotLocation: {
+        explore: "Explore Hot Locations",
+        choose: "Choose The Popular Travel Places",
+        more: "More"
+    },
+    chooseTourTypes: {
+        choose: "Choose Tour Types"
+    },
+    customerReview: {
+        title: "Customer Reviews",
+        showcase: "A showcase of the most brilliant reviews"
+    },
+    inspiration: {
+        get: "Get inspiration for your next trip",
+        great: "Great travelling ideas"
+    },
+    mostPopularTours: {
+        most: "Most Popular Tours"
+    },
+    notMember: {
+        not: "Not a Member Yet?",
+        slogan: "Join us! Our members can access savings of up to 50% and earn Trip Coins while booking.",
+        sign: "Sign In",
+        reg: "Register"
+    },
+    overheard: {
+        overheard: "Overheard from travelers",
+        these: "These popular destinations have a lot to offer"
+    },
+    our: {
+        team: "Our Team"
+    },
+    reg: {
+        sign: "Sign in or create an account",
+        alr: "Already have an account?",
+        log: "Log in",
+        fir: "First Name",
+        las: "Last Name",
+        email: "Email",
+        pass: "Password",
+        con: "Confirm Password",
+        ver: "Verification Code",
+        sig: "Sign In",
+        or: "or sign in with",
+        goo: "Google",
+        by: "By signing in, I agree to Tabibito Terms of Use and Privacy Policy.",
+        get: "Get"
+    },
+    forget: {
+        res: "Reset Your Password",
+        rem: "Remembered the password?",
+        log: "Login in Now",
+        email: "Email",
+        veri: "Verification Code",
+        get: "Get",
+        conti: "Continue",
+        or: "Or sign in with",
+        Google: "Google",
+        reset: "Reset your password with a verification code or log in with google."
+    },
+    reset: {
+        reset: "Reset Your Password",
+        rem: "Remembered the password?",
+        log: "Login in Now",
+        enter: "Enter your new password",
+        con: "Confirm your password",
+        res: "Reset Password",
+        or: "or sign in with",
+        goo: "Google",
+        rese: "Reset your password with a verification code or log in with google."
     }
 }
