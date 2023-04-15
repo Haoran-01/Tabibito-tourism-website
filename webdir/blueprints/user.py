@@ -172,7 +172,6 @@ def password_check():
 @bp.route("/test_order", methods=["GET", "POST"])
 def test_order():
     product = Product.query.filter_by(id=1).first()
-    print(product.tags)
     return jsonify(code=200)
 
 

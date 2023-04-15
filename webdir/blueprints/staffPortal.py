@@ -11,7 +11,11 @@ def change_order_status():
     data = request.get_json(silent=True)
     order_id = data['id']
     order = Order.query.filter_by(id=order_id)
-    order.order_status = data['operation']
+    if order.order_status == OrderStatus.Processing:
+        order.order_status = data['operation']
+    else:
+        if data['operation'] == OrderStatus.Completed or data['operation'] == OrderStatus.Cancelled:
+            return jsonify(code=400, message="wrong operation")
     db.session.commit()
     return jsonify(message="modify successfully", code=200)
 
@@ -40,7 +44,6 @@ def product_number():
 def product_list():
     data = request.get_json()
     page = data['page']
-    print(page)
     per_page = 10  # 每页10个对象
     products = Product.query.order_by(Product.id).paginate(page=page, per_page=per_page, error_out=False).items
     return jsonify(products=[product.serialize_staff_page() for product in products])
