@@ -403,7 +403,7 @@ class Product(db.Model):
         return {
             'id': self.id,
             'image': self.pictures[0].address,
-            'hours': (self.end_time.timestamp() - self.start_time.timestamp()) * 1000,
+            'duration': self.duration(),
             'types': [the_type.type.name for the_type in self.types],
             'title': self.name,
             'location': self.raw_loc,
