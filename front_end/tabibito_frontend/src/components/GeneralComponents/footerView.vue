@@ -37,74 +37,74 @@
       <div class="layout-footer">
         <div class="row layout-footer-contents xl:justify-start">
           <div class="col-xl col-lg col-sm">
-            <h5 class="footer-h">Contact Us</h5>
+            <h5 class="footer-h">{{ $t('footer.contact') }}</h5>
 
             <div class="mt-30">
-              <div class="text-14 mt-30">Toll Free Customer Care</div>
-              <a href="#" class="contact-href">+(1) 123 456 7890</a>
+              <div class="text-14 mt-30">{{ $t('footer.toll') }}</div>
+              <a href="#" class="contact-href">{{ $t('footer.tele') }}</a>
             </div>
 
             <div class="mt-35">
-              <div class="text-14 mt-30">Need live support?</div>
-              <a href="#" class="contact-href">hi@tabibito.com</a>
+              <div class="text-14 mt-30">{{ $t('footer.supp') }}</div>
+              <a href="#" class="contact-href">{{ $t('footer.email') }}</a>
             </div>
           </div>
 
           <div class="col-xl col-lg col-sm">
-            <h5 class="footer-h">Company</h5>
+            <h5 class="footer-h">{{ $t('footer.comp') }}</h5>
             <div class="contact-title">
-              <a @click="this.$router.push('/about')" class="link">About Us</a>
-              <a href="#" class="link">Careers</a>
-              <a href="#" class="link">Blog</a>
-              <a href="#" class="link">Press</a>
-              <a href="#" class="link">Gift Cards</a>
-              <a href="#" class="link">Magazine</a>
+              <a @click="this.$router.push('/about')" class="link">{{ $t('footer.about') }}</a>
+              <a href="#" class="link">{{ $t('footer.carr') }}</a>
+              <a href="#" class="link">{{ $t('footer.blog') }}</a>
+              <a href="#" class="link">{{ $t('footer.press') }}</a>
+              <a href="#" class="link">{{ $t('footer.gift') }}</a>
+              <a href="#" class="link">{{ $t('footer.maga') }}</a>
             </div>
           </div>
 
           <div class="col-xl col-lg col-sm">
-            <h5 class="footer-h">Support</h5>
+            <h5 class="footer-h"></h5>
             <div class="contact-title">
-              <a href="#" class="link">Contact</a>
-              <a href="#" class="link">Legal Notice</a>
-              <a href="#" class="link">Privacy Policy</a>
-              <a href="#" class="link">Terms and Conditions</a>
-              <a href="#" class="link">Sitemap</a>
+              <a href="#" class="link">{{ $t('footer.cont') }}</a>
+              <a href="#" class="link">{{ $t('footer.legal') }}</a>
+              <a href="#" class="link">{{ $t('footer.priva') }}</a>
+              <a href="#" class="link">{{ $t('footer.terms') }}</a>
+              <a href="#" class="link">{{ $t('footer.site') }}</a>
             </div>
           </div>
 
           <div class="col-xl col-lg col-sm">
-            <h5 class="footer-h">Other Services</h5>
+            <h5 class="footer-h">{{ $t('footer.other') }}</h5>
             <div class="contact-title">
-              <a href="#" class="link">Car hire</a>
-              <a href="#" class="link">Activity Finder</a>
-              <a href="#" class="link">Tour List</a>
-              <a href="#" class="link">Flight finder</a>
-              <a href="#" class="link">Cruise Ticket</a>
-              <a href="#" class="link">Holiday Rental</a>
-              <a href="#" class="link">Travel Agents</a>
+              <a href="#" class="link">{{ $t('footer.carh') }}</a>
+              <a href="#" class="link">{{ $t('footer.acti') }}</a>
+              <a href="#" class="link">{{ $t('footer.tour') }}</a>
+              <a href="#" class="link">{{ $t('footer.fligh') }}</a>
+              <a href="#" class="link">{{ $t('footer.crui') }}</a>
+              <a href="#" class="link">{{ $t('footer.holi') }}</a>
+              <a href="#" class="link">{{ $t('footer.travel') }}</a>
             </div>
           </div>
 
-          <div class="col-xl col-lg col-sm">
-            <h5 class="footer-h">Mobile</h5>
+<!--          <div class="col-xl col-lg col-sm">-->
+<!--            <h5 class="footer-h">Mobile</h5>-->
 
-            <div class="contact-apple">
-              <div class="icon-apple text-24"></div>
-              <div class="icon-apple-ml">
-                <div class="icon-apple-text1">Download on the</div>
-                <div class="icon-apple-text2">Apple Store</div>
-              </div>
-            </div>
+<!--            <div class="contact-apple">-->
+<!--              <div class="icon-apple text-24"></div>-->
+<!--              <div class="icon-apple-ml">-->
+<!--                <div class="icon-apple-text1">Download on the</div>-->
+<!--                <div class="icon-apple-text2">Apple Store</div>-->
+<!--              </div>-->
+<!--            </div>-->
 
-            <div class="contact-google">
-              <div class="icon-play-market text-24"></div>
-              <div class="icon-apple-ml">
-                <div class="icon-apple-text1">Get in on</div>
-                <div class="icon-apple-text2">Google Play</div>
-              </div>
-            </div>
-          </div>
+<!--            <div class="contact-google">-->
+<!--              <div class="icon-play-market text-24"></div>-->
+<!--              <div class="icon-apple-ml">-->
+<!--                <div class="icon-apple-text1">Get in on</div>-->
+<!--                <div class="icon-apple-text2">Google Play</div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
         </div>
       </div>
 
@@ -114,7 +114,7 @@
             <div class="row contact-foot-sub">
               <div class="col-auto">
                 <div class="contact-foot-text">
-                  © 2022 Tabibito LLC All rights reserved.
+                  {{ $t('footer.reser') }}
                 </div>
               </div>
             </div>
@@ -126,12 +126,12 @@
                 <div class="contact-foot-sub2-in">
                   <button class="contact-foot-sub2-btn">
                     <i class="icon-globe contact-foot-sub2-icon"></i>
-                    <span class="underline">English (US)</span>
+                    <span class="underline">{{ $t('footer.lang') }}</span>
                   </button>
 
                   <button class="contact-foot-sub2-btn2">
                     <i class="icon-usd contact-foot-sub2-icon"></i>
-                    <span class="underline">USD</span>
+                    <span class="underline">{{ $t('footer.usd') }}</span>
                   </button>
                 </div>
               </div>
