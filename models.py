@@ -108,7 +108,7 @@ class Comment(db.Model):
         return {
             'user_name': self.user.user_first_name + self.user.user_last_name,
             'profile_pic': self.user.profile.picture_address,
-            'date_time': self.datetime.timestamp() * 1000,
+            'date_time': self.datetime.strftime("%A, %d %B %Y"),
             'pic': [picture.address for picture in self.pictures],
             'des': self.des,
             'title': self.title,

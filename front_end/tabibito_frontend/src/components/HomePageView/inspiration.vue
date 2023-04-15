@@ -12,7 +12,7 @@
           <div class="iCon">
             <a class="iBlock">
               <div class="iImg">
-                <img class="imgI" src="{{ inspiration.picture }}" alt="">
+                <img class="imgI" :src="inspiration.picture" alt="">
               </div>
 
               <div class="iTex3">
@@ -133,6 +133,7 @@ export default {
 
 .iTex3{
   margin-top: 20px;
+  width: 300px;
 }
 
 .iTex4{
