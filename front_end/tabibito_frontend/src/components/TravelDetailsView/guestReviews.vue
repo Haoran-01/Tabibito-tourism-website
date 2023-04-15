@@ -199,18 +199,9 @@
               {{ comment.des }}
             </p>
 
-            <div class="row x-gap-20 y-gap-30 comment_photos">
+            <div class="row x-gap-20 y-gap-30 comment_photos" v-for="p in comments.pictures">
               <div class="col-auto">
-                <img src={{comment.pic[0]}} alt="image" class="photo">
-              </div>
-              <div class="col-auto">
-                <img src={{comment.pic[1]}} alt="image" class="photo">
-              </div>
-              <div class="col-auto">
-                <img src={{comment.pic[2]}} alt="image" class="photo">
-              </div>
-              <div class="col-auto">
-                <img src={{comment.pic[3]}} alt="image" class="photo">
+                <img src={{p}} alt="image" class="photo">
               </div>
             </div>
 
