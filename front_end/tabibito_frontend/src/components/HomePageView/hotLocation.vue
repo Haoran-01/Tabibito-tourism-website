@@ -19,9 +19,9 @@
       <div class="blocks">
         <div v-for="location in locations" :key="location.name">
         <div class="rect">
-          <a class="clickArea"  @click="this.$router.push({ name:'search', query: {state:'hot', hot: location.name}})">
+          <a class="clickArea">
             <div class="box">
-            <img class="image" src="{{ location.picture }}" alt="">
+            <img class="image" :src="location.picture"  @click="this.$router.push({ name:'search', query: {state:'hot', hot: location.name}})" alt="">
             </div>
             <div class="text">
             <div class="text1" >{{ location.name }}</div>
@@ -30,72 +30,6 @@
           </a>
         </div>
         </div>
-
-
-<!--        &lt;!&ndash;      第四个图片区块&ndash;&gt;-->
-<!--        <div class="rect">-->
-<!--          <a class="clickArea">-->
-<!--            <div class="box">-->
-<!--              <img class="image" src="../../assets/1.png" alt="">-->
-<!--            </div>-->
-<!--            <div class="text">-->
-<!--              <div class="text1">Miami</div>-->
-<!--              <div class="text2">4,090 properties</div>-->
-<!--            </div>-->
-<!--          </a>-->
-<!--        </div>-->
-
-<!--        &lt;!&ndash;      第五个图片区块&ndash;&gt;-->
-<!--        <div class="rect">-->
-<!--          <a class="clickArea">-->
-<!--            <div class="box">-->
-<!--              <img class="image" src="../../assets/1.png" alt="">-->
-<!--            </div>-->
-<!--            <div class="text">-->
-<!--              <div class="text1">Miami</div>-->
-<!--              <div class="text2">4,090 properties</div>-->
-<!--            </div>-->
-<!--          </a>-->
-<!--        </div>-->
-
-<!--        &lt;!&ndash;      第六个图片区块&ndash;&gt;-->
-<!--        <div class="rect">-->
-<!--          <a class="clickArea">-->
-<!--            <div class="box">-->
-<!--              <img class="image" src="../../assets/1.png" alt="">-->
-<!--            </div>-->
-<!--            <div class="text">-->
-<!--              <div class="text1">Miami</div>-->
-<!--              <div class="text2">4,090 properties</div>-->
-<!--            </div>-->
-<!--          </a>-->
-<!--        </div>-->
-
-<!--        &lt;!&ndash;      第七个图片区块&ndash;&gt;-->
-<!--        <div class="rect">-->
-<!--          <a class="clickArea">-->
-<!--            <div class="box">-->
-<!--              <img class="image" src="../../assets/1.png" alt="">-->
-<!--            </div>-->
-<!--            <div class="text">-->
-<!--              <div class="text1">Miami</div>-->
-<!--              <div class="text2">4,090 properties</div>-->
-<!--            </div>-->
-<!--          </a>-->
-<!--        </div>-->
-
-<!--        &lt;!&ndash;      第八个图片区块&ndash;&gt;-->
-<!--        <div class="rect">-->
-<!--          <a class="clickArea">-->
-<!--            <div class="box">-->
-<!--              <img class="image" src="../../assets/1.png" alt="">-->
-<!--            </div>-->
-<!--            <div class="text">-->
-<!--              <div class="text1">Miami</div>-->
-<!--              <div class="text2">4,090 properties</div>-->
-<!--            </div>-->
-<!--          </a>-->
-<!--        </div>-->
 
       </div>
 
@@ -224,20 +158,21 @@ export default {
 
 .rect{
   flex:0 0 auto;
-  width:25%;
+  width:30%;
 
   padding-top: 30px;
+  padding-left: 50px;
 }
 
 .clickArea{
   display: flex;
-  flex-wrap:wrap;
+  //flex-wrap:wrap;
 
   align-items: center;
 }
 .box{
   height: 100px;
-  overflow: hidden;
+  //overflow: hidden;
 }
 
 .image{
@@ -247,6 +182,7 @@ export default {
   flex-shrink: 0;
   width: 100px;
   height: 100px;
+
 }
 
 .clickArea .image{
@@ -261,7 +197,7 @@ export default {
 
 .text{
   flex:0 0 auto;
-  width:auto;
+  width: 160px;
   margin-left: 20px;
 }
 
