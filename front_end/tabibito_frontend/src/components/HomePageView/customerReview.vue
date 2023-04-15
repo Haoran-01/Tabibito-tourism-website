@@ -18,14 +18,14 @@
         <div class="con">
           <div class="img">
             <img src="../../assets/quote_bg.svg" alt="">
-            <img src="{{ review.pictures }}" alt="">
+            <img :src="review.user_portrait" alt="">
           </div>
 
           <h4 class="tex1">{{ review.title }}</h4>
           <div class="tex2">{{ review.des }}</div>
 
           <div class="author">
-            <h5 class="tex3"> {{ review.user_portrait }} </h5>
+<!--            <h5 class="tex3"> {{ review.user_portrait }} </h5>-->
             <div class="tex4">{{ review.date }}</div>
             <div class="tex4">{{ review.time }}</div>
 
@@ -272,10 +272,11 @@ export default {
 }
 
 .tex4{
-  font-weight: 100;
+  font-weight: 450;
   font-size: 14px;
   color: #697488;
   margin-top: 5px;
+  font-family: JosT;
 }
 
 @media screen and (max-width: 550px) {
