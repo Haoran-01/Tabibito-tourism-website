@@ -10,73 +10,72 @@
             </div>
           </div>
         </div>
-
         <div class="our-team-contents">
           <n-carousel :slides-per-view="4" :space-between="20" :loop="false" autoplay show-arrow>
 
             <div>
               <img
                   class="carousel-img"
-                  src="../../assets/team/1.png"
+                  src="../../assets/team/LDL.jpg"
               >
                 <div class="name-bar-our-team">
-                  <div class="our-team-name">Cody Fisher</div>
-                  <div class="our-team-job">Medical Assistant</div>
+                  <div class="our-team-name">Donglin Liu</div>
+                  <div class="our-team-job">Front-End</div>
                 </div>
             </div>
 
             <div>
               <img
                   class="carousel-img"
-                  src="../../assets/team/2.png"
+                  src="../../assets/team/HFH.jpg"
               >
               <div class="name-bar-our-team">
-                <div class="our-team-name">Dianne Russell</div>
-                <div class="our-team-job">Web Designer</div>
+                <div class="our-team-name">Feihe Huang</div>
+                <div class="our-team-job">Front-End</div>
               </div>
             </div>
 
             <div>
               <img
                   class="carousel-img"
-                  src="../../assets/team/3.png"
+                  src="../../assets/team/YHR.jpg"
               >
               <div class="name-bar-our-team">
-                <div class="our-team-name">Jerome Bell</div>
-                <div class="our-team-job">Marketing Coordinator</div>
+                <div class="our-team-name">Haoran Yan</div>
+                <div class="our-team-job">Back-End</div>
               </div>
             </div>
 
             <div>
               <img
                   class="carousel-img"
-                  src="../../assets/team/4.png"
+                  src="../../assets/team/ZJH.jpg"
               >
               <div class="name-bar-our-team">
-                <div class="our-team-name">Theresa Webb</div>
-                <div class="our-team-job">Nursing Assistant</div>
+                <div class="our-team-name">Jiahe Zhang</div>
+                <div class="our-team-job">Front-End</div>
               </div>
             </div>
 
             <div>
               <img
                   class="carousel-img"
-                  src="../../assets/team/5.png"
+                  src="../../assets/team/XWB.jpg"
               >
               <div class="name-bar-our-team">
-                <div class="our-team-name">Cameron Williamson</div>
-                <div class="our-team-job">Dog Trainer</div>
+                <div class="our-team-name">Wenbei Xie</div>
+                <div class="our-team-job">Front-End</div>
               </div>
             </div>
 
             <div>
               <img
                   class="carousel-img"
-                  src="../../assets/team/6.png"
+                  src="../../assets/team/WWJ.jpg"
               >
               <div class="name-bar-our-team">
-                <div class="our-team-name">Courtney Henry</div>
-                <div class="our-team-job">Medical Assistant</div>
+                <div class="our-team-name">Wenjie Wu</div>
+                <div class="our-team-job">Back-End</div>
               </div>
             </div>
 

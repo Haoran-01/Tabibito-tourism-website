@@ -53,7 +53,7 @@
           <div class="col-xl col-lg col-sm">
             <h5 class="footer-h">Company</h5>
             <div class="contact-title">
-              <a href="#" class="link">About Us</a>
+              <a @click="this.$router.push('/about')" class="link">About Us</a>
               <a href="#" class="link">Careers</a>
               <a href="#" class="link">Blog</a>
               <a href="#" class="link">Press</a>
