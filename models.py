@@ -118,7 +118,7 @@ class Comment(db.Model):
 class CommentPicture(db.Model):
     __tablename__ = "comment_picture"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    address = db.Column(db.CHAR(200), nullable=False)
+    address = db.Column(db.CHAR(250), nullable=False)
 
     comment_id = db.Column(db.Integer, ForeignKey('comment.id', ondelete='CASCADE', onupdate='CASCADE'))
     comment = relationship('Comment', back_populates="pictures")
@@ -144,8 +144,8 @@ class EmailCaptchaModel(db.Model):
 class FeeDes(db.Model):
     __tablename__ = "fee_des"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.CHAR(50), nullable=False)
-    description = db.Column(db.CHAR(100), nullable=False)
+    name = db.Column(db.CHAR(100), nullable=False)
+    description = db.Column(db.CHAR(250), nullable=False)
 
     product_id = db.Column(db.Integer, ForeignKey('product.id', ondelete='CASCADE', onupdate='CASCADE'))
     product = relationship('Product', back_populates="fee_des")
@@ -206,7 +206,7 @@ class Order(db.Model):
 class Product(db.Model):
     __tablename__ = "product"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.CHAR(100), nullable=False, default="name")
+    name = db.Column(db.CHAR(250), nullable=False, default="name")
     description = db.Column(db.Text, nullable=False, default="des")
     group_number = db.Column(db.Integer, nullable=False, default=5)
     raw_loc = db.Column(db.CHAR(100), nullable=False, default="location")
@@ -437,7 +437,7 @@ class ProductType(db.Model):
 class ProductPicture(db.Model):
     __tablename__ = "product_picture"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    address = db.Column(db.CHAR(200), nullable=False)
+    address = db.Column(db.CHAR(250), nullable=False)
     # 1-cover image 2-banner_image 3-gallery 待会我写到config里
     type = db.Column(DBEnum(PictureType), default=PictureType.Gallery)
     product_id = db.Column(db.Integer, ForeignKey('product.id', ondelete='CASCADE', onupdate='CASCADE'))
@@ -448,7 +448,7 @@ class Tag(db.Model):
     __tablename__ = "tag"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     key = db.Column(db.CHAR(25), nullable=False)
-    value = db.Column(db.CHAR(100), nullable=False)
+    value = db.Column(db.CHAR(250), nullable=False)
 
     product_id = db.Column(db.Integer, ForeignKey('product.id', ondelete='CASCADE', onupdate='CASCADE'))
     product = relationship('Product', back_populates="tags")
@@ -467,11 +467,11 @@ class Trip(db.Model):
     __tablename__ = "trip"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     time = db.Column(db.DateTime, nullable=False)
-    exact = db.Column(db.CHAR(100), nullable=False)
+    exact = db.Column(db.CHAR(250), nullable=False)
     map_latitude = db.Column(db.Float, nullable=False)
     map_longitude = db.Column(db.Float, nullable=False)
     map_zoom = db.Column(db.Float, nullable=False)
-    activity = db.Column(db.CHAR(250), nullable=False)
+    activity = db.Column(db.Text, nullable=False)
     picture = db.Column(db.CHAR(200))
     day = db.Column(db.CHAR(5), nullable=False)
     time_of_day = db.Column(db.CHAR(10), nullable=False)
