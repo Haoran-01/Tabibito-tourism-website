@@ -80,7 +80,6 @@ def add_product():
             trips = data['trips']
             if trips:
                 for trip in trips:
-                    print(trip)
                     t = Trip(
                         product_id=product.id,
                         time=datetime.datetime.fromtimestamp(int(trip['time'])/1000),
@@ -89,7 +88,6 @@ def add_product():
                         day=trip['day'],
                         time_of_day=trip['time_of_day']
                     )
-                    print(trip['location'])
                     t.exact = trip['location']['exact']
                     t.map_latitude = trip['location']['map_latitude']
                     t.map_longitude = trip['location']['map_longitude']
@@ -127,13 +125,10 @@ def get_type_products():
 
 @bp.route("/get_product_grade", methods=["POST", "GET"])
 def get_product_grade():
-
     product_id = request.get_json(silent=True)["product_id"]
     product = Product.query.filter_by(id=product_id).first()
     if len(product.comments) != 0:
-
         marks = product.get_each_part_mark()
-
         return jsonify(code=200,
                        exceptional=marks["exceptional"], location=marks["location"], staff=marks["staff"],
                        cleanliness=marks["cleanliness"], value_for_money=marks["value_for_money"],
@@ -167,7 +162,6 @@ def upload_picture():
     file = request.files['file']  # 获取上传的文件
 
     filename = secure_filename(file.filename)  # 安全获取文件名
-    print(Config.UPLOAD_FOLDER)
     file.save(os.path.join(Config.UPLOAD_FOLDER, filename))  # 将文件保存到服务器的指定目录
     # 存入数据库的操作
     return os.path.join(Config.UPLOAD_FOLDER, filename)

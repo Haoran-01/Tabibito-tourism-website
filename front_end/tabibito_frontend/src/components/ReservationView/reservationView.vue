@@ -265,14 +265,14 @@ export default {
 
     function complete(row){
       axios.post('http://127.0.0.1:5000/staff_portal/change_order_status',{
-        operation: "Complete",
+        operation: "Completed",
         id: `${row.id}`,
       }).then((response)=>{
-        const code = response.status
+        const code = response.data['code']
         if (code === 200){
           toast.success("This program is completed successfully")
         } else {
-          toast.warning("This program has already been completed")
+          toast.warning("This program has already been completed or canceled")
         }
       })
       // console.log( `${row.key}`)
@@ -280,14 +280,14 @@ export default {
 
     function cancel(row){
       axios.post('http://127.0.0.1:5000/staff_portal/change_order_status',{
-        operation: "Cancel",
+        operation: "Cancelled",
         id: `${row.id}`,
       }).then((response)=>{
-        const code = response.status
+        const code = response.data['code']
         if (code === 200){
           toast.success("This program is canceled successfully")
         } else {
-          toast.warning("This program has already been canceled")
+          toast.warning("This program has already been canceled or completed")
         }
       })
       // console.log( `${row.key}`)
@@ -298,7 +298,7 @@ export default {
         operation: "Delete",
         id: `${row.id}`,
       }).then((response)=>{
-        const code = response.status
+        const code = response.data['code']
         if (code === 200){
           toast.success("This program is deleted successfully")
         }

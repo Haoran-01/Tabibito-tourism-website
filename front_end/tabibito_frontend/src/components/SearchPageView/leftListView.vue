@@ -97,11 +97,11 @@
 
               <div class="content_left ratio ratio-1:1">
                 <div class="cardImage_content">
-                  <img class="cardImage col-12" src="item.image" alt="image">
+                  <img class="cardImage col-12" src="{{item.image}}">
                 </div>
 
                 <div class="cardImage_wish">
-                  <n-button :loading="item.loading" @click="handleClick" strong secondary circle type="info">
+                  <n-button :loading=false @click="handleClick" strong secondary circle type="info">
                     <template #icon>
                       <n-icon><HeartOutline /></n-icon>
                     </template>
@@ -115,8 +115,8 @@
               <h3 class="title">{{  item.title }}</h3>
               <p class="location">{{  item.location }}</p>
 
-              <div class="opt1">{{  item.opt1 }}</div>
-              <div class="opt2">{{  item.opt2 }}</div>
+              <div class="opt1">{{  item.types[0] }}</div>
+              <div class="opt2">{{  item.types[1] }}</div>
             </div>
 
             <div class="col-md-auto content_right">
@@ -127,10 +127,10 @@
 
               <div class="from">From</div>
               <div class="price">US${{ item.price }}</div>
-              <div class="per">{{ item.per }}</div>
+              <div class="per">per adult</div>
 
 
-              <a href="#" class="button -dark-1 btn_detail">
+              <a class="button -dark-1 btn_detail" @click="this.$router.push('/trip/' + item.id)">
                 View Detail <n-icon class="margin"><ArrowForward /></n-icon>
               </a>
 
@@ -714,6 +714,8 @@ export default defineComponent({
 }
 .cardImage {
   border-radius: 4px;
+  height: 500px;
+  width: 500px;
 }
 .cardImage_content {
   position: absolute;

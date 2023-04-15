@@ -108,7 +108,7 @@ class Comment(db.Model):
         return {
             'user_name': self.user.user_first_name + self.user.user_last_name,
             'profile_pic': self.user.profile.picture_address,
-            'date_time': self.datetime.timestamp() * 1000,
+            'date_time': self.datetime.strftime("%A, %d %B %Y"),
             'pic': [picture.address for picture in self.pictures],
             'des': self.des,
             'title': self.title,
@@ -291,7 +291,7 @@ class Product(db.Model):
         return {
             "exceptional": round(
                 (total_location_grade + total_staff_grade + total_cleanliness_grade + total_value_for_money_grade +
-                 total_comfort_grade + total_facilities_grade + total_free_wifi_grade) / 7, 1),
+                 total_comfort_grade + total_facilities_grade + total_free_wifi_grade) / (comments_number * 7), 1),
             "location": round(total_location_grade / comments_number, 1),
             "staff": round(total_staff_grade / comments_number, 1),
             "cleanliness": round(total_cleanliness_grade / comments_number, 1),
@@ -410,7 +410,8 @@ class Product(db.Model):
             'reviews': len(self.comments),
             'price': round(self.ori_price * self.discount, 2),
             'map_latitude': self.map_latitude,
-            'map_longitude': self.map_longitude
+            'map_longitude': self.map_longitude,
+            'map_zoom': self.map_zoom
         }
 
     def serialize_inspiration(self):

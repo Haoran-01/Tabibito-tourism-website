@@ -182,7 +182,7 @@
 
             <div class="row y-gap-20 x-gap-20 comment_head">
               <div class="col-auto">
-                <img src="../../assets/avatars/2.png" alt="image">
+                <img src="{{comment.user_portrait}}" class="avatar">
               </div>
               <div class="col-auto">
                 <div class="user_name">{{ comment.user_name }}</div>
@@ -201,7 +201,7 @@
 
             <div class="row x-gap-20 y-gap-30 comment_photos" v-for="p in comments.pictures">
               <div class="col-auto">
-                <img src={{p}} alt="image" class="photo">
+                <img src={{p}} class="photo">
               </div>
             </div>
 
@@ -364,6 +364,11 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+}
 .comment_foot {
   display: flex !important;
   align-items: center !important;
@@ -400,6 +405,8 @@ export default defineComponent({
 
 .photo {
   border-radius: 4px;
+  height: 110px;
+  width: 110px;
 }
 
 .comment_head {

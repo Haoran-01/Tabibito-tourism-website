@@ -53,13 +53,13 @@
         <n-carousel show-arrow class="TDImg" draggable>
           <img
               class="carousel-img"
-              src="{{ details.cover_image }}"
+              :src="details.cover_image"
           >
 
           <div v-for="imgURL in details.banner_image">
             <img
                 class="carousel-img"
-                src="{{ imgURL }}"
+                :src="imgURL"
             >
           </div>
 
@@ -86,7 +86,7 @@
 
           <div v-for="tag in details.tags">
           <div class="TDR1">
-            <img class="TDIcon1" src="../../assets/transport.svg" alt="">
+            <img class="TDIcon1" src="../../assets/TDtag.svg" alt="">
             <div class="TDT1">
               {{ tag.key }}: <br>{{ tag.value }}
             </div>
@@ -110,20 +110,20 @@
         <!--Leave a space to separate-->
         <div class="TDSpace"></div>
 
-        <div class="TDOverview">
-          <h3 class="TDTex2">Fee Description</h3>
+<!--        <div class="TDOverview">-->
+<!--          <h3 class="TDTex2">Fee Description</h3>-->
 
-          <div v-for="fee in details.fee_des">
-            <p class="TDTex3 head">
-              {{ fee.name }}
-            </p>
-            <br>
+<!--          <div v-for="fee in details.fee_des">-->
+<!--            <p class="TDTex3 head">-->
+<!--              {{ fee.name }}-->
+<!--            </p>-->
+<!--            <br>-->
 
-            <p class="TDTex3">
-              {{ fee.description }}
-            </p>
-          </div>
-        </div>
+<!--            <p class="TDTex3">-->
+<!--              {{ fee.description }}-->
+<!--            </p>-->
+<!--          </div>-->
+<!--        </div>-->
 
 
       </div>
@@ -214,8 +214,6 @@ import { useToast } from "vue-toastification";
 import {useRoute} from "vue-router";
 import {useStore} from "../../store.js";
 
-
-
 export default {
   name: "TravelDetailsView",
   components: {NavigationBar, SimilarExperiences, LeaveReply, GuestReviews, ChargeList, footerView},
@@ -228,7 +226,7 @@ export default {
       imageList: ref(),
 
       blockHeight: 310, // 制作区块高度
-      threshold: 550, // 页面滚动的阈值
+      threshold: 490, // 页面滚动的阈值
       scrollTop: 0, // 页面滚动距离
 
       // 后端拿到的数据
@@ -286,8 +284,7 @@ export default {
     })
         .then(response => {
           this.details = response.data.product;
-          console.log(123123123)
-          console.log(this.details.fee_des)
+          // console.log(this.details)
 
           const num1 = new Date(this.details.end_time).getTime()
           const num2 = new Date(this.details.start_time).getTime()
@@ -509,7 +506,7 @@ export default {
 }
 
 .TDOverview{
-  display:flex;
+  //display:flex;
   flex-wrap:wrap;
 
   flex:0 0 auto;
@@ -706,7 +703,7 @@ export default {
 
 .enlarge-image {
   width: 100%;
-  height: auto;
+  height: 600px;
   border: none;
 }
 

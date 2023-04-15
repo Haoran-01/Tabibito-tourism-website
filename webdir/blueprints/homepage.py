@@ -65,7 +65,6 @@ def locations():
             for loc in most_common_locations
         ]
     }
-
     return result
 
 
