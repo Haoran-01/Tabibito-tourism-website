@@ -1,20 +1,30 @@
 <template>
+  <section>
+
+  <navigation-bar :is-transparent="true" class="zup"></navigation-bar>
+
   <div class="portal">
-    <SideBarView />
+    <SideBarView class="zside"/>
 
     <div class="dashboard_main">
       <right-content-view />
     </div>
   </div>
+  </section>
 
 </template>
 
 <script setup>
 import SideBarView from "./sideBarView.vue";
 import RightContentView from "./rightContentView.vue";
+import NavigationBar from "../GeneralComponents/navigationBar.vue";
 </script>
 
 <style scoped>
+.zup {
+  position: fixed;
+  top: 0;
+}
 .dashboard_main {
   overflow: hidden;
   width: 100%;
@@ -76,6 +86,7 @@ button {
 }
 
 .portal {
+  margin-top: 80px;
   display: flex;
 }
 

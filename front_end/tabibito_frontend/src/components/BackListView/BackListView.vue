@@ -1,4 +1,6 @@
 <template>
+  <navigation-bar :is-transparent="true" class="zup"></navigation-bar>
+
   <div class="TManager">
     <div class="TCon">
       <div class="TTit">
@@ -109,10 +111,12 @@ import {useRouter} from 'vue-router';
 
 import axios from "axios";
 import {useToast} from "vue-toastification";
+import NavigationBar from "../GeneralComponents/navigationBar.vue";
 
 export default {
   name: "staffView",
   components: {
+    NavigationBar
   },
 
   setup () {
@@ -326,9 +330,14 @@ export default {
 </script>
 
 <style scoped>
+.zup {
+  position: fixed;
+  top: 0;
+}
 .TManager{
   overflow: hidden;
   width: 100%;
+  margin-top: 80px;
 
   /*使用侧边栏前后变化 300px*/
   //padding-left: 300px;
@@ -336,6 +345,7 @@ export default {
   transition: all 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 .TManager::after {
+  margin-top: 80px;
   content: "";
   display: none;
   position: fixed;
