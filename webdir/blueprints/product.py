@@ -127,10 +127,13 @@ def get_type_products():
 
 @bp.route("/get_product_grade", methods=["POST", "GET"])
 def get_product_grade():
+
     product_id = request.get_json(silent=True)["product_id"]
     product = Product.query.filter_by(id=product_id).first()
     if len(product.comments) != 0:
+
         marks = product.get_each_part_mark()
+
         return jsonify(code=200,
                        exceptional=marks["exceptional"], location=marks["location"], staff=marks["staff"],
                        cleanliness=marks["cleanliness"], value_for_money=marks["value_for_money"],
