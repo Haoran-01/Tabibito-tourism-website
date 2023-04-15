@@ -699,6 +699,8 @@ export default {
   flex-direction: column;
   align-items: center;
   width: 44%;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .enlarge-image {

@@ -106,7 +106,7 @@ aside .logo {
 }
 
 aside .logo img {
-  width: 2rem;
+  width: 4rem;
 }
 
 aside .menu-toggle-wrap {
