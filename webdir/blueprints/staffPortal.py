@@ -10,12 +10,16 @@ bp = Blueprint("Staff", __name__, url_prefix="/staff_portal")
 def change_order_status():
     data = request.get_json(silent=True)
     order_id = data['id']
-    order = Order.query.filter_by(id=order_id)
-    if order.order_status == OrderStatus.Processing:
-        order.order_status = data['operation']
-    else:
-        if data['operation'] == OrderStatus.Completed or data['operation'] == OrderStatus.Cancelled:
+    order = Order.query.filter_by(id=order_id).first()
+    if data['operation'] == "Delete":
+        db.session.delete(order)
+        db.session.commit()
+        return jsonify(message="delete successfully", code=200)
+    if order.order_status.name == OrderStatus.Completed.name or order.order_status.name == OrderStatus.Cancelled.name:
+        if data['operation'] == OrderStatus.Completed.name or data['operation'] == OrderStatus.Cancelled.name:
             return jsonify(code=400, message="wrong operation")
+    if order.order_status == OrderStatus.Processing.name:
+        order.order_status = data['operation']
     db.session.commit()
     return jsonify(message="modify successfully", code=200)
 
