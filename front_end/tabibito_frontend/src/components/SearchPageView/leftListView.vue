@@ -1,4 +1,6 @@
 <template>
+  <navigation-bar class="zup"></navigation-bar>
+
   <div class="halfMap">
   <div class="list_content">
     <div class="list_search_wrap">
@@ -166,9 +168,11 @@ import editButton from "../BackListView/editButton.vue";
 import {useRouter} from 'vue-router';
 import axios from "axios";
 import {useLangStore} from "../../store.js";
+import NavigationBar from "../GeneralComponents/navigationBar.vue";
 export default defineComponent({
   name: "leftListView",
   components: {
+    NavigationBar,
     HeartOutline,
     LocationOutline,
     TodayOutline,
@@ -600,6 +604,10 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.zup {
+  position: fixed;
+  top: 0;
+}
 .page{
   margin-top: 10px;
   margin-left: auto;
@@ -610,11 +618,13 @@ export default defineComponent({
   display: flex;
   width: 100%;
   min-height: calc(100vh - 90px);
+  margin-top: 80px;
 }
 
 @media (max-width: 991px) {
   .halfMap {
     flex-direction: column;
+    margin-top: 80px;
   }
 }
 
