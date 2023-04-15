@@ -111,7 +111,7 @@
             </div>
 
             <div class="col-md">
-              <p class="hours">{{ item.hours }}</p>
+<!--              <p class="hours">{{ item.duration }}</p>-->
               <h3 class="title">{{  item.title }}</h3>
               <p class="location">{{  item.location }}</p>
 
@@ -425,18 +425,35 @@ export default defineComponent({
         axios.post("http://127.0.0.1:5000/search/product_list",
             {
               page: 1,
-              startTime: startTime.value,
-              endTime: endTime.value,
-              currentLocation: currentLocation.value,
-              tourType: tourType.value,
-              price: price.value,
-              duration: duration.value,
+              // startTime: startTime.value,
+              // endTime: endTime.value,
+              // currentLocation: currentLocation.value,
+              // tourType: tourType.value,
+              // price: price.value,
+              // duration: duration.value,
             }
         )
             .then((response)=>{
               const code = response.status
               if (code === 200){
                 products.value = response.data.products;
+                for(let i = 0; i < products.value.length; i++){
+                  let raw_time = products.value[i].duration;
+                  let hour = Math.round(raw_time/3600);
+                  let day = Math.round(hour/24);
+                  if (hour > 24 && day === 1){
+                    products.value[i].duration = '1 Day'
+                  }
+                  if (hour > 24 && day > 1){
+                    products.value[i].duration = day + ' Days'
+                  }
+                  if (hour === 1){
+                    products.value[i].duration = '1 Hour'
+                  }
+                  if (hour < 24 && hour !== 1){
+                    products.value[i].duration = hour + ' Hours'
+                  }
+                }
                 this.project_loc = {
                   lat: response.data.products.map_latitude,
                   lng: response.data.products.map_longitude
@@ -460,12 +477,12 @@ export default defineComponent({
             })
         axios.post("http://127.0.0.1:5000/search/product_number",
             {
-              startTime: startTime.value,
-              endTime: endTime.value,
-              currentLocation: currentLocation.value,
-              tourType: tourType.value,
-              price: price.value,
-              duration: duration.value,
+              // startTime: startTime.value,
+              // endTime: endTime.value,
+              // currentLocation: currentLocation.value,
+              // tourType: tourType.value,
+              // price: price.value,
+              // duration: duration.value,
             }
         )
             .then((response)=>{
@@ -481,17 +498,34 @@ export default defineComponent({
   created() {
     axios.post('http://127.0.0.1:5000/search/product_list',{
       page: 1,
-      startTime: Date.now(),
-      endTime: 2 * Date.now(),
-      currentLocation: ref(),
-      tourType: ref(),
-      price: ref(),
-      duration: ref(),
+      // startTime: Date.now(),
+      // endTime: 2 * Date.now(),
+      // currentLocation: ref(),
+      // tourType: ref(),
+      // price: ref(),
+      // duration: ref(),
     })
         .then((response)=>{
           const code = response.status
           if (code === 200){
             this.products = response.data.products;
+            for(let i = 0; i < this.products.value.length; i++){
+              let raw_time = this.products.value[i].duration;
+              let hour = Math.round(raw_time/3600);
+              let day = Math.round(hour/24);
+              if (hour > 24 && day === 1){
+                this.products.value[i].duration = '1 Day'
+              }
+              if (hour > 24 && day > 1){
+                this.products.value[i].duration = day + ' Days'
+              }
+              if (hour === 1){
+                this.products.value[i].duration = '1 Hour'
+              }
+              if (hour < 24 && hour !== 1){
+                this.products.value[i].duration = hour + ' Hours'
+              }
+            }
             this.project_loc = {
               lat: response.data.products.map_latitude,
               lng: response.data.products.map_longitude
@@ -516,15 +550,15 @@ export default defineComponent({
 
     axios.post("http://127.0.0.1:5000/search/product_number",
         {
-          startTime: Date.now(),
-          endTime: 2 * Date.now(),
-          currentLocation: ref(),
-          tourType: ref(),
-          price: ref(),
-          duration: ref(),
-          state: this.$route.query.state,
-          if_type: this.$route.query.type,
-          if_hot: this.$route.query.hot,
+          // startTime: Date.now(),
+          // endTime: 2 * Date.now(),
+          // currentLocation: ref(),
+          // tourType: ref(),
+          // price: ref(),
+          // duration: ref(),
+          // state: this.$route.query.state,
+          // if_type: this.$route.query.type,
+          // if_hot: this.$route.query.hot,
         }
     )
         .then((response)=>{
@@ -538,7 +572,8 @@ export default defineComponent({
   data(){
     return{
       countPage: ref(),
-      itineraryData: []
+      itineraryData: [],
+      products: []
     }
   },
   methods:{
