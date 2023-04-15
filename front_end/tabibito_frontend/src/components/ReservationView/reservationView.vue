@@ -265,7 +265,7 @@ export default {
 
     function complete(row){
       axios.post('http://127.0.0.1:5000/staff_portal/change_order_status',{
-        operation: "Complete",
+        operation: "Completed",
         id: `${row.id}`,
       }).then((response)=>{
         const code = response.status
@@ -280,7 +280,7 @@ export default {
 
     function cancel(row){
       axios.post('http://127.0.0.1:5000/staff_portal/change_order_status',{
-        operation: "Cancel",
+        operation: "Cancelled",
         id: `${row.id}`,
       }).then((response)=>{
         const code = response.status
