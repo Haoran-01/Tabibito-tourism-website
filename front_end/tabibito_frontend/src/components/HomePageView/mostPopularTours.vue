@@ -6,7 +6,7 @@
       <div class="col-auto">
         <div class="sectionTitle -md">
           <h2 class="sectionTitle__title">{{$t('mostPopularTours.most')}}</h2>
-          <p class="sectionTitle__text">Interdum et malesuada fames ac ante ipsum</p>
+          <p class="sectionTitle__text">Choose The Popular Travel Programs</p>
         </div>
 
         <div class="col-auto">
@@ -649,11 +649,13 @@ export default {
 
 .sectionTitle__text {
   margin-top: 5px !important;
+  color: #697488;
 }
 
 @media (max-width: 575px) {
   .sectionTitle__text {
     margin-top: 0px !important;
+    color: #697488;
   }
 }
 

@@ -5,12 +5,12 @@
       <div class="row chooseHead y-gap-20">
         <div class="col-auto">
             <h2 class="sectionTitle">{{ $t('chooseTourTypes.choose')}}</h2>
-            <p class="sectionText">Interdum et malesuada fames ac ante ipsum</p>
+            <p class="sectionText">Choose A Tour Type</p>
         </div>
       </div>
 
       <div class="chooseCards">
-        <n-carousel :slides-per-view=slides_per_view :space-between=space_between :loop="false" show-arrow>
+        <n-carousel :slides-per-view=slides_per_view :space-between=space_between :loop="false">
           <div @click="handleWT">
           <n-card title="" class="tourTypeCard">
             <div class="cardContent">
@@ -528,11 +528,13 @@ export default {
 
 .sectionText {
   margin-top: 5px !important;
+  color: #697488;
 }
 
 @media (max-width: 575px) {
   .sectionText {
     font-size: 0px;
+    color: #697488;
   }
   .sectionTitle {
     margin-left: 20px;

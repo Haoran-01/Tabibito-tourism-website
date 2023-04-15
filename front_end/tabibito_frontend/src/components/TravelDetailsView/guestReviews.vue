@@ -182,7 +182,7 @@
 
             <div class="row y-gap-20 x-gap-20 comment_head">
               <div class="col-auto">
-                <img src="{{comment.user_portrait}}" alt="image" class="avatar">
+                <img src="{{comment.user_portrait}}" class="avatar">
               </div>
               <div class="col-auto">
                 <div class="user_name">{{ comment.user_name }}</div>
@@ -201,7 +201,7 @@
 
             <div class="row x-gap-20 y-gap-30 comment_photos" v-for="p in comments.pictures">
               <div class="col-auto">
-                <img src={{p}} alt="image" class="photo">
+                <img src={{p}} class="photo">
               </div>
             </div>
 

@@ -46,7 +46,7 @@
 
             <div class="mt-35">
               <div class="text-14 mt-30">Need live support?</div>
-              <a href="#" class="contact-href">hi@gotrip.com</a>
+              <a href="#" class="contact-href">hi@tabibito.com</a>
             </div>
           </div>
 
@@ -114,7 +114,7 @@
             <div class="row contact-foot-sub">
               <div class="col-auto">
                 <div class="contact-foot-text">
-                  © 2022 GoTrip LLC All rights reserved.
+                  © 2022 Tabibito LLC All rights reserved.
                 </div>
               </div>
             </div>

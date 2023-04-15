@@ -6,7 +6,7 @@
           <div class="col-auto">
             <div class="sectionTitle-our-team">
               <h2 class="sectionTitle__title">{{ $t('our.team')}}</h2>
-              <p class="sectionTitle__text">Lorem ipsum dolor sit amet</p>
+              <p class="sectionTitle__text">Come to know our team!</p>
             </div>
           </div>
         </div>

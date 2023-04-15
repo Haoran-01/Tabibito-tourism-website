@@ -97,7 +97,7 @@
 
               <div class="content_left ratio ratio-1:1">
                 <div class="cardImage_content">
-                  <img class="cardImage col-12" src="{{item.image}}" alt="image">
+                  <img class="cardImage col-12" src="{{item.image}}">
                 </div>
 
                 <div class="cardImage_wish">
@@ -130,7 +130,7 @@
               <div class="per">per adult</div>
 
 
-              <a href="#" class="button -dark-1 btn_detail">
+              <a class="button -dark-1 btn_detail" @click="this.$router.push('/trip/' + item.id)">
                 View Detail <n-icon class="margin"><ArrowForward /></n-icon>
               </a>
 
@@ -714,6 +714,8 @@ export default defineComponent({
 }
 .cardImage {
   border-radius: 4px;
+  height: 500px;
+  width: 500px;
 }
 .cardImage_content {
   position: absolute;
