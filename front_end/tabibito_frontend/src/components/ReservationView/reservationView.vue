@@ -272,7 +272,7 @@ export default {
         if (code === 200){
           toast.success("This program is completed successfully")
         } else {
-          toast.warning("This program has already been completed")
+          toast.warning("This program has already been completed or canceled")
         }
       })
       // console.log( `${row.key}`)
@@ -287,7 +287,7 @@ export default {
         if (code === 200){
           toast.success("This program is canceled successfully")
         } else {
-          toast.warning("This program has already been canceled")
+          toast.warning("This program has already been canceled or completed")
         }
       })
       // console.log( `${row.key}`)
