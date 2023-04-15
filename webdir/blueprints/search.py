@@ -53,7 +53,6 @@ def search():
             Product.trips.any(Trip.exact.ilike(f'%{keywords_cleaned}%')))
     ).paginate(page=page, per_page=per_page)
 
-    print(products)
     # Serialize the products to JSON
     result = {
         'total': products.total,
@@ -69,12 +68,13 @@ def get_product_number():
     data = request.get_json(silent=True)
     products = db.session.query(Product).all()
 
-    if data["state"] == "hot":
-        get_hot_product()
-    if data["state"] == "popular":
-        get_popular_product()
-    if data["state"] == "type":
-        get_type_product(data["tourType"])
+    # if "state" in data:
+    #     if data["state"] == "hot":
+    #         get_hot_product()
+    #     if data["state"] == "popular":
+    #         get_popular_product()
+    #     if data["state"] == "type":
+    #         get_type_product(data["tourType"])
 
     # 构造筛选条件
     filters = []
@@ -175,12 +175,15 @@ def get_product_list():
     data = request.get_json(silent=True)
     products = db.session.query(Product).all()
 
-    if data["state"] == "hot":
-        get_hot_product()
-    if data["state"] == "popular":
-        get_popular_product()
-    if data["state"] == "type":
-        get_type_product(data["tourType"])
+    print(data)
+
+    # if "state" in data:
+    #     if data["state"] == "hot":
+    #         get_hot_product()
+    #     if data["state"] == "popular":
+    #         get_popular_product()
+    #     if data["state"] == "type":
+    #         get_type_product(data["tourType"])
 
     # 构造筛选条件
     filters = []
@@ -244,6 +247,7 @@ def get_product_list():
             results.append(product)
     page_number = data["page"]
     select_product = results[page_number * 3 - 3: page_number * 3]
+    print(results)
     if len(results) == 0:
         return jsonify(code=201, data=[product.serialize_product_list() for product in select_product])
     else:
