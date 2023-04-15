@@ -150,7 +150,11 @@ export default {
               let code=response.data['code'];
               let message=response.data['message'];
               if (code === 200){
-                self.$router.push(self.from.path);
+                if (response.data.job === "Customer"){
+                  self.$router.push(self.from.path);
+                }else {
+                  self.$router.push('/management')
+                }
               } else if (code === 400){
                 if (message === 'email'){
                   self.toast.error("Email is not correct");
