@@ -410,7 +410,8 @@ class Product(db.Model):
             'reviews': len(self.comments),
             'price': round(self.ori_price * self.discount, 2),
             'map_latitude': self.map_latitude,
-            'map_longitude': self.map_longitude
+            'map_longitude': self.map_longitude,
+            'map_zoom': self.map_zoom
         }
 
     def serialize_inspiration(self):
