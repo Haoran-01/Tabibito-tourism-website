@@ -268,7 +268,7 @@ export default {
         operation: "Completed",
         id: `${row.id}`,
       }).then((response)=>{
-        const code = response.status
+        const code = response.data['code']
         if (code === 200){
           toast.success("This program is completed successfully")
         } else {
@@ -283,7 +283,7 @@ export default {
         operation: "Cancelled",
         id: `${row.id}`,
       }).then((response)=>{
-        const code = response.status
+        const code = response.data['code']
         if (code === 200){
           toast.success("This program is canceled successfully")
         } else {
@@ -298,7 +298,7 @@ export default {
         operation: "Delete",
         id: `${row.id}`,
       }).then((response)=>{
-        const code = response.status
+        const code = response.data['code']
         if (code === 200){
           toast.success("This program is deleted successfully")
         }
