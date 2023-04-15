@@ -11,6 +11,7 @@ def change_order_status():
     data = request.get_json(silent=True)
     order_id = data['id']
     order = Order.query.filter_by(id=order_id).first()
+    print(data)
     if data['operation'] == "Delete":
         db.session.delete(order)
         db.session.commit()
@@ -18,7 +19,7 @@ def change_order_status():
     if order.order_status.name == OrderStatus.Completed.name or order.order_status.name == OrderStatus.Cancelled.name:
         if data['operation'] == OrderStatus.Completed.name or data['operation'] == OrderStatus.Cancelled.name:
             return jsonify(code=400, message="wrong operation")
-    if order.order_status == OrderStatus.Processing.name:
+    if order.order_status.name == OrderStatus.Processing.name:
         order.order_status = data['operation']
     db.session.commit()
     return jsonify(message="modify successfully", code=200)
