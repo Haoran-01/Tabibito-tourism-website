@@ -249,6 +249,6 @@ def get_product_list():
     select_product = results[page_number * 3 - 3: page_number * 3]
     print(results)
     if len(results) == 0:
-        return jsonify(code=201, data=[product.serialize_product_list() for product in select_product])
+        return jsonify(code=201, products=[product.serialize_product_list() for product in select_product])
     else:
-        return jsonify(code=200, data=[product.serialize_product_list() for product in select_product])
+        return jsonify(code=200, products=[product.serialize_product_list() for product in select_product])

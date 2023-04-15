@@ -291,7 +291,7 @@ class Product(db.Model):
         return {
             "exceptional": round(
                 (total_location_grade + total_staff_grade + total_cleanliness_grade + total_value_for_money_grade +
-                 total_comfort_grade + total_facilities_grade + total_free_wifi_grade) / 7, 1),
+                 total_comfort_grade + total_facilities_grade + total_free_wifi_grade) / (comments_number * 7), 1),
             "location": round(total_location_grade / comments_number, 1),
             "staff": round(total_staff_grade / comments_number, 1),
             "cleanliness": round(total_cleanliness_grade / comments_number, 1),
