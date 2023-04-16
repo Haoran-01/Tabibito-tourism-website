@@ -116,7 +116,7 @@
                 </h2>
 
                 <div class="">
-                  <h4 class="table_head_href" @click="this.$router.push('/management/project_list')">View All</h4>
+                  <h4 class="table_head_href" @click="this.$router.push('/management/reservation_list')">View All</h4>
                 </div>
               </div>
 

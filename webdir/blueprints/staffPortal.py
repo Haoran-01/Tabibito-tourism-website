@@ -28,7 +28,7 @@ def change_order_status():
 @bp.route("/view_all", methods=['GET', 'POST'])
 def view_all_order():
     page = request.get_json()["page"]
-    per_page = 10  # 每页10个对象
+    per_page = 100  # 每页10个对象
     all_orders = Order.query.order_by(Order.id).paginate(page=page, per_page=per_page, error_out=False).items
     return jsonify(all_orders=[order.serialize_all() for order in all_orders], code=200)
 
@@ -49,7 +49,7 @@ def product_number():
 def product_list():
     data = request.get_json()
     page = data['page']
-    per_page = 10  # 每页10个对象
+    per_page = 100  # 每页10个对象
     products = Product.query.order_by(Product.id).paginate(page=page, per_page=per_page, error_out=False).items
     return jsonify(products=[product.serialize_staff_page() for product in products])
 

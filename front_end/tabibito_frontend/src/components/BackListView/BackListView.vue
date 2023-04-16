@@ -134,7 +134,7 @@ export default {
           return result
         }, {})
     )
-    const paginationRef = ref({ pageSize: 10, onUpdatePage: page })
+    const paginationRef = ref({ pageSize: 10, onUpdatePage: page, pageCount:2 })
 
     const columnsRef = computed(() => [
       {
