@@ -107,7 +107,7 @@ class Comment(db.Model):
     def serialize_product_page_simple(self):
         return {
             'user_name': self.user.user_first_name + self.user.user_last_name,
-            'profile_pic': self.user.profile.picture_address,
+            'user_portrait': self.user.profile.picture_address,
             'date_time': self.datetime.strftime("%A, %d %B %Y"),
             'pic': [picture.address for picture in self.pictures],
             'des': self.des,
