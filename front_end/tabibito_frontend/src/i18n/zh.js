@@ -134,7 +134,8 @@ export default {
         more: "更多"
     },
     chooseTourTypes: {
-        choose: "选择旅游类型"
+        choose: "选择旅游类型",
+        choose1: "选择一个旅游类型"
     },
     customerReview: {
         title: "客户评价",
@@ -145,7 +146,8 @@ export default {
         great: "伟大的旅行想法"
     },
     mostPopularTours: {
-        most: '最受欢迎的旅游'
+        most: '最受欢迎的旅游',
+        choose: "选择最受欢迎的旅游"
     },
     notMember: {
         not: "还不是会员？",

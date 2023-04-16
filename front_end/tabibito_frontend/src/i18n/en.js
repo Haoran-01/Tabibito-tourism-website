@@ -134,7 +134,8 @@ export default {
         more: "More"
     },
     chooseTourTypes: {
-        choose: "Choose Tour Types"
+        choose: "Choose Tour Types",
+        choose1: "Choose A Tour Type"
     },
     customerReview: {
         title: "Customer Reviews",
@@ -145,7 +146,8 @@ export default {
         great: "Great travelling ideas"
     },
     mostPopularTours: {
-        most: "Most Popular Tours"
+        most: "Most Popular Tours",
+        choose: "Choose The Popular Travel Programs"
     },
     notMember: {
         not: "Not a Member Yet?",

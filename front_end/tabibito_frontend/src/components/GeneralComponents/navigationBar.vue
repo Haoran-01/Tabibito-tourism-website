@@ -87,6 +87,9 @@ export default defineComponent({
     axios.get('http://127.0.0.1:5000/user/login_status')
         .then((res)=>{
           user_is_logged_in.value = res.data.id !== null;
+          if (user_is_logged_in.value){
+            store.user_id = res.data.id;
+          }
           store.user_login_status = user_is_logged_in.value;
         })
     let currencyIcon = ref("background-image:url('src/assets/USD.svg')");
