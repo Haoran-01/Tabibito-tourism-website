@@ -5,7 +5,7 @@
       <div class="row chooseHead y-gap-20">
         <div class="col-auto">
             <h2 class="sectionTitle">{{ $t('chooseTourTypes.choose')}}</h2>
-            <p class="sectionText">Choose A Tour Type</p>
+            <p class="sectionText">{{ $t('chooseTourTypes.choose1')}}</p>
         </div>
       </div>
 
