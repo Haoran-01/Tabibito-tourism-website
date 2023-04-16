@@ -199,9 +199,9 @@
               {{ comment.des }}
             </p>
 
-            <div class="row x-gap-20 y-gap-30 comment_photos" v-for="p in comments.pictures">
+            <div class="row x-gap-20 y-gap-30 comment_photos" v-for="p in comment.pic">
               <div class="col-auto">
-                <img src={{p}} class="photo">
+                <img :src="p" class="photo">
               </div>
             </div>
 
@@ -390,6 +390,7 @@ export default defineComponent({
   border-radius: 4px;
   height: 110px;
   width: 110px;
+  object-fit: contain;
 }
 
 .comment_head {
