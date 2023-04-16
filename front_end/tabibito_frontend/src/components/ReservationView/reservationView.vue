@@ -141,29 +141,29 @@ export default {
       {
         title: 'Start Time',
         key: 'start_time',
-        sortOrder: sortKeyMapOrderRef.value.start_time || false,
-        sorter (rowA, rowB) {
-          return rowA.start_time - rowB.start_time
-        },
+        // sortOrder: sortKeyMapOrderRef.value.start_time || false,
+        // sorter (rowA, rowB) {
+        //   return rowA.start_time - rowB.start_time
+        // },
 
       },
       {
         title: 'End Time',
         key: 'end_time',
-        sortOrder: sortKeyMapOrderRef.value.end_time || false,
-        sorter: {
-          compare: (a, b) => a.end_time - b.end_time,
-          multiple: 3
-        }
+        // sortOrder: sortKeyMapOrderRef.value.end_time || false,
+        // sorter: {
+        //   compare: (a, b) => a.end_time - b.end_time,
+        //   multiple: 3
+        // }
       },
       {
         title: 'Reservation Time',
         key: 'res_time',
-        sortOrder: sortKeyMapOrderRef.value.app_ddl || false,
-        sorter: {
-          compare: (a, b) => a.app_ddl - b.app_ddl,
-          multiple: 2
-        }
+        // sortOrder: sortKeyMapOrderRef.value.app_ddl || false,
+        // sorter: {
+        //   compare: (a, b) => a.app_ddl - b.app_ddl,
+        //   multiple: 2
+        // }
       },
       {
         title: 'Price',
@@ -274,9 +274,15 @@ export default {
       }).then((response)=>{
         const code = response.data['code']
         if (code === 200){
-          toast.success("This program is completed successfully")
+          toast.success("This program is completed successfully",{
+            position: "bottom-right",
+
+          })
         } else {
-          toast.warning("This program has already been completed or canceled")
+          toast.warning("This program has already been completed or canceled",{
+            position: "bottom-right",
+
+          })
         }
       })
       // console.log( `${row.key}`)
@@ -289,9 +295,15 @@ export default {
       }).then((response)=>{
         const code = response.data['code']
         if (code === 200){
-          toast.success("This program is canceled successfully")
+          toast.success("This program is canceled successfully",{
+            position: "bottom-right",
+
+          })
         } else {
-          toast.warning("This program has already been canceled or completed")
+          toast.warning("This program has already been canceled or completed",{
+            position: "bottom-right",
+
+          })
         }
       })
       // console.log( `${row.key}`)
@@ -304,7 +316,10 @@ export default {
       }).then((response)=>{
         const code = response.data['code']
         if (code === 200){
-          toast.success("This program is deleted successfully")
+          toast.success("This program is deleted successfully",{
+            position: "bottom-right",
+
+          })
         }
       })
       // console.log( `${row.key}`)
