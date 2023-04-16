@@ -213,6 +213,7 @@ import {ref} from "vue";
 import { useToast } from "vue-toastification";
 import {useRoute} from "vue-router";
 import {useStore} from "../../store.js";
+import { getCurrentInstance } from 'vue';
 
 export default {
   name: "TravelDetailsView",
@@ -220,6 +221,7 @@ export default {
 
   data() {
     star: ref()
+    id1: ref()
     return {
       showModal: false,
       currentIndex: 0,
@@ -232,11 +234,14 @@ export default {
       // 后端拿到的数据
       details: [],
       duration: 0,
-
+      id: 0,
     };
   },
 
   setup(){
+    const instance = getCurrentInstance();
+    const id1 = instance.data.id1;
+
     let store = useStore();
     let startTime = ref();
     let endTime = ref();
@@ -255,13 +260,14 @@ export default {
       groupNum,
       toast,
       user_log_in,
+      id1,
 
       handleClickProject() {
         let self = this;
 
         axios.post("http://127.0.0.1:5000/order/create_order",
             {
-              product_id: 9,
+              product_id: this.id1,
               groupNum: this.groupNum,
               user_id: 2
             }
@@ -279,6 +285,7 @@ export default {
 
   created() {
     let route = useRoute();
+    this.id1 = route.params.trip_id
     axios.post('http://127.0.0.1:5000/product/detail', {
       product_id: route.params.trip_id
     })
