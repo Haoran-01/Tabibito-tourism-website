@@ -99,7 +99,7 @@
 
               <div class="content_left ratio ratio-1:1">
                 <div class="cardImage_content">
-                  <img class="cardImage col-12" src="{{item.image}}">
+                  <img class="cardImage col-12" :src="item.image">
                 </div>
 
                 <div class="cardImage_wish">
@@ -230,7 +230,7 @@ export default defineComponent({
           let map = new google.maps.Map(document.getElementById("map"), {
             center: center,
             zoom: this.project_zoom,
-            mapId: "jkhjkhkjhjkh"
+            mapId: "map"
           });
           const tourStops = this.locations;
           // Create an info window to share between markers.
@@ -347,24 +347,24 @@ export default defineComponent({
       ],
       locOptions: [
         {
-          label: '滨海湾金沙，新加坡',
-          key: 'marina bay sands',
-          value: 'marina bay sands'
+          label: 'London',
+          key: 'London',
+          value: 'London'
         },
         {
-          label: '布朗酒店，伦敦',
-          key: "brown's hotel, london",
-          value: "brown's hotel, london"
+          label: 'China',
+          key: "China",
+          value: "China"
         },
         {
-          label: '亚特兰蒂斯巴哈马，拿骚',
-          key: 'atlantis nahamas, nassau',
-          value: "atlantis nahamas, nassau"
+          label: 'England',
+          key: 'England',
+          value: "England"
         },
         {
-          label: '比佛利山庄酒店，洛杉矶',
-          key: 'the beverly hills hotel, los angeles',
-          value: "the beverly hills hotel, los angeles"
+          label: 'Ireland',
+          key: 'Ireland',
+          value: "Ireland"
         }
       ],
       typeOptions: [
@@ -429,12 +429,12 @@ export default defineComponent({
         axios.post("http://127.0.0.1:5000/search/product_list",
             {
               page: 1,
-              // startTime: startTime.value,
-              // endTime: endTime.value,
-              // currentLocation: currentLocation.value,
-              // tourType: tourType.value,
-              // price: price.value,
-              // duration: duration.value,
+              startTime: startTime.value,
+              endTime: endTime.value,
+              currentLocation: currentLocation.value,
+              tourType: tourType.value,
+              price: price.value,
+              duration: duration.value,
             }
         )
             .then((response)=>{
@@ -481,12 +481,12 @@ export default defineComponent({
             })
         axios.post("http://127.0.0.1:5000/search/product_number",
             {
-              // startTime: startTime.value,
-              // endTime: endTime.value,
-              // currentLocation: currentLocation.value,
-              // tourType: tourType.value,
-              // price: price.value,
-              // duration: duration.value,
+              startTime: startTime.value,
+              endTime: endTime.value,
+              currentLocation: currentLocation.value,
+              tourType: tourType.value,
+              price: price.value,
+              duration: duration.value,
             }
         )
             .then((response)=>{
@@ -502,32 +502,32 @@ export default defineComponent({
   created() {
     axios.post('http://127.0.0.1:5000/search/product_list',{
       page: 1,
-      // startTime: Date.now(),
-      // endTime: 2 * Date.now(),
-      // currentLocation: ref(),
-      // tourType: ref(),
-      // price: ref(),
-      // duration: ref(),
+      startTime:null,
+      endTime: null,
+      currentLocation: null,
+      tourType: null,
+      price: null,
+      duration: null,
     })
         .then((response)=>{
           const code = response.status
           if (code === 200){
             this.products = response.data.products;
-            for(let i = 0; i < this.products.value.length; i++){
-              let raw_time = this.products.value[i].duration;
+            for(let i = 0; i < this.products.length; i++){
+              let raw_time = this.products[i].duration;
               let hour = Math.round(raw_time/3600);
               let day = Math.round(hour/24);
               if (hour > 24 && day === 1){
-                this.products.value[i].duration = '1 Day'
+                this.products[i].duration = '1 Day'
               }
               if (hour > 24 && day > 1){
-                this.products.value[i].duration = day + ' Days'
+                this.products[i].duration = day + ' Days'
               }
               if (hour === 1){
-                this.products.value[i].duration = '1 Hour'
+                this.products[i].duration = '1 Hour'
               }
               if (hour < 24 && hour !== 1){
-                this.products.value[i].duration = hour + ' Hours'
+                this.products[i].duration = hour + ' Hours'
               }
             }
             this.project_loc = {
@@ -554,12 +554,12 @@ export default defineComponent({
 
     axios.post("http://127.0.0.1:5000/search/product_number",
         {
-          // startTime: Date.now(),
-          // endTime: 2 * Date.now(),
-          // currentLocation: ref(),
-          // tourType: ref(),
-          // price: ref(),
-          // duration: ref(),
+          startTime: Date.now(),
+          endTime: 2 * Date.now(),
+          currentLocation: ref(),
+          tourType: ref(),
+          price: ref(),
+          duration: ref(),
           // state: this.$route.query.state,
           // if_type: this.$route.query.type,
           // if_hot: this.$route.query.hot,
@@ -761,6 +761,7 @@ export default defineComponent({
   border-radius: 4px;
   height: 500px;
   width: 500px;
+  object-fit: cover;
 }
 .cardImage_content {
   position: absolute;
