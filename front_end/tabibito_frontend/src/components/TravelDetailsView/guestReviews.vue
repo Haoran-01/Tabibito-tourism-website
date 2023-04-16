@@ -266,29 +266,12 @@ export default defineComponent({
       countPage: ref(),
       comments:[
         {
-          // user_name:"Tonka",
-          // profile_pic:"../../assets/avatars/2.png",
-          // date_time:"March 2022",
-          // pic:["../../assets/test_comment_photo.png","../../assets/test_comment_photo.png","../../assets/test_comment_photo.png","../../assets/test_comment_photo.png"],
-          // des:"Nice two level apartment in great London location. Located in quiet small street, \n" +
-          //     "              but just 50 meters from main street and bus stop. Tube station is short walk, \n" +
-          //     "              just like two grocery stores.",
-          // title:"9.2 Superb",
         },
       ],
       scores: {
-        // exceptional: 9.4,
-        // location: 9.4,
-        // staff: 9.4,
-        // cleanliness: 9.4,
-        // value_for_money: 9.4,
-        // comfort: 9.4,
-        // facilities: 9.4,
-        // free_wifi: 9.4,
       },
       percentage: {},
       reviews: {
-        // reviews_num: 1314
       },
     }
   },
@@ -302,7 +285,6 @@ export default defineComponent({
           const code = response.status
           if (code === 200){
             self.comments = response.data.comments
-            console()
           }
         })
 
