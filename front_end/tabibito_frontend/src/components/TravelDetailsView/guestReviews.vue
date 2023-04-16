@@ -182,7 +182,7 @@
 
             <div class="row y-gap-20 x-gap-20 comment_head">
               <div class="col-auto">
-                <img src="{{comment.user_portrait}}" class="avatar">
+                <img :src="comment.user_portrait" class="avatar">
               </div>
               <div class="col-auto">
                 <div class="user_name">{{ comment.user_name }}</div>
@@ -199,9 +199,9 @@
               {{ comment.des }}
             </p>
 
-            <div class="row x-gap-20 y-gap-30 comment_photos" v-for="p in comments.pictures">
+            <div class="row x-gap-20 y-gap-30 comment_photos" v-for="p in comment.pic">
               <div class="col-auto">
-                <img src={{p}} class="photo">
+                <img :src="p" class="photo">
               </div>
             </div>
 
@@ -266,29 +266,12 @@ export default defineComponent({
       countPage: ref(),
       comments:[
         {
-          // user_name:"Tonka",
-          // profile_pic:"../../assets/avatars/2.png",
-          // date_time:"March 2022",
-          // pic:["../../assets/test_comment_photo.png","../../assets/test_comment_photo.png","../../assets/test_comment_photo.png","../../assets/test_comment_photo.png"],
-          // des:"Nice two level apartment in great London location. Located in quiet small street, \n" +
-          //     "              but just 50 meters from main street and bus stop. Tube station is short walk, \n" +
-          //     "              just like two grocery stores.",
-          // title:"9.2 Superb",
         },
       ],
       scores: {
-        // exceptional: 9.4,
-        // location: 9.4,
-        // staff: 9.4,
-        // cleanliness: 9.4,
-        // value_for_money: 9.4,
-        // comfort: 9.4,
-        // facilities: 9.4,
-        // free_wifi: 9.4,
       },
       percentage: {},
       reviews: {
-        // reviews_num: 1314
       },
     }
   },
@@ -302,7 +285,6 @@ export default defineComponent({
           const code = response.status
           if (code === 200){
             self.comments = response.data.comments
-            console()
           }
         })
 
@@ -368,6 +350,7 @@ export default defineComponent({
   width: 60px;
   height: 60px;
   border-radius: 50%;
+  object-fit: cover;
 }
 .comment_foot {
   display: flex !important;
@@ -407,6 +390,7 @@ export default defineComponent({
   border-radius: 4px;
   height: 110px;
   width: 110px;
+  object-fit: contain;
 }
 
 .comment_head {
