@@ -230,7 +230,7 @@ export default defineComponent({
           let map = new google.maps.Map(document.getElementById("map"), {
             center: center,
             zoom: this.project_zoom,
-            mapId: "map"
+            mapId: "jkhjkhkjhjkh"
           });
           const tourStops = this.locations;
           // Create an info window to share between markers.
@@ -500,6 +500,30 @@ export default defineComponent({
     }
   },
   created() {
+    axios.post('http://127.0.0.1:5000/product/trips', {
+      product_id: 9
+    })
+        .then((res) => {
+          this.project_loc = {
+            lat: res.data.location.map_latitude,
+            lng: res.data.location.map_longitude
+          }
+          this.project_zoom = res.data.location.map_zoom;
+          this.raw_trip_data.value = res.data.trips
+          for (let i = 0; i < this.raw_trip_data.value.length; i++){
+            this.locations.push({
+              position: {lat: this.raw_trip_data.value[i].location.map_latitude, lng: this.raw_trip_data.value[i].location.map_longitude},
+              title: this.raw_trip_data.value[i].location.exact
+            });
+            this.itineraryData.push({
+              name: this.raw_trip_data.value[i].activity,
+              time: "Day " + this.raw_trip_data.value[i].day + ", " + this.raw_trip_data.value[i].time_of_day + " " + this.raw_trip_data.value[i].time,
+              description: this.raw_trip_data.value[i].location.exact,
+              picture: this.raw_trip_data.value[i].picture
+            })
+          }
+          this.loadMap();
+        })
     axios.post('http://127.0.0.1:5000/search/product_list',{
       page: 1,
       startTime:null,
@@ -530,25 +554,25 @@ export default defineComponent({
                 this.products[i].duration = hour + ' Hours'
               }
             }
-            this.project_loc = {
-              lat: response.data.products.map_latitude,
-              lng: response.data.products.map_longitude
-            }
-            this.project_zoom = response.data.products.map_zoom;
-            this.raw_trip_data.value = response.data.products
-            for (let i = 0; i < this.raw_trip_data.value.length; i++){
-              this.locations.push({
-                position: {lat: this.raw_trip_data.value[i].location.map_latitude, lng: this.raw_trip_data.value[i].location.map_longitude},
-                title: this.raw_trip_data.value[i].location.exact
-              });
-              this.itineraryData.push({
-                name: this.raw_trip_data.value[i].activity,
-                time: "Day " + this.raw_trip_data.value[i].day + ", " + this.raw_trip_data.value[i].time_of_day + " " + this.raw_trip_data.value[i].time,
-                description: this.raw_trip_data.value[i].location.exact,
-                picture: this.raw_trip_data.value[i].picture
-              })
-            }
-            this.loadMap();
+            // this.project_loc = {
+            //   lat: response.data.products.map_latitude,
+            //   lng: response.data.products.map_longitude
+            // }
+            // this.project_zoom = response.data.products.map_zoom;
+            // this.raw_trip_data.value = response.data.products
+            // for (let i = 0; i < this.raw_trip_data.value.length; i++){
+            //   this.locations.push({
+            //     position: {lat: this.raw_trip_data.value[i].location.map_latitude, lng: this.raw_trip_data.value[i].location.map_longitude},
+            //     title: this.raw_trip_data.value[i].location.exact
+            //   });
+            //   this.itineraryData.push({
+            //     name: this.raw_trip_data.value[i].activity,
+            //     time: "Day " + this.raw_trip_data.value[i].day + ", " + this.raw_trip_data.value[i].time_of_day + " " + this.raw_trip_data.value[i].time,
+            //     description: this.raw_trip_data.value[i].location.exact,
+            //     picture: this.raw_trip_data.value[i].picture
+            //   })
+            // }
+            // this.loadMap();
           }
         })
 
