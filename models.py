@@ -219,7 +219,7 @@ class Product(db.Model):
     start_time = db.Column(db.DateTime, nullable=False, default=datetime.now())
     end_time = db.Column(db.DateTime, nullable=False, default=datetime.now())
     app_ddl = db.Column(db.DateTime, nullable=False, default=datetime.now())
-    status = db.Column(DBEnum(ProductStatus), default=ProductStatus.Launched)
+    status = db.Column(DBEnum(ProductStatus), default=ProductStatus.Delisted)
 
     comments = relationship('Comment', order_by='Comment.id', back_populates="product")
     trips = relationship('Trip', order_by='Trip.id', back_populates="product")

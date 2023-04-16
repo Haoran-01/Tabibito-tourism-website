@@ -50,7 +50,7 @@ def product_list():
     data = request.get_json()
     page = data['page']
     per_page = 10  # 每页10个对象
-    products = Product.query.order_by(Product.id).paginate(page=page, per_page=per_page, error_out=False).items
+    products = Product.query.order_by(Product.id.desc()).paginate(page=page, per_page=per_page, error_out=False).items
     return jsonify(products=[product.serialize_staff_page() for product in products])
 
 

@@ -5,7 +5,7 @@
     <div class="TCon">
       <div class="TTit">
         <div class="TCol">
-          <h1 class="TTex1">Travel Programs List</h1>
+          <h1 class="TTex1">Reservation List</h1>
           <div class="TTex2">Manage the tourism programs</div>
 
           <div class="but">
