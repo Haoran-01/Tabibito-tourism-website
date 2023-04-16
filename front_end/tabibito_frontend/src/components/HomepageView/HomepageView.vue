@@ -239,17 +239,32 @@ export default {
       tagValue: ref([]),
       tags: [
         {
-          label: "今天在摸鱼",
+          label: "Interesting",
           value: "value1",
           type: "success"
         },
         {
-          label: "工作没做完",
+          label: "Wild",
           value: "value2",
           type: "warning"
         },
         {
-          label: "晚上要加班",
+          label: "Museum",
+          value: "value3",
+          type: "error"
+        },
+        {
+          label: "Adventure",
+          value: "value3",
+          type: "error"
+        },
+        {
+          label: "Classic",
+          value: "value3",
+          type: "error"
+        },
+        {
+          label: "City",
           value: "value3",
           type: "error"
         }

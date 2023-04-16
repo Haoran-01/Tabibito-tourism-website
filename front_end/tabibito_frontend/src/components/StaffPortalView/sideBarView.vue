@@ -22,10 +22,10 @@
       </router-link>
       <router-link class="button" to="/management/project_list">
         <img class="material-symbols-outlined" src="../../assets/dashboard/sidebar/booking.svg" alt="icon">
-        <span class="text">History</span>
+        <span class="text">Back-list</span>
       </router-link><router-link class="button" to="/">
       <img class="material-symbols-outlined" src="../../assets/dashboard/sidebar/bookmark.svg" alt="icon">
-      <span class="text">Wishlist</span>
+      <span class="text">Reservation</span>
     </router-link><router-link class="button" to="/">
       <img class="material-symbols-outlined" src="../../assets/dashboard/sidebar/gear.svg" alt="icon">
       <span class="text">Settings</span>
@@ -213,7 +213,7 @@ aside.is-expanded .button .text {
 }
 
 aside.is-expanded .menu-toggle-wrap {
-  top: -3rem;
+  top: -1rem;
 }
 
 aside.is-expanded .button .material-symbols-outlined {

@@ -144,29 +144,29 @@ export default {
       {
         title: 'Start Time',
         key: 'start_time',
-        sortOrder: sortKeyMapOrderRef.value.start_time || false,
-        sorter (rowA, rowB) {
-          return rowA.start_time - rowB.start_time
-        },
+        // sortOrder: sortKeyMapOrderRef.value.start_time || false,
+        // sorter (rowA, rowB) {
+        //   return rowA.start_time - rowB.start_time
+        // },
 
       },
       {
         title: 'End Time',
         key: 'end_time',
-        sortOrder: sortKeyMapOrderRef.value.end_time || false,
-        sorter: {
-          compare: (a, b) => a.end_time - b.end_time,
-          multiple: 3
-        }
+        // sortOrder: sortKeyMapOrderRef.value.end_time || false,
+        // sorter: {
+        //   compare: (a, b) => a.end_time - b.end_time,
+        //   multiple: 3
+        // }
       },
       {
         title: 'Deadline',
         key: 'app_ddl',
-        sortOrder: sortKeyMapOrderRef.value.app_ddl || false,
-        sorter: {
-          compare: (a, b) => a.app_ddl - b.app_ddl,
-          multiple: 2
-        }
+        // sortOrder: sortKeyMapOrderRef.value.app_ddl || false,
+        // sorter: {
+        //   compare: (a, b) => a.app_ddl - b.app_ddl,
+        //   multiple: 2
+        // }
       },
       {
         title: 'Price',
@@ -264,9 +264,15 @@ export default {
       }).then((response)=>{
         const code = response.data['code']
         if (code === 200){
-          toast.success("This program is launched successfully")
+          toast.success("This program is launched successfully",{
+            position: "bottom-right",
+
+          })
         } else {
-          toast.warning("This program has already been launched")
+          toast.warning("This program has already been launched",{
+            position: "bottom-right",
+
+          })
         }
       })
       // console.log( `${row.key}`)
@@ -279,9 +285,15 @@ export default {
       }).then((response)=>{
         const code = response.data['code']
         if (code === 200){
-          toast.success("This program is delisted successfully")
+          toast.success("This program is delisted successfully",{
+            position: "bottom-right",
+
+          })
         } else {
-          toast.warning("This program has already been delisted")
+          toast.warning("This program has already been delisted",{
+            position: "bottom-right",
+
+          })
         }
       })
       // console.log( `${row.key}`)

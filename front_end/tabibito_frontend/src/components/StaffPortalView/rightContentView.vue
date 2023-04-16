@@ -101,7 +101,7 @@
               <div class="echarts">
                 <figure>
 
-                  <div ref="chart" style="height: 400px;"></div>
+                  <div ref="chart" style="height: 400px;width: 1300px"></div>
 
                 </figure>
               </div>
