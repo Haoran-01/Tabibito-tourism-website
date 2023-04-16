@@ -182,7 +182,7 @@
 
             <div class="row y-gap-20 x-gap-20 comment_head">
               <div class="col-auto">
-                <img src="{{comment.user_portrait}}" class="avatar">
+                <img :src="comment.user_portrait" class="avatar">
               </div>
               <div class="col-auto">
                 <div class="user_name">{{ comment.user_name }}</div>
@@ -368,6 +368,7 @@ export default defineComponent({
   width: 60px;
   height: 60px;
   border-radius: 50%;
+  object-fit: cover;
 }
 .comment_foot {
   display: flex !important;

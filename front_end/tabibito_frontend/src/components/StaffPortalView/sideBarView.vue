@@ -6,7 +6,6 @@
 
   <aside :class="`${is_expanded && 'is-expanded'}`">
     <div class="logo">
-      <img src="../../assets/logo.png" alt="logo">
     </div>
 
     <div class="menu-toggle-wrap">
@@ -106,7 +105,7 @@ aside .logo {
 }
 
 aside .logo img {
-  width: 2rem;
+  width: 4rem;
 }
 
 aside .menu-toggle-wrap {

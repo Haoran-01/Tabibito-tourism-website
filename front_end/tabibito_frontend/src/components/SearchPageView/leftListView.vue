@@ -1,4 +1,6 @@
 <template>
+  <navigation-bar class="zup"></navigation-bar>
+
   <div class="halfMap">
   <div class="list_content">
     <div class="list_search_wrap">
@@ -97,7 +99,7 @@
 
               <div class="content_left ratio ratio-1:1">
                 <div class="cardImage_content">
-                  <img class="cardImage col-12" src="{{item.image}}">
+                  <img class="cardImage col-12" :src="item.image">
                 </div>
 
                 <div class="cardImage_wish">
@@ -111,7 +113,7 @@
             </div>
 
             <div class="col-md">
-              <p class="hours">{{ item.hours }}</p>
+<!--              <p class="hours">{{ item.duration }}</p>-->
               <h3 class="title">{{  item.title }}</h3>
               <p class="location">{{  item.location }}</p>
 
@@ -166,9 +168,11 @@ import editButton from "../BackListView/editButton.vue";
 import {useRouter} from 'vue-router';
 import axios from "axios";
 import {useLangStore} from "../../store.js";
+import NavigationBar from "../GeneralComponents/navigationBar.vue";
 export default defineComponent({
   name: "leftListView",
   components: {
+    NavigationBar,
     HeartOutline,
     LocationOutline,
     TodayOutline,
@@ -226,7 +230,7 @@ export default defineComponent({
           let map = new google.maps.Map(document.getElementById("map"), {
             center: center,
             zoom: this.project_zoom,
-            mapId: "jkhjkhkjhjkh"
+            mapId: "map"
           });
           const tourStops = this.locations;
           // Create an info window to share between markers.
@@ -343,24 +347,24 @@ export default defineComponent({
       ],
       locOptions: [
         {
-          label: '滨海湾金沙，新加坡',
-          key: 'marina bay sands',
-          value: 'marina bay sands'
+          label: 'London',
+          key: 'London',
+          value: 'London'
         },
         {
-          label: '布朗酒店，伦敦',
-          key: "brown's hotel, london",
-          value: "brown's hotel, london"
+          label: 'China',
+          key: "China",
+          value: "China"
         },
         {
-          label: '亚特兰蒂斯巴哈马，拿骚',
-          key: 'atlantis nahamas, nassau',
-          value: "atlantis nahamas, nassau"
+          label: 'England',
+          key: 'England',
+          value: "England"
         },
         {
-          label: '比佛利山庄酒店，洛杉矶',
-          key: 'the beverly hills hotel, los angeles',
-          value: "the beverly hills hotel, los angeles"
+          label: 'Ireland',
+          key: 'Ireland',
+          value: "Ireland"
         }
       ],
       typeOptions: [
@@ -437,6 +441,23 @@ export default defineComponent({
               const code = response.status
               if (code === 200){
                 products.value = response.data.products;
+                for(let i = 0; i < products.value.length; i++){
+                  let raw_time = products.value[i].duration;
+                  let hour = Math.round(raw_time/3600);
+                  let day = Math.round(hour/24);
+                  if (hour > 24 && day === 1){
+                    products.value[i].duration = '1 Day'
+                  }
+                  if (hour > 24 && day > 1){
+                    products.value[i].duration = day + ' Days'
+                  }
+                  if (hour === 1){
+                    products.value[i].duration = '1 Hour'
+                  }
+                  if (hour < 24 && hour !== 1){
+                    products.value[i].duration = hour + ' Hours'
+                  }
+                }
                 this.project_loc = {
                   lat: response.data.products.map_latitude,
                   lng: response.data.products.map_longitude
@@ -481,17 +502,34 @@ export default defineComponent({
   created() {
     axios.post('http://127.0.0.1:5000/search/product_list',{
       page: 1,
-      startTime: Date.now(),
-      endTime: 2 * Date.now(),
-      currentLocation: ref(),
-      tourType: ref(),
-      price: ref(),
-      duration: ref(),
+      startTime:null,
+      endTime: null,
+      currentLocation: null,
+      tourType: null,
+      price: null,
+      duration: null,
     })
         .then((response)=>{
           const code = response.status
           if (code === 200){
             this.products = response.data.products;
+            for(let i = 0; i < this.products.length; i++){
+              let raw_time = this.products[i].duration;
+              let hour = Math.round(raw_time/3600);
+              let day = Math.round(hour/24);
+              if (hour > 24 && day === 1){
+                this.products[i].duration = '1 Day'
+              }
+              if (hour > 24 && day > 1){
+                this.products[i].duration = day + ' Days'
+              }
+              if (hour === 1){
+                this.products[i].duration = '1 Hour'
+              }
+              if (hour < 24 && hour !== 1){
+                this.products[i].duration = hour + ' Hours'
+              }
+            }
             this.project_loc = {
               lat: response.data.products.map_latitude,
               lng: response.data.products.map_longitude
@@ -522,9 +560,9 @@ export default defineComponent({
           tourType: ref(),
           price: ref(),
           duration: ref(),
-          state: this.$route.query.state,
-          if_type: this.$route.query.type,
-          if_hot: this.$route.query.hot,
+          // state: this.$route.query.state,
+          // if_type: this.$route.query.type,
+          // if_hot: this.$route.query.hot,
         }
     )
         .then((response)=>{
@@ -538,7 +576,8 @@ export default defineComponent({
   data(){
     return{
       countPage: ref(),
-      itineraryData: []
+      itineraryData: [],
+      products: []
     }
   },
   methods:{
@@ -565,6 +604,10 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.zup {
+  position: fixed;
+  top: 0;
+}
 .page{
   margin-top: 10px;
   margin-left: auto;
@@ -575,11 +618,13 @@ export default defineComponent({
   display: flex;
   width: 100%;
   min-height: calc(100vh - 90px);
+  margin-top: 80px;
 }
 
 @media (max-width: 991px) {
   .halfMap {
     flex-direction: column;
+    margin-top: 80px;
   }
 }
 
@@ -716,6 +761,7 @@ export default defineComponent({
   border-radius: 4px;
   height: 500px;
   width: 500px;
+  object-fit: cover;
 }
 .cardImage_content {
   position: absolute;
