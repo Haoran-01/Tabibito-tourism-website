@@ -46,6 +46,8 @@ export default {
             .then((res) => {
               if (res.status === 200){
                 store.user_login_status = false;
+                store.user_id = 0;
+                store.job = "";
                 this.$router.push(item.path);
               }
             })
