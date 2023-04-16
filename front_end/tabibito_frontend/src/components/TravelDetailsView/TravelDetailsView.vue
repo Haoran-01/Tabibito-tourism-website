@@ -241,7 +241,6 @@ export default {
   setup(){
     const instance = getCurrentInstance();
     const id1 = instance.data.id1;
-
     let store = useStore();
     let startTime = ref();
     let endTime = ref();
@@ -269,7 +268,7 @@ export default {
             {
               product_id: this.id1,
               groupNum: this.groupNum,
-              user_id: 2
+              user_id: store.user_id
             }
         )
             .then(function (response){
