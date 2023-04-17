@@ -8,7 +8,7 @@ from models import User
 from flask import Flask, g, session
 from config import config
 from exts import mail, db
-from webdir.blueprints import user_bp, product_bp, search_bp, recommend_bp, homepage_bp, order_bp, staff_bp, comment_bp
+from webdir.blueprints import user_bp, product_bp, search_bp, recommend_bp, homepage_bp, order_bp, staff_bp, comment_bp, index_bp
 from flask_cors import CORS
 import nltk
 
@@ -43,6 +43,7 @@ app.register_blueprint(homepage_bp)
 app.register_blueprint(staff_bp)
 app.register_blueprint(order_bp)
 app.register_blueprint(comment_bp)
+app.register_blueprint(index_bp)
 
 app.secret_key = os.getenv("SECRET_KEY", "mou107b6vsfxor82bbc4bzf4mcu7")
 
