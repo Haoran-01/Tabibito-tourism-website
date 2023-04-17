@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CyanPine</title>
+    <link href="../dist/css/login.css" rel="stylesheet" type="text/css"/>
+    <link href="{{ url_for('static', filename = 'css/login.css') }}" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+    <header>
+
+    </header>
+    <video id="backgroundVideo" autoplay loop muted>
+        <source src="../videos/background_video.mp4" type="video/mp4">
+    </video>
+    <div class="main" id="main">
+
+        <div class="logo">
+            <img src="{{ url_for('static', filename = 'images/logo_full.png') }}" alt="logo">
+        </div>
+
+        <!--------signUp区域---------------------------------------------------------------------------------------->
+        <div class="signUp", id="signUp">
+            <form class="signUpInputArea" id="signUpInputArea" novalidate onsubmit="checkSignUp()">
+                <input class="mail" id="mailSignUp" name="user_email" type="email" required placeholder="Enter e-mail address" onblur="checkEmail('mailSignUp', 'signUpSubmit')" onfocus="resetInput('mailSignUp'); removeGivenNodes(['invalidSignUpEmail', 'invalidSignUpPassword', 'invalidSignUpUserName', 'invalidSignUpCaptcha'], 'signUpInputArea')">
+                <div class="letter"></div>
+                <input type="text" id = "nameSignUp" name="user_name" required onfocus="resetInput('nameSignUp') ; removeGivenNodes(['invalidSignUpEmail', 'invalidSignUpPassword', 'invalidSignUpUserName', 'invalidSignUpCaptcha'], 'signUpInputArea')" placeholder="Enter username">
+                <div class="user"></div>
+                <input class="password" id = "signUpPass" name="user_password" type="password" required placeholder="Password" onfocus="resetInput('signUpPass'); removeGivenNodes(['invalidSignUpEmail', 'invalidSignUpPassword', 'invalidSignUpUserName', 'invalidSignUpCaptcha'], 'signUpInputArea')">
+                <div class="key1"></div>
+                <div class="togglePassword" id="signUpToggle1"></div>
+                <input class="password" id = "signUpPassRe" name="confirm" type="password" required placeholder="Confirm" onblur="checkPasswords('signUpPass', 'signUpPassRe')" onfocus="resetInput('signUpPassRe'); removeGivenNodes(['invalidSignUpEmail', 'invalidSignUpPassword', 'invalidSignUpUserName', 'invalidSignUpCaptcha'], 'signUpInputArea')">
+                <div class="key2"></div>
+                <div class="togglePassword" id="signUpToggle2"></div>
+                <div class="verificationBox" id="signUpCaptchaBox">
+                    <input class="identify" id = "identifier" name="captcha" type="text" required placeholder="Enter captcha" onfocus="resetInput('identifier'); removeGivenNodes(['invalidSignUpEmail', 'invalidSignUpPassword', 'invalidSignUpUserName', 'invalidSignUpCaptcha'], 'signUpInputArea')">
+                    <button type="button" id="captcha-btn" class="verificationCode"></button>
+                </div>
+                <button type="submit" class = "submit" id="signUpSubmit" onmousedown="checkSignUp()" >Sign Up</button>
+                <div id="rightToLogin" class="rightArrow" onclick="rightToLogin()" title="Back to login in"></div>
+            </form>
+        </div>
+        <!--------login区域---------------------------------------------------------------------------------------->
+        <div class="login" id = "login">
+            <div class="slogan">
+                <div>The forum for BDICers to discuss and the</div>
+                <div>comprehensive services provider for</div>
+                <div>BDICers to collect information</div>
+            </div>
+
+            <form class="logInInputArea" id="logInInputArea" novalidate onsubmit="checkLogin()">
+                <input id = "mailLogin" name="user_email" type="email" required onblur="checkEmail('mailLogin')" onfocus="resetInput('mailLogin'); removeGivenNodes(['invalidLoginUser', 'invalidLoginPassword'], 'logInInputArea')">
+                <div class="letter"></div>
+                <input class="password" id = "password" name="user_password" type="password" required  onfocus="resetInput('password'); removeGivenNodes(['invalidLoginUser', 'invalidLoginPassword'], 'logInInputArea')">
+                <div class="key"></div>
+                <div class="togglePassword" id="togglePassword"></div>
+                <button type="submit" class = "submit" id = "submitLogin" name="sign_up" value="True">Login</button>
+            </form>
+
+            <div id="forgetHr"></div>
+            <button id="signUpButton" class="buttonNotObviously" onclick="register()">Sign up</button>
+            <button id="forgetPassButton" class="buttonNotObviously" onclick="forgetPass()">Forgot password?</button>
+        </div>
+        <!--------forgetPassword区域------------------------------------------------------------------------------->
+        <div class="forgetPassword", id="forgetPassword">
+            <form class="forgetPassInputArea" id = "forgetPassInputArea" novalidate onsubmit="checkForgetPass()">
+                <div class="forgetTitle">Find your account</div>
+                <div class="forgetWords">Enter your email to continue:</div>
+                <input class="mailConfig" type="email" id="forgetMail" name="user_email" placeholder='Enter e-mail address' required onblur="checkEmail('forgetMail', 'forgetPassSubmit')" onfocus="resetInput('forgetMail'); removeGivenNodes(['invalidEmailTip', 'invalidCaptchaTip'], 'forgetPassInputArea')">
+                <div class="letter"></div>
+                <div class="verificationBox" id="forgetCaptchaBox">
+                    <input class="identify2" id = "identifier2" name="captcha" type="text" required placeholder="Enter captcha" onfocus="resetInput('identifier2')">
+                    <button type="button" id="captcha-btn2" class="verificationCode2" onclick="removeGivenNodes(['forgetCaptchaSent'], 'forgetPassInputArea')"></button>
+                </div>
+                <div class="forgetPassInvalidTip">Wrong PAss</div>
+                <button type="submit" class = "submit" id = "forgetPassSubmit">Next</button>
+                <div id="leftToLogin" class="leftArrow" onclick="leftToLogin()" title="Back to login in"></div>
+            </form>
+        </div>
+        <!--resetPassword区域-------------------------------------------------------------------------------------->
+        <div class="resetPassword", id="resetPassword">
+            <form class="resetPasswordInputArea">
+                <div class="resetTitle">Reset your password</div>
+                <input class="password" id = "resetPass" name="user_password" type="password" required placeholder="Password" onfocus="resetInput('resetPass')">
+                <div class="key1"></div>
+                <div class="togglePassword" id="resetToggle1"></div>
+                <input class="password" id = "resetPassRe" name="confirm" type="password" required placeholder="Confirm" onblur="checkPasswords('resetPass', 'resetPassRe')" onfocus="resetInput('resetPassRe')">
+                <div class="key2"></div>
+                <div class="togglePassword" id="resetToggle2"></div>
+                <button type="submit" class="submit" id="resetPasswordSubmit" onsubmit="checkResetPass()">Reset</button>
+            </form>
+        </div>
+
+    </div>
+    <footer>
+        <span class="copyright">Copyright@Group 12</span>
+    </footer>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script> //四个区域的动效
+        let login = document.getElementById("login");
+        let signUp = document.getElementById("signUp");
+        let forgetPassword =document.getElementById("forgetPassword");
+        let resetPassword = document.getElementById("resetPassword");
+
+        function register() { //显示登录页面
+            login.style.left = "450px";
+            signUp.style.left = "0px";
+        }
+
+        function forgetPass() { //显示忘记密码页面
+            login.style.left = "-450px";
+            forgetPassword.style.left = "0px";
+        }
+
+        function rightToLogin() { //从注册界面返回登录界面
+            login.style.left = "0px";
+            signUp.style.left = "-450px"
+        }
+
+        function leftToLogin() { //从忘记密码界面返回登录界面
+            login.style.left = "0px";
+            forgetPassword.style.left = "450px";
+        }
+
+        function resetPass() { //显示重设密码界面
+            forgetPassword.style.left = "-450px";
+            resetPassword.style.left = "40px";
+        }
+    </script>
+
+    <script> //全局可复用代码
+    function addInfoElement(newClass, newID, innerText, parentID, brotherID){
+        if (!document.getElementById(newID)){
+            let element = document.createElement('div');
+            element.setAttribute('class', newClass);
+            element.setAttribute('id', newID);
+            element.innerText = innerText;
+            document.getElementById(parentID).insertBefore(element, document.getElementById(brotherID));
+        }
+    }
+
+    function removeGivenNodes(targetIDs, targetParentID){
+        for (let i = 0; i < targetIDs.length; i++){
+            if (document.getElementById(targetIDs[i]) != null){
+                let parentDiv = document.getElementById(targetParentID);
+                parentDiv.removeChild(document.getElementById(targetIDs[i]));
+            }
+        }
+    }
+    </script>
+
+    <script> // 注册界面验证码逻辑
+        /*验证码获取按钮显示逻辑**/
+        var button = document.getElementById('captcha-btn');
+        button.innerHTML = 'get';
+        button.onclick = function () {
+           var result = checkEmail('mailSignUp');
+           if (result){
+               button.disabled = 'disabled';
+            button.classList.remove('verificationCode');
+            button.classList.add('verificationCodeDisabled');
+            var time = 60;
+            var timer = setInterval(function () {
+                if (time === 0) {
+                    clearInterval(timer)
+                    button.disabled = '';
+                    button.innerHTML = 'get';
+                    button.classList.remove('verificationCodeDisabled');
+                    button.classList.add('verificationCode');
+                } else {
+                    time--;
+                    button.innerHTML = time + 's';
+                }
+            }, 1000)
+           }
+        }
+
+        /*axios获取验证码**/
+        document.getElementById('captcha-btn').addEventListener('click', function (){
+            let signUpEmailValue = document.getElementById('mailSignUp').value;
+            axios.post('/user/captcha', {
+                email: signUpEmailValue
+            })
+                .then(function (response) {
+                    var code=response.data['code'];
+                    if (code === 200){
+                        addInfoElement('captchaSentTip', 'signUpCaptchaSent', '', 'signUpInputArea', 'signUpCaptchaBox');
+                    }else if (code === 400){
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        })
+
+    </script>
+
+    <script> //显示隐藏密码按钮逻辑
+        let togglePassword0 = document.getElementById("togglePassword");
+        let togglePassword1 = document.getElementById("signUpToggle1");
+        let togglePassword2 = document.getElementById("signUpToggle2");
+        let togglePassword3 = document.getElementById("resetToggle1");
+        let togglePassword4 = document.getElementById("resetToggle2");
+        const togglePasswords = Array(togglePassword0, togglePassword1, togglePassword2, togglePassword3, togglePassword4);
+        let password0 = document.getElementById("password");
+        let signUpPass = document.getElementById("signUpPass");
+        let signUpPassRe = document.getElementById("signUpPassRe");
+        let resetPassIn = document.getElementById("resetPass");
+        let resetPassRe = document.getElementById("resetPassRe");
+        const passwords = Array(password0, signUpPass, signUpPassRe, resetPassIn, resetPassRe);
+        for (let i = 0, len = passwords.length; i < len; i = i + 1){
+            let password = passwords[i];
+            let togglePassword = togglePasswords[i];
+            togglePassword.addEventListener('mousedown', function (e){
+                e.preventDefault();
+                if (password.type === 'password'){
+                    password.setAttribute('type', 'text');
+                    togglePassword.style.backgroundImage = 'url("../static/images/eye_close.png")';
+                    togglePassword.style.bottom = "100px";
+                }else{
+                    password.setAttribute('type', 'password');
+                    togglePassword.style.backgroundImage = 'url("../static/images/eye_open.png")';
+                    togglePassword.style.bottom = "103px";
+                }
+            })
+        }
+    </script>
+
+    <script> //验证用户输入及发送表单
+        function checkEmail(id, button) {
+            var tester = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+            if (!tester.test(document.getElementById(id).value)){
+                document.getElementById(id).value = "";
+                document.getElementById(id).style.borderBottom = '1px solid #ff6d6d';
+                document.getElementById(id).style.animation = 'rock 1s 0s ease-in-out';
+                document.getElementById(id).setAttribute('placeHolder', 'Invalid email');
+                return false;
+            }else {
+                return true;
+            }
+        }
+
+        function checkPasswords(passwordInputID, passwordReInputID) {
+            let passwordInput = document.getElementById(passwordInputID);
+            let passwordReInput = document.getElementById(passwordReInputID);
+            if (passwordInput.value !== passwordReInput.value){
+                passwordInput.style.animation = 'rock 1s 0s ease-in-out';
+                passwordReInput.style.animation = 'rock 1s 0s ease-in-out';
+                passwordInput.style.borderBottom = '1px solid #ff6d6d';
+                passwordReInput.style.borderBottom = '1px solid #ff6d6d';
+                passwordInput.value = '';
+                passwordReInput.value = '';
+            }
+        }
+
+        function resetInput(id){
+            document.getElementById(id).style = '';
+            if (document.getElementById(id).type === 'email'){
+                if (id === 'mailLogin'){
+                    document.getElementById(id).setAttribute('placeHolder', '');
+                }else {
+                    document.getElementById(id).setAttribute('placeHolder', 'Enter e-mail address');
+                }
+            }
+        }
+
+        function checkSignUp(){
+            event.preventDefault();
+            let idList = ['mailSignUp', 'nameSignUp', 'signUpPass', 'signUpPassRe', 'identifier'];
+            for (var i = 0; i < idList.length; i++){
+                if (document.getElementById(idList[i]).value === ''){
+                    document.getElementById(idList[i]).style.borderBottom = '1px solid #ff6d6d';
+                }
+            }
+            if (document.getElementById('mailSignUp').value === '' || document.getElementById('nameSignUp').value === '' || signUpPass.value === '' || signUpPassRe.value === '' || document.getElementById('identifier').value === ''){
+            }else {
+                axios.post('/user/register_form', {
+                    email: document.getElementById('mailSignUp').value,
+                    userName: document.getElementById('nameSignUp').value,
+                    password: signUpPass.value,
+                    captcha: document.getElementById('identifier').value
+                })
+                    .then(function (response) {
+                        var code=response.data['code'];
+                        let message=response.data['message'];
+                        if (code === 200){
+                            window.location.assign(window.location.origin + '/user/login');
+                        }else if (code === 400){
+                            if (message === 'invalidSignUpEmail'){
+                                addInfoElement('signUpInvalidTip', 'invalidSignUpEmail', 'Email address has been registered', 'signUpInputArea', 'signUpSubmit');
+                            }else if (message === 'invalidSignUpPassword'){
+                                addInfoElement('signUpInvalidTip', 'invalidSignUpPassword', 'Password must contain 6 to 20 digits or letters', 'signUpInputArea', 'signUpSubmit');
+                            }else if (message === 'invalidSignUpUserName'){
+                                addInfoElement('signUpInvalidTip', 'invalidSignUpUserName', 'Username must less than 20 digits or letters', 'signUpInputArea', 'signUpSubmit');
+                            }else if (message === 'invalidSignUpCaptcha'){
+                                addInfoElement('signUpInvalidTip', 'invalidSignUpCaptcha', 'Invalid Validation Code', 'signUpInputArea', 'signUpCaptchaBox');
+                            }
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
+        }
+
+/*        function checkSignUp(){
+            event.preventDefault();
+            let idList = ['mailSignUp', 'nameSignUp', 'signUpPass', 'signUpPassRe', 'identifier'];
+            for (var i = 0; i < idList.length; i++){
+                if (document.getElementById(idList[i]).value === ''){
+                    document.getElementById(idList[i]).style.borderBottom = '1px solid #ff6d6d';
+                }
+            }
+            if (document.getElementById('mailSignUp').value === '' || document.getElementById('nameSignUp').value === '' || signUpPass.value === '' || signUpPassRe.value === '' || document.getElementById('identifier').value === ''){
+            event.preventDefault();
+            }
+        }*/
+
+        function checkLogin(){
+            event.preventDefault();
+            if (document.getElementById('mailLogin').value === ''){
+                document.getElementById('mailLogin').style.borderBottom = '1px solid #ff6d6d';
+            }
+            if (document.getElementById('password').value === ''){
+                document.getElementById('password').style.borderBottom = '1px solid #ff6d6d';
+            }
+            if (document.getElementById('mailLogin').value === '' || document.getElementById('password').value === ''){
+            }else {
+                let loginEmailValue = document.getElementById('mailLogin').value;
+                let loginPassword = document.getElementById('password').value;
+                axios.post('/user/login_form', {
+                    email: loginEmailValue,
+                    password: loginPassword
+                })
+                    .then(function (response) {
+                        let code=response.data['code'];
+                        let message=response.data['message'];
+                        if (code === 200){
+                            document.getElementById('main').innerHTML = '';
+                            let welcome = document.createElement('div');
+                            welcome.setAttribute('class', 'welcome');
+                            document.getElementById('main').appendChild(welcome);
+                            setTimeout(()=>{}, 1000);
+                            window.location.assign(window.location.origin + '/');
+                        }else if (code === 400){
+                            if (message === 'email'){
+                                addInfoElement('loginInvalidTip', 'invalidLoginUser', 'Email address not registered', 'logInInputArea', 'submitLogin');
+                            }else if (message === 'password'){
+                                addInfoElement('loginInvalidTip', 'invalidLoginPassword', 'Wrong password', 'logInInputArea', 'submitLogin');
+                            }
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
+        }
+
+/*        function checkLogin(){
+            if (document.getElementById('mailLogin').value === ''){
+                document.getElementById('mailLogin').style.borderBottom = '1px solid #ff6d6d';
+            }
+            if (document.getElementById('password').value === ''){
+                document.getElementById('password').style.borderBottom = '1px solid #ff6d6d';
+            }
+            if (document.getElementById('mailLogin').value === '' || document.getElementById('password').value === ''){
+                event.preventDefault();
+            }
+        }*/
+
+        function checkForgetPass(){
+            if (document.getElementById('forgetMail').value === ''){
+                document.getElementById('forgetMail').style.borderBottom = '1px solid #ff6d6d';
+                event.preventDefault();
+            }
+        }
+
+        function checkResetPass(){
+
+        }
+    </script>
+
+    <script>//forget页面逻辑
+        /*验证码获取按钮2**/
+        let button2 = document.getElementById('captcha-btn2');
+        button2.innerHTML = 'get';
+        button2.onclick = function () {
+            let result = checkEmail('forgetMail');
+            if (result){
+                button2.disabled = 'disabled';
+                button2.classList.remove('verificationCode2');
+                button2.classList.add('verificationCodeDisabled2');
+                let time = 60;
+                let timer = setInterval(function () {
+                    if (time === 0) {
+                        clearInterval(timer)
+                        button2.disabled = '';
+                        button2.innerHTML = 'get';
+                        button2.classList.remove('verificationCodeDisabled2');
+                        button2.classList.add('verificationCode2');
+                    } else {
+                        time--;
+                        button2.innerHTML = time + 's';
+                    }
+                }, 1000)
+            }
+        }
+
+        /*获取验证码**/
+        document.getElementById('captcha-btn2').addEventListener('click', function (){
+            let forgetEmailValue = document.getElementById('forgetMail').value;
+            axios.post('/user/captcha', {
+                email: forgetEmailValue
+            })
+                .then(function (response) {
+                    var code=response.data['code'];
+                    if (code === 200){
+                        addInfoElement('captchaSentTip', 'forgetCaptchaSent', '', 'forgetPassInputArea', 'forgetCaptchaBox');
+                    }else if (code === 400){
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        })
+
+        /*提交验证码**/
+        document.getElementById('forgetPassSubmit').addEventListener('click', function (){
+            event.preventDefault();
+            let forgetPassEmailValue = document.getElementById('forgetMail').value;
+            let forgetCaptcha = document.getElementById('identifier2').value;
+            axios.post('/user/forget_form_email', {
+                email: forgetPassEmailValue,
+                captcha: forgetCaptcha
+            })
+                .then(function (response) {
+                    // 处理成功情况
+                    var code=response.data['code'];
+                    var message=response.data['message']
+                    if (code === 200){
+                        resetPass();
+                    }else if (code === 400 && message === 'email'){
+                        addInfoElement('forgetPassInvalidTip', 'invalidEmailTip', 'Email address not registered', 'forgetPassInputArea', 'forgetPassSubmit');
+                    }else if (code === 400 && message === 'captcha'){
+                        addInfoElement('forgetPassInvalidTip', 'invalidCaptcha', 'Invalid Validation Code', 'forgetPassInputArea', 'forgetPassSubmit');
+                    }
+                })
+                .catch(function (error) {
+                    // 处理错误情况
+                    console.log(error);
+                })
+        })
+
+    </script>
+</body>
+</html>
