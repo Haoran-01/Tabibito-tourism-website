@@ -1,5 +1,4 @@
 import datetime
-
 from flask import Blueprint, jsonify, request
 import os
 from exts import db
