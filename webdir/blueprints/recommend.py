@@ -4,8 +4,8 @@ from models import UserBrowse, Product, User
 bp = Blueprint("Recommend", __name__, url_prefix="/recommend")
 
 
-# nltk.download('stopwords')
-# nltk.download('wordnet')
+nltk.download('stopwords')
+nltk.download('wordnet')
 # 首先，我们需要一个函数来计算两个字符串的相似度
 wnl = nltk.WordNetLemmatizer()
 stopwords = set(nltk.corpus.stopwords.words('english'))
