@@ -208,7 +208,6 @@ import LeaveReply from "./leaveReply.vue";
 import SimilarExperiences from "./similarExperiences.vue";
 import NavigationBar from "../GeneralComponents/navigationBar.vue";
 import footerView from "../GeneralComponents/footerView.vue";
-import axios from 'axios';
 import {ref} from "vue";
 import { useToast } from "vue-toastification";
 import {useRoute} from "vue-router";
@@ -264,7 +263,7 @@ export default {
       handleClickProject() {
         let self = this;
 
-        axios.post("http://127.0.0.1:5000/order/create_order",
+        this.axios.post("/order/create_order",
             {
               product_id: this.id1,
               groupNum: this.groupNum,
@@ -285,7 +284,7 @@ export default {
   created() {
     let route = useRoute();
     this.id1 = route.params.trip_id
-    axios.post('http://127.0.0.1:5000/product/detail', {
+    this.axios.post('/product/detail', {
       product_id: route.params.trip_id
     })
         .then(response => {

@@ -91,8 +91,7 @@
 
 import navigationBar from "../GeneralComponents/navigationBar.vue";
 import FooterView from "../GeneralComponents/footerView.vue";
-import axios from 'axios';
-axios.defaults.withCredentials = true;
+import {getCurrentInstance} from 'vue'
 
 import { useToast } from "vue-toastification";
 
@@ -102,7 +101,8 @@ export default {
   setup() {
     // Get toast interface
     const toast = useToast();
-
+    const axios = getCurrentInstance().appContext.config.globalProperties.axios;
+    axios.defaults.withCredentials = true;
     // or with options
     // toast.success("My toast content", {
     //   timeout: 2000
@@ -143,7 +143,7 @@ export default {
       } else {
         let emailValue = this.inputEmail;
         let passwordValue = this.inputPassword;
-        axios.post('http://127.0.0.1:5000/user/login_form', {
+        this.axios.post('/user/login_form', {
           email: emailValue,
           password: passwordValue
         }).then(function (response){

@@ -104,8 +104,8 @@
 
 <script>
 import { ArrowBack, ArrowForward } from '@vicons/ionicons5'
+import {getCurrentInstance} from 'vue'
 import {defineComponent, onMounted, ref} from 'vue'
-import axios from "axios";
 import {useRouter} from 'vue-router';
 export default {
   components: {
@@ -122,7 +122,8 @@ export default {
   setup() {
     let populars = ref({});
     const route = useRouter();
-    axios.get('http://127.0.0.1:5000/homepage/most_popular_products')
+    const axios = getCurrentInstance().appContext.config.globalProperties.axios;
+    axios.get('/homepage/most_popular_products')
         .then(response => {
           populars.value = response.data.products;
           for(let i = 0; i < populars.value.length; i++){

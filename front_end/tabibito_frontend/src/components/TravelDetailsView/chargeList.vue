@@ -13,7 +13,6 @@
 
 <script>
 import ItineraryPart from "./itineraryPart.vue";
-import axios from "axios";
 import {useRoute, useRouter} from "vue-router";
 export default {
   name: "chargeList",
@@ -24,7 +23,7 @@ export default {
   created() {
     const route = useRoute();
     const router = useRouter();
-    axios.post('http://127.0.0.1:5000/product/charge_detail', {
+    this.axios.post('/product/charge_detail', {
         product_id: route.params.trip_id
       })
         .then((res) => {

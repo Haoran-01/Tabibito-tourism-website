@@ -109,7 +109,6 @@ import { h, ref, computed } from 'vue'
 import { NButton, useMessage } from 'naive-ui'
 import {useRouter} from 'vue-router';
 
-import axios from "axios";
 import {useToast} from "vue-toastification";
 import NavigationBar from "../GeneralComponents/navigationBar.vue";
 
@@ -258,7 +257,7 @@ export default {
     }
 
     function launch(row){
-      axios.post('http://127.0.0.1:5000/staff_portal/product_status',{
+      this.axios.post('/staff_portal/product_status',{
         operation: "Launched",
         id: `${row.id}`,
       }).then((response)=>{
@@ -279,7 +278,7 @@ export default {
     }
 
     function delist(row){
-      axios.post('http://127.0.0.1:5000/staff_portal/product_status',{
+      this.axios.post('/staff_portal/product_status',{
         operation: "Delisted",
         id: `${row.id}`,
       }).then((response)=>{
@@ -304,7 +303,7 @@ export default {
     }
 
     function page(newPage){
-      axios.post('http://127.0.0.1:5000/staff_portal/product_list',{
+      this.axios.post('/staff_portal/product_list',{
         page: newPage
       }).then(function (response){
         this.data = response.data.products
@@ -324,7 +323,7 @@ export default {
   },
 
   created() {
-    axios.post('http://127.0.0.1:5000/staff_portal/product_list',{
+    this.axios.post('/staff_portal/product_list',{
       page: 1
     }).then((response)=>{
       const code = response.status

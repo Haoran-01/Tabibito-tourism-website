@@ -162,8 +162,8 @@ import CustomerReview from "./customerReview.vue";
 import Inspiration from "./inspiration.vue";
 import FooterView from "../GeneralComponents/footerView.vue";
 import NotAMember from "./notMember.vue";
-import axios from "axios";
 import {useRouter} from 'vue-router';
+import {getCurrentInstance} from 'vue'
 const renderIcon = (icon) => {
   return () => {
     return h(NIcon, null, {
@@ -180,12 +180,13 @@ export default {
   setup(){
     let figures = ref({});
     const route = useRouter();
-    axios.get('http://127.0.0.1:5000/homepage/four_number')
+    const axios = getCurrentInstance().appContext.config.globalProperties.axios;
+    axios.get('/homepage/four_number')
         .then(function (response) {
           figures.value = response.data
         })
     let discountData = ref({});
-    axios.get('http://127.0.0.1:5000/homepage/lowest_discount')
+    axios.get('/homepage/lowest_discount')
         .then(function (res){
           discountData.value = res.data.products
           console.log(discountData.value)

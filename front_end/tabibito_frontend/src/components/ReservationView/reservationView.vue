@@ -106,7 +106,6 @@ import { h, ref, computed } from 'vue'
 import { NButton, useMessage } from 'naive-ui'
 import {useRouter} from 'vue-router';
 
-import axios from "axios";
 import {useToast} from "vue-toastification";
 import NavigationBar from "../GeneralComponents/navigationBar.vue";
 

@@ -70,8 +70,8 @@
 import {h, defineComponent, ref, onMounted} from "vue";
 import DropDown from "./dropDown.vue";
 import userDropDown from "./userDropDown.vue";
-import axios from "axios";
 import {useStore, useLangStore} from "../../store.js";
+import {getCurrentInstance} from 'vue'
 import {useI18n} from "vue-i18n";
 export default defineComponent({
   props: {
@@ -84,7 +84,8 @@ export default defineComponent({
     let currency_is_shown = ref(false);
     let user_is_shown = ref(false);
     let user_is_logged_in = ref(false);
-    axios.get('http://127.0.0.1:5000/user/login_status')
+    const axios = getCurrentInstance().appContext.config.globalProperties.axios;
+    axios.get('/user/login_status')
         .then((res)=>{
           user_is_logged_in.value = res.data.id !== null;
           if (user_is_logged_in.value){
@@ -166,7 +167,7 @@ export default defineComponent({
         this.$i18n.locale = 'en';
         store.language = 'en'
       }
-      axios.post('http://127.0.0.1:4523/m1/2418665-0-default/user/set_language', {
+      this.axios.post('/user/set_language', {
         language: this.$i18n.locale
       })
     }

@@ -166,7 +166,6 @@ import listButton from "../BackListView/listButton.vue";
 import delistButton from "../BackListView/delistButton.vue";
 import editButton from "../BackListView/editButton.vue";
 import {useRouter} from 'vue-router';
-import axios from "axios";
 import {useLangStore} from "../../store.js";
 import NavigationBar from "../GeneralComponents/navigationBar.vue";
 export default defineComponent({
@@ -426,7 +425,7 @@ export default defineComponent({
         }
       },
       handleSearchProject() {
-        axios.post("http://127.0.0.1:5000/search/product_list",
+        this.axios.post("/search/product_list",
             {
               page: 1,
               startTime: startTime.value,
@@ -479,7 +478,7 @@ export default defineComponent({
                 this.loadMap();
               }
             })
-        axios.post("http://127.0.0.1:5000/search/product_number",
+        this.axios.post("/search/product_number",
             {
               startTime: startTime.value,
               endTime: endTime.value,
@@ -500,7 +499,7 @@ export default defineComponent({
     }
   },
   created() {
-    axios.post('http://127.0.0.1:5000/product/trips', {
+    this.axios.post('/product/trips', {
       product_id: 9
     })
         .then((res) => {
@@ -524,7 +523,7 @@ export default defineComponent({
           }
           this.loadMap();
         })
-    axios.post('http://127.0.0.1:5000/search/product_list',{
+    this.axios.post('/search/product_list',{
       page: 1,
       startTime:null,
       endTime: null,
@@ -576,7 +575,7 @@ export default defineComponent({
           }
         })
 
-    axios.post("http://127.0.0.1:5000/search/product_number",
+    this.axios.post("/search/product_number",
         {
           startTime: Date.now(),
           endTime: 2 * Date.now(),
