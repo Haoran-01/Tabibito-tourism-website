@@ -140,9 +140,9 @@
                     <td class="table_money">${{ item.price }}</td>
                     <td>${{ item.discount }}</td>
                     <td>
-                      <div v-if="item.status === 'pending'" class="table_pending">Pending</div>
-                      <div v-else-if="item.status === 'confirmed'" class="table_confirm">Confirmed</div>
-                      <div v-else-if="item.status === 'cancelled'" class="table_reject">Rejected</div>
+                      <div v-if="item.status === 'Processing'" class="table_pending">Processing</div>
+                      <div v-else-if="item.status === 'Completed'" class="table_confirm">Completed</div>
+                      <div v-else-if="item.status === 'Cancelled'" class="table_reject">Cancelled</div>
                     </td>
                     <td>{{ item.date }}<br>{{ item.time }}</td>
                   </tr>
