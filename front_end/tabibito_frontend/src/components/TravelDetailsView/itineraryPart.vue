@@ -15,7 +15,6 @@
 <script>
 import ItineraryStep from "./itineraryStep.vue";
 import {Loader} from "@googlemaps/js-api-loader";
-import axios from "axios";
 import {useRoute} from 'vue-router';
 import {ref} from 'vue';
 import {useLangStore} from "../../store.js";
@@ -84,7 +83,7 @@ export default {
   },
   created() {
     const route = useRoute();
-    axios.post('http://127.0.0.1:5000/product/trips', {
+    this.axios.post('http://127.0.0.1:5000/product/trips', {
         product_id: route.params.trip_id
       })
         .then((res) => {

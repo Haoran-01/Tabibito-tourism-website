@@ -46,7 +46,7 @@
 
             <div class="mt-35">
               <div class="text-14 mt-30">{{ $t('footer.supp') }}</div>
-              <a href="#" class="contact-href">{{ $t('footer.email') }}</a>
+              <a href="#" class="contact-href">hi@tabibito.com</a>
             </div>
           </div>
 

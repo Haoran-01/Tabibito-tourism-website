@@ -15,14 +15,13 @@
 <script>
 import {NButton, NIcon, NPopconfirm} from "naive-ui";
 import {CancelRound} from "@vicons/material";
-import axios from "axios";
 export default {
   props: ["rowIndex", "prop"],
   components: {NButton, NIcon, CancelRound, NPopconfirm},
   name: "delistButton",
   methods:{
     handlePositiveClick(){
-      axios.post('http://127.0.0.1:5000//staff_portal/product_status',{
+      this.axios.post('/staff_portal/product_status',{
         operation: "launch",
         id: this.itemId,
       })

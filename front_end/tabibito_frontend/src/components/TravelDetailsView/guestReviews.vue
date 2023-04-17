@@ -240,7 +240,6 @@
 <script>
 import { defineComponent, ref } from 'vue'
 import {ThumbsUp, ThumbsDown, ArrowForwardOutline} from "@vicons/ionicons5";
-import axios from "axios";
 
 export default defineComponent({
   name: "guestReviews",
@@ -277,7 +276,7 @@ export default defineComponent({
   },
   created() {
     var self = this;
-    axios.post('http://127.0.0.1:5000/product/get_comment',{
+    this.axios.post('/product/get_comment',{
       page: 1,
       product_id: 9,
     })
@@ -288,7 +287,7 @@ export default defineComponent({
           }
         })
 
-    axios.post('http://127.0.0.1:5000/product/get_reviews',
+    this.axios.post('/product/get_reviews',
         {
           product_id: 9
         })
@@ -303,7 +302,7 @@ export default defineComponent({
   methods:{
     pageChange(newPage){
       // console.log(`Current page is ${newPage}`);
-      axios.post('http://127.0.0.1:5000/product/get_comment',{
+      this.axios.post('/product/get_comment',{
         page: newPage
       }).then(function (response){
         this.comments = response.data.comments
@@ -318,7 +317,7 @@ export default defineComponent({
       this.$set(this.percentage, key, Math.round(value * 10));
     }
     var self = this;
-    axios.post('http://127.0.0.1:5000/product/get_product_grade',
+    this.axios.post('/product/get_product_grade',
         {
           // 暂时给定值，不知道怎么拿到id
           product_id: 9
@@ -330,7 +329,7 @@ export default defineComponent({
         .catch(error => {
           console.error(error);
         });
-    axios.post('http://127.0.0.1:5000/product/get_reviews',
+    this.axios.post('http://127.0.0.1:5000/product/get_reviews',
         {
           product_id: 9
         }

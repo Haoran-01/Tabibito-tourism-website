@@ -105,7 +105,7 @@
 <script>
 import { ArrowBack, ArrowForward } from '@vicons/ionicons5'
 import {defineComponent, onMounted, ref} from 'vue'
-import axios from "axios";
+import {getCurrentInstance} from 'vue'
 export default {
   components: {
     ArrowBack,
@@ -122,6 +122,7 @@ export default {
     let slides_per_view= ref(3);
     let space_between = ref(20);
     let recommends = ref({});
+    const axios = getCurrentInstance().appContext.config.globalProperties.axios;
     axios.get('http://127.0.0.1:5000/recommend/products')
         .then(response => {
           recommends.value = response.data.products;

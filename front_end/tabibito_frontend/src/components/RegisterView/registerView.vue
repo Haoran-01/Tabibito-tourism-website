@@ -131,7 +131,6 @@
 import navigationBar from "../GeneralComponents/navigationBar.vue";
 import FooterView from "../GeneralComponents/footerView.vue";
 import {useToast} from "vue-toastification";
-import axios from "axios";
 
 export default {
   setup() {
@@ -215,7 +214,7 @@ export default {
 
         self.toast.success("Captcha send Successfully.");
 
-        axios.post('http://127.0.0.1:5000/user/captcha', {
+        this.axios.post('/user/captcha', {
           email: emailValue,
 
         }).then(function (response) {
@@ -277,7 +276,7 @@ export default {
         let passwordValue = this.inputPassword1;
         let confirmValue = this.inputConfirm;
         let codeValue = this.inputCode;
-        axios.post('http://127.0.0.1:5000/user/register_form', {
+        this.axios.post('/user/register_form', {
           first: firstValue,
           last: lastValue,
           email: emailValue,

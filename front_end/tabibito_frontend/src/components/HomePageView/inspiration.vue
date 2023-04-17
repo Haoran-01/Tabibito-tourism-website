@@ -32,7 +32,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 
 export default {
   name: "inspiration",
@@ -42,7 +41,7 @@ export default {
     }
   },
   mounted() {
-    axios.get('http://127.0.0.1:5000//homepage/inspiration')
+    this.axios.get('/homepage/inspiration')
         .then(response => {
           this.inspirations = response.data.inspirations;
           console.log(this.inspirations)

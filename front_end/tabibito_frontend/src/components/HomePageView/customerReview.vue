@@ -65,7 +65,6 @@
 
 <script>
 import {ArrowBack, ArrowForward} from "@vicons/ionicons5";
-import axios from 'axios';
 
 export default {
   components: {ArrowBack, ArrowForward},
@@ -76,7 +75,7 @@ export default {
     }
   },
   mounted() {
-    axios.get('http://127.0.0.1:5000//homepage/most_popular_comments')
+    this.axios.get('/homepage/most_popular_comments')
         .then(response => {
           this.reviews = response.data.data;
 

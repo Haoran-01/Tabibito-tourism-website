@@ -175,7 +175,6 @@ import {
 } from "echarts/components";
 import VChart, { THEME_KEY } from "vue-echarts";
 import FooterView from "../GeneralComponents/footerView.vue";
-import axios from "axios";
 
 import * as echarts from "echarts";
 
@@ -267,14 +266,14 @@ export default defineComponent({
 
     this.initChart();
 
-    axios.get('http://127.0.0.1:5000/staff_portal/recent_product_list')
+    this.axios.get('/staff_portal/recent_product_list')
         .then(response => {
           this.items = response.data.orders;
         })
         .catch(error => {
           console.error(error);
         });
-    axios.get('http://127.0.0.1:5000/staff_portal/get_statistic')
+    this.axios.get('/staff_portal/get_statistic')
         .then(response => {
           this.earns = response.data;
         })

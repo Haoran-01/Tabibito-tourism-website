@@ -97,12 +97,13 @@
 
 import navigationBar from "../GeneralComponents/navigationBar.vue";
 import FooterView from "../GeneralComponents/footerView.vue";
-import axios from "axios";
-axios.defaults.withCredentials = true;
+import {getCurrentInstance} from 'vue'
 import {useToast} from "vue-toastification";
 
 export default {
   setup() {
+    const axios = getCurrentInstance().appContext.config.globalProperties.axios;
+    axios.defaults.withCredentials = true;
     // Get toast interface
     const toast = useToast();
 
@@ -145,7 +146,7 @@ export default {
 
         this.toast.success("Captcha sends successfully");
 
-        axios.post('http://127.0.0.1:5000/user/captcha', {
+        this.axios.post('/user/captcha', {
           email: emailValue,
 
         }).then(function (response) {
@@ -178,7 +179,7 @@ export default {
         this.toast.error("This email is not valid");
       }
 
-      axios.post('http://127.0.0.1:5000/user/forget_form_email', {
+      this.axios.post('/user/forget_form_email', {
         email: emailValue,
         verifyCode: codeValue
 

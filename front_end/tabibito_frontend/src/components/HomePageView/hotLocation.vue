@@ -44,7 +44,6 @@
 import CustomerReview from "./customerReview.vue";
 import Inspiration from "./inspiration.vue";
 import NotAMember from "./notMember.vue";
-import axios from 'axios';
 
 export default {
   name: "hotLocation",
@@ -55,7 +54,7 @@ export default {
     }
   },
   mounted() {
-    axios.get('http://127.0.0.1:5000/homepage/location')
+    this.axios.get('/homepage/location')
         .then(response => {
           this.locations = response.data.locations;
         })

@@ -144,8 +144,7 @@
 import { defineComponent, ref } from 'vue'
 import {StarHalf as star} from "@vicons/ionicons5";
 import {ArrowForwardOutline} from "@vicons/ionicons5";
-import axios from "axios";
-
+import axios from 'axios'
 export default defineComponent({
   name: "leaveReply",
   components: {

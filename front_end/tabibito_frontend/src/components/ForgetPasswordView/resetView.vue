@@ -86,12 +86,15 @@
 
 import navigationBar from "../GeneralComponents/navigationBar.vue";
 import FooterView from "../GeneralComponents/footerView.vue";
-import axios from "axios";
-axios.defaults.withCredentials = true;
+import {getCurrentInstance} from 'vue'
 
 export default {
   components: {FooterView, navigationBar},
   name: "loginView",
+  setup(){
+    const axios = getCurrentInstance().appContext.config.globalProperties.axios;
+    axios.defaults.withCredentials = true;
+  },
   data() {
     return {
       countingDown: false,
@@ -117,7 +120,7 @@ export default {
 
       let passwordValue = this.p1;
       let confirmValue = this.p2;
-      axios.post('http://127.0.0.1:5000/user/reset_password', {
+      this.axios.post('/user/reset_password', {
         password: passwordValue,
         confirm: confirmValue
       }).then(function (response){

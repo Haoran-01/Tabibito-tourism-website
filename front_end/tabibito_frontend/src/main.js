@@ -8,9 +8,12 @@ import 'vue-toastification/dist/index.css'
 import { createI18n } from 'vue-i18n'
 import enLocale from './i18n/en.js'
 import zhLocale from './i18n/zh.js'
+import axios from 'axios'
 
 const app = createApp(App);
 const pinia = createPinia();
+axios.defaults.baseURL = 'http://127.0.0.1:5000';
+app.config.globalProperties.axios = axios;
 
 const i18n = createI18n({
     locale: 'en',

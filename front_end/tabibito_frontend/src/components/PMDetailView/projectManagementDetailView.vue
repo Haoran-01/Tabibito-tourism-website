@@ -227,7 +227,6 @@ import {ref} from "vue";
 import {useMessage} from "naive-ui";
 import RouteStep from "./routeStep.vue";
 import PriceItem from "./priceItem.vue";
-import axios from "axios";
 import { useToast } from "vue-toastification";
 
 export default {
@@ -235,7 +234,7 @@ export default {
   components: {PriceItem, RouteStep},
   beforeRouteEnter(to, from, next){
     next((vm) => {
-      axios.get('http://127.0.0.1:5000/user/login_status')
+      vm.axios.get('/user/login_status')
           .then((res) =>{
             if (res.data.job === 'Staff'){
             }else {
@@ -556,7 +555,7 @@ export default {
       description: this.chargeDatas[index].chargeDescription
     })
   }
-  axios.post('http://127.0.0.1:5000/product/add', {
+  this.axios.post('/product/add', {
     name: this.projectName,
     description: this.projectDescription,
     group_number: this.groupNumber,
