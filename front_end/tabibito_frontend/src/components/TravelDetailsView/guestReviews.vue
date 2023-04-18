@@ -329,7 +329,7 @@ export default defineComponent({
         .catch(error => {
           console.error(error);
         });
-    this.axios.post('http://127.0.0.1:5000/product/get_reviews',
+    this.axios.post('/product/get_reviews',
         {
           product_id: 9
         }

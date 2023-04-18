@@ -123,7 +123,7 @@ export default {
     let space_between = ref(20);
     let recommends = ref({});
     const axios = getCurrentInstance().appContext.config.globalProperties.axios;
-    axios.get('http://127.0.0.1:5000/recommend/products')
+    axios.get('/recommend/products')
         .then(response => {
           recommends.value = response.data.products;
           for(let i = 0; i < recommends.value.length; i++){

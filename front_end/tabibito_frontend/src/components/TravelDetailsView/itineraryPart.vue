@@ -83,7 +83,7 @@ export default {
   },
   created() {
     const route = useRoute();
-    this.axios.post('http://127.0.0.1:5000/product/trips', {
+    this.axios.post('/product/trips', {
         product_id: route.params.trip_id
       })
         .then((res) => {

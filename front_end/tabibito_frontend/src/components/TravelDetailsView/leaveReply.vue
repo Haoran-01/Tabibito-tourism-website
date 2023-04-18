@@ -160,7 +160,7 @@ export default defineComponent({
     const title = ref("");
     const des = ref("");
 
-    const handleComment = async () => {
+    /*const handleComment = async () => {
       try {
         const response = await axios.post("http://127.0.0.1:5000/comment/add_comment", {
           title: title.value,
@@ -180,7 +180,7 @@ export default defineComponent({
       } catch (error) {
         console.error(error);
       }
-    };
+    };*/
 
     return {title, des, handleComment}
   },

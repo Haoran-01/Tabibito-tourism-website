@@ -267,7 +267,7 @@ export default {
     }
 
     function complete(row){
-      axios.post('http://127.0.0.1:5000/staff_portal/change_order_status',{
+      this.axios.post('/staff_portal/change_order_status',{
         operation: "Completed",
         id: `${row.id}`,
       }).then((response)=>{
@@ -288,7 +288,7 @@ export default {
     }
 
     function cancel(row){
-      axios.post('http://127.0.0.1:5000/staff_portal/change_order_status',{
+      this.axios.post('/staff_portal/change_order_status',{
         operation: "Cancelled",
         id: `${row.id}`,
       }).then((response)=>{
@@ -309,7 +309,7 @@ export default {
     }
 
     function deleteLine(row){
-      axios.post('http://127.0.0.1:5000/staff_portal/change_order_status',{
+      this.axios.post('/staff_portal/change_order_status',{
         operation: "Delete",
         id: `${row.id}`,
       }).then((response)=>{
@@ -331,7 +331,7 @@ export default {
     }
 
     function page(newPage){
-      axios.post('http://127.0.0.1:5000/staff_portal/change_order_status',{
+      this.axios.post('/staff_portal/change_order_status',{
         page: newPage
       }).then(function (response){
         data = response.data.all_orders
@@ -352,7 +352,7 @@ export default {
   },
 
   created() {
-    axios.post('http://127.0.0.1:5000/staff_portal/view_all',{
+    this.axios.post('/staff_portal/view_all',{
       page: 1
     }).then((response)=>{
       const code = response.status
