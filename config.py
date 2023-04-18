@@ -26,9 +26,9 @@ class DevelopmentConfig(Config):
     PORT = '3306'
     DATABASE = 'tabibito'
     USERNAME = 'root'
-    PASSWORD = 'Wwj13049995918()'
-    # DB_URI = 'mysql+pymysql://{}:{}@{}:{}/{}?charset=utf8'.format(USERNAME, PASSWORD, HOSTNAME, PORT, DATABASE)
-    DB_URI = 'pymysql+mysql://{}:{}@{}:{}/{}?charset=utf8'.format(USERNAME, PASSWORD, HOSTNAME, PORT, DATABASE)
+    # PASSWORD = 'Wwj13049995918()'
+    PASSWORD = ''
+    DB_URI = 'mysql+pymysql://{}:{}@{}:{}/{}?charset=utf8'.format(USERNAME, PASSWORD, HOSTNAME, PORT, DATABASE)
     # DB_URI = 'mysql://{}:{}@{}:{}/{}?charset=utf8'.format(USERNAME, PASSWORD, HOSTNAME, PORT, DATABASE)
     SQLALCHEMY_DATABASE_URI = DB_URI
     SQLALCHEMY_TRACK_MODIFICATIONS = True
