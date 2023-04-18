@@ -27,7 +27,8 @@ class DevelopmentConfig(Config):
     DATABASE = 'tabibito'
     USERNAME = 'root'
     PASSWORD = 'Wwj13049995918()'
-    DB_URI = 'mysql+pymysql://{}:{}@{}:{}/{}?charset=utf8'.format(USERNAME, PASSWORD, HOSTNAME, PORT, DATABASE)
+    # DB_URI = 'mysql+pymysql://{}:{}@{}:{}/{}?charset=utf8'.format(USERNAME, PASSWORD, HOSTNAME, PORT, DATABASE)
+    DB_URI = 'mysql://{}:{}@{}:{}/{}?charset=utf8'.format(USERNAME, PASSWORD, HOSTNAME, PORT, DATABASE)
     SQLALCHEMY_DATABASE_URI = DB_URI
     SQLALCHEMY_TRACK_MODIFICATIONS = True
     # SQLALCHEMY_POOL_RECYCLE = 28800
