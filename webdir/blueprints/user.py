@@ -254,7 +254,8 @@ def oauth2callback():
     credentials = flow.credentials
     flask.session['credentials'] = credentials_to_dict(credentials)
     print(flask.session['credentials'])
-    return flask.redirect("http://127.0.0.1:5173/")
+    return flask.redirect("http://127.0.0.1:5000/")
+
 
 def credentials_to_dict(credentials):
     return {

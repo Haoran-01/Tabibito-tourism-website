@@ -20,7 +20,7 @@ def create_app(config_name):
     # nltk.download('stopwords')
     # nltk.download('wordnet')
 
-    app = Flask(__name__, template_folder="templates/dist", static_folder="templates/dist", static_url_path="")
+    app = Flask(__name__, template_folder="../front_end/tabibito_frontend/dist", static_folder="../front_end/tabibito_frontend/dist", static_url_path="")
     app.config.from_object(config[config_name])
     config[config_name].init_app(app)
 
