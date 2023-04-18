@@ -12,7 +12,7 @@ import axios from 'axios'
 
 const app = createApp(App);
 const pinia = createPinia();
-axios.defaults.baseURL = 'http://127.0.0.1:5000';
+axios.defaults.baseURL = 'http://csi420-01-vm1.ucd.ie';
 app.config.globalProperties.axios = axios;
 
 const i18n = createI18n({
