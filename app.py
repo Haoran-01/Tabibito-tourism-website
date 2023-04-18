@@ -5,9 +5,8 @@ import logging
 
 
 @app.route("/", methods=['POST', 'GET'])
-def index(name=None):
-    out_html = render_template('index.html', name=name)
-    return out_html, "200 Ok", {"Content-type": "text/html"}
+def index():
+    return render_template('index.html')
 
 
 if __name__ == '__main__':
