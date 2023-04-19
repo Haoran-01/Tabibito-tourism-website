@@ -595,19 +595,22 @@ export default {
 }
 @media (min-width:350px){
   .container{
-    max-width:300px
+    padding-left: 0px;
+    max-width: 330px;
   }
 }
 
 
 @media (min-width:450px){
   .container{
-    max-width:400px
+    max-width:400px;
+    padding-left: 20px;
   }
 }
 @media (min-width:550px){
   .container{
-    max-width:540px
+    max-width:540px;
+    padding-left: 0px;
   }
 }
 

@@ -243,6 +243,7 @@ export default {
   }
   .iImg{
     width: 200px;
+    padding-bottom: 10px;
   }
   .iBlock{
     flex-direction: column;

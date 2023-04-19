@@ -451,6 +451,9 @@ export default {
   .layout-journey-start-pb {
     padding-bottom: 30px;
   }
+  .col-auto{
+    margin-left: -8px;
+  }
 }
 
 @media (min-width:576px){

@@ -16,7 +16,7 @@
 
 
       <!--      第一个图片区块-->
-      <div class="blocks">
+      <div class="blocks" style="overflow: hidden">
         <div v-for="location in locations" :key="location.name">
         <div class="rect">
           <a class="clickArea">
@@ -248,6 +248,9 @@ export default {
   }
   .text{
     margin-left: 20px;
+  }
+  .hotHeader {
+    margin-left: 6px;
   }
 }
 @media (min-width:480px){
