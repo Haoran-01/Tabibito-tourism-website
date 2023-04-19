@@ -4,7 +4,7 @@
       <div class="titlePart">
         <div class="titleMain">
           <h1 class="mainTitle">Add Travel Project</h1>
-          <div class="slogan">Lorem ipsum dolor sit amet, consectetur.</div>
+          <div class="slogan">Add a new tourism project.</div>
         </div>
       </div>
       <div class="settings">

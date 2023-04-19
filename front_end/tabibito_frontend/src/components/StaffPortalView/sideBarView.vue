@@ -22,10 +22,10 @@
       </router-link>
       <router-link class="button" to="/management/project_list">
         <img class="material-symbols-outlined" src="../../assets/dashboard/sidebar/booking.svg" alt="icon">
-        <span class="text">Back-list</span>
-      </router-link><router-link class="button" to="/">
+        <span class="text">Programs</span>
+      </router-link><router-link class="button" to="/management/reservation_list">
       <img class="material-symbols-outlined" src="../../assets/dashboard/sidebar/bookmark.svg" alt="icon">
-      <span class="text">Reservation</span>
+      <span class="text">Reservations</span>
     </router-link><router-link class="button" to="/">
       <img class="material-symbols-outlined" src="../../assets/dashboard/sidebar/gear.svg" alt="icon">
       <span class="text">Settings</span>
@@ -187,6 +187,9 @@ aside .button .text {
 
 aside .menu-toggle-wrap .menu-toggle {
   transition: 0.3s ease-out;
+  background-color: #ffffff;
+  border: 1.5px solid #3554D1;
+  border-radius: 4px;
 }
 
 aside .menu-toggle-wrap .menu-toggle .material-symbols-outlined {
@@ -195,9 +198,15 @@ aside .menu-toggle-wrap .menu-toggle .material-symbols-outlined {
   transition: 0.3s ease-out;
 }
 
-aside .menu-toggle-wrap .menu-toggle .material-symbols-outlined:hover {
-  color: #3554D1;
+aside .menu-toggle-wrap .menu-toggle:hover {
+  background-color: #3554D1;
+  color: #ffffff;
+}
+
+aside .menu-toggle-wrap .menu-toggle:hover .material-symbols-outlined{
+  color: #ffffff;
   transform: translateX(0.5rem);
+
 }
 
 aside.is-expanded {

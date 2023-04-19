@@ -2,6 +2,8 @@
   <navigation-bar :is-transparent="true" class="zup"></navigation-bar>
 
   <div class="TManager">
+    <side-bar-view></side-bar-view>
+
     <div class="TCon">
       <div class="TTit">
         <div class="TCol">
@@ -108,10 +110,13 @@ import {useRouter} from 'vue-router';
 
 import {useToast} from "vue-toastification";
 import NavigationBar from "../GeneralComponents/navigationBar.vue";
+import axios from "axios";
+import SideBarView from "../StaffPortalView/sideBarView.vue";
 
 export default {
   name: "staffView",
   components: {
+    SideBarView,
     NavigationBar
   },
 
@@ -325,9 +330,8 @@ export default {
     }
 
     function edit(row){
-      toast.warning('This will be done in the next stage')
-      // route.push('/management/project_detail/'+`${row.id}`)
-      // console.log( `${row.key}`)
+
+      route.push('/management/reservation_edit/'+`${row.id}`)
     }
 
     function page(newPage){
@@ -379,6 +383,8 @@ export default {
   margin-top: 80px;
   overflow: hidden;
   width: 100%;
+  background-color: #F5F5F5;
+  display: flex;
 
   /*使用侧边栏前后变化 300px*/
 //padding-left: 300px;
@@ -406,7 +412,11 @@ export default {
   padding: 60px;
   padding-bottom: 0;
 
-  background-color: #F5F5F5;
+  //background-color: #F5F5F5;
+
+  overflow: hidden;
+  will-change: padding-left;
+  transition: all 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 
 .TTit{
@@ -469,7 +479,7 @@ export default {
   margin-top: -63px;
 
   /*控制离标题的距离*/
-  margin-left: 1200px;
+  margin-left: 990px;
 }
 
 .nBtn1{

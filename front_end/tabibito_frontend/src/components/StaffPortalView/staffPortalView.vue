@@ -4,7 +4,7 @@
   <navigation-bar :is-transparent="true" class="zup"></navigation-bar>
 
   <div class="portal">
-    <SideBarView class="zside"/>
+    <SideBarView />
 
     <div class="dashboard_main">
       <right-content-view />

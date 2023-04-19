@@ -2,6 +2,9 @@
   <navigation-bar :is-transparent="true" class="zup"></navigation-bar>
 
   <div class="TManager">
+
+    <side-bar-view></side-bar-view>
+
     <div class="TCon">
       <div class="TTit">
         <div class="TCol">
@@ -43,9 +46,6 @@
 
               </div>
             </div>
-
-            <!--      一行17个      -->
-<!--            <n-pagination class="page" v-model:page="page" :on-update:page="pageChange"	:page-count="countPage"/>-->
 
           </div>
       </div>
@@ -111,10 +111,12 @@ import {useRouter} from 'vue-router';
 
 import {useToast} from "vue-toastification";
 import NavigationBar from "../GeneralComponents/navigationBar.vue";
+import SideBarView from "../StaffPortalView/sideBarView.vue";
 
 export default {
   name: "staffView",
   components: {
+    SideBarView,
     NavigationBar
   },
 
@@ -349,35 +351,28 @@ export default {
   overflow: hidden;
   width: 100%;
   margin-top: 80px;
+  background-color: #F5F5F5;
 
   /*使用侧边栏前后变化 300px*/
   //padding-left: 300px;
   will-change: padding-left;
   transition: all 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
-}
-.TManager::after {
-  margin-top: 80px;
-  content: "";
-  display: none;
-  position: fixed;
-  z-index: 50;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  transition: all 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
-  pointer-events: none;
-  opacity: 0;
+
+  display: flex;
 }
 
 .TCon{
   width: 100%;
   padding: 60px;
   padding-bottom: 0;
+  //background-color: #F5F5F5;
 
-  background-color: #F5F5F5;
+  overflow: hidden;
+  will-change: padding-left;
+  transition: all 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
 }
+
+
 
 .TTit{
   display:flex;
@@ -439,7 +434,7 @@ export default {
   margin-top: -63px;
 
   /*控制离标题的距离*/
-  margin-left: 1200px;
+  margin-left: 990px;
 }
 
 .nBtn1{
