@@ -233,8 +233,8 @@ export default {
 
 <style scoped>
 .cardContent {
-  width: 200px;
-  height: 200px;
+  width: auto;
+  height: auto;
 }
 
 .tourTypeCardContent {
@@ -243,8 +243,8 @@ export default {
 
 @media (max-width: 1050px) {
   .cardContent {
-    width: 150px;
-    height: 150px;
+    /*width: 150px;*/
+    height: 230px;
   }
   .cardText {
     color: #051036;
@@ -262,8 +262,8 @@ export default {
 
 @media (max-width: 775px) {
   .cardContent {
-    width: 100px;
-    height: 100px;
+    /*width: 100px;*/
+    height: 230px;
   }
   .cardText {
     color: #051036;
@@ -288,14 +288,12 @@ export default {
 
 @media (max-width: 575px) {
   .cardContent {
-    width: 75px;
-    height: 75px;
+    /*width: 75px;*/
+    height: 230px;
   }
 
   .tourTypeCardContent {
     padding-top: 0px;
-    padding-bottom: 24px;
-    padding-right: 25px;
   }
   .cardText {
     color: #051036;
@@ -422,6 +420,9 @@ export default {
 @media (max-width: 575px) {
   .chooseCards {
     padding-top: 20px !important;
+  }
+  .tourTypeCardContent{
+    padding-top: 25px;
   }
 }
 
