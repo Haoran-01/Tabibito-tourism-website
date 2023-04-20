@@ -752,7 +752,7 @@ export default defineComponent({
   font-size: 14px;
   line-height: 1.5 !important;
   font-weight: 500;
-  margin-top: 20px !important;
+  margin-top: 20px;
 }
 .opt2 {
   font-size: 14px;
@@ -763,7 +763,7 @@ export default defineComponent({
 }
 .location {
   font-size: 14px;
-  line-height: 1.4 !important;
+  line-height: 1.4;
 }
 .title {
   font-size: 16px;
@@ -866,13 +866,13 @@ export default defineComponent({
 }
 .guests_wrap {
   position: relative;
-  padding-left: 30px !important;
-  padding-right: 30px !important;
+  padding-left: 30px;
+  padding-right: 30px;
 }
 .date_wrap {
   position: relative;
-  padding-left: 30px !important;
-  padding-right: 30px !important;
+  padding-left: 30px;
+  padding-right: 30px;
 }
 .loc_margin {
   margin-left: 10px;
@@ -897,38 +897,20 @@ export default defineComponent({
 }
 .loc_wrap {
   position: relative;
-  padding-right: 30px !important;
-  padding-left: 20px !important;
+  padding-right: 30px;
+  padding-left: 20px;
 }
 
 .list_search {
   display: grid;
   grid-template-columns: 1fr 250px 290px auto;
-  align-items: center !important;
+  align-items: start !important;
 }
 
 .list_search > * + * {
   border-left: 1px solid #DDDDDD;
 }
 
-@media (max-width: 991px) {
-  .list_search {
-    grid-template-columns: 1fr;
-  }
-  .list_search > * + * {
-    border-left: 0;
-    border-top: 1px solid #DDDDDD;
-  }
-  .loc_wrap {
-    padding: 20px 0 !important;
-  }
-  .date_wrap {
-    padding: 20px 0px !important;
-  }
-  .guests_wrap {
-    padding: 20px 0px !important;
-  }
-}
 
 .list_search_wrap {
   position: relative;
@@ -940,14 +922,6 @@ export default defineComponent({
   border-radius: 4px;
 }
 
-@media (max-width: 991px) {
-  .list_search_wrap {
-    width: 100%;
-    border-radius: 4px !important;
-    padding: 5px 20px 20px !important;
-    background-color: #F5F5F5 !important;
-  }
-}
 .list_content {
   width: 865px;
   max-width: 100%;
@@ -955,31 +929,6 @@ export default defineComponent({
   padding: 30px;
   min-height: 100%;
 }
-
-@media (max-width: 767px) {
-  .list_content {
-    padding: 20px;
-  }
-}
-
-@media (max-width: 991px) {
-  .list_content {
-    width: 100%;
-    order: 2;
-  }
-}
-
-@media (max-width: 1199px) {
-  .list_content {
-    width: 660px;
-  }
-}
-
-
-
-
-
-
 
 
 .row{
@@ -1199,6 +1148,7 @@ export default defineComponent({
   .row-cols-lg-4>*{flex:0 0 auto;width:25%}
   .row-cols-lg-5>*{flex:0 0 auto;width:20%}
   .row-cols-lg-6>*{flex:0 0 auto;width:16.66667%}
+
 }
 
 @media (min-width:1200px){
@@ -1298,5 +1248,77 @@ export default defineComponent({
 .col-12 {
   flex: 0 0 100%;
   max-width: 100%;
+}
+
+@media screen and (max-width: 1200px) {
+  .loc_wrap{
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+  .date_wrap{
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+  .guests_wrap {
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+  .list_search{
+    grid-template-columns: 1fr 188px 192px auto
+  }
+}
+@media (max-width: 991px) {
+  .list_search {
+    grid-template-columns: 1fr;
+  }
+  .list_search > * + * {
+    border-left: 0;
+    border-top: 1px solid #DDDDDD;
+  }
+  .loc_wrap {
+    padding: 20px 0;
+  }
+  .date_wrap {
+    padding: 20px 0px;
+  }
+  .guests_wrap {
+    padding: 20px 0px;
+  }
+  .list_content {
+    width: 660px;
+  }
+  .list_content {
+    order: 2;
+  }
+  .list_search_wrap {
+    width: 100%;
+    border-radius: 4px !important;
+    padding: 5px 20px 20px !important;
+    background-color: #F5F5F5 !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .list_content {
+    padding: 20px;
+    width: auto;
+  }
+  .list_search_wrap{
+    width: auto;
+  }
+}
+@media (max-width: 540px) {
+  .from {
+    margin-top: 5px;
+  }
+  .reviews {
+    margin-top: 0;
+  }
+  .opt1 {
+    margin-top: 5px;
+  }
+  .location{
+    line-height: 0.5;
+  }
 }
 </style>

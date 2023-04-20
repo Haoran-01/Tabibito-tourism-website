@@ -120,32 +120,6 @@
             </div>
           </div>
 
-          <div class="col-auto">
-            <div class="row contact-foot-sub2">
-              <div class="col-auto">
-                <div class="contact-foot-sub2-in">
-                  <button class="contact-foot-sub2-btn">
-                    <i class="icon-globe contact-foot-sub2-icon"></i>
-                    <span class="underline">{{ $t('footer.lang') }}</span>
-                  </button>
-
-                  <button class="contact-foot-sub2-btn2">
-                    <i class="icon-usd contact-foot-sub2-icon"></i>
-                    <span class="underline">{{ $t('footer.usd') }}</span>
-                  </button>
-                </div>
-              </div>
-
-              <div class="col-auto">
-                <div class="contact-foot-icons">
-                  <a href="#"><i class="icon-facebook text-14"></i></a>
-                  <a href="#"><i class="icon-twitter text-14"></i></a>
-                  <a href="#"><i class="icon-instagram text-14"></i></a>
-                  <a href="#"><i class="icon-linkedin text-14"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -522,6 +496,9 @@ export default {
 @media screen and (max-width: 420px) {
   .journey-start-title {
     font-size: 24px;
+  }
+  .contact-foot-sub{
+    margin-left: 0;
   }
 }
 
