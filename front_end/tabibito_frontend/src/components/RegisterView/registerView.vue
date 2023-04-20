@@ -89,7 +89,7 @@
           <div class="input_border">
 
             <button type="submit" class="add_step_btn" @click="checkRegister">
-              {{$t('sig')}} <div class="icon_add"></div>
+              {{$t('reg.sig')}} <div class="icon_add"></div>
             </button>
 
           </div>

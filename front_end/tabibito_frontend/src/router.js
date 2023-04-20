@@ -14,6 +14,9 @@ const StaffPortalView = () => import("./components/StaffPortalView/staffPortalVi
 const notFoundView = () => import("./components/ErrorViews/notFoundView.vue");
 const forbiddenView = () => import("./components/ErrorViews/forbiddenView.vue");
 
+const reservationEdit = () => import("./components/ReservationView/reservationEdit.vue");
+
+
 const routes = [
     { path: '/', component: homepageView },
     { path: '/:pathMatch(.*)*', name: 'NotFound', component: notFoundView },
@@ -37,6 +40,8 @@ const routes = [
     { path: '/management/project_detail/add', component: projectManagementDetailView},
     { path: '/trip/:trip_id', component: TravelDetailsView},
     { path: '/search_result', name: 'search', component: leftListView},
+    { path: '/management/reservation_edit/:id', name: 'REdit', component: reservationEdit},
+
 
 ]
 
