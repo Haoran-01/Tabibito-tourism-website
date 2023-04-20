@@ -161,11 +161,6 @@ import { defineComponent, ref } from 'vue'
 import {Loader} from "@googlemaps/js-api-loader";
 import { useMessage } from "naive-ui";
 import { ArrowForward, Star, HeartOutline, LocationOutline, TodayOutline, CompassOutline, Search, StatsChartOutline } from "@vicons/ionicons5";
-import {VGridVueTemplate} from "@revolist/vue3-datagrid";
-import listButton from "../BackListView/listButton.vue";
-import delistButton from "../BackListView/delistButton.vue";
-import editButton from "../BackListView/editButton.vue";
-import {useRouter} from 'vue-router';
 import {useLangStore} from "../../store.js";
 import NavigationBar from "../GeneralComponents/navigationBar.vue";
 export default defineComponent({
