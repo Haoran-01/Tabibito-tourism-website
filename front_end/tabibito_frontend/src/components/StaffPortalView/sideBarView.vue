@@ -240,7 +240,9 @@ aside.is-expanded .menu-toggle-wrap .menu-toggle {
   }
 }
 @media (max-width: 575px) {
-
+  aside{
+    padding-right: 0px;
+  }
 }
 
 </style>

@@ -114,6 +114,7 @@ button {
 @media (max-width: 575px) {
   .dashboard_main{
     padding-right: 0;
+    padding-left: 75px;
   }
 }
 </style>
