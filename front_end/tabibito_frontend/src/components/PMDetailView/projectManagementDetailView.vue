@@ -115,7 +115,7 @@
                     style="width: 250px; margin-right: 10px"
                 />
                 <input type="text" v-model="tag.value" required @focus="resetInput($event)">
-                <label class="input_label" style="left: 200px">Tag Value</label>
+                <label class="input_label tag_input_label" style="left: 200px">Tag Value</label>
               </div>
 
               <div class="inputTitle">Types</div>
@@ -791,5 +791,51 @@ export default {
   .selectedType{
     background-color: var(--primary-color);
     color: white;
+  }
+  @media screen and (max-width: 1150px) {
+    .tabInnerContainer{
+      width: 100%;
+    }
+  }
+  @media screen and (max-width: 980px) {
+    .container{
+      padding-left: 30px;
+      padding-right: 30px;
+    }
+    .typesContainer{
+      flex-wrap: wrap;
+    }
+    .type{
+      margin: 3px;
+      width: 120px;
+      height: 120px;
+    }
+    .typeTitle {
+      font-size: 18px;
+    }
+  }
+  @media screen and (max-width: 920px) {
+    .typesContainer {
+      justify-content: flex-start;
+    }
+    .type {
+      margin: 5px;
+      width: 110px;
+      height: 110px;
+    }
+    .typeTitle{
+      font-size: 16px;
+    }
+  }
+  @media screen and (max-width: 670px) {
+    .tag_input_label{
+      left: 170px !important;
+    }
+  }
+
+  @media screen and (max-width: 430px) {
+    .tag_input_label{
+      left: 120px !important;
+    }
   }
 </style>

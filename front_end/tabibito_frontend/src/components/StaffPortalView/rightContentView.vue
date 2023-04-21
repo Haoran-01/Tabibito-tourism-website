@@ -467,11 +467,11 @@ export default defineComponent({
 .statistics_head {
   display: flex !important;
   justify-content: space-between !important;
-  align-items: center !important;
+  align-items: center;
 }
 
 .statistics_wrap_sub {
-  padding: 30px !important;
+  padding: 30px;
   border-radius: 4px;
   background-color: #FFFFFF !important;
   box-shadow: 0px 10px 30px 0px #05103608;
@@ -544,8 +544,21 @@ export default defineComponent({
 }
 @media (max-width: 575px) {
   .dashboard_content {
-    padding: 10px;
+    padding: 12px;
     padding-bottom: 0;
+  }
+  .statistics_wrap_sub{
+    padding-left: 4px;
+  }
+  .echarts{
+    position: relative;
+    right: 10px;
+    overflow-x: scroll;
+  }
+  .statistics_head{
+    align-items: flex-start;
+    flex-direction: column;
+    padding-left: 15px;
   }
 }
 

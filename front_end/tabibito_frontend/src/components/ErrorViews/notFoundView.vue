@@ -27,7 +27,7 @@ export default {
 
 <style scoped>
 .container{
-  width: 1320px;
+  max-width: 1320px;
   box-sizing: border-box;
   padding: 200px 0;
   margin: 0 auto;
@@ -77,5 +77,34 @@ export default {
   background-color: var(--text-color-dark);
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+@media screen and (max-width: 1100px) {
+  .cover {
+    background-size: cover;
+  }
+  .container{
+    padding-bottom: 100px;
+    padding-top: 150px;
+  }
+}
+@media screen and (max-width: 696px) {
+  .container{
+    padding-bottom: 50px;
+    padding-top: 100px;
+    flex-direction: column;
+  }
+  .cover{
+    width: auto;
+    display: none;
+  }
+  .texts{
+    width: auto;
+    margin: auto;
+    padding: 20px;
+  }
+  .mainText{
+    display: flex;
+    font-size: 150px;
+  }
 }
 </style>
