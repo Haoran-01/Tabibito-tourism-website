@@ -526,6 +526,19 @@ class User(UserMixin, db.Model):
         return self.user_id
 
 
+    def get_profile(self):
+        return {
+    "avatar_url": self.profile.picture_address,
+    "username": self.profile.user_name,
+    "first_name": self.user_first_name,
+    "last_name": self.user_last_name,
+    "email": self.user_email,
+    "phone_number": self.profile.phone_number,
+    "birthday": self.profile.birthday.strftime('%Y-%m-%d'),
+    "description": self.profile.description
+}
+
+
 class UserBrowse(db.Model):
     __tablename__ = 'user_browse'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -558,5 +571,9 @@ class UserProfile(db.Model):
     picture_address = db.Column(db.CHAR(200))
     job = db.Column(DBEnum(UserJob), default=UserJob.Customer)
     language = db.Column(DBEnum(Language), default=Language.en)
+    user_name = db.Column(db.CHAR(100), nullable=True, default="Tabibito_User")
+    phone_number = db.Column(db.CHAR(30), nullable=True)
+    birthday = db.Column(db.Date, nullable=True, default=datetime.now().date())
+    description = db.Column(db.Text, nullable=True, default="This tabibito did not remain any thing")
     user_id = db.Column(db.Integer, ForeignKey('user.user_id', ondelete='CASCADE', onupdate='CASCADE'))
     user = relationship('User', back_populates="profile")

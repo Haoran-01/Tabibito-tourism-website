@@ -166,6 +166,17 @@ def upload_picture():
     return os.path.join(Config.UPLOAD_FOLDER, filename)
 
 
+@bp.route("/deletepicture", methods=["POST", "GET"])
+def delete_picture():
+
+    file_name = request.json.get("url")  # 获取上传的文件
+    if os.path.exists(file_name):
+        os.remove(file_name)
+
+        return {}, 204
+    else:
+        return {}, 404
+
 @bp.route("/charge_detail", methods=["POST", "GET"])
 def charge_detail():
     data = request.get_json(silent=True)

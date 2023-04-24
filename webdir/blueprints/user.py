@@ -290,3 +290,10 @@ def set_language():
         return jsonify(code=200)
     else:
         return jsonify(message="Not login")
+
+
+@bp.route("/getprofile", methods=['GET', 'POST'])
+def getprofile():
+    user_id = request.json.get("user_id")
+    user = User.query.filter(User.user_id == user_id).first()
+    return user.get_profile()
