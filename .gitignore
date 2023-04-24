@@ -1,2 +1,8 @@
 
 /.idea/
+.gitignore
+/migrations
+data.txt
+date_tr.py
+mock_requirment.txt
+mock.py
