@@ -26,7 +26,7 @@ export default {
         {
           icon: "background-image:url('src/assets/profile.svg')",
           text: "Profile",
-          path: ""
+          path: "/user/profile"
         },
         {
           icon: "background-image:url('src/assets/logout.svg')",
@@ -39,8 +39,8 @@ export default {
   name: "userDropDown",
   methods:{
     handleClick(item){
+      const store = useStore();
       if (item.path === "/login"){
-        const store = useStore();
         this.axios.get('/user/logout')
             .then((res) => {
               if (res.status === 200){
@@ -51,7 +51,9 @@ export default {
               }
             })
       }
-
+      if (item.path === "/user/profile"){
+        this.$router.push(item.path + '/' + store.user_id);
+      }
     }
   }
 }

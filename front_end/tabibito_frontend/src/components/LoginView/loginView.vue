@@ -151,7 +151,7 @@ export default {
               let message=response.data['message'];
               if (code === 200){
                 if (response.data.job === "Customer"){
-                  if (self.from.path === '/login' || self.from.path === '/register'){
+                  if (self.from.path === '/login' || self.from.path === '/register' || self.from.path === '/forbidden' || self.from.name === 'NotFound'){
                     self.$router.push('/');
                   }else
                     self.$router.push(self.from.path);

@@ -74,35 +74,38 @@
               </div>
               <div class="inputTitle">Cover Image</div>
               <n-upload
-                  action="http://127.0.0.1:5000/product/uploadpicture"
-                  :default-file-list="coverImageList"
+                  :action="imageAPI"
+                  v-model:file-list="coverImageList"
                   list-type="image-card"
                   style="margin-left: 10px"
                   @before-upload="beforeUpload"
                   accept="image/*"
                   @finish="handleFinishCover"
+                  @remove="handleRemoveImage"
                   :max=1
               />
               <div class="inputTitle">Banner Image</div>
               <n-upload
-                  action="http://127.0.0.1:5000/product/uploadpicture"
-                  :default-file-list="bannerImageList"
+                  :action="imageAPI"
+                  v-model:file-list="bannerImageList"
                   list-type="image-card"
                   style="margin-left: 10px"
                   @before-upload="beforeUpload"
                   accept="image/*"
                   @finish="handleFinishBanner"
+                  @remove="handleRemoveImage"
                   :max=4
               />
               <div class="inputTitle">Gallery</div>
               <n-upload
-                  action="http://127.0.0.1:5000/product/uploadpicture"
-                  :default-file-list="galleryList"
+                  :action="imageAPI"
+                  v-model:file-list="galleryImageList"
                   list-type="image-card"
                   style="margin-left: 10px"
                   @before-upload="beforeUpload"
                   accept="image/*"
                   @finish="handleFinishGallery"
+                  @remove="handleRemoveImage"
               />
               <div class="inputTitle">Tags</div>
 
@@ -228,7 +231,8 @@ import {useMessage} from "naive-ui";
 import RouteStep from "./routeStep.vue";
 import PriceItem from "./priceItem.vue";
 import { useToast } from "vue-toastification";
-
+import {useRoute} from "vue-router";
+import {getCurrentInstance} from 'vue'
 export default {
   name: "projectManagementDetailView",
   components: {PriceItem, RouteStep},
@@ -238,7 +242,7 @@ export default {
           .then((res) =>{
             if (res.data.job === 'Staff'){
             }else {
-                vm.$router.push('/forbidden')
+                // vm.$router.push('/forbidden')
             }
           })
           .catch((e) => {
@@ -263,12 +267,15 @@ export default {
   },
   setup(){
     // General
+    const axios = getCurrentInstance().appContext.config.globalProperties.axios;
     let tabValue = ref("Basic Information");
     const message = useMessage();
-
+    const baseURL = getCurrentInstance().appContext.config.globalProperties.axios.defaults.baseURL;
+    const imageAPI = baseURL + '/product/uploadpicture';
     // Tab 1
     // let durationMode = ref("Day/Night Mode");
     let startTime = ref(null);
+
     let endTime = ref(null);
     let tags = ref([
       {
@@ -284,23 +291,40 @@ export default {
         value: ""
       },
     ]);
-    let coverImage = null;
+    let coverImageList = ref([]);
+    let bannerImageList = ref([]);
+    let galleryImageList = ref([]);
     const handleFinishCover = ({file,event}) => {
-      console.log(event);
       let res = (event?.target).response;
-      coverImage = res;
+      file.url = res;
+      coverImageList.value.push(file);
     };
-    let bannerImages = [];
     const handleFinishBanner = ({file,event}) => {
-      console.log(event);
       let res = (event?.target).response;
-      bannerImages.push(res);
+      file.url = res;
+      bannerImageList.value.push(file);
     };
-    let galleryImages = [];
     const handleFinishGallery = ({file,event}) => {
-      console.log(event);
       let res = (event?.target).response;
-      galleryImages.push(res);
+      file.url = res;
+      galleryImageList.value.push(file);
+    };
+    const handleRemoveImage = ({file, fileList}) => {
+      let fileIndex = -1;
+      for (let i = 0; i < fileList.length; i++){
+        if (file.id === fileList[i].id){
+          fileIndex = i
+        }
+      }
+      axios.post('/product/deletepicture', {
+        url: fileList[fileIndex].url
+      })
+          .then((res) => {
+            if (res.status === 200){
+              fileList.splice(fileIndex, 1);
+              return true;
+            }
+          })
     };
     // Tab 3
     let routeDatas = ref([]);
@@ -315,6 +339,7 @@ export default {
     return{
       // General
       tabValue,
+      imageAPI,
       resetInput(e){
         if (e.currentTarget.classList.contains("invalidInput")){
           e.currentTarget.classList.remove("invalidInput");
@@ -326,15 +351,13 @@ export default {
       startTime,
       endTime,
       tags,
-      coverImageList: ref([]),
-      bannerImageList: ref([]),
-      galleryList: ref([]),
-      coverImage,
+      coverImageList,
+      bannerImageList,
+      galleryImageList,
       handleFinishCover,
-      bannerImages,
       handleFinishBanner,
-      galleryImages,
       handleFinishGallery,
+      handleRemoveImage,
       async beforeUpload(data) {
         let reg = /image/
         let fileType = data.file.file?.type
@@ -445,6 +468,12 @@ export default {
           chargeDescription: ""
         })
       },
+    }
+  },
+  created() {
+    const route = useRoute();
+    if (route.params.id !== null){
+      this.axios.post('', )
     }
   },
   data() {

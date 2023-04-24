@@ -1,4 +1,5 @@
 import {createRouter, createWebHashHistory} from 'vue-router'
+const profileView = () =>  import("./components/ProfileView/profileView.vue");
 const loginView = () =>  import("./components/LoginView/loginView.vue");
 const registerView = () => import("./components/RegisterView/registerView.vue");
 const aboutUsView = () => import("./components/AboutUsView/aboutUsView.vue");
@@ -18,35 +19,42 @@ const reservationEdit = () => import("./components/ReservationView/reservationEd
 
 
 const routes = [
-    { path: '/', component: homepageView },
-    { path: '/:pathMatch(.*)*', name: 'NotFound', component: notFoundView },
-    { path: '/forbidden', name: 'Forbidden', component: forbiddenView },
-    { path: '/login', component: loginView },
-    { path: '/register', component: registerView },
-    { path: '/forget', component: forgetPasswordView},
-    { path: '/about', component: aboutUsView},
+    { path: '/', component: homepageView, meta: {title: 'home - Tabibito'} },
+    { path: '/:pathMatch(.*)*', name: 'NotFound', component: notFoundView, meta: {title: '404 - Tabibito'} },
+    { path: '/forbidden', name: 'Forbidden', component: forbiddenView, meta: {title: '403 - Tabibito'} },
+    { path: '/login', component: loginView, meta: {title: 'login - Tabibito'} },
+    { path: '/register', component: registerView, meta: {title: 'register - Tabibito'} },
+    { path: '/forget', component: forgetPasswordView, meta: {title: 'forget - Tabibito'}},
+    { path: '/about', component: aboutUsView, meta: {title: 'about us - Tabibito'}},
     { path: '/reset', component: resetView,
         beforeEnter: (to, from) => {
         if (from.path !== '/forget'){
             return {name: 'Forbidden'};
         }else
             return true;
-        }
+        },
+        meta: {title: 'reset - Tabibito'}
     },
-    { path: '/management', component: StaffPortalView},
-    { path: '/management/project_list', component: backListView},
-    { path: '/management/reservation_list', component: reservationView},
-    { path: '/management/project_detail/:id', component: projectManagementDetailView},
-    { path: '/management/project_detail/add', component: projectManagementDetailView},
-    { path: '/trip/:trip_id', component: TravelDetailsView},
-    { path: '/search_result', name: 'search', component: leftListView},
-    { path: '/management/reservation_edit/:id', name: 'REdit', component: reservationEdit},
-
-
+    { path: '/management', component: StaffPortalView, meta: {title: 'staff portal - Tabibito'}},
+    { path: '/management/project_list', component: backListView, meta: {title: 'project list - Tabibito'}},
+    { path: '/management/reservation_list', component: reservationView, meta: {title: 'reservation list - Tabibito'}},
+    { path: '/management/reservation_detail/:id', component: reservationEdit, meta: {title: 'reservation detail - Tabibito'}},
+    { path: '/management/project_detail/:id', component: projectManagementDetailView, meta: {title: 'project detail - Tabibito'}},
+    { path: '/management/project_detail/add', component: projectManagementDetailView, meta: {title: 'add project - Tabibito'}},
+    { path: '/trip/:trip_id', component: TravelDetailsView, meta: {title: 'project detail - Tabibito'}},
+    { path: '/search_result', name: 'search', component: leftListView, meta: {title: 'search result - Tabibito'}},
+    { path: '/user/profile/:uid', component: profileView, meta: {title: 'profile - Tabibito'}},
+    { path: '/user/profile/:uid/edit', component: profileView, meta: {title: 'edit profile - Tabibito'}},
+    { path: '/blog', component: profileView, meta: {title: 'blog - Tabibito'}},
 ]
 
 const router = createRouter({
     history: createWebHashHistory(),
     routes,})
 
+router.beforeEach((to, from) => {
+    if (to.meta.title){
+        document.title = to.meta.title;
+    }
+})
 export default router;

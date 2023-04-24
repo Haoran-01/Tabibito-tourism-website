@@ -48,7 +48,7 @@
           </div>
         <div class="inputTitle">Activity Image</div>
         <n-upload
-            action="http://127.0.0.1:5000/product/uploadpicture"
+            :action="imageAPI"
             :default-file-list="picList"
             list-type="image-card"
             style="margin-left: 10px"
@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import {ref} from "vue";
+import {getCurrentInstance, ref} from "vue";
 import {useMessage} from "naive-ui";
 
 export default {
@@ -74,6 +74,8 @@ export default {
   name: "routeStep",
   emits: ['deleteStep'],
   setup(props){
+    const baseURL = getCurrentInstance().appContext.config.globalProperties.axios.defaults.baseURL;
+    const imageAPI = baseURL + '/product/uploadpicture'
     const message = useMessage();
     let show = ref(true);
     let expandButtonIcon = ref("collapseIcon");
@@ -131,6 +133,7 @@ export default {
     };
     return{
       show,
+      imageAPI,
       expandButtonIcon,
       handleExpand,
       isDayNumberDisabled,

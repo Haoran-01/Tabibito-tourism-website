@@ -8,5 +8,13 @@ export default defineConfig({
     host: '127.0.0.1',
     port: 5173,
     https: false
+  },
+  build: {
+    terserOptions: {
+      compress:{
+        drop_console: true,
+        drop_debugger: false
+      }
+    }
   }
 })
