@@ -4,11 +4,35 @@
     <div class="container">
       <div class="titlePart">
         <div class="titleMain">
-          <h1 class="mainTitle">Profile</h1>
+          <h1 class="mainTitle">Personal Center</h1>
           <div class="slogan">Manage all the information you need here</div>
         </div>
       </div>
       <div class="settings">
+        <n-modal v-model:show="showModal">
+          <div class="modalBody">
+            <div class="orderBasic">
+              <div class="attrTitle">Travel Name</div>
+              <div class="attrValue">{{ modalData.name}}</div>
+              <div class="attrTitle">Start Date - End Date</div>
+              <div class="attrValue">{{modalData.startTime + " - " + modalData.endTime}}</div>
+              <div class="attrTitle">Travel Detail</div>
+              <div class="attrValue link" @click="this.$router.push('/trip/' + modalData.trip_id)">Go to Travel Detail</div>
+            </div>
+            <div class="itinerary">
+              <div class="attrTitle">Itinerary</div>
+              <n-timeline v-for="step in modalData.trip" style="margin-left: 12px; margin-top: 12px;">
+                <n-timeline-item
+                    :type="step.finished"
+                    :title="step.title"
+                    :content="step.content"
+                    :time="'day ' + step.day + ' ' + step.time_of_day + ', ' + step.time"
+                />
+              </n-timeline>
+            </div>
+          </div>
+
+        </n-modal>
         <n-tabs
             v-model:value="tabValue"
             class="card-tabs"
@@ -17,8 +41,9 @@
             style="margin: 0 -4px"
             pane-style="padding-left: 4px; padding-right: 4px; box-sizing: border-box;">
 
+          <n-tab-pane name="Dashboard" tab="Dashboard"></n-tab-pane>
 
-          <n-tab-pane name="Basic Information" tab="Basic Information">
+          <n-tab-pane name="Profile" tab="Profile">
             <div class="infoCard">
               <img class="avatar" :src="basicInfo.avatar_url">
               <div class="cardText">
@@ -53,7 +78,6 @@
                 <n-data-table
                     :columns="inProgressColumns"
                     :data="inProgressData"
-                    :pagination="pagination"
                 />
               </n-tab-pane>
 
@@ -61,7 +85,6 @@
                 <n-data-table
                     :columns="completedColumns"
                     :data="completedData"
-                    :pagination="pagination"
                 />
               </n-tab-pane>
 
@@ -69,7 +92,6 @@
                 <n-data-table
                     :columns="cancelledColumns"
                     :data="cancelledData"
-                    :pagination="pagination"
                 />
               </n-tab-pane>
 
@@ -77,13 +99,13 @@
           </n-tab-pane>
 
           <n-tab-pane name="Your Comments" tab="Your Comments">
-            <div v-for="comment in comments" class="comment">
+            <div v-for="comment in this.comments" class="comment">
               <div class="commentHead">
                 <div class="leftCommentHead">
                   <img class="commentAvatar">
                   <div class="commentHeadTexts">
-                    <div class="commentName">Test</div>
-                    <div class="commentTime">Test</div>
+                    <div class="commentName">{{comment.user_name}}</div>
+                    <div class="commentTime">{{comment.datetime}}</div>
                   </div>
                 </div>
                 <n-popconfirm
@@ -95,17 +117,49 @@
                   Are you sure you want to delete your comment?
                 </n-popconfirm>
               </div>
-              <div class="commentScore">9.2 Superb</div>
-              <p class="commentDescription">fdsfdsfdsfasfsdfsdfsdfds fdsfdsfdsfasfsdfsdfsdfds fdsfdsfdsfasfsdfsdfsdfds fdsfdsfdsfasfsdfsdfsdfds fdsfdsfdsfasfsdfsdfsdfdsfdsfdsfdsfasfsdfsdfsdfds fdsfdsfdsfasfsdfsdfsdfds  </p>
+              <div class="commentScore">{{comment.score}}</div>
+              <p class="commentDescription">{{comment.des}}</p>
               <div class="commentPictures">
-                <img class="commentPicture">
-                <img class="commentPicture">
-                <img class="commentPicture">
+                <img v-for="pic in comment.pics" class="commentPicture" :src="pic">
               </div>
+            </div>
+            <n-pagination
+                v-model:page="commentPage"
+                :page-count="commentPages"
+                v-model:page-size="commentPageSize"
+                @update:page-size="handleChangePageSize"
+                @update:page="handleChangePage"
+                show-size-picker
+                :page-sizes="[10, 20, 30, 40]"></n-pagination>
+          </n-tab-pane>
+
+          <n-tab-pane name="Notices" tab="Notices">
+            <div class="notice" v-for="notice in newNotices">
+              <div class="noticeTitleBar">
+                <div class="noticeTitleLeft">
+                  <div class="noticeTitle">{{notice.title}}</div>
+                  <div class="noticeType">{{ notice.type }}</div>
+                  <div class="noticeBadge"></div>
+                  <div class="noticeTime">{{notice.time}}</div>
+                </div>
+                <div class="noticeCheckBt" @click="handleCheck(notice.id)">Check</div>
+              </div>
+              <div class="noticeContent">{{notice.content}}</div>
+            </div>
+            <div class="notice" v-for="notice in oldNotices">
+              <div class="noticeTitleBar">
+                <div class="noticeTitleLeft">
+                  <div class="noticeTitle">{{notice.title}}</div>
+                  <div class="noticeType">{{ notice.type }}</div>
+                  <div class="noticeTime">{{notice.time}}</div>
+                </div>
+                <div class="noticeCheckBt" @click="handleUncheck(notice.id)">Uncheck</div>
+              </div>
+              <div class="noticeContent">{{notice.content}}</div>
             </div>
           </n-tab-pane>
 
-          <n-tab-pane name="Your Blogs" tab="Your Blogs">
+<!--          <n-tab-pane name="Your Blogs" tab="Your Blogs">
             <div class="blog">
               <n-popconfirm
                   @positive-click="handleDeleteBlog"
@@ -123,7 +177,7 @@
                 <div class="blogDescription">sdfsdf sdfdsfdsfsd fsdf sdfsdffd fsdfsdfsdf sdfdsfdsfsd fsdf sdfsdffd fsdfsdfsdf sdfdsfdsfsd fsdf sdfsdffd fsdfsdfsdf sdfdsfdsfsd </div>
               </div>
             </div>
-          </n-tab-pane>
+          </n-tab-pane>-->
 
 <!--          <n-tab-pane name="Preference" tab="Preference">
             <div class="attrTitle">Language</div>
@@ -291,6 +345,23 @@ export default {
   setup(){
     const axios = getCurrentInstance().appContext.config.globalProperties.axios;
     const inProgressData = ref([]);
+    let modalData = ref({
+      name: '',
+      startTime: '',
+      endTime: '',
+      trip_id: 0,
+      trip: [
+        {
+          finished: 'false',
+          title: '',
+          content: '',
+          day: 0,
+          time_of_day: '',
+          time: ''
+        }
+      ]
+    });
+    let showModal = ref(false);
     axios.post('/user/get_user_order', {
       // user_id: this.$route.params.uid,
       order_status: 'Processing'
@@ -311,14 +382,16 @@ export default {
         })
     return{
       inProgressData,
-      tabValue: ref("Basic Information"),
+      showModal,
+      modalData,
+      tabValue: ref("Profile"),
       orderType: ref("In Progress"),
       inProgressColumns: createInProgressColumns({
         cancel(row){
 
           axios.post('/staff_portal/product_status?apifoxApiId=75345235', {
             id: row.id,
-            operation: 'Cancelled'
+            operation: 'Cancelled',
           })
               .then((res) => {
                 for ( let item of inProgressData.value){
@@ -330,16 +403,44 @@ export default {
         },
         viewDetail(row){
 
+          axios.post('/user/get_order_detail', {
+            id: row.id
+          })
+              .then((res) => {
+                if (res.status === 200){
+                  modalData.value = res.data
+                  console.log(modalData.value)
+                }
+              })
+          showModal.value = true;
         }
       }),
       completedColumns: createCompletedColumns({
         viewDetail(row){
-
+          axios.post('/user/get_order_detail', {
+            id: row.id
+          })
+              .then((res) => {
+                if (res.status === 200){
+                  modalData.value = res.data
+                  console.log(modalData.value)
+                }
+              })
+          showModal.value = true;
         }
       }),
       cancelledColumns: createCancelledColumns({
         viewDetail(row){
-
+          axios.post('/user/get_order_detail', {
+            id: row.id
+          })
+              .then((res) => {
+                if (res.status === 200){
+                  modalData.value = res.data
+                  console.log(modalData.value)
+                }
+              })
+          showModal.value = true;
         }
       })
     }
@@ -347,14 +448,97 @@ export default {
   data(){
     return{
       basicInfo: {},
-
       completedData: [],
-      cancelledData: []
+      cancelledData: [],
+      commentPage: ref(1),
+      commentPages: ref(20),
+      commentPageSize: ref(10),
+      commentNumber: 0,
+      comments: [],
+      newNotices: ref([]),
+      oldNotices: ref([]),
     }
   },
   methods: {
     handleCancel(row){
 
+    },
+    handleChangePageSize(pageSize){
+      this.commentPages = Math.ceil(this.commentNumber / this.commentPageSize);
+      this.axios.post('/comment/get_page', {
+        page_number: this.commentPage,
+        page_size: this.commentPageSize
+      })
+          .then((res) => {
+            if (res.status === 200){
+              this.comments = res.data.comments
+            }
+          })
+    },
+    handleChangePage(){
+      this.axios.post('/comment/get_page', {
+        page_number: this.commentPage,
+        page_size: this.commentPageSize
+      })
+          .then((res) => {
+            if (res.status === 200){
+              this.comments = res.data.comments
+            }
+          })
+    },
+    handleDeleteComment(id){
+      this.axios.post('/comment/delete', {
+        id: id
+      })
+          .then((res) => {
+            if (res.status === 200){
+              this.axios.post('/comment/get_page', {
+                page_number: this.commentPage,
+                page_size: this.commentPageSize
+              })
+                  .then((res) => {
+                    if (res.status === 200){
+                      this.comments = res.data.comments
+                    }
+                  })
+            }
+          })
+    },
+    handleCheck(id){
+      this.axios.post('/user/check_notice', {
+        id: id,
+        new_type: 'old'
+      })
+          .then((res)=>{
+            if (res.status === 200){
+              let index = -1
+              for (let i = 0; i<this.newNotices.length; i++){
+                if (this.newNotices[i].id === id){
+                  index = i
+                }
+              }
+              this.oldNotices.push(this.newNotices[index]);
+              this.newNotices.splice(index, 1);
+            }
+          })
+    },
+    handleUncheck(id){
+      this.axios.post('/user/check_notice', {
+        id: id,
+        new_type: 'new'
+      })
+          .then((res)=>{
+            if (res.status === 200){
+              let index = -1
+              for (let i = 0; i<this.oldNotices.length; i++){
+                if (this.oldNotices[i].id === id){
+                  index = i
+                }
+              }
+              this.newNotices.unshift(this.oldNotices[index]);
+              this.oldNotices.splice(index, 1);
+            }
+          })
     }
   },
   created() {
@@ -365,7 +549,22 @@ export default {
       this.basicInfo = res.data
     })
 
-
+    this.axios.post('/comment/user_all_number')
+        .then((res) =>{
+          if (res.status === 200){
+            this.commentNumber = res.data.number;
+            this.commentPages = Math.ceil(this.commentNumber / this.commentPageSize)
+          }
+        })
+    this.axios.post('/comment/get_page', {
+      page_number: this.commentPage,
+      page_size: this.commentPageSize
+    })
+        .then((res) => {
+          if (res.status === 200){
+            this.comments = res.data.comments
+          }
+        })
     this.axios.post('/user/get_user_order', {
       user_id: this.$route.params.uid,
       order_status: 'Completed'
@@ -403,7 +602,22 @@ export default {
             }
           }
         })
-
+    this.axios.post('/user/get_notices', {
+      type: 'new'
+    })
+        .then((res)=>{
+          if (res.status === 200){
+            this.newNotices = res.data.notices;
+          }
+        })
+    this.axios.post('/user/get_notices', {
+      type: 'old'
+    })
+        .then((res)=>{
+          if (res.status === 200){
+            this.oldNotices = res.data.notices;
+          }
+        })
   }
 }
 </script>
@@ -495,6 +709,14 @@ template{
 .description{
   color: var(--secondary-text-color);
 }
+.modalBody{
+  background-color: white;
+  box-sizing: border-box;
+  padding: 12px;
+  max-height: 600px;
+  overflow-y: auto;
+  border-radius: 4px;
+}
 .attrTitle{
   margin-left: 12px;
   width: fit-content;
@@ -503,6 +725,11 @@ template{
 }
 .attrValue{
   margin: 12px 0 12px 16px;
+}
+.link{
+  color: var(--primary-color);
+  text-decoration: underline;
+  cursor: pointer;
 }
 .comment{
   width: 100%;
@@ -573,6 +800,58 @@ template{
   height: 110px;
   width: 110px;
   margin-right: 30px;
+}
+.notice{
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px;
+  margin-bottom: 30px;
+  height: 160px;
+}
+.noticeTitleBar{
+  display: flex;
+  justify-content: space-between;
+  height: 40px;
+}
+.noticeTitleLeft{
+  display: flex;
+  align-items: center;
+}
+.noticeCheckBt{
+  color: var(--primary-color);
+  text-decoration: underline;
+  cursor: pointer;
+}
+.noticeTitle{
+  font-size: 20px;
+  margin-right: 12px;
+}
+.noticeType{
+  box-sizing: border-box;
+  border-radius: 16px;
+  padding: 0 10px;
+  height: 20px;
+  font-size: 12px;
+  background-color: rgb(219, 235, 253);
+  color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  margin-right: 12px;
+}
+.noticeBadge{
+  margin-right: 12px;
+  height: 5px;
+  width: 5px;
+  border-radius: 100%;
+  background-color: red;
+}
+.noticeTime{
+  color: var(--secondary-text-color);
+  font-size: 12px;
+}
+.noticeContent{
+  height: 120px;
+  overflow-y: auto;
 }
 .blog{
   display: flex;

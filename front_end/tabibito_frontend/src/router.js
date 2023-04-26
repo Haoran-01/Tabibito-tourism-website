@@ -45,7 +45,6 @@ const routes = [
     { path: '/search_result', name: 'search', component: leftListView, meta: {title: 'search result - Tabibito'}},
     { path: '/user/profile/:uid', component: profileView, meta: {title: 'profile - Tabibito'}},
     { path: '/user/profile/:uid/edit', component: profileView, meta: {title: 'edit profile - Tabibito'}},
-    { path: '/blog', component: profileView, meta: {title: 'blog - Tabibito'}},
 ]
 
 const router = createRouter({
