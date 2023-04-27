@@ -2,7 +2,7 @@
   <head>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   </head>
-  <body>
+  <body style="height:100%">
 
   <aside :class="`${is_expanded && 'is-expanded'}`">
     <div class="logo">
@@ -92,7 +92,7 @@ aside {
   display: flex;
   flex-direction: column;
   width: calc(2rem + 2rem);
-  min-height: 100vh;
+  min-height: 100%;
   overflow: hidden;
   padding: 1rem;
   background-color: #fff;

@@ -189,6 +189,11 @@ export default defineComponent({
   position: fixed;
   z-index: 10000;
 }
+@media screen and (max-height: 450px) {
+  .header {
+    height: 65px;
+  }
+}
 .content{
   max-width: 1320px;
   width: 100%;

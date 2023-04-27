@@ -2,15 +2,18 @@
   <navigation-bar :is-transparent="true" class="zup"></navigation-bar>
 
   <div class="TManager">
-
-    <side-bar-view></side-bar-view>
-
+    <div>
+      <side-bar-view></side-bar-view>
+    </div>
     <div class="TCon">
       <div class="TTit">
         <div class="TCol">
           <h1 class="TTex1">Travel Programs List</h1>
           <div class="TTex2">Manage the tourism programs</div>
 
+        </div>
+
+        <div class="TAuto">
           <div class="but">
             <router-link to="/management" style="text-decoration: none">
               <button class="nBtn nBtn1">
@@ -25,9 +28,7 @@
             </router-link>
 
           </div>
-        </div>
 
-        <div class="TAuto">
         </div>
       </div>
 
@@ -35,7 +36,7 @@
 
           <div class="main">
             <div class="tableArea">
-
+              <n-scrollbar x-scrollabl trigger="none" >
               <div class="mainTable">
                 <n-data-table
                     :columns="columns"
@@ -43,8 +44,8 @@
                     :pagination="pagination"
                     @update:sorter="handleUpdateSorter"
                 />
-
               </div>
+              </n-scrollbar>
             </div>
 
           </div>
@@ -60,33 +61,6 @@
                   <div class="col-auto">
                     <div class="contact-foot-text">
                       © 2023 Tabibito All rights reserved.
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-auto">
-                <div class="row contact-foot-sub2">
-                  <div class="col-auto">
-                    <div class="contact-foot-sub2-in">
-                      <button class="contact-foot-sub2-btn">
-                        <i class="icon-globe contact-foot-sub2-icon"></i>
-                        <span class="underline">English (US)</span>
-                      </button>
-
-                      <button class="contact-foot-sub2-btn2">
-                        <i class="icon-usd contact-foot-sub2-icon"></i>
-                        <span class="underline">USD</span>
-                      </button>
-                    </div>
-                  </div>
-
-                  <div class="col-auto">
-                    <div class="contact-foot-icons">
-                      <a href="#"><i class="icon-facebook text-14"></i></a>
-                      <a href="#"><i class="icon-twitter text-14"></i></a>
-                      <a href="#"><i class="icon-instagram text-14"></i></a>
-                      <a href="#"><i class="icon-linkedin text-14"></i></a>
                     </div>
                   </div>
                 </div>
@@ -348,7 +322,7 @@ export default {
   top: 0;
 }
 .TManager{
-  overflow: hidden;
+  /*overflow: hidden;*/
   width: 100%;
   margin-top: 80px;
   background-color: #F5F5F5;
@@ -365,7 +339,6 @@ export default {
   width: 100%;
   padding: 60px;
   padding-bottom: 0;
-  //background-color: #F5F5F5;
 
   overflow: hidden;
   will-change: padding-left;
@@ -389,6 +362,7 @@ export default {
   flex:0 0 auto;
   width:auto;
   margin-left: 20px;
+  margin-right: 20px;
 }
 
 .TTex1{
@@ -430,11 +404,6 @@ export default {
 
   height:60px;
 
-  /*控制按钮和字体在一行用的，可以删掉，但是那样就对不齐了*/
-  margin-top: -63px;
-
-  /*控制离标题的距离*/
-  margin-left: 990px;
 }
 
 .nBtn1{
@@ -498,16 +467,16 @@ export default {
 .TAuto{
   flex:0 0 auto;
   width:auto;
+  margin-left: 20px;
+  margin-top: 15px;
 }
 
 .TTable{
   padding: 30px;
   border-radius: 4px;
   background-color: #FFFFFF;
-  //margin-left: auto;
-  //margin-right: auto;
-  max-width: 1580px;
-  //box-shadow: 0px 10px 30px 0px #05103608;
+  width: 100%;
+  overflow-x: auto;
 }
 
 .main{
@@ -515,21 +484,20 @@ export default {
   margin-right: auto;
   background-color: white;
   width: 100%;
-  //height: 100vh;
   height: 820px;
 }
 
 .tableArea{
+  display: flex;
   margin-top: 30px;
 }
 
 .mainTable{
-  //max-width: 1100px;
-  width: 100%;
+  min-width: 850px;
   height: 800px;
   margin-left: auto;
   margin-right: auto;
-  overflow-x: hidden !important;
+  /*overflow-x: hidden !important;*/
 }
 
 .page{
@@ -639,7 +607,25 @@ export default {
   align-items: center !important;
 }
 
+@media screen and (max-width: 1100px) {
+  .TCon{
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+  .TTable{
+    padding: 20px;
+  }
+}
 
+@media screen and (max-width: 768px) {
+  .TCon{
+    padding-left: calc(7rem);
+  }
+}
 
-
+@media screen and (max-height: 450px) {
+  .TManager{
+    margin-top: 65px;
+  }
+}
 </style>

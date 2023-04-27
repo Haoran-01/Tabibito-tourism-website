@@ -85,26 +85,6 @@
               <a href="#" class="link">{{ $t('footer.travel') }}</a>
             </div>
           </div>
-
-<!--          <div class="col-xl col-lg col-sm">-->
-<!--            <h5 class="footer-h">Mobile</h5>-->
-
-<!--            <div class="contact-apple">-->
-<!--              <div class="icon-apple text-24"></div>-->
-<!--              <div class="icon-apple-ml">-->
-<!--                <div class="icon-apple-text1">Download on the</div>-->
-<!--                <div class="icon-apple-text2">Apple Store</div>-->
-<!--              </div>-->
-<!--            </div>-->
-
-<!--            <div class="contact-google">-->
-<!--              <div class="icon-play-market text-24"></div>-->
-<!--              <div class="icon-apple-ml">-->
-<!--                <div class="icon-apple-text1">Get in on</div>-->
-<!--                <div class="icon-apple-text2">Google Play</div>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
         </div>
       </div>
 

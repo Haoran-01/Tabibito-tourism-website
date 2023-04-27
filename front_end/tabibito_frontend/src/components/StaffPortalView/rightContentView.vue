@@ -97,14 +97,15 @@
                 </div>
 
               </div>
+              <n-scrollbar x-scrollable>
+                <div class="echarts">
+                  <figure>
 
-              <div class="echarts">
-                <figure>
+                    <div ref="chart" style="height: 400px;width: 1300px"></div>
 
-                  <div ref="chart" style="height: 400px;width: 1300px"></div>
-
-                </figure>
-              </div>
+                  </figure>
+                </div>
+              </n-scrollbar>
             </div>
           </div>
 
@@ -517,6 +518,9 @@ export default defineComponent({
 @media (max-width: 1600px) {
   .dashboard_content{
     padding: 45px;
+  }
+  .echarts{
+    overflow-x: scroll;
   }
 }
 @media (max-width: 1245px) {
