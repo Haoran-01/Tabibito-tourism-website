@@ -475,7 +475,7 @@ export default {
   padding: 30px;
   border-radius: 4px;
   background-color: #FFFFFF;
-  width: 100%;
+  width: 95%;
   overflow-x: auto;
 }
 
@@ -622,7 +622,17 @@ export default {
     padding-left: calc(7rem);
   }
 }
-
+@media screen and (max-width: 560px) {
+  .but{
+    flex-direction: column;
+  }
+  .nBtn2 {
+    margin-top: 10px;
+    margin-left: 0px;
+    margin-right: 0px;
+    width: 100%;
+  }
+}
 @media screen and (max-height: 450px) {
   .TManager{
     margin-top: 65px;
