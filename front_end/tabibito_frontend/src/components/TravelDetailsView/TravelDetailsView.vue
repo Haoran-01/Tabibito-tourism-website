@@ -175,7 +175,7 @@
 
         </div>
 
-        <div class="TDTex4">Not sure? You can cancel this reservation up to 24 <br> hours in advance for a full refund.</div>
+        <div class="TDTex4">Not sure? You can cancel this reservation up to 24 hours in advance for a full refund.</div>
         </div>
     </div>
 
@@ -537,8 +537,8 @@ export default {
 }
 
 .DTCols1{
-  //display:flex;
-  //flex-wrap:wrap;
+  /*//display:flex;*/
+  /*//flex-wrap:wrap;*/
   flex:0 0 auto;
   width: 850px;
 }
@@ -566,6 +566,7 @@ export default {
   display:flex;
   flex-wrap:wrap;
   margin-left: 935px;
+  flex-direction: column;
 }
 
 .TDTex4{
@@ -768,6 +769,23 @@ export default {
   .TDCon{
     max-width:540px
   }
+  .TDConBox{
+    position: static;
+    margin-left: 0px;
+    justify-content: center;
+    flex-direction: row;
+    width: 100%;
+  }
+  .DTCols1{
+    width: 100%;
+  }
+  .TDBox{
+    width: 75%;
+  }
+  .TDTex4{
+    width: 75%;
+    text-align: center;
+  }
 }
 
 @media (min-width:768px){
@@ -782,11 +800,28 @@ export default {
   .TDCon{
     max-width:1140px
   }
+
 }
 
 @media (min-width:1400px){
   .TDCon{
     max-width:1320px
+  }
+  .TDConBox{
+    position: fixed;
+    margin-left: 935px;
+    justify-content: flex-start;
+    width: auto;
+  }
+  .DTCols1{
+    width: 850px;
+  }
+  .TDBox{
+    width: 300px;
+  }
+  .TDTex4{
+    text-align: start;
+    width: 300px;
   }
 }
 

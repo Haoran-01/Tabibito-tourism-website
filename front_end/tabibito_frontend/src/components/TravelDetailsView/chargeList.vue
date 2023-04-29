@@ -65,8 +65,33 @@ export default {
   margin-bottom: 10px;
 }
 .divider{
-  width: 1320px;
+  max-width: 1320px;
   border-top: 1px solid #DDDDDD;
   margin: 40px auto;
+}
+@media (min-width:576px){
+  .container{
+    max-width:540px
+  }
+}
+@media (min-width:768px){
+  .container{
+    max-width:720px
+  }
+}
+@media (min-width:992px){
+  .container{
+    max-width:960px
+  }
+}
+@media (min-width:1200px){
+  .container{
+    max-width:1140px
+  }
+}
+@media (min-width:1400px){
+  .container{
+    max-width:1320px
+  }
 }
 </style>

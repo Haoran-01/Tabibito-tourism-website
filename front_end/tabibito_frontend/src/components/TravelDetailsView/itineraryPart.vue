@@ -142,4 +142,37 @@ export default {
   border-radius: 4px;
   min-height: 500px;
 }
+
+@media (min-width:576px){
+  .container{
+    max-width:540px
+  }
+  .itineraryCore{
+    flex-direction: column;
+  }
+}
+@media (min-width:768px){
+  .container{
+    max-width:720px
+  }
+}
+@media (min-width:992px){
+  .container{
+    max-width:960px
+  }
+  .itineraryCore{
+    flex-direction: row;
+  }
+}
+@media (min-width:1200px){
+  .container{
+    max-width:1140px
+  }
+}
+@media (min-width:1400px){
+  .container{
+    max-width:1320px
+  }
+
+}
 </style>
