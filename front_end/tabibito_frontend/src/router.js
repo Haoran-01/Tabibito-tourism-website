@@ -14,9 +14,9 @@ const leftListView = () => import("./components/SearchPageView/leftListView.vue"
 const StaffPortalView = () => import("./components/StaffPortalView/staffPortalView.vue");
 const notFoundView = () => import("./components/ErrorViews/notFoundView.vue");
 const forbiddenView = () => import("./components/ErrorViews/forbiddenView.vue");
-
 const reservationEdit = () => import("./components/ReservationView/reservationEdit.vue");
 
+const chatView = () => import("./components/ChatView/chatView.vue");
 
 const routes = [
     { path: '/', component: homepageView, meta: {title: 'home - Tabibito'} },
@@ -45,6 +45,8 @@ const routes = [
     { path: '/search_result', name: 'search', component: leftListView, meta: {title: 'search result - Tabibito'}},
     { path: '/user/profile/:uid', component: profileView, meta: {title: 'profile - Tabibito'}},
     { path: '/user/profile/:uid/edit', component: profileView, meta: {title: 'edit profile - Tabibito'}},
+    { path: '/chat', component: chatView, meta: {title: 'chat - Tabibito'}},
+
 ]
 
 const router = createRouter({
