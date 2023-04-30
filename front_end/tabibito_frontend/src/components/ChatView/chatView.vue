@@ -36,7 +36,7 @@ import Drag from '../../TUIKit/TUIComponents/components/drag';
 import { handleErrorPrompts } from '../../TUIKit/TUIComponents/container/utils';
 
 export default defineComponent({
-  name: 'App',
+  name: 'chatView',
   components: {
     Drag,
   },
