@@ -48,6 +48,11 @@ class Language(Enum):
     ch = "ch"
 
 
+class MessageStatus(Enum):
+    NEW = "new"
+    OLD = "old"
+
+
 class Comment(db.Model):
     __tablename__ = "comment"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -512,6 +517,7 @@ class User(UserMixin, db.Model):
     user_browses = relationship('UserBrowse', order_by='UserBrowse.id', back_populates='user')
     orders = relationship('Order', order_by='Order.id', back_populates='user')
     likes = relationship('CommentLike', order_by='CommentLike.id', back_populates="user")
+    notices = relationship('UserNotice', order_by='UserNotice.id', back_populates="user")
 
     def __repr__(self):
         return "<User(email='%s')>" % self.user_email
@@ -577,3 +583,24 @@ class UserProfile(db.Model):
     description = db.Column(db.Text, nullable=True, default="This tabibito did not remain any thing")
     user_id = db.Column(db.Integer, ForeignKey('user.user_id', ondelete='CASCADE', onupdate='CASCADE'))
     user = relationship('User', back_populates="profile")
+
+
+class UserNotice(db.Model):
+    __tablename__ = 'notice'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    type = db.Column(db.CHAR(50), default="")
+    status = db.Column(DBEnum(MessageStatus), default=MessageStatus.NEW)
+    title = db.Column(db.CHAR(200), default="")
+    time = db.Column(db.DateTime, nullable=True, default=datetime.now())
+    content = db.Column(db.Text, nullable=True, default="")
+    user_id = db.Column(db.Integer, ForeignKey('user.user_id', ondelete='CASCADE', onupdate='CASCADE'))
+    user = relationship('User', back_populates="notices")
+
+    def serialize(self):
+        return {
+            "title": self.title,
+            "type": self.type,
+            "time": self.time.strftime('%Y-%m-%d-%H-%M-%S'),
+            "id": self.id,
+            "content": self.content
+        }
