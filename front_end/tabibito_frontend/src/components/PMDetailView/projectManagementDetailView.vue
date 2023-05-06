@@ -212,8 +212,36 @@
             </div>
           </n-tab-pane>
 
+          <n-tab-pane name="Notification" tab="5. Notification">
+            <div class="inputTitle">Title</div>
+            <div class="input_form">
+              <input type="text" @focus="resetInput($event)">
+              <label class="input_label">Title</label>
+            </div>
+            <div class="inputTitle">Tags</div>
 
-          <n-tab-pane name="Submit" tab="5. Submit">
+            <div class="input_form" style="justify-content: space-between;">
+              <n-select
+                  style="margin-right: 20px"
+                  v-model:value="tagValue"
+                  multiple
+                  :render-tag="renderTag"
+                  :options="tags"
+                  max-tag-count="1"
+              />
+              <n-input placeholder="New Tag" style="margin-right: 20px"></n-input>
+              <n-button type="primary">Add</n-button>
+            </div>
+
+            <div class="inputTitle">Content</div>
+            <div class="input_form">
+              <textarea v-model="projectDescription" required></textarea>
+              <label class="input_label">Content</label>
+            </div>
+          </n-tab-pane>
+
+
+          <n-tab-pane name="Submit" tab="6. Submit">
             <button type="submit" class="add_step_btn" @click="submitForm">
               Submit
               <div class="icon_submit"></div>
@@ -226,8 +254,8 @@
 </template>
 
 <script>
-import {ref} from "vue";
-import {useMessage} from "naive-ui";
+import {h, ref} from "vue";
+import {NTag, useMessage} from "naive-ui";
 import RouteStep from "./routeStep.vue";
 import PriceItem from "./priceItem.vue";
 import { useToast } from "vue-toastification";
@@ -335,6 +363,24 @@ export default {
     //Tab 4
     let chargeDatas = ref([]);
 
+    //Tab 5
+    const renderTag = ({ option, handleClose }) => {
+      return h(
+          NTag,
+          {
+            type: option.type,
+            closable: true,
+            onMousedown: (e) => {
+              e.preventDefault();
+            },
+            onClose: (e) => {
+              e.stopPropagation();
+              handleClose();
+            }
+          },
+          { default: () => option.label }
+      );
+    };
 
     return{
       // General
@@ -468,6 +514,10 @@ export default {
           chargeDescription: ""
         })
       },
+
+      // Tab 5
+      renderTag,
+      tagValue: ref([]),
     }
   },
   created() {
@@ -495,6 +545,23 @@ export default {
       originalPrice: null,
       discount: null,
       originalPriceStyle: null,
+      tags: [
+      {
+        label: "Flight Change",
+        value: "value1",
+        type: "success"
+      },
+      {
+        label: "Time Change",
+        value: "value2",
+        type: "warning"
+      },
+      {
+        label: "Other change",
+        value: "value3",
+        type: "error"
+      },
+    ]
     }
   },
   methods:{
