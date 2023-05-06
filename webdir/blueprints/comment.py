@@ -31,10 +31,10 @@ def add_comment():
     return jsonify(code=200, message="add comment success")
 
 
-@bp.route("/delete_comment", methods=["POST"])
+@bp.route("/delete", methods=["POST"])
 def delete_comment():
     data = request.get_json(silent=True)
-    comment = Comment.query.filter_by(id=data["comment_id"]).first()
+    comment = Comment.query.filter_by(id=data["id"]).first()
     db.session.delete(comment)
     db.session.commit()
     return jsonify(code=200, message="delete comment success")
