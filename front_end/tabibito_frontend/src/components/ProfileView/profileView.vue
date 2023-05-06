@@ -507,7 +507,7 @@ export default {
     handleCheck(id){
       this.axios.post('/user/check_notice', {
         id: id,
-        new_type: 'old'
+        new_status: 'old'
       })
           .then((res)=>{
             if (res.status === 200){
@@ -525,7 +525,7 @@ export default {
     handleUncheck(id){
       this.axios.post('/user/check_notice', {
         id: id,
-        new_type: 'new'
+        new_status: 'new'
       })
           .then((res)=>{
             if (res.status === 200){
@@ -603,7 +603,7 @@ export default {
           }
         })
     this.axios.post('/user/get_notices', {
-      type: 'new'
+      status: 'new'
     })
         .then((res)=>{
           if (res.status === 200){
@@ -611,7 +611,7 @@ export default {
           }
         })
     this.axios.post('/user/get_notices', {
-      type: 'old'
+      status: 'old'
     })
         .then((res)=>{
           if (res.status === 200){

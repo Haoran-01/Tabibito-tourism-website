@@ -10,6 +10,7 @@ export default defineConfig({
     https: false
   },
   build: {
+    minify:'terser',
     terserOptions: {
       compress:{
         drop_console: true,

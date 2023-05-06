@@ -4,7 +4,7 @@ import string
 from flask import Blueprint, request, render_template, jsonify, g, session
 from forms import LoginFrom, RegisterForm, EmailCaptchaModel, ForgetFormPassword
 from flask_login import login_user, logout_user, login_required
-from models import User, Product, UserProfile, Order, Language
+from models import User, Product, UserProfile, Order, Language, UserNotice, MessageStatus
 from exts import db, mail
 from flask_mail import Message
 from datetime import datetime
@@ -297,3 +297,28 @@ def getprofile():
     user_id = request.json.get("user_id")
     user = User.query.filter(User.user_id == user_id).first()
     return user.get_profile()
+
+
+@bp.route("/get_notices", methods=['GET', 'POST'])
+@login_required
+def get_notices():
+    status = request.json.get("status")
+    user_id = current_user.user_id
+    notices_list = UserNotice.query.filter(UserNotice.user_id == user_id and UserNotice.status.value == status).all()
+    notices = [message.serialize() for message in notices_list]
+    return jsonify(notices=notices)
+
+
+@bp.route("/check_notice", methods=['GET', 'POST'])
+# @login_required
+def check_notice():
+    notice_id = request.json.get("id")
+    status = request.json.get("new_status")
+
+    notice = UserNotice.query.filter(UserNotice.id == notice_id).first()
+    if notice:
+        notice.status = MessageStatus(value=status)
+        db.session.commit()
+        return {}, 204
+    else:
+        return {}, 404
