@@ -1,6 +1,8 @@
 from datetime import datetime
 
+import flask_login
 from flask import Blueprint, request, jsonify
+from flask_login import current_user
 
 from exts import db
 from models import Comment, CommentPicture, CommentLike
@@ -74,3 +76,21 @@ def get_product_comment():
     product_id = data["product_id"]
     comments = Comment.query.filter_by(product_id=product_id).all()
     return jsonify(code=200, data=[comment.serialize_product_page() for comment in comments])
+
+
+@bp.route("/get_page", methods=['GET', 'POST'])
+def get_page_comments():
+    data = request.get_json(silent=True)
+    page = data['page_number']
+    page_size = data['page_size']
+    comments = current_user.get_comments()
+    return jsonify(comments=comments[(page-1)*page_size:page*page_size]), 200
+
+
+@bp.route("/user_all_number", methods=['GET', 'POST'])
+def get_all_comments_number():
+    number = len(current_user.get_comments())
+    return jsonify(number=number), 200
+
+
+

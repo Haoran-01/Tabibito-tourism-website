@@ -116,7 +116,18 @@ class Comment(db.Model):
             'date_time': self.datetime.strftime("%A, %d %B %Y"),
             'pic': [picture.address for picture in self.pictures],
             'des': self.des,
-            'title': self.title,
+            'title': self.title
+        }
+
+    def serialize_user_profile(self):
+        return {
+            'id': self.id,
+            'des': self.des,
+            'user_name': self.user.user_first_name + self.user.user_last_name,
+            'user_portrait': self.user.profile.picture_address,
+            'datetime': self.datetime.strftime("%A, %d %B %Y"),
+            'trip_id': self.product_id,
+            'pics': [picture.address for picture in self.pictures]
         }
 
 
@@ -531,18 +542,23 @@ class User(UserMixin, db.Model):
     def get_id(self):
         return self.user_id
 
-
     def get_profile(self):
         return {
-    "avatar_url": self.profile.picture_address,
-    "username": self.profile.user_name,
-    "first_name": self.user_first_name,
-    "last_name": self.user_last_name,
-    "email": self.user_email,
-    "phone_number": self.profile.phone_number,
-    "birthday": self.profile.birthday.strftime('%Y-%m-%d'),
-    "description": self.profile.description
-}
+            "avatar_url": self.profile.picture_address,
+            "username": self.profile.user_name,
+            "first_name": self.user_first_name,
+            "last_name": self.user_last_name,
+            "email": self.user_email,
+            "phone_number": self.profile.phone_number,
+            "birthday": self.profile.birthday.strftime('%Y-%m-%d'),
+            "description": self.profile.description
+        }
+
+    def get_comments(self):
+        comments = []
+        for comment in self.comments:
+            comments.append(comment.serialize_product_page())
+        return comments
 
 
 class UserBrowse(db.Model):
