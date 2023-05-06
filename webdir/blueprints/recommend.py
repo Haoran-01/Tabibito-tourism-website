@@ -27,7 +27,7 @@ def clean_string(s):
 
 
 # 定义一个函数来计算两个字符串的相似度
-def calculate_similarity(str1, str2):
+def get_similarity(str1, str2):
     # 先清洗两个字符串
     str1 = clean_string(str1)
     str2 = clean_string(str2)
@@ -44,22 +44,22 @@ def set_similar(set1, set2):
 
 
 # 接下来，我们需要遍历用户的浏览记录，找到匹配的商品
-def find_similar_products(user_browse, all_products):
+def find_similar_products(browses, products):
     similar_products = set()
-    for browse in user_browse:
-        for product in all_products:
-            # 如果商品类型相同或者商品所在位置相似或者商品名称相似
-            if set_similar(set(product.types), set(browse.product.types)) or product.raw_loc == browse.product.raw_loc or calculate_similarity(product.name, browse.product.name) >= 0.8:
-                # 将商品添加到相似商品列表中
+    for browse in browses:
+        for product in products:
+            # with same type or similar location
+            if set_similar(set(product.types), set(browse.product.types)) or \
+                    product.raw_loc == browse.product.raw_loc or \
+                    get_similarity(product.name, browse.product.name) >= 0.8:
                 similar_products.add(product)
-            # 如果商品标签中的某些键和值相似
+            # with same tags
             for tag in product.tags:
                 for browse_tag in browse.product.tags:
-                    if tag.key == browse_tag.key and calculate_similarity(tag.value, browse_tag.value) >= 0.8:
-                        # 将商品添加到相似商品列表中
+                    if tag.key == browse_tag.key and \
+                            get_similarity(tag.value, browse_tag.value) >= 0.8:
                         similar_products.add(product)
                         break
-    # 返回所有匹配的相似商品
     return similar_products
 
 
