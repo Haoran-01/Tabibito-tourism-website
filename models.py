@@ -123,7 +123,7 @@ class Comment(db.Model):
         return {
             'id': self.id,
             'des': self.des,
-            'user_name': self.user.user_first_name + self.user.user_last_name,
+            'user_name': self.user.user_first_name + " " + self.user.user_last_name,
             'user_portrait': self.user.profile.picture_address,
             'datetime': self.datetime.strftime("%A, %d %B %Y"),
             'trip_id': self.product_id,
@@ -557,7 +557,7 @@ class User(UserMixin, db.Model):
     def get_comments(self):
         comments = []
         for comment in self.comments:
-            comments.append(comment.serialize_product_page())
+            comments.append(comment.serialize_user_profile())
         return comments
 
 
