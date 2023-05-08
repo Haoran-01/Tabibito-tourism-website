@@ -303,8 +303,11 @@ def getprofile():
 def get_notices():
     status = request.json.get("status")
     user_id = current_user.user_id
-    notices_list = UserNotice.query.filter(UserNotice.user_id == user_id and UserNotice.status.value == status).all()
+    print(status)
+    notices_list = UserNotice.query.filter((UserNotice.user_id==user_id) & (UserNotice.status == MessageStatus(status))).all()
+    print(len(notices_list))
     notices = [message.serialize() for message in notices_list]
+    print(notices_list[0].status.value)
     return jsonify(notices=notices)
 
 
@@ -313,7 +316,6 @@ def get_notices():
 def check_notice():
     notice_id = request.json.get("id")
     status = request.json.get("new_status")
-
     notice = UserNotice.query.filter(UserNotice.id == notice_id).first()
     if notice:
         notice.status = MessageStatus(value=status)
