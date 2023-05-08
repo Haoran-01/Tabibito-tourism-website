@@ -11,7 +11,6 @@ def change_order_status():
     data = request.get_json(silent=True)
     order_id = data['id']
     order = Order.query.filter_by(id=order_id).first()
-    print(data)
     if data['operation'] == "Delete":
         db.session.delete(order)
         db.session.commit()

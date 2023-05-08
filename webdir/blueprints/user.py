@@ -35,11 +35,9 @@ def register_check():
     user_password = data["password"]
     user_password_confirm = data["confirm"]
     captcha = data["code"]
-    print(user_email, user_first_name, user_last_name, user_password, user_password_confirm, captcha)
     register_form = RegisterForm(user_email=user_email, user_first_name=user_first_name, user_last_name=user_last_name,
                                  user_password=user_password, captcha=captcha)
     if register_form.validate():
-        print("成功")
         # 密码md5加密
         hash_password = generate_password_hash(register_form.user_password.data)
         # 构建user模型
@@ -57,20 +55,14 @@ def register_check():
         return jsonify({"code": 200, "message": "Sign up successfully!"})
     else:
         if register_form.errors.get("user_email"):
-            print(1)
             return jsonify({"code": 400, "message": "invalidSignUpEmail"})
         elif register_form.errors.get("captcha"):
-            print(2)
             return jsonify({"code": 400, "message": "invalidSignUpCaptcha"})
-
         elif register_form.errors.get("user_first_name"):
-            print(3)
             return jsonify({"code": 400, "message": "invalidSignUpUserName"})
         elif register_form.errors.get("user_last_name"):
-            print(4)
             return jsonify({"code": 400, "message": "invalidSignUpUserLastName"})
         else:
-            print(5)
             return jsonify({"code": 400, "message": "invalidSignUpPassword"})
 
 
@@ -111,12 +103,10 @@ def my_mail():
         mail.send(message)
         captcha_model = EmailCaptchaModel.query.filter_by(email=email).first()
         if captcha_model:
-            print("有")
             captcha_model.captcha = captcha
             captcha_model.create_time = datetime.now()
             db.session.commit()
         else:
-            print("没")
             captcha_model = EmailCaptchaModel(email=email, captcha=captcha)
             db.session.add(captcha_model)
             db.session.commit()
@@ -140,7 +130,6 @@ def email_check():
         if captcha_model.captcha == captcha:
             setattr(g, 'forget_email', email_model.email)
             session['forget_email'] = email_model.email
-            print(session.get("forget_email"))
             return {"code": 200}
         else:
             return {"code": 400, "message": "captcha"}
@@ -151,9 +140,7 @@ def email_check():
 # 忘记密码功能-密码更改
 @bp.route("/reset_password", methods=['POST', 'GET'])
 def password_check():
-    print(session.get("forget_email"))
     email = g.forget_email
-    print(email)
     data = request.get_json(silent=True)
     user_password = data["password"]
     confirm = data["confirm"]
@@ -252,7 +239,6 @@ def oauth2callback():
     #              credentials in a persistent database instead.
     credentials = flow.credentials
     flask.session['credentials'] = credentials_to_dict(credentials)
-    print(flask.session['credentials'])
     return flask.redirect("http://127.0.0.1:5173/")
 
 def credentials_to_dict(credentials):
@@ -303,11 +289,8 @@ def getprofile():
 def get_notices():
     status = request.json.get("status")
     user_id = current_user.user_id
-    print(status)
     notices_list = UserNotice.query.filter((UserNotice.user_id==user_id) & (UserNotice.status == MessageStatus(status))).all()
-    print(len(notices_list))
     notices = [message.serialize() for message in notices_list]
-    print(notices_list[0].status.value)
     return jsonify(notices=notices)
 
 
