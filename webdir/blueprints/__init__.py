@@ -6,3 +6,4 @@ from .staffPortal import bp as staff_bp
 from .order import bp as order_bp
 from .homepage import bp as homepage_bp
 from .comment import bp as comment_bp
+from .profile import bp as profile_bp
