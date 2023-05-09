@@ -624,7 +624,7 @@ class UserProfile(db.Model):
             "u_name": self.user_name,
             "f_name": self.user.user_first_name,
             "l_name": self.user.user_last_name,
-            "email": self.user_email,
+            "email": self.user.user_email,
             "phone": self.phone_number,
             "birthday": self.birthday,
             "about": self.description

@@ -1,3 +1,4 @@
+import datetime
 import os
 
 from config import Config
@@ -15,7 +16,7 @@ bp = Blueprint("Profile", __name__, url_prefix="/profile")
 def get_user_info():
     user_id = current_user.user_id
     user_profile = User.query.filter_by(user_id=user_id).first().profile
-    return jsonify(user_profile.serialize_profile()), 200
+    return user_profile.serialize_profile(), 200
 
 
 @bp.route("/uploadavatar", methods=['POST'])
@@ -36,7 +37,7 @@ def update_info():
     user_profile.user.user_first_name = data["f_name"]
     user_profile.user.user_last_name = data["l_name"]
     user_profile.phone_number = data["phone"]
-    user_profile.birthday = data["birthday"]
+    user_profile.birthday = datetime.datetime.strptime(data["birthday"], "%a, %d %b %Y %H:%M:%S %Z")
     user_profile.description = data["about"]
     db.session.commit()
     return jsonify(message="success"), 200
