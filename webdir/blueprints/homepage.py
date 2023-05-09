@@ -2,7 +2,7 @@ from sqlalchemy import func
 from flask import Blueprint, jsonify, request
 import datetime
 from exts import db
-from models import Product, ProductPicture, Tag, Trip, FeeDes, UserBrowse, Comment, User, Order
+from models import Product, ProductPicture, Tag, Trip, FeeDes, UserBrowse, Comment, User, Order, ProductType, PType
 from collections import Counter
 from sqlalchemy import and_
 
@@ -120,3 +120,35 @@ def get_popular_comments():
 def get_inspiration():
     products = db.session.query(Product).limit(3).all()
     return jsonify(code=200, inspirations=[product.serialize_inspiration() for product in products])
+
+@bp.route("/more", methods=["GET", "POST"])
+def more_products():
+    page_number = 0
+    search_type = request.json.get('type')
+    value = request.json.get('value')
+
+    if search_type == "popular":
+        page_number = 8
+    elif search_type == "type":
+        page_number = Product.query.filter(Product.types.any(ProductType.type == PType(value))).count()
+    elif search_type == "location":
+        page_number = Product.query.filter(Product.raw_loc == value).count()
+    else:
+        page_number = 0
+    return jsonify(page_number=page_number, code=200)
+
+@bp.route("/more_program_list", methods=["GET", "POST"])
+def more_program_list():
+    search_type = request.json.get('type')
+    value = request.json.get('value')
+    page = request.json.get('page')
+    products = []
+    p = Product.query.filter().first()
+    if search_type == "popular":
+        products = Product.query.outerjoin(UserBrowse).group_by(Product.id).order_by(func.count(UserBrowse.id).desc()).paginate(page=page, per_page=4)
+    elif search_type == "type":
+        products = Product.query.filter(Product.types.any(ProductType.type == PType(value))).paginate(page=page, per_page=4)
+    elif search_type == "location":
+        products = Product.query.filter(Product.raw_loc == value).paginate(page=page, per_page=4)
+
+    return jsonify(products = [product.serialize_more() for product in products])
