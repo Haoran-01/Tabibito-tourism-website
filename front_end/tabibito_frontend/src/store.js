@@ -5,7 +5,8 @@ export const useStore = defineStore('store', {
         return{
             user_login_status: false,
             user_id: 0,
-            job: ""
+            job: "",
+            name:"",
         }
     }
 })

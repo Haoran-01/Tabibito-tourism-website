@@ -13,7 +13,7 @@ export default {
     },
     navi: {
         lang: "English",
-        USD: "USD",
+        chat: "Chat",
         CNY: "CNY",
         EUR: "EUR",
         profile: "Profile",
