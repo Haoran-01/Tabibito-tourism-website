@@ -610,11 +610,26 @@ class UserProfile(db.Model):
     job = db.Column(DBEnum(UserJob), default=UserJob.Customer)
     language = db.Column(DBEnum(Language), default=Language.en)
     user_name = db.Column(db.CHAR(100), nullable=True, default="Tabibito_User")
+    gender = db.Column(db.CHAR(100), nullable=True, default="unknown")
     phone_number = db.Column(db.CHAR(30), nullable=True)
     birthday = db.Column(db.Date, nullable=True, default=datetime.now().date())
     description = db.Column(db.Text, nullable=True, default="This tabibito did not remain any thing")
     user_id = db.Column(db.Integer, ForeignKey('user.user_id', ondelete='CASCADE', onupdate='CASCADE'))
     user = relationship('User', back_populates="profile")
+
+    def serialize_profile(self):
+        return {
+            "avatar": self.picture_address,
+            "gender": self.gender,
+            "u_name": self.user_name,
+            "f_name": self.user.user_first_name,
+            "l_name": self.user.user_last_name,
+            "email": self.user_email,
+            "phone": self.phone_number,
+            "birthday": self.birthday,
+            "about": self.description
+        }
+
 
 
 class UserNotice(db.Model):

@@ -11,6 +11,7 @@ class Config:
     FLASKY_ADMIN_F = ''
 
     UPLOAD_FOLDER = '/pictures'
+    AVATAR_FOLDER = '/avatar'
 
     @staticmethod
     def init_app(app):
