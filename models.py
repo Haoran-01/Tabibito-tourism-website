@@ -395,6 +395,22 @@ class Product(db.Model):
             'cover': self.get_cover()
         }
 
+    def serialize_more(self):
+        return {
+            "price": self.ori_price * self.discount,
+            "id": self.id,
+            "reviews": len(self.comments),
+            'duration': (self.end_time.timestamp() - self.start_time.timestamp()) * 1000,
+            "types": [type.type for type in self.types],
+            "title": self.name,
+            "location": self.raw_loc,
+            "longitude": self.map_longitude,
+            "latitude": self.map_latitude,
+            "zoom": self.map_zoom,
+            "cover": self.get_cover(),
+            "tag_values": [tag.value for tag in self.tags]
+        }
+
     def serialize_detail(self):
         return {
             'id': self.id,
