@@ -261,6 +261,13 @@ export default {
       id1,
 
       handleClickProject() {
+
+        if (store.user_id === 0){
+          self.toast.success("Please login first",{
+            position: "bottom-right",
+          });
+          }
+
         let self = this;
 
         this.axios.post("/order/create_order",

@@ -15,9 +15,10 @@
      </div>
      <div class="actions" :style="currencyColor">
        <div class="simpleSettings">
-         <div class="actionButton currencyButton" @mouseenter="currency_is_shown = true" @mouseleave="currency_is_shown = false">
+<!--         @mouseenter="currency_is_shown = true" @mouseleave="currency_is_shown = false"-->
+         <div class="actionButton currencyButton" @click="this.$router.push('/chat')">
            <div class="actionIcon" id="currencyIcon" :style="currencyIcon"></div>
-           <div class="actionText" id="currencyText">{{currencyText}}</div>
+           <div class="actionText" id="currencyText">{{ $t('navi.chat') }}</div>
          </div>
          <transition name="fade">
            <drop-down
@@ -90,10 +91,11 @@ export default defineComponent({
           user_is_logged_in.value = res.data.id !== null;
           if (user_is_logged_in.value){
             store.user_id = res.data.id;
+            store.name = res.data.name
           }
           store.user_login_status = user_is_logged_in.value;
         })
-    let currencyIcon = ref("background-image:url('src/assets/USD.svg')");
+    let currencyIcon = ref("background-image:url('src/assets/chat.png')");
     let currencyText = ref('USD');
     let backgroundColor = ref("background-color: white;");
     let currencyColor = ref("")
@@ -138,9 +140,9 @@ export default defineComponent({
   data(){
     return{
       currency_item: ref([
-        {icon: "background-image:url('src/assets/USD.svg')", text: this.$t('navi.USD')},
-        {icon: "background-image:url('src/assets/CNY.svg')", text: this.$t('navi.CNY')},
-        {icon: "background-image:url('src/assets/EUR.svg')", text: this.$t('navi.EUR')},
+        {icon: "background-image:url('src/assets/USD.svg')", text: this.$t('navi.chat')},
+        // {icon: "background-image:url('src/assets/CNY.svg')", text: this.$t('navi.CNY')},
+        // {icon: "background-image:url('src/assets/EUR.svg')", text: this.$t('navi.EUR')},
       ]),
       user_item: [
         {

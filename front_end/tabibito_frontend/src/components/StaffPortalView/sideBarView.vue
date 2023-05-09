@@ -20,6 +20,10 @@
         <img class="material-symbols-outlined" src="../../assets/dashboard/sidebar/compass.svg" alt="icon">
         <span class="text">Dashboard</span>
       </router-link>
+      <router-link class="button" to="/chat">
+        <img class="material-symbols-outlined iconC" src="../../assets/Chat.svg" alt="icon">
+        <span class="text">Chat</span>
+      </router-link>
       <router-link class="button" to="/management/project_list">
         <img class="material-symbols-outlined" src="../../assets/dashboard/sidebar/booking.svg" alt="icon">
         <span class="text">Programs</span>
@@ -133,6 +137,10 @@ aside .menu .button .material-symbols-outlined {
   font-size: 2rem;
   color: #1e293b;
   transition: 0.3s ease-out;
+}
+
+.iconC{
+  width: 23px;
 }
 
 aside .menu .button .router-link-exact-active {

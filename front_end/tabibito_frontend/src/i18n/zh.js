@@ -13,7 +13,7 @@ export default {
     },
     navi: {
         lang: "中文",
-        USD: "美元",
+        chat: "在线联系",
         CNY: "人民币",
         EUR: "欧元",
         profile: "个人资料",
