@@ -39,7 +39,6 @@ def get_similarity(str1, str2):
 
 
 def set_similar(set1, set2):
-    print(set1, set2)
     return len(set1.intersection(set2)) / (len(set1) + len(set2)) > 0.3
 
 

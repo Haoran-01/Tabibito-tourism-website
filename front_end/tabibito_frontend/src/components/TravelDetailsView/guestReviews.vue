@@ -238,7 +238,8 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref } from 'vue';
+import { useRoute } from 'vue-router';
 import {ThumbsUp, ThumbsDown, ArrowForwardOutline} from "@vicons/ionicons5";
 
 export default defineComponent({
@@ -276,9 +277,11 @@ export default defineComponent({
   },
   created() {
     var self = this;
+    let route = useRoute();
+    console.log(route.params.trip_id);
     this.axios.post('/product/get_comment',{
       page: 1,
-      product_id: 9,
+      product_id: route.params.trip_id,
     })
         .then((response)=>{
           const code = response.status
@@ -289,7 +292,7 @@ export default defineComponent({
 
     this.axios.post('/product/get_reviews',
         {
-          product_id: 9
+          product_id: route.params.trip_id
         })
         .then((response)=>{
           const code = response.status
@@ -313,6 +316,7 @@ export default defineComponent({
 
   },
   mounted() {
+    let route = useRoute();
     for (const [key, value] of Object.entries(this.scores)) {
       this.$set(this.percentage, key, Math.round(value * 10));
     }
@@ -320,7 +324,7 @@ export default defineComponent({
     this.axios.post('/product/get_product_grade',
         {
           // 暂时给定值，不知道怎么拿到id
-          product_id: 9
+          product_id: route.params.trip_id
         }
     )
         .then(function (response){
@@ -329,9 +333,9 @@ export default defineComponent({
         .catch(error => {
           console.error(error);
         });
-    this.axios.post('http://127.0.0.1:5000/product/get_reviews',
+    this.axios.post('/product/get_reviews',
         {
-          product_id: 9
+          product_id: route.params.trip_id
         }
     )
         .then(function (response){
