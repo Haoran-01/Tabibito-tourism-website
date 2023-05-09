@@ -401,7 +401,7 @@ class Product(db.Model):
             "id": self.id,
             "reviews": len(self.comments),
             'duration': (self.end_time.timestamp() - self.start_time.timestamp()) * 1000,
-            "types": [type.type for type in self.types],
+            "types": [type.type.value for type in self.types],
             "title": self.name,
             "location": self.raw_loc,
             "longitude": self.map_longitude,
