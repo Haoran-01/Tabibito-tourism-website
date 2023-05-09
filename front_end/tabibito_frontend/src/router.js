@@ -17,6 +17,7 @@ const forbiddenView = () => import("./components/ErrorViews/forbiddenView.vue");
 const reservationEdit = () => import("./components/ReservationView/reservationEdit.vue");
 const moreView = () => import("./components/SearchPageView/moreView.vue");
 const chatView = () => import("./components/ChatView/chatView.vue");
+const profileEdit = () =>  import("./components/ProfileView/rightSettingView.vue");
 
 const routes = [
     { path: '/', component: homepageView, meta: {title: 'home - Tabibito'} },
