@@ -10,7 +10,7 @@ class Config:
     FLASKY_ADMIN_E = ''
     FLASKY_ADMIN_F = ''
 
-    UPLOAD_FOLDER = '/Users/wuwenjie/Documents/tabibito_pictures'
+    UPLOAD_FOLDER = '/pictures'
 
     @staticmethod
     def init_app(app):

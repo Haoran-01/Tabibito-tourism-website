@@ -14,7 +14,6 @@ bp = Blueprint('Search', __name__, url_prefix='/search')
 
 
 def clean_text(text):
-    print(datetime.datetime.now())
     # 将文本转换为小写
     text = text.lower()
     # 分词
@@ -29,7 +28,6 @@ def clean_text(text):
     lemmatizer = WordNetLemmatizer()
     tokens = [lemmatizer.lemmatize(word) for word in tokens]
     # 返回清洗后的文本
-    print(datetime.datetime.now())
     return ' '.join(tokens)
 
 
@@ -174,9 +172,6 @@ def get_type_product(tour_type):
 def get_product_list():
     data = request.get_json(silent=True)
     products = db.session.query(Product).all()
-
-    print(data)
-
     # if "state" in data:
     #     if data["state"] == "hot":
     #         get_hot_product()
@@ -247,7 +242,6 @@ def get_product_list():
             results.append(product)
     page_number = data["page"]
     select_product = results[page_number * 3 - 3: page_number * 3]
-    print(results)
     if len(results) == 0:
         return jsonify(code=201, products=[product.serialize_product_list() for product in select_product])
     else:

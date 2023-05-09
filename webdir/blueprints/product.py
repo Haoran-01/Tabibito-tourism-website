@@ -12,8 +12,6 @@ bp = Blueprint("Product", __name__, url_prefix="/product")
 @bp.route("/add", methods=["POST", "GET"])
 def add_product():
     data = request.get_json()
-    for i in data:
-        print(i, ':', data[i])
     if 'name' in data and 'description' in data and 'group_number' in data:
         name = data['name']
         description = data['description']
