@@ -84,7 +84,7 @@
           <div class="col-md-6">
 
             <div class="input_form">
-              <input type="text" v-model="email" :readonly="!isEditing" required>
+              <input type="text" v-model="email" :readonly="true" required>
               <label class="label">Email</label>
             </div>
 
