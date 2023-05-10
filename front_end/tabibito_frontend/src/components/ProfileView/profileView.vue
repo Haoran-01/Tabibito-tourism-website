@@ -822,13 +822,57 @@ template{
   display: grid;
   grid-template-columns: 3fr 1fr;
   grid-template-rows: 40px 80px;
+  background-color: #2F80ED;
 }
 .city{
   grid-area: 1 / 1 / 2 / 2;
   font-weight: bold;
   color: white;
+  box-sizing: border-box;
+  padding-right: 12px;
 }
-
+.weatherMain{
+  grid-area: 2 / 1 / 3 / 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding-right: 12px;
+}
+.temperature {
+  font-size: 48px;
+  color: white;
+}
+.weatherImg{
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  object-position: center;
+}
+.forecast{
+  grid-area: 1 / 2 / 3 / 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.foreTemp{
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 6px;
+  width: 100%;
+  height: 30px;
+  display: flex;
+  color: black;
+  align-items: center;
+  justify-content: space-around;
+}
+.tempValue{
+  font-size: 14px;
+}
+.tempType{
+  font-size: 10px;
+}
 .weatherPart:hover{
   transition: .2s ease-out;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12) ;
