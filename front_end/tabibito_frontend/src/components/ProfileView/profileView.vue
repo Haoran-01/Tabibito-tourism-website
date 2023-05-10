@@ -41,7 +41,43 @@
             style="margin: 0 -4px"
             pane-style="padding-left: 4px; padding-right: 4px; box-sizing: border-box;">
 
-          <n-tab-pane name="Dashboard" tab="Dashboard"></n-tab-pane>
+          <n-tab-pane name="Dashboard" tab="Dashboard">
+            <div class="helloSection">
+              <img :src="basicInfo.avatar_url" class="helloAvatar">
+              <div class="greeting">{{'Hello, ' + basicInfo.username + '. Which trip do you want to enjoy today?'}}</div>
+            </div>
+            <n-tabs
+                v-model:value = "dashboardValue"
+                class="card-tabs"
+                size="large"
+                animated
+                style="margin: 0 24px;"
+                pane-style="padding-left: 4px; padding-right: 4px; box-sizing: border-box;"
+              >
+              <n-tab-pane name="Recent Trips" tab="Recent Trips">
+                <div class="recentTrip" v-for="trip in recentTrips">
+                  <div class="recentTripTitleBar">
+                    <div class="recentTripName">{{trip.name}}</div>
+                    <div class="recentTripMore" @click="this.$router.push('/trip/' + trip.trip_id)">More</div>
+                  </div>
+                  <div class="recentTripBody">
+                    <img class="tripCover" :src="trip.cover_url"/>
+                    <div class="weatherPart">
+                      <div class="city"></div>
+                      <div class="temperature"></div>
+                      <img src="" alt="" class="weatherImg">
+
+                    </div>
+                    <div class="aeroPart"></div>
+                  </div>
+                </div>
+              </n-tab-pane>
+
+              <n-tab-pane name="Foot Print Wall" tab="Foot Print Wall">
+
+              </n-tab-pane>
+            </n-tabs>
+          </n-tab-pane>
 
           <n-tab-pane name="Profile" tab="Profile">
             <div class="infoCard">
@@ -384,7 +420,8 @@ export default {
       inProgressData,
       showModal,
       modalData,
-      tabValue: ref("Profile"),
+      tabValue: ref("Dashboard"),
+      dashboardValue: ref("Recent Trips"),
       orderType: ref("In Progress"),
       inProgressColumns: createInProgressColumns({
         cancel(row){
@@ -447,6 +484,7 @@ export default {
   },
   data(){
     return{
+      recentTrips: [],
       basicInfo: {},
       completedData: [],
       cancelledData: [],
@@ -542,6 +580,26 @@ export default {
     }
   },
   created() {
+    this.axios.post('/user/dashboard/get_recent_trips')
+        .then((res) => {
+          if (res.status === 200){
+            this.recentTrips = res.data.recentTrips
+            for (let trip of this.recentTrips){
+              this.axios({
+                url: '/current.json',
+                baseURL: 'http://api.weatherapi.com/v1',
+                params: {
+                  key: '9fa81e39ed22488fa10104307230905',
+                  q: trip.raw_loc
+                }
+              })
+                  .then((res) => {
+                    if (res.status === 200){
+                    }
+                  })
+            }
+          }
+        })
     this.axios.post('/user/getprofile', {
       user_id: this.$route.params.uid
     })
@@ -672,6 +730,87 @@ template{
 .tabInnerContainer{
   width: 83.33%;
 }
+.helloSection{
+  margin: 24px;
+  height: 140px;
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  grid-template-rows: 1fr;
+  border-radius: 4px;
+  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.08) ;
+}
+.helloAvatar{
+  width: 100px;
+  height: 100px;
+  border-radius: 100%;
+  margin: 20px;
+}
+.greeting{
+  font-size: 24px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+}
+.recentTrip{
+  margin: 24px;
+  height: 240px;
+  border-radius: 4px;
+  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.08) ;
+  margin-right: 48px;
+}
+.recentTripTitleBar{
+  width: 100%;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+  align-items: center;
+  padding: 0 24px;
+}
+.recentTripName{
+  font-size: 20px;
+}
+.recentTripMore{
+  color: var(--primary-color);
+  text-decoration: underline;
+  cursor: pointer;
+}
+.recentTripBody{
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  padding: 24px;
+}
+.tripCover{
+  width: 200px;
+  height: 132px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 4px;
+}
+.weatherPart{
+  width: calc((100% - 200px - 48px - 48px) * 0.33);
+  height: 132px;
+  transition: .2s ease-in;
+  border-radius: 4px;
+}
+.weatherPart:hover{
+  transition: .2s ease-out;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12) ;
+}
+.aeroPart{
+  width: calc((100% - 200px - 48px - 48px) * 0.67);
+  height: 132px;
+  border-radius: 4px;
+  transition: .2s ease-in;
+}
+.weatherPart:hover{
+  transition: .2s ease-out;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12) ;
+}
 .infoCard{
   width: 100%;
   box-sizing: border-box;
@@ -680,7 +819,10 @@ template{
 }
 .avatar{
   margin-right: 24px;
-  object-fit: contain;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  object-position: top;
 }
 .nameBar{
   display: flex;

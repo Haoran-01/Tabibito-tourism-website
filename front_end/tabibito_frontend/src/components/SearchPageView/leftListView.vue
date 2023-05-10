@@ -600,7 +600,7 @@ export default defineComponent({
   },
   methods:{
     pageChange(newPage){
-      axios.post('http://127.0.0.1:5000/search/product_list',{
+      axios.post('/search/product_list',{
         page: newPage,
         startTime: startTime.value,
         endTime: endTime.value,

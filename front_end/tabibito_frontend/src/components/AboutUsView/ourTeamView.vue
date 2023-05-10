@@ -20,7 +20,7 @@
               >
                 <div class="name-bar-our-team">
                   <div class="our-team-name">Donglin Liu</div>
-                  <div class="our-team-job">Front-End</div>
+                  <div class="our-team-job">Senior Tour Guide</div>
                 </div>
             </div>
 
@@ -31,7 +31,7 @@
               >
               <div class="name-bar-our-team">
                 <div class="our-team-name">Feihe Huang</div>
-                <div class="our-team-job">Front-End</div>
+                <div class="our-team-job">Senior Tour Guide</div>
               </div>
             </div>
 
@@ -42,7 +42,7 @@
               >
               <div class="name-bar-our-team">
                 <div class="our-team-name">Haoran Yan</div>
-                <div class="our-team-job">Back-End</div>
+                <div class="our-team-job">Senior Tour Guide</div>
               </div>
             </div>
 
@@ -53,7 +53,7 @@
               >
               <div class="name-bar-our-team">
                 <div class="our-team-name">Jiahe Zhang</div>
-                <div class="our-team-job">Front-End</div>
+                <div class="our-team-job">Senior Tour Guide</div>
               </div>
             </div>
 
@@ -64,7 +64,7 @@
               >
               <div class="name-bar-our-team">
                 <div class="our-team-name">Wenbei Xie</div>
-                <div class="our-team-job">Front-End</div>
+                <div class="our-team-job">Senior Tour Guide</div>
               </div>
             </div>
 
@@ -75,7 +75,7 @@
               >
               <div class="name-bar-our-team">
                 <div class="our-team-name">Wenjie Wu</div>
-                <div class="our-team-job">Back-End</div>
+                <div class="our-team-job">Senior Tour Guide</div>
               </div>
             </div>
 

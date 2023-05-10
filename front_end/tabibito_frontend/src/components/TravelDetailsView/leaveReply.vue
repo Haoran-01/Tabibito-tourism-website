@@ -162,7 +162,7 @@ export default defineComponent({
 
     const handleComment = async () => {
       try {
-        const response = await axios.post("http://127.0.0.1:5000/comment/add_comment", {
+        const response = await axios.post("/comment/add_comment", {
           title: title.value,
           des: des.value,
           user_id: null,

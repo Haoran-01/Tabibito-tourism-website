@@ -244,7 +244,7 @@ export default {
     let startTime = ref();
     let endTime = ref();
     let groupNum = ref();
-
+    const axios = getCurrentInstance().appContext.config.globalProperties.axios;
     const toast = useToast();
 
 
@@ -270,7 +270,7 @@ export default {
 
         let self = this;
 
-        this.axios.post("/order/create_order",
+        axios.post("/order/create_order",
             {
               product_id: this.id1,
               groupNum: this.groupNum,
