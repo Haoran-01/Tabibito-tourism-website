@@ -12,7 +12,7 @@ from webdir.blueprints import user_bp, product_bp, search_bp, recommend_bp, home
 from flask_cors import CORS
 
 def create_app(config_name):
-    app = Flask(__name__, template_folder="templates", static_folder="static", static_url_path="")
+    app = Flask(__name__, template_folder="../front_end/tabibito_frontend/dist", static_folder="../front_end/tabibito_frontend/dist", static_url_path="")
     app.config.from_object(config[config_name])
     config[config_name].init_app(app)
 
