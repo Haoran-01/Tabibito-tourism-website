@@ -62,11 +62,29 @@
                   </div>
                   <div class="recentTripBody">
                     <img class="tripCover" :src="trip.cover_url"/>
-                    <div class="weatherPart">
-                      <div class="city"></div>
-                      <div class="temperature"></div>
-                      <img src="" alt="" class="weatherImg">
+                    <n-modal v-model:show="showWeatherModel">
 
+                    </n-modal>
+                    <div class="weatherPart">
+                      <div class="city">Shanghai</div>
+                      <div class="weatherMain">
+                        <div class="temperature">24℃</div>
+                        <img src="" alt="" class="weatherImg">
+                      </div>
+                      <div class="forecast">
+                        <div class="foreTemp">
+                          <div class="tempValue">24℃</div>
+                          <div class="tempType">Max</div>
+                        </div>
+                        <div class="foreTemp">
+                          <div class="tempValue">24℃</div>
+                          <div class="tempType">Avg</div>
+                        </div>
+                        <div class="foreTemp">
+                          <div class="tempValue">24℃</div>
+                          <div class="tempType">Min</div>
+                        </div>
+                      </div>
                     </div>
                     <div class="aeroPart"></div>
                   </div>
@@ -548,7 +566,7 @@ export default {
         new_status: 'old'
       })
           .then((res)=>{
-            if (res.status === 200){
+            if (res.status === 204){
               let index = -1
               for (let i = 0; i<this.newNotices.length; i++){
                 if (this.newNotices[i].id === id){
@@ -566,7 +584,7 @@ export default {
         new_status: 'new'
       })
           .then((res)=>{
-            if (res.status === 200){
+            if (res.status === 204){
               let index = -1
               for (let i = 0; i<this.oldNotices.length; i++){
                 if (this.oldNotices[i].id === id){
@@ -692,8 +710,9 @@ template{
   background-color: #F5F5F5;
 }
 .container{
-  width: 100%;
-  padding: 60px 60px 60px 60px;
+  width: 1260px;
+  padding: 60px 0 0 0;
+  margin: auto;
   box-sizing: border-box;
   background-color: #F5F5F5;
 }
@@ -726,6 +745,7 @@ template{
   padding: 30px;
   box-sizing: border-box;
   background-color: white;
+  max-width: 100%;
 }
 .tabInnerContainer{
   width: 83.33%;
@@ -796,7 +816,19 @@ template{
   height: 132px;
   transition: .2s ease-in;
   border-radius: 4px;
+  cursor: pointer;
+  box-sizing: border-box;
+  padding: 6px;
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  grid-template-rows: 40px 80px;
 }
+.city{
+  grid-area: 1 / 1 / 2 / 2;
+  font-weight: bold;
+  color: white;
+}
+
 .weatherPart:hover{
   transition: .2s ease-out;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12) ;
@@ -806,8 +838,10 @@ template{
   height: 132px;
   border-radius: 4px;
   transition: .2s ease-in;
+  cursor: pointer;
+  padding: 6px;
 }
-.weatherPart:hover{
+.aeroPart:hover{
   transition: .2s ease-out;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12) ;
 }
