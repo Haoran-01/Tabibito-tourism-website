@@ -8,8 +8,7 @@ from models import User
 from flask import Flask, g, session
 from config import config
 from exts import mail, db
-from webdir.blueprints import user_bp, product_bp, search_bp, recommend_bp, homepage_bp, order_bp, staff_bp, comment_bp, \
-    profile_bp
+from webdir.blueprints import user_bp, product_bp, search_bp, recommend_bp, homepage_bp, order_bp, staff_bp, comment_bp, profile_bp
 from flask_cors import CORS
 
 
@@ -19,9 +18,8 @@ def create_app(config_name):
     app.config.from_object(config[config_name])
     config[config_name].init_app(app)
 
-    CORS(app, supports_credentials=True)
+    CORS(app, supports_credentials=True,resources={r"/*": {"origins": "*"}})
     return app
-
 
 # nltk.download('stopwords')
 # nltk.download('wordnet')
@@ -47,23 +45,6 @@ login_manager = LoginManager()
 login_manager.login_message_category = 'info'
 login_manager.login_message = 'Access denied'
 login_manager.init_app(app)
-
-import logging
-from logging.handlers import RotatingFileHandler
-
-# 设置日志记录器
-log_formatter = logging.Formatter('%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]')
-log_file = 'logfile.log'
-log_handler = RotatingFileHandler(log_file, maxBytes=100000, backupCount=10)
-log_handler.setLevel(logging.INFO)
-log_handler.setFormatter(log_formatter)
-app.logger.addHandler(log_handler)
-
-# 将日志记录到控制台
-console_handler = logging.StreamHandler()
-console_handler.setLevel(logging.INFO)
-console_handler.setFormatter(log_formatter)
-app.logger.addHandler(console_handler)
 
 
 @login_manager.user_loader
@@ -96,16 +77,17 @@ def context_processor():
     else:
         return {}
 
-# @app.after_request
-# def af_req(resp):  # 解决跨域session丢失
-#     resp = make_response(resp)
-#     resp.headers['Access-Control-Allow-Origin'] = 'http://127.0.0.1:5000'
-#     resp.headers['Access-Control-Allow-Methods'] = 'PUT,POST,GET,DELETE,OPTIONS'
-#     resp.headers['Access-Control-Allow-Headers'] = 'x-requested-with,content-type'
-#     resp.headers[
-#         'Access-Control-Allow-Headers'] = 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild'
-#     resp.headers['Access-Control-Allow-Credentials'] = 'true'
-#
-#     resp.headers['X-Powered-By'] = '3.2.1'
-#     resp.headers['Content-Type'] = 'application/json;charset=utf-8'
-#     return resp
+
+@app.after_request
+def af_req(resp):  # 解决跨域session丢失
+    resp = make_response(resp)
+    resp.headers['Access-Control-Allow-Origin'] = 'http://127.0.0.1:5173'
+    resp.headers['Access-Control-Allow-Methods'] = 'PUT,POST,GET,DELETE,OPTIONS'
+    resp.headers['Access-Control-Allow-Headers'] = 'x-requested-with,content-type'
+    resp.headers[
+        'Access-Control-Allow-Headers'] = 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild'
+    resp.headers['Access-Control-Allow-Credentials'] = 'true'
+
+    resp.headers['X-Powered-By'] = '3.2.1'
+    resp.headers['Content-Type'] = 'application/json;charset=utf-8'
+    return resp
