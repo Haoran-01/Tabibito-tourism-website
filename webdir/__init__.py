@@ -8,16 +8,20 @@ from models import User
 from flask import Flask, g, session
 from config import config
 from exts import mail, db
-from webdir.blueprints import user_bp, product_bp, search_bp, recommend_bp, homepage_bp, order_bp, staff_bp, comment_bp, profile_bp
+from webdir.blueprints import user_bp, product_bp, search_bp, recommend_bp, homepage_bp, order_bp, staff_bp, comment_bp, \
+    profile_bp
 from flask_cors import CORS
 
+
 def create_app(config_name):
-    app = Flask(__name__, template_folder="../front_end/tabibito_frontend/dist", static_folder="../front_end/tabibito_frontend/dist", static_url_path="")
+    app = Flask(__name__, template_folder="../front_end/tabibito_frontend/dist",
+                static_folder="../front_end/tabibito_frontend/dist", static_url_path="")
     app.config.from_object(config[config_name])
     config[config_name].init_app(app)
 
-    CORS(app, supports_credentials=True)
+    # CORS(app, supports_credentials=True)
     return app
+
 
 # nltk.download('stopwords')
 # nltk.download('wordnet')

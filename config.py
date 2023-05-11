@@ -22,6 +22,9 @@ class DevelopmentConfig(Config):
     DEBUG = True
     SESSION_COOKIE_SAMESITE = None
     SESSION_COOKIE_SECURE = True
+    # 后加的
+    SESSION_COOKIE_HTTPONLY = True
+
     # 数据库的配置变量
     HOSTNAME = '127.0.0.1'
     PORT = '3306'
