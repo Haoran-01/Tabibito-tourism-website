@@ -81,7 +81,8 @@ def login_check():
         login_user(user)
         current_app.logger.info("User {} logged in".format(user.user_id), extra={
             "user_id": user.user_id,
-            "user_name": user.profile.job.name
+            "user_name": user.profile.job.name,
+            "session": flask.session
         })
         return jsonify(code=200, job=user.profile.job.name)
     else:
@@ -168,11 +169,14 @@ def test_order():
 
 @bp.route("/login_status", methods=["GET"])
 def get_login_user():
+    current_app.logger.info("Session", extra={
+        "session": flask.session
+    })
     if current_user:
-        current_app.logger.info("User {} has logged in".format(current_user.user_id), extra={
-            "user_id": current_user.user_id,
-            "session": flask.session
-        })
+        # current_app.logger.info("User {} has logged in".format(current_user.user_id), extra={
+        #     "user_id": current_user.user_id,
+        #     "session": flask.session
+        # })
         if hasattr(current_user, 'user_id'):
             return jsonify(id=current_user.user_id, job=current_user.profile.job.name,
                            name=current_user.user_first_name + " " + current_user.user_last_name)
