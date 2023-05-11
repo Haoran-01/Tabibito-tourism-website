@@ -21,7 +21,7 @@ class Config:
 class DevelopmentConfig(Config):
     DEBUG = True
     SESSION_COOKIE_SAMESITE = None
-    SESSION_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = False
 
     # 数据库的配置变量
     HOSTNAME = '127.0.0.1'
