@@ -8,8 +8,8 @@
               position: absolute;
               top: 30px;
               left: 30px;
-              width: 100%;
-              height: 100%;
+              width: 200px;
+              height: 200px;
               -o-object-fit: cover;
               object-fit: cover;
               border-radius: 4px;"
@@ -21,8 +21,8 @@
                 style="position: absolute;
                        top: 30px;
                        left: 30px;
-                       width: 100%;
-                       height: 100%;
+                       width: 200px;
+                       height: 200px;
                        -o-object-fit: cover;
                        object-fit: cover;
                        border-radius: 4px;"

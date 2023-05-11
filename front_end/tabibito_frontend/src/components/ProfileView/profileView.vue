@@ -80,26 +80,27 @@
           </n-tab-pane>
 
           <n-tab-pane name="Profile" tab="Profile">
-            <div class="infoCard">
-              <img class="avatar" :src="basicInfo.avatar_url">
-              <div class="cardText">
-                <div class="nameBar">
-                  <div class="userName">{{basicInfo.username}}</div>
-                  <div class="edit">
-                    edit info
-                  </div>
-                </div>
-                <div class="userDescription">{{basicInfo.description}}</div>
-              </div>
-            </div>
-            <div class="attrTitle">Real Name</div>
-            <div class="attrValue">{{basicInfo.first_name + ' ' + basicInfo.last_name}}</div>
-            <div class="attrTitle">Email</div>
-            <div class="attrValue">{{basicInfo.email}}</div>
-            <div class="attrTitle">Phone Number</div>
-            <div class="attrValue">{{basicInfo.phone_number}}</div>
-            <div class="attrTitle">Birthday</div>
-            <div class="attrValue">{{basicInfo.birthday}}</div>
+            <right-setting-view />
+<!--            <div class="infoCard">-->
+<!--              <img class="avatar" :src="basicInfo.avatar_url">-->
+<!--              <div class="cardText">-->
+<!--                <div class="nameBar">-->
+<!--                  <div class="userName">{{basicInfo.username}}</div>-->
+<!--                  <div class="edit">-->
+<!--                    edit info-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--                <div class="userDescription">{{basicInfo.description}}</div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <div class="attrTitle">Real Name</div>-->
+<!--            <div class="attrValue">{{basicInfo.first_name + ' ' + basicInfo.last_name}}</div>-->
+<!--            <div class="attrTitle">Email</div>-->
+<!--            <div class="attrValue">{{basicInfo.email}}</div>-->
+<!--            <div class="attrTitle">Phone Number</div>-->
+<!--            <div class="attrValue">{{basicInfo.phone_number}}</div>-->
+<!--            <div class="attrTitle">Birthday</div>-->
+<!--            <div class="attrValue">{{basicInfo.birthday}}</div>-->
           </n-tab-pane>
 
           <n-tab-pane name="Orders" tab="Orders">
@@ -229,6 +230,7 @@
 import NavigationBar from "../GeneralComponents/navigationBar.vue";
 import {getCurrentInstance, h, ref} from "vue";
 import { NButton, useMessage } from "naive-ui";
+import RightSettingView from "./rightSettingView.vue";
 
 const createInProgressColumns = ({ cancel, viewDetail }) => {
   return [
@@ -377,7 +379,7 @@ const createCancelledColumns = ({ viewDetail }) => {
 }
 export default {
   name: "profileView",
-  components: {NavigationBar},
+  components: {RightSettingView, NavigationBar},
   setup(){
     const axios = getCurrentInstance().appContext.config.globalProperties.axios;
     const inProgressData = ref([]);
