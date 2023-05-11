@@ -79,6 +79,8 @@ def login_check():
     if login_form.validate():
         user = User.query.filter_by(user_email=user_email).first()
         login_user(user)
+        session_dict = dict(flask.session)
+        current_app.logger.info(f"Session: {session_dict}")
         current_app.logger.info("User {} logged in".format(user.user_id), extra={
             "user_id": user.user_id,
             "user_name": user.profile.job.name,
@@ -169,9 +171,8 @@ def test_order():
 
 @bp.route("/login_status", methods=["GET"])
 def get_login_user():
-    current_app.logger.info("Session", extra={
-        "session": flask.session
-    })
+    session_dict = dict(flask.session)
+    current_app.logger.info(f"Session: {session_dict}")
     if current_user:
         # current_app.logger.info("User {} has logged in".format(current_user.user_id), extra={
         #     "user_id": current_user.user_id,
