@@ -44,6 +44,23 @@ login_manager.login_message_category = 'info'
 login_manager.login_message = 'Access denied'
 login_manager.init_app(app)
 
+import logging
+from logging.handlers import RotatingFileHandler
+
+# 设置日志记录器
+log_formatter = logging.Formatter('%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]')
+log_file = 'logfile.log'
+log_handler = RotatingFileHandler(log_file, maxBytes=100000, backupCount=10)
+log_handler.setLevel(logging.INFO)
+log_handler.setFormatter(log_formatter)
+app.logger.addHandler(log_handler)
+
+# 将日志记录到控制台
+console_handler = logging.StreamHandler()
+console_handler.setLevel(logging.INFO)
+console_handler.setFormatter(log_formatter)
+app.logger.addHandler(console_handler)
+
 
 @login_manager.user_loader
 def load_user(user_id):

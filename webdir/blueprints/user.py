@@ -1,8 +1,7 @@
 import random
 import string
 
-from flask import Blueprint, request, render_template, jsonify, g, session
-from flask_wtf.csrf import logger
+from flask import Blueprint, request, render_template, jsonify, g, session, current_app
 
 from forms import LoginFrom, RegisterForm, EmailCaptchaModel, ForgetFormPassword
 from flask_login import login_user, logout_user, login_required
@@ -80,7 +79,7 @@ def login_check():
     if login_form.validate():
         user = User.query.filter_by(user_email=user_email).first()
         login_user(user)
-        logger.info('test: login', user.profile.job.name)
+        current_app.logger.info('test: login', user.profile.job.name)
         return jsonify(code=200, job=user.profile.job.name)
     else:
         if login_form.errors.get("user_email"):
@@ -166,10 +165,11 @@ def test_order():
 
 @bp.route("/login_status", methods=["GET"])
 def get_login_user():
-    logger.info('test: login', current_user)
-    logger.info('test: session', flask.session)
+
+    current_app.logger.info('test: login', current_user)
+    current_app.logger.info('test: session', flask.session)
     if current_user:
-        logger.info('hello %s', current_user.user_id)
+        current_app.logger.info('hello %s', current_user.user_id)
         if hasattr(current_user, 'user_id'):
             return jsonify(id=current_user.user_id, job=current_user.profile.job.name, name=current_user.user_first_name + " " + current_user.user_last_name)
         else:
