@@ -103,6 +103,7 @@ import {useToast} from "vue-toastification";
 export default {
   setup() {
     const axios = getCurrentInstance().appContext.config.globalProperties.axios;
+    // axios.defaults.withCredentials = true;
     // Get toast interface
     const toast = useToast();
 
