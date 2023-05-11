@@ -79,7 +79,10 @@ def login_check():
     if login_form.validate():
         user = User.query.filter_by(user_email=user_email).first()
         login_user(user)
-        current_app.logger.info('test: login', user.profile.job.name)
+        current_app.logger.info("User {} logged in".format(user.user_id), extra={
+            "user_id": user.user_id,
+            "user_name": user.profile.job.name
+        })
         return jsonify(code=200, job=user.profile.job.name)
     else:
         if login_form.errors.get("user_email"):
@@ -165,13 +168,14 @@ def test_order():
 
 @bp.route("/login_status", methods=["GET"])
 def get_login_user():
-
-    current_app.logger.info('test: login', current_user)
-    current_app.logger.info('test: session', flask.session)
     if current_user:
-        current_app.logger.info('hello %s', current_user.user_id)
+        current_app.logger.info("User {} has logged in".format(current_user.user_id), extra={
+            "user_id": current_user.user_id,
+            "session": flask.session
+        })
         if hasattr(current_user, 'user_id'):
-            return jsonify(id=current_user.user_id, job=current_user.profile.job.name, name=current_user.user_first_name + " " + current_user.user_last_name)
+            return jsonify(id=current_user.user_id, job=current_user.profile.job.name,
+                           name=current_user.user_first_name + " " + current_user.user_last_name)
         else:
             return jsonify(id=None, job=None, name=None)
 
@@ -246,6 +250,7 @@ def oauth2callback():
     flask.session['credentials'] = credentials_to_dict(credentials)
     return flask.redirect("http://127.0.0.1:5173/")
 
+
 def credentials_to_dict(credentials):
     return {
         'token': credentials.token,
@@ -294,7 +299,8 @@ def getprofile():
 def get_notices():
     status = request.json.get("status")
     user_id = current_user.user_id
-    notices_list = UserNotice.query.filter((UserNotice.user_id==user_id) & (UserNotice.status == MessageStatus(status))).all()
+    notices_list = UserNotice.query.filter(
+        (UserNotice.user_id == user_id) & (UserNotice.status == MessageStatus(status))).all()
     notices = [message.serialize() for message in notices_list]
     return jsonify(notices=notices)
 
