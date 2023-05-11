@@ -102,7 +102,6 @@ export default {
     // Get toast interface
     const toast = useToast();
     const axios = getCurrentInstance().appContext.config.globalProperties.axios;
-    axios.defaults.withCredentials = true;
     // or with options
     // toast.success("My toast content", {
     //   timeout: 2000

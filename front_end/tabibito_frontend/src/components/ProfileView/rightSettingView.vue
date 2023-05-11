@@ -15,7 +15,7 @@
               border-radius: 4px;"
             />
             <n-upload
-                action="http://127.0.0.1:5000/profile/uploadavatar"
+                action="/profile/uploadavatar"
                 :default-file-list="coverImageList"
                 list-type="image-card"
                 style="position: absolute;
