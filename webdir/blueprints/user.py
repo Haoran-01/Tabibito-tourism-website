@@ -2,6 +2,8 @@ import random
 import string
 
 from flask import Blueprint, request, render_template, jsonify, g, session
+from flask_wtf.csrf import logger
+
 from forms import LoginFrom, RegisterForm, EmailCaptchaModel, ForgetFormPassword
 from flask_login import login_user, logout_user, login_required
 from models import User, Product, UserProfile, Order, Language, UserNotice, MessageStatus
@@ -165,8 +167,8 @@ def test_order():
 @bp.route("/login_status", methods=["GET"])
 def get_login_user():
     if current_user:
+        logger.info('hello %s', current_user.user_id)
         if hasattr(current_user, 'user_id'):
-            print(current_user.user_id)
             return jsonify(id=current_user.user_id, job=current_user.profile.job.name, name=current_user.user_first_name + " " + current_user.user_last_name)
         else:
             return jsonify(id=None, job=None, name=None)
