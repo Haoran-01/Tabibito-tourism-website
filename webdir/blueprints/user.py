@@ -183,7 +183,6 @@ def get_login_user():
                            name=current_user.user_first_name + " " + current_user.user_last_name)
         else:
             return jsonify(id=None, job=None, name=None)
-
     else:
         return jsonify(id=None, job=None, name=None)
 
@@ -268,9 +267,9 @@ def credentials_to_dict(credentials):
 
 
 @bp.route("/get_language", methods=['GET', 'POST'])
-@login_required
 def get_language():
     if current_user is not None:
+        print(current_user.id)
         return jsonify(language=current_user.profile.language.name)
     else:
         return jsonify(message="Not login")
