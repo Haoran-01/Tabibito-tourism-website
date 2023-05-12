@@ -252,7 +252,7 @@ def oauth2callback():
     #              credentials in a persistent database instead.
     credentials = flow.credentials
     flask.session['credentials'] = credentials_to_dict(credentials)
-    return flask.redirect("http://127.0.0.1:5173/")
+    return flask.redirect("http://127.0.0.1:5000/")
 
 
 def credentials_to_dict(credentials):
@@ -269,8 +269,11 @@ def credentials_to_dict(credentials):
 @bp.route("/get_language", methods=['GET', 'POST'])
 def get_language():
     if current_user is not None:
-        print(current_user.id)
-        return jsonify(language=current_user.profile.language.name)
+        if hasattr(current_user, "user_id"):
+            print(current_user.profile.language.name)
+            return jsonify(language=current_user.profile.language.name)
+        else:
+            return jsonify(message="Not login")
     else:
         return jsonify(message="Not login")
 
