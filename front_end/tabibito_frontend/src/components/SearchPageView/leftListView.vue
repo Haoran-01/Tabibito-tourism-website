@@ -28,12 +28,9 @@
             <div class="loc_margin">
               <h4 class="loc_title">Check in - Check out</h4>
               <div class="loc_input">
-<!--                <n-date-picker v-model:value="range" type="daterange" clearable @select="handleSelectTime"/>-->
-<!--                <pre>{{ JSON.stringify(range) }}</pre>-->
                 <n-date-picker v-model:value="startTime" type="date" :is-date-disabled="secureStartTime" size="small" clearable :placeholder="$t('homepage.searchPart.st')"/>
                 <span>-</span>
                 <n-date-picker v-model:value="endTime" type="date" placement="bottom-end" :is-date-disabled="secureEndTime" size="small" clearable :placeholder="$t('homepage.searchPart.et')"/>
-
               </div>
             </div>
           </div>
@@ -113,7 +110,7 @@
             </div>
 
             <div class="col-md">
-<!--              <p class="hours">{{ item.duration }}</p>-->
+              <p class="hours">{{ item.duration }}</p>
               <h3 class="title">{{  item.title }}</h3>
               <p class="location">{{  item.location }}</p>
 
@@ -157,12 +154,14 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, onMounted } from 'vue'
 import {Loader} from "@googlemaps/js-api-loader";
 import { useMessage } from "naive-ui";
 import { ArrowForward, Star, HeartOutline, LocationOutline, TodayOutline, CompassOutline, Search, StatsChartOutline } from "@vicons/ionicons5";
 import {useLangStore} from "../../store.js";
 import NavigationBar from "../GeneralComponents/navigationBar.vue";
+import axios from 'axios';
+
 export default defineComponent({
   name: "leftListView",
   components: {
@@ -177,80 +176,94 @@ export default defineComponent({
     ArrowForward
   },
   setup () {
-    let project_loc = null;
-    let project_zoom = 1;
-    const raw_trip_data = ref([]);
-    const locations = [];
-    // const itineraryData = [];
+    const currentLocation = ref();
+    const startTime = ref();
+    const endTime = ref();
+    const tourType = ref();
+    const price = ref();
+    const duration = ref();
+    const products = ref([]);
     const langStore = useLangStore();
     let mapLanguage = 'en-US';
     if (langStore.language === 'zh'){
       mapLanguage = 'zh-CN'
     }
-    let startTime = ref(null);
-    let endTime = ref(null);
-    let currentLocation = ref(null);
-    let tourType = ref(null);
     const loadingRef = ref(false);
-    let price = ref(null);
-    let duration = ref(null);
-    let products = ref({});
-    let countPage = 1;
     const message = useMessage();
+    onMounted(() => {
+      axios.post('/search/product_list',
+          {
+            page: 1,
+            currentLocation: null,
+            startTime: null,
+            endTime: null,
+            tourType: null,
+            price: null,
+            duration: null
+          }
+      ).then(response => {
+        const code = response.status
+        if (code === 200){
+          products.value = response.data.products;
+          for(let i = 0; i < products.value.length; i++){
+            let raw_time = products.value[i].duration;
+            let hour = Math.round(raw_time/3600);
+            let day = Math.round(hour/24);
+            if (hour > 24 && day === 1){
+              products.value[i].duration = '1 Day'
+            }
+            if (hour > 24 && day > 1){
+              products.value[i].duration = day + ' Days'
+            }
+            if (hour === 1){
+              products.value[i].duration = '1 Hour'
+            }
+            if (hour < 24 && hour !== 1){
+              products.value[i].duration = hour + ' Hours'
+            }
+          }
+        }
+      })
+      axios.post("/search/product_number",
+          {
+            currentLocation: null,
+            startTime: null,
+            endTime: null,
+            tourType: null,
+            price: null,
+            duration: null
+          }
+      ).then((response)=>{
+            const code = response.status
+            if (code === 200){
+              const count = response.data.number
+              self.countPage  = Math.floor(count / 3) + (count % 3 > 0 ? 1 : 0);
+            }
+          })
+    });
     return {
+      products,
       currentLocation,
       startTime,
       endTime,
       tourType,
       price,
       duration,
-      products,
-      countPage,
-      raw_trip_data,
-      project_loc,
-      project_zoom,
-      locations,
-      // itineraryData,
-      loadMap(){
-        const loader = new Loader({
-          apiKey: "AIzaSyBctzU8ocpP_0j4IdTRqA-GABIAnaXd0ow",
-          version: "beta",
-          libraries: ["marker"],
-          language: mapLanguage
-        });
-
-        loader.load().then((google) => {
-          const center = this.project_loc;
-          let map = new google.maps.Map(document.getElementById("map"), {
-            center: center,
-            zoom: this.project_zoom,
-            mapId: "jkhjkhkjhjkh"
-          });
-          const tourStops = this.locations;
-          // Create an info window to share between markers.
-          const infoWindow = new google.maps.InfoWindow();
-          tourStops.forEach(({ position, title }, i) => {
-            const pinView = new google.maps.marker.PinView({
-              glyph: `${i + 1}`,
-            });
-            const marker = new google.maps.marker.AdvancedMarkerView({
-              position,
-              map,
-              title: `${i + 1}. ${title}`,
-              content: pinView.element,
-            });
-
-            // Add a click listener for each marker, and set up the info window.
-            marker.addListener("click", ({ domEvent, latLng }) => {
-              const { target } = domEvent;
-
-              infoWindow.close();
-              infoWindow.setContent(marker.title);
-              infoWindow.open(marker.map, marker);
-            });
-          });
-
-        });
+      secureStartTime(ts) {
+        if (endTime.value != null){
+          return ts < Date.now() || ts > endTime.value;
+        }
+        else {
+          return ts < Date.now();
+        }
+      },
+      secureEndTime(ts){
+        if (startTime.value != null){
+          return ts < Date.now() || ts < startTime.value;
+        }
+        else {
+          return ts < Date.now();
+        }
       },
       handleClick() {
         loadingRef.value = true
@@ -258,6 +271,64 @@ export default defineComponent({
           loadingRef.value = false
         }, 2000)
       },
+      handleSearchProject() {
+        axios.post("/search/product_list",
+            {
+              page: 1,
+              currentLocation: currentLocation.value || null,
+              startTime: startTime.value || null,
+              endTime: endTime.value || null,
+              tourType: tourType.value || null,
+              price: price.value || null,
+              duration: duration.value || null
+            }
+        )
+            .then(response => {
+              const code = response.status
+              if (code === 200){
+                products.value = response.data.products;
+                for(let i = 0; i < products.value.length; i++){
+                  let raw_time = products.value[i].duration;
+                  let hour = Math.round(raw_time/3600);
+                  let day = Math.round(hour/24);
+                  if (hour > 24 && day === 1){
+                    products.value[i].duration = '1 Day'
+                  }
+                  if (hour > 24 && day > 1){
+                    products.value[i].duration = day + ' Days'
+                  }
+                  if (hour === 1){
+                    products.value[i].duration = '1 Hour'
+                  }
+                  if (hour < 24 && hour !== 1){
+                    products.value[i].duration = hour + ' Hours'
+                  }
+                }
+              }
+            })
+        axios.post("/search/product_number",
+            {
+              currentLocation: currentLocation.value || null,
+              startTime: startTime.value || null,
+              endTime: endTime.value || null,
+              tourType: tourType.value || null,
+              price: price.value || null,
+              duration: duration.value || null
+            }
+        )
+            .then((response)=>{
+              const code = response.status
+              if (code === 200){
+                const count = response.data.number
+                countPage  = Math.floor(count / 3) + (count % 3 > 0 ? 1 : 0);
+              }
+            })
+      }
+    }
+  },
+  data(){
+    return{
+      countPage: 0,
       priceoptions: [
         {
           label: "Less than $500",
@@ -321,24 +392,6 @@ export default defineComponent({
           value: 'Turkish',
           key: 'Turkish'
         }],
-      sortoptions: [
-        {
-          label: "discount (high to low)",
-          key: "discount (high to low)"
-        },
-        {
-          label: "discount (low to high)",
-          key: "discount (low to high)"
-        },
-        {
-          label: "price (high to low)",
-          key: "price (high to low)"
-        },
-        {
-          label: "price (low to high)",
-          key: "price (low to high)"
-        }
-      ],
       locOptions: [
         {
           label: 'London',
@@ -388,234 +441,25 @@ export default defineComponent({
           value: 'Beaches Tour'
         }
       ],
-      handleSelectLoc(val) {
-        // self.currentLocation = val;
-      },
-      handleSelectType(val) {
-        // self.tourType = val;
-      },
-      handleSelectSort(key) {
-        message.info(String(key));
-      },
-      handleSelectPrice(val) {
-        // self.price= val;
-      },
-      handleSelectDuration(val) {
-        // self.duration = val;
-      },
-      secureStartTime(ts) {
-        if (endTime.value != null){
-          return ts < Date.now() || ts > endTime.value;
-        }
-        else {
-          return ts < Date.now();
-        }
-      },
-      secureEndTime(ts){
-        if (startTime.value != null){
-          return ts < Date.now() || ts < startTime.value;
-        }
-        else {
-          return ts < Date.now();
-        }
-      },
-      handleSearchProject() {
-        this.axios.post("/search/product_list",
-            {
-              page: 1,
-              startTime: startTime.value,
-              endTime: endTime.value,
-              currentLocation: currentLocation.value,
-              tourType: tourType.value,
-              price: price.value,
-              duration: duration.value,
-            }
-        )
-            .then((response)=>{
-              const code = response.status
-              if (code === 200){
-                products.value = response.data.products;
-                for(let i = 0; i < products.value.length; i++){
-                  let raw_time = products.value[i].duration;
-                  let hour = Math.round(raw_time/3600);
-                  let day = Math.round(hour/24);
-                  if (hour > 24 && day === 1){
-                    products.value[i].duration = '1 Day'
-                  }
-                  if (hour > 24 && day > 1){
-                    products.value[i].duration = day + ' Days'
-                  }
-                  if (hour === 1){
-                    products.value[i].duration = '1 Hour'
-                  }
-                  if (hour < 24 && hour !== 1){
-                    products.value[i].duration = hour + ' Hours'
-                  }
-                }
-                this.project_loc = {
-                  lat: response.data.products.map_latitude,
-                  lng: response.data.products.map_longitude
-                }
-                this.project_zoom = response.data.products.map_zoom;
-                this.raw_trip_data.value = response.data.products
-                for (let i = 0; i < this.raw_trip_data.value.length; i++){
-                  this.locations.push({
-                    position: {lat: this.raw_trip_data.value[i].location.map_latitude, lng: this.raw_trip_data.value[i].location.map_longitude},
-                    title: this.raw_trip_data.value[i].location.exact
-                  });
-                  this.itineraryData.push({
-                    name: this.raw_trip_data.value[i].activity,
-                    time: "Day " + this.raw_trip_data.value[i].day + ", " + this.raw_trip_data.value[i].time_of_day + " " + this.raw_trip_data.value[i].time,
-                    description: this.raw_trip_data.value[i].location.exact,
-                    picture: this.raw_trip_data.value[i].picture
-                  })
-                }
-                this.loadMap();
-              }
-            })
-        this.axios.post("/search/product_number",
-            {
-              startTime: startTime.value,
-              endTime: endTime.value,
-              currentLocation: currentLocation.value,
-              tourType: tourType.value,
-              price: price.value,
-              duration: duration.value,
-            }
-        )
-            .then((response)=>{
-              const code = response.status
-              if (code === 200){
-                const count = response.data.number
-                countPage  = Math.floor(count / 3) + (count % 3 > 0 ? 1 : 0);
-              }
-            })
-      }
-    }
-  },
-  created() {
-    this.axios.post('/product/trips', {
-      product_id: 9
-    })
-        .then((res) => {
-          this.project_loc = {
-            lat: res.data.location.map_latitude,
-            lng: res.data.location.map_longitude
-          }
-          this.project_zoom = res.data.location.map_zoom;
-          this.raw_trip_data.value = res.data.trips
-          for (let i = 0; i < this.raw_trip_data.value.length; i++){
-            this.locations.push({
-              position: {lat: this.raw_trip_data.value[i].location.map_latitude, lng: this.raw_trip_data.value[i].location.map_longitude},
-              title: this.raw_trip_data.value[i].location.exact
-            });
-            this.itineraryData.push({
-              name: this.raw_trip_data.value[i].activity,
-              time: "Day " + this.raw_trip_data.value[i].day + ", " + this.raw_trip_data.value[i].time_of_day + " " + this.raw_trip_data.value[i].time,
-              description: this.raw_trip_data.value[i].location.exact,
-              picture: this.raw_trip_data.value[i].picture
-            })
-          }
-          this.loadMap();
-        })
-    this.axios.post('/search/product_list',{
-      page: 1,
-      startTime:null,
-      endTime: null,
-      currentLocation: null,
-      tourType: null,
-      price: null,
-      duration: null,
-    })
-        .then((response)=>{
-          const code = response.status
-          if (code === 200){
-            this.products = response.data.products;
-            for(let i = 0; i < this.products.length; i++){
-              let raw_time = this.products[i].duration;
-              let hour = Math.round(raw_time/3600);
-              let day = Math.round(hour/24);
-              if (hour > 24 && day === 1){
-                this.products[i].duration = '1 Day'
-              }
-              if (hour > 24 && day > 1){
-                this.products[i].duration = day + ' Days'
-              }
-              if (hour === 1){
-                this.products[i].duration = '1 Hour'
-              }
-              if (hour < 24 && hour !== 1){
-                this.products[i].duration = hour + ' Hours'
-              }
-            }
-            // this.project_loc = {
-            //   lat: response.data.products.map_latitude,
-            //   lng: response.data.products.map_longitude
-            // }
-            // this.project_zoom = response.data.products.map_zoom;
-            // this.raw_trip_data.value = response.data.products
-            // for (let i = 0; i < this.raw_trip_data.value.length; i++){
-            //   this.locations.push({
-            //     position: {lat: this.raw_trip_data.value[i].location.map_latitude, lng: this.raw_trip_data.value[i].location.map_longitude},
-            //     title: this.raw_trip_data.value[i].location.exact
-            //   });
-            //   this.itineraryData.push({
-            //     name: this.raw_trip_data.value[i].activity,
-            //     time: "Day " + this.raw_trip_data.value[i].day + ", " + this.raw_trip_data.value[i].time_of_day + " " + this.raw_trip_data.value[i].time,
-            //     description: this.raw_trip_data.value[i].location.exact,
-            //     picture: this.raw_trip_data.value[i].picture
-            //   })
-            // }
-            // this.loadMap();
-          }
-        })
-
-    this.axios.post("/search/product_number",
+      sortoptions: [
         {
-          startTime: Date.now(),
-          endTime: 2 * Date.now(),
-          currentLocation: ref(),
-          tourType: ref(),
-          price: ref(),
-          duration: ref(),
-          // state: this.$route.query.state,
-          // if_type: this.$route.query.type,
-          // if_hot: this.$route.query.hot,
+          label: "discount (high to low)",
+          key: "discount (high to low)"
+        },
+        {
+          label: "discount (low to high)",
+          key: "discount (low to high)"
+        },
+        {
+          label: "price (high to low)",
+          key: "price (high to low)"
+        },
+        {
+          label: "price (low to high)",
+          key: "price (low to high)"
         }
-    )
-        .then((response)=>{
-          const code = response.status
-          if (code === 200){
-            const count = response.data.number
-            self.countPage  = Math.floor(count / 3) + (count % 3 > 0 ? 1 : 0);
-          }
-        })
-  },
-  data(){
-    return{
-      countPage: ref(),
-      itineraryData: [],
-      products: []
+      ],
     }
-  },
-  methods:{
-    pageChange(newPage){
-      axios.post('/search/product_list',{
-        page: newPage,
-        startTime: startTime.value,
-        endTime: endTime.value,
-        currentLocation: currentLocation.value,
-        tourType: tourType.value,
-        price: price.value,
-        duration: duration.value,
-      }).then(function (response){
-        products.value = response.data
-        console.log("分页成功嘞 yeeee")
-      }).catch(function (error){
-        console.log(error);
-      });
-    }
-
   },
 })
 

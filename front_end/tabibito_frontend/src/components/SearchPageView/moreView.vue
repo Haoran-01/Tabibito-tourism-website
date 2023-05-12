@@ -114,12 +114,14 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, onMounted } from 'vue'
 import {Loader} from "@googlemaps/js-api-loader";
 import { useMessage } from "naive-ui";
 import { ArrowForward, Star, HeartOutline, LocationOutline, TodayOutline, CompassOutline, Search, StatsChartOutline } from "@vicons/ionicons5";
 import {useLangStore} from "../../store.js";
 import NavigationBar from "../GeneralComponents/navigationBar.vue";
+import axios from 'axios';
+
 export default defineComponent({
   name: "moreView",
   components: {
@@ -134,6 +136,8 @@ export default defineComponent({
     ArrowForward
   },
   setup () {
+    const type = ref();
+    const value = ref();
     let project_loc = null;
     let project_zoom = 1;
     const raw_trip_data = ref([]);
@@ -144,409 +148,66 @@ export default defineComponent({
     if (langStore.language === 'zh'){
       mapLanguage = 'zh-CN'
     }
-    let startTime = ref(null);
-    let endTime = ref(null);
-    let currentLocation = ref(null);
-    let tourType = ref(null);
     const loadingRef = ref(false);
-    let price = ref(null);
-    let duration = ref(null);
     let products = ref({});
     let countPage = 1;
     const message = useMessage();
+    onMounted(() => {
+      axios.post('/homepage/more_program_list',{
+        type: type.value || null,
+        value: value.value || null,
+        page: 1,
+      })
+          .then((response)=>{
+            const code = response.status
+            if (code === 200){
+              products = response.data.products;
+              for(let i = 0; i < products.length; i++){
+                let raw_time = products[i].duration;
+                let hour = Math.round(raw_time/3600);
+                let day = Math.round(hour/24);
+                if (hour > 24 && day === 1){
+                  products[i].duration = '1 Day'
+                }
+                if (hour > 24 && day > 1){
+                  products[i].duration = day + ' Days'
+                }
+                if (hour === 1){
+                  products[i].duration = '1 Hour'
+                }
+                if (hour < 24 && hour !== 1){
+                  products[i].duration = hour + ' Hours'
+                }
+              }
+            }
+          })
+
+      axios.post("/homepage/more",
+          {
+            type: type.value || null,
+            value: value.value || null,
+          }
+      )
+          .then((response)=>{
+            const code = response.status
+            if (code === 200){
+              const count = response.data.page
+              self.countPage  = Math.floor(count / 3) + (count % 3 > 0 ? 1 : 0);
+            }
+          })
+    });
     return {
-      currentLocation,
-      startTime,
-      endTime,
-      tourType,
-      price,
-      duration,
+      type,
+      value,
       products,
       countPage,
-      raw_trip_data,
-      project_loc,
-      project_zoom,
-      locations,
-      // itineraryData,
-      loadMap(){
-        const loader = new Loader({
-          apiKey: "AIzaSyBctzU8ocpP_0j4IdTRqA-GABIAnaXd0ow",
-          version: "beta",
-          libraries: ["marker"],
-          language: mapLanguage
-        });
-
-        loader.load().then((google) => {
-          const center = this.project_loc;
-          let map = new google.maps.Map(document.getElementById("map"), {
-            center: center,
-            zoom: this.project_zoom,
-            mapId: "jkhjkhkjhjkh"
-          });
-          const tourStops = this.locations;
-          // Create an info window to share between markers.
-          const infoWindow = new google.maps.InfoWindow();
-          tourStops.forEach(({ position, title }, i) => {
-            const pinView = new google.maps.marker.PinView({
-              glyph: `${i + 1}`,
-            });
-            const marker = new google.maps.marker.AdvancedMarkerView({
-              position,
-              map,
-              title: `${i + 1}. ${title}`,
-              content: pinView.element,
-            });
-
-            // Add a click listener for each marker, and set up the info window.
-            marker.addListener("click", ({ domEvent, latLng }) => {
-              const { target } = domEvent;
-
-              infoWindow.close();
-              infoWindow.setContent(marker.title);
-              infoWindow.open(marker.map, marker);
-            });
-          });
-
-        });
-      },
       handleClick() {
         loadingRef.value = true
         setTimeout(() => {
           loadingRef.value = false
         }, 2000)
       },
-      priceoptions: [
-        {
-          label: "Less than $500",
-          value: '-500',
-          key: '-500'
-        },
-        {
-          label: '$500 - $1000',
-          value: '500-1000',
-          key: '500-1000'
-        },
-        {
-          label: '$1000 - $2000',
-          value: '1000-2000',
-          key: '1000-2000'
-        },
-        {
-          label: "$2000+",
-          value: '2000+',
-          key: '2000+'
-        }],
-      durationoptions: [
-        {
-          label: "1 week",
-          value: '1 week',
-          key: '1 week'
-        },
-        {
-          label: '2 weeks',
-          value: '2 weeks',
-          key: '2 weeks'
-        },
-        {
-          label: '3 weeks',
-          value: '3 weeks',
-          key: '3 weeks'
-        },
-        {
-          label: "1 month",
-          value: '1 month',
-          key: '1 month'
-        }],
-      languageoptions: [
-        {
-          label: "English",
-          value: 'English',
-          key: 'English'
-        },
-        {
-          label: 'Italian',
-          value: 'Italian',
-          key: 'Italian'
-        },
-        {
-          label: 'Deutsch',
-          value: 'Deutsch',
-          key: 'Deutsch'
-        },
-        {
-          label: "Turkish",
-          value: 'Turkish',
-          key: 'Turkish'
-        }],
-      sortoptions: [
-        {
-          label: "discount (high to low)",
-          key: "discount (high to low)"
-        },
-        {
-          label: "discount (low to high)",
-          key: "discount (low to high)"
-        },
-        {
-          label: "price (high to low)",
-          key: "price (high to low)"
-        },
-        {
-          label: "price (low to high)",
-          key: "price (low to high)"
-        }
-      ],
-      locOptions: [
-        {
-          label: 'London',
-          key: 'London',
-          value: 'London'
-        },
-        {
-          label: 'China',
-          key: "China",
-          value: "China"
-        },
-        {
-          label: 'England',
-          key: 'England',
-          value: "England"
-        },
-        {
-          label: 'Ireland',
-          key: 'Ireland',
-          value: "Ireland"
-        }
-      ],
-      typeOptions: [
-        {
-          label: 'Wildlife Tour',
-          key: 'Wildlife Tour',
-          value: 'Wildlife Tour'
-        },
-        {
-          label: 'Adventure Tour',
-          key: "Adventure Tour",
-          value: "Adventure Tour"
-        },
-        {
-          label: 'City Tours',
-          key: 'City Tours',
-          value: 'City Tours'
-        },
-        {
-          label: 'Museum Tours',
-          key: 'Museum Tours',
-          value: 'Museum Tours'
-        },
-        {
-          label: 'Beaches Tour',
-          key: 'Beaches Tour',
-          value: 'Beaches Tour'
-        }
-      ],
-      handleSelectLoc(val) {
-        // self.currentLocation = val;
-      },
-      handleSelectType(val) {
-        // self.tourType = val;
-      },
-      handleSelectSort(key) {
-        message.info(String(key));
-      },
-      handleSelectPrice(val) {
-        // self.price= val;
-      },
-      handleSelectDuration(val) {
-        // self.duration = val;
-      },
-      secureStartTime(ts) {
-        if (endTime.value != null){
-          return ts < Date.now() || ts > endTime.value;
-        }
-        else {
-          return ts < Date.now();
-        }
-      },
-      secureEndTime(ts){
-        if (startTime.value != null){
-          return ts < Date.now() || ts < startTime.value;
-        }
-        else {
-          return ts < Date.now();
-        }
-      },
-      handleSearchProject() {
-        this.axios.post("/search/product_list",
-            {
-              page: 1,
-              startTime: startTime.value,
-              endTime: endTime.value,
-              currentLocation: currentLocation.value,
-              tourType: tourType.value,
-              price: price.value,
-              duration: duration.value,
-            }
-        )
-            .then((response)=>{
-              const code = response.status
-              if (code === 200){
-                products.value = response.data.products;
-                for(let i = 0; i < products.value.length; i++){
-                  let raw_time = products.value[i].duration;
-                  let hour = Math.round(raw_time/3600);
-                  let day = Math.round(hour/24);
-                  if (hour > 24 && day === 1){
-                    products.value[i].duration = '1 Day'
-                  }
-                  if (hour > 24 && day > 1){
-                    products.value[i].duration = day + ' Days'
-                  }
-                  if (hour === 1){
-                    products.value[i].duration = '1 Hour'
-                  }
-                  if (hour < 24 && hour !== 1){
-                    products.value[i].duration = hour + ' Hours'
-                  }
-                }
-                this.project_loc = {
-                  lat: response.data.products.map_latitude,
-                  lng: response.data.products.map_longitude
-                }
-                this.project_zoom = response.data.products.map_zoom;
-                this.raw_trip_data.value = response.data.products
-                for (let i = 0; i < this.raw_trip_data.value.length; i++){
-                  this.locations.push({
-                    position: {lat: this.raw_trip_data.value[i].location.map_latitude, lng: this.raw_trip_data.value[i].location.map_longitude},
-                    title: this.raw_trip_data.value[i].location.exact
-                  });
-                  this.itineraryData.push({
-                    name: this.raw_trip_data.value[i].activity,
-                    time: "Day " + this.raw_trip_data.value[i].day + ", " + this.raw_trip_data.value[i].time_of_day + " " + this.raw_trip_data.value[i].time,
-                    description: this.raw_trip_data.value[i].location.exact,
-                    picture: this.raw_trip_data.value[i].picture
-                  })
-                }
-                this.loadMap();
-              }
-            })
-        this.axios.post("/search/product_number",
-            {
-              startTime: startTime.value,
-              endTime: endTime.value,
-              currentLocation: currentLocation.value,
-              tourType: tourType.value,
-              price: price.value,
-              duration: duration.value,
-            }
-        )
-            .then((response)=>{
-              const code = response.status
-              if (code === 200){
-                const count = response.data.number
-                countPage  = Math.floor(count / 3) + (count % 3 > 0 ? 1 : 0);
-              }
-            })
-      }
     }
-  },
-  created() {
-    this.axios.post('/product/trips', {
-      product_id: 9
-    })
-        .then((res) => {
-          this.project_loc = {
-            lat: res.data.location.map_latitude,
-            lng: res.data.location.map_longitude
-          }
-          this.project_zoom = res.data.location.map_zoom;
-          this.raw_trip_data.value = res.data.trips
-          for (let i = 0; i < this.raw_trip_data.value.length; i++){
-            this.locations.push({
-              position: {lat: this.raw_trip_data.value[i].location.map_latitude, lng: this.raw_trip_data.value[i].location.map_longitude},
-              title: this.raw_trip_data.value[i].location.exact
-            });
-            this.itineraryData.push({
-              name: this.raw_trip_data.value[i].activity,
-              time: "Day " + this.raw_trip_data.value[i].day + ", " + this.raw_trip_data.value[i].time_of_day + " " + this.raw_trip_data.value[i].time,
-              description: this.raw_trip_data.value[i].location.exact,
-              picture: this.raw_trip_data.value[i].picture
-            })
-          }
-          this.loadMap();
-        })
-    this.axios.post('/search/product_list',{
-      page: 1,
-      startTime:null,
-      endTime: null,
-      currentLocation: null,
-      tourType: null,
-      price: null,
-      duration: null,
-    })
-        .then((response)=>{
-          const code = response.status
-          if (code === 200){
-            this.products = response.data.products;
-            for(let i = 0; i < this.products.length; i++){
-              let raw_time = this.products[i].duration;
-              let hour = Math.round(raw_time/3600);
-              let day = Math.round(hour/24);
-              if (hour > 24 && day === 1){
-                this.products[i].duration = '1 Day'
-              }
-              if (hour > 24 && day > 1){
-                this.products[i].duration = day + ' Days'
-              }
-              if (hour === 1){
-                this.products[i].duration = '1 Hour'
-              }
-              if (hour < 24 && hour !== 1){
-                this.products[i].duration = hour + ' Hours'
-              }
-            }
-            // this.project_loc = {
-            //   lat: response.data.products.map_latitude,
-            //   lng: response.data.products.map_longitude
-            // }
-            // this.project_zoom = response.data.products.map_zoom;
-            // this.raw_trip_data.value = response.data.products
-            // for (let i = 0; i < this.raw_trip_data.value.length; i++){
-            //   this.locations.push({
-            //     position: {lat: this.raw_trip_data.value[i].location.map_latitude, lng: this.raw_trip_data.value[i].location.map_longitude},
-            //     title: this.raw_trip_data.value[i].location.exact
-            //   });
-            //   this.itineraryData.push({
-            //     name: this.raw_trip_data.value[i].activity,
-            //     time: "Day " + this.raw_trip_data.value[i].day + ", " + this.raw_trip_data.value[i].time_of_day + " " + this.raw_trip_data.value[i].time,
-            //     description: this.raw_trip_data.value[i].location.exact,
-            //     picture: this.raw_trip_data.value[i].picture
-            //   })
-            // }
-            // this.loadMap();
-          }
-        })
-
-    this.axios.post("/search/product_number",
-        {
-          startTime: Date.now(),
-          endTime: 2 * Date.now(),
-          currentLocation: ref(),
-          tourType: ref(),
-          price: ref(),
-          duration: ref(),
-          // state: this.$route.query.state,
-          // if_type: this.$route.query.type,
-          // if_hot: this.$route.query.hot,
-        }
-    )
-        .then((response)=>{
-          const code = response.status
-          if (code === 200){
-            const count = response.data.number
-            self.countPage  = Math.floor(count / 3) + (count % 3 > 0 ? 1 : 0);
-          }
-        })
   },
   data(){
     return{
@@ -557,7 +218,7 @@ export default defineComponent({
   },
   methods:{
     pageChange(newPage){
-      axios.post('/search/product_list',{
+      axios.post('/homepage/more_program_list',{
         page: newPage,
         startTime: startTime.value,
         endTime: endTime.value,

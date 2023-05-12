@@ -1,7 +1,8 @@
 import random
 import string
 
-from flask import Blueprint, request, render_template, jsonify, g, session
+from flask import Blueprint, request, render_template, jsonify, g, session, current_app
+
 from forms import LoginFrom, RegisterForm, EmailCaptchaModel, ForgetFormPassword
 from flask_login import login_user, logout_user, login_required
 from models import User, Product, UserProfile, Order, Language, UserNotice, MessageStatus
@@ -78,7 +79,13 @@ def login_check():
     if login_form.validate():
         user = User.query.filter_by(user_email=user_email).first()
         login_user(user)
-
+        session_dict = dict(flask.session)
+        current_app.logger.info(f"Session: {session_dict}")
+        current_app.logger.info("User {} logged in".format(user.user_id), extra={
+            "user_id": user.user_id,
+            "user_name": user.profile.job.name,
+            "session": flask.session
+        })
         return jsonify(code=200, job=user.profile.job.name)
     else:
         if login_form.errors.get("user_email"):
@@ -164,12 +171,18 @@ def test_order():
 
 @bp.route("/login_status", methods=["GET"])
 def get_login_user():
+    session_dict = dict(flask.session)
+    current_app.logger.info(f"Session: {session_dict}")
     if current_user:
+        # current_app.logger.info("User {} has logged in".format(current_user.user_id), extra={
+        #     "user_id": current_user.user_id,
+        #     "session": flask.session
+        # })
         if hasattr(current_user, 'user_id'):
-            return jsonify(id=current_user.user_id, job=current_user.profile.job.name, name=current_user.user_first_name + " " + current_user.user_last_name)
+            return jsonify(id=current_user.user_id, job=current_user.profile.job.name,
+                           name=current_user.user_first_name + " " + current_user.user_last_name)
         else:
             return jsonify(id=None, job=None, name=None)
-
     else:
         return jsonify(id=None, job=None, name=None)
 
@@ -239,7 +252,8 @@ def oauth2callback():
     #              credentials in a persistent database instead.
     credentials = flow.credentials
     flask.session['credentials'] = credentials_to_dict(credentials)
-    return flask.redirect("http://127.0.0.1:5173/")
+    return flask.redirect("http://127.0.0.1:5000/")
+
 
 def credentials_to_dict(credentials):
     return {
@@ -253,10 +267,13 @@ def credentials_to_dict(credentials):
 
 
 @bp.route("/get_language", methods=['GET', 'POST'])
-@login_required
 def get_language():
     if current_user is not None:
-        return jsonify(language=current_user.profile.language.name)
+        if hasattr(current_user, "user_id"):
+            print(current_user.profile.language.name)
+            return jsonify(language=current_user.profile.language.name)
+        else:
+            return jsonify(message="Not login")
     else:
         return jsonify(message="Not login")
 
@@ -289,7 +306,8 @@ def getprofile():
 def get_notices():
     status = request.json.get("status")
     user_id = current_user.user_id
-    notices_list = UserNotice.query.filter((UserNotice.user_id==user_id) & (UserNotice.status == MessageStatus(status))).all()
+    notices_list = UserNotice.query.filter(
+        (UserNotice.user_id == user_id) & (UserNotice.status == MessageStatus(status))).all()
     notices = [message.serialize() for message in notices_list]
     return jsonify(notices=notices)
 
@@ -306,3 +324,14 @@ def check_notice():
         return {}, 204
     else:
         return {}, 404
+
+
+@bp.route("/dashboard/get_recent_trips", methods=['GET', 'POST'])
+# @login_required
+def recent_trips():
+    print(2)
+    user_id = 2
+    user = User.query.filter_by(user_id=user_id).first()
+    recent_orders = user.orders[:3]
+    recentTrips = [order.serialize_trip() for order in recent_orders]
+    return jsonify(recentTrips = recentTrips)
