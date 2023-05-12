@@ -18,7 +18,9 @@ def create_app(config_name):
     app.config.from_object(config[config_name])
     config[config_name].init_app(app)
 
-    CORS(app, supports_credentials=True,resources={r"/*": {"origins": "*"}})
+    CORS(app, supports_credentials=True, resources={r"/*": {"origins": "*"}})
+    # CORS(app, supports_credentials=True)
+
     return app
 
 # nltk.download('stopwords')
