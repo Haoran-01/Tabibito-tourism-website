@@ -324,3 +324,14 @@ def check_notice():
         return {}, 204
     else:
         return {}, 404
+
+
+@bp.route("/dashboard/get_recent_trips", methods=['GET', 'POST'])
+# @login_required
+def recent_trips():
+    print(2)
+    user_id = 2
+    user = User.query.filter_by(user_id=user_id).first()
+    recent_orders = user.orders[:3]
+    recentTrips = [order.serialize_trip() for order in recent_orders]
+    return jsonify(recentTrips = recentTrips)

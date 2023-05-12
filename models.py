@@ -189,7 +189,7 @@ class Order(db.Model):
     product = relationship('Product', back_populates='orders')
 
     def __repr__(self):
-        return "<Order(id='%s', product_id='%2.2f')>" % (self.id, self.product_id)
+        return "<Order(id='%s', product_id='%2.2f', create_time='%s')>" % (self.id, self.product_id, self.create_time)
 
     def serialize_latest(self):
         return {
@@ -215,6 +215,15 @@ class Order(db.Model):
             "end_time": self.product.end_time.strftime('%Y-%m-%d'),
         }
 
+    def serialize_trip(self):
+        return {
+            "trip_id": self.id,
+            "name": self.product.name,
+            "cover_url": self.product.get_cover(),
+            "raw_loc": self.product.raw_loc,
+            "flight_num": self.product.flight
+        }
+
     def total(self):
         return round(self.product_number * self.product.ori_price * self.product.discount, 1)
 
@@ -236,6 +245,7 @@ class Product(db.Model):
     end_time = db.Column(db.DateTime, nullable=False, default=datetime.now())
     app_ddl = db.Column(db.DateTime, nullable=False, default=datetime.now())
     status = db.Column(DBEnum(ProductStatus), default=ProductStatus.Delisted)
+    flight = db.Column(db.CHAR(10), nullable=True)
 
     comments = relationship('Comment', order_by='Comment.id', back_populates="product")
     trips = relationship('Trip', order_by='Trip.id', back_populates="product")
@@ -243,7 +253,7 @@ class Product(db.Model):
     tags = relationship('Tag', order_by='Tag.id', back_populates="product")
     pictures = relationship('ProductPicture', order_by='ProductPicture.id', back_populates="product")
     user_browses = relationship('UserBrowse', order_by='UserBrowse.id', back_populates='product')
-    orders = relationship('Order', order_by="Order.id", back_populates='product')
+    orders = relationship('Order', order_by="Order.create_time", back_populates='product')
     types = relationship('ProductType', secondary=association_table, back_populates='products')
 
     def duration(self):
