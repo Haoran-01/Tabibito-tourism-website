@@ -252,7 +252,7 @@ def oauth2callback():
     #              credentials in a persistent database instead.
     credentials = flow.credentials
     flask.session['credentials'] = credentials_to_dict(credentials)
-    return flask.redirect("http://127.0.0.1:5173/")
+    return flask.redirect("http://127.0.0.1:5000/")
 
 
 def credentials_to_dict(credentials):
