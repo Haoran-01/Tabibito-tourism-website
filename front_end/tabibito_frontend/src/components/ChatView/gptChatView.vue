@@ -1,26 +1,30 @@
 <template>
-  <div class="chatbox">
-    <div class="conversation">
-      <div class="message" v-for="(item, index) in messages" :key="index" :class="{'sent': item.type === 'sent', 'received': item.type === 'received'}">
-        <div class="message-content">{{ item.content }}</div>
+    <div class="chatbox">
+      <div class="conversation">
+        <div class="message" v-for="(item, index) in messages" :key="index" :class="{'sent': item.type === 'sent', 'received': item.type === 'received'}">
+          <div class="message-content">{{ item.content }}</div>
+        </div>
+        <div ref="scroll" class="scroll"></div>
       </div>
-      <div ref="scroll" class="scroll"></div>
+      <div class="input-box">
+        <input type="text" class="input" v-model="inputText" @keydown.enter="send" placeholder="请输入...">
+        <button class="send" @click="send">发送</button>
+      </div>
     </div>
-    <div class="input-box">
-      <input type="text" class="input" v-model="inputText" @keydown.enter="send" placeholder="请输入...">
-      <button class="send" @click="send">发送</button>
-    </div>
-  </div>
 </template>
 
 <script>
 import {defineComponent} from "vue";
 import { Configuration, OpenAIApi } from "openai";
 
-//whc
+//ldl
 const configuration = new Configuration({
-  apiKey: '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',
+  apiKey: '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',
 });
+//whc
+// const configuration = new Configuration({
+//   apiKey: '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',
+// });
 //zjh
 // const configuration = new Configuration({
 //   apiKey: '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',
@@ -44,12 +48,6 @@ export default defineComponent( {
           content: this.inputText
         });
 
-        // Clear input field and scroll to bottom
-        this.inputText = '';
-        this.$nextTick(() => {
-          this.scrollToBottom();
-        });
-
         // Call OpenAI API to get chat response
         const completion = await openai.createChatCompletion({
           model: "gpt-3.5-turbo",
@@ -61,6 +59,12 @@ export default defineComponent( {
         this.messages.push({
           type: 'received',
           content: responseContent
+        });
+
+        // Clear input field and scroll to bottom
+        this.inputText = '';
+        this.$nextTick(() => {
+          this.scrollToBottom();
         });
 
       }
@@ -84,11 +88,13 @@ export default defineComponent( {
   right: 20px;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .conversation {
+  height: 80%;
   flex: 1;
-  overflow-y: auto;
+  overflow-y: scroll; /* 修改为 scroll */
   padding: 10px;
   display: flex;
   flex-direction: column;
