@@ -182,6 +182,9 @@ export default defineComponent({
     const tourType = ref();
     const price = ref();
     const duration = ref();
+    let project_loc = null;
+    let project_zoom = 1;
+    const locations = [];
     const products = ref([]);
     const langStore = useLangStore();
     let mapLanguage = 'en-US';
@@ -241,14 +244,60 @@ export default defineComponent({
             }
           })
     });
+    const loadMap = () => {
+      const loader = new Loader({
+        apiKey: "AIzaSyBctzU8ocpP_0j4IdTRqA-GABIAnaXd0ow",
+        version: "beta",
+        libraries: ["marker"],
+        language: mapLanguage
+      });
+
+      loader.load().then((google) => {
+        const center = project_loc;
+        let map = new google.maps.Map(document.getElementById("map"), {
+          center: center,
+          zoom: project_zoom,
+          mapId: "jkhjkhkjhjkh"
+        });
+        const tourStops = locations;
+        // Create an info window to share between markers.
+        const infoWindow = new google.maps.InfoWindow();
+        tourStops.forEach(({ position, title }, i) => {
+          const pinView = new google.maps.marker.PinView({
+            glyph: `${i + 1}`,
+          });
+          const marker = new google.maps.marker.AdvancedMarkerView({
+            position,
+            map,
+            title: `${i + 1}. ${title}`,
+            content: pinView.element,
+          });
+
+          // Add a click listener for each marker, and set up the info window.
+          marker.addListener("click", ({ domEvent, latLng }) => {
+            const { target } = domEvent;
+
+            infoWindow.close();
+            infoWindow.setContent(marker.title);
+            infoWindow.open(marker.map, marker);
+          });
+        });
+
+      });
+    };
     return {
+      loadMap,
       products,
+      project_loc,
+      project_zoom,
+      locations,
       currentLocation,
       startTime,
       endTime,
       tourType,
       price,
       duration,
+
       secureStartTime(ts) {
         if (endTime.value != null){
           return ts < Date.now() || ts > endTime.value;
@@ -305,6 +354,17 @@ export default defineComponent({
                   }
                 }
               }
+              project_loc = {
+                lat: products.value[0].map_latitude,
+                lng: products.value[0].map_longitude
+              }
+              for (let i = 0; i < products.value.length; i++){
+                locations.push({
+                  position: {lat: products.value[i].map_latitude, lng: products.value[i].map_longitude},
+                  title: products.value[i].title
+                });
+              }
+              loadMap();
             })
         axios.post("/search/product_number",
             {
