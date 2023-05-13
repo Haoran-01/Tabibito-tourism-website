@@ -16,6 +16,17 @@
 <script>
 import {defineComponent} from "vue";
 import { Configuration, OpenAIApi } from "openai";
+
+//whc
+const configuration = new Configuration({
+  apiKey: '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',
+});
+//zjh
+// const configuration = new Configuration({
+//   apiKey: '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',
+// });
+const openai = new OpenAIApi(configuration);
+
 export default defineComponent( {
   name: "gptChatView",
   data() {
@@ -32,42 +43,31 @@ export default defineComponent( {
           type: 'sent',
           content: this.inputText
         });
-        // Get GPT response
-        const response = await this.getGptResponse(this.inputText);
-
-        // Add GPT response to messages array
-        this.messages.push({
-          type: "received",
-          content: response
-        });
 
         // Clear input field and scroll to bottom
         this.inputText = '';
         this.$nextTick(() => {
           this.scrollToBottom();
         });
+
+        // Call OpenAI API to get chat response
+        const completion = await openai.createChatCompletion({
+          model: "gpt-3.5-turbo",
+          messages: [{role: "assistant", content: this.inputText}],
+        });
+
+        // Extract chat response and add it to messages array
+        const responseContent = completion.data.choices[0].message.content;
+        this.messages.push({
+          type: 'received',
+          content: responseContent
+        });
+
       }
     },
     scrollToBottom() {
       this.$refs.scroll.scrollIntoView({ behavior: 'smooth' });
     },
-    async getGptResponse(input) {
-      const configuration = new Configuration({organization:'org-5G552HZLY5U5TjhiPL7eJkQy',
-        apiKey: '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'
-      });
-      const openai = new OpenAIApi(configuration);
-
-      const completion = await openai.createCompletion({
-        engine: "gpt-3.5-turbo",
-        prompt: input,
-        maxTokens: 64,
-        n: 1,
-        stop: "\n",
-        temperature: 0.5
-      });
-
-      return completion.data.choices[0].text.trim();
-    }
   }
 })
 </script>
