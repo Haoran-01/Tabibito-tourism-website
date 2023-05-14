@@ -29,8 +29,8 @@
               <div class="col-md">
                 <div class="d-flex flex-column h-full justify-between">
                   <div class="">
-                    <p class="text-14 lh-14 mb-5 text-light-1">Westminster Borough, London</p>
-                    <h3 class="text-16 lh-16 fw-500">Luxury New Apartment With Private<br> Garden</h3>
+                    <p class="text-14 lh-14 mb-5 text-light-1">{{  item.location }}</p>
+                    <h3 class="text-16 lh-16 fw-500">{{  item.title }}<br> Garden</h3>
 
                     <div class="row x-gap-5 items-center pt-5">
                       <div class="col-auto">
@@ -140,28 +140,26 @@ export default defineComponent({
     const value = ref();
     let project_loc = null;
     let project_zoom = 1;
-    const raw_trip_data = ref([]);
     const locations = [];
-    // const itineraryData = [];
+    const products = ref([]);
     const langStore = useLangStore();
     let mapLanguage = 'en-US';
     if (langStore.language === 'zh'){
       mapLanguage = 'zh-CN'
     }
     const loadingRef = ref(false);
-    let products = ref({});
-    let countPage = 1;
     const message = useMessage();
     onMounted(() => {
-      axios.post('/homepage/more_program_list',{
-        type: type.value || null,
-        value: value.value || null,
-        page: 1,
-      })
-          .then((response)=>{
+      axios.post('/homepage/more_program_list',
+          {
+            type: type.value || null,
+            value: value.value || null,
+            page: 1
+          }
+      ).then((response) => {
             const code = response.status
             if (code === 200){
-              products = response.data.products;
+              products.value = response.data.products;
               for(let i = 0; i < products.length; i++){
                 let raw_time = products[i].duration;
                 let hour = Math.round(raw_time/3600);
@@ -180,6 +178,17 @@ export default defineComponent({
                 }
               }
             }
+            project_loc = {
+              lat: products.value[0].latitude,
+              lng: products.value[0].longitude
+            }
+            for (let i = 0; i < products.value.length; i++){
+              locations.push({
+                position: {lat: products.value[i].latitude, lng: products.value[i].longitude},
+                title: products.value[i].title
+              });
+            }
+            loadMap();
           })
 
       axios.post("/homepage/more",
@@ -196,11 +205,55 @@ export default defineComponent({
             }
           })
     });
+    const loadMap = () => {
+      const loader = new Loader({
+        apiKey: "AIzaSyBctzU8ocpP_0j4IdTRqA-GABIAnaXd0ow",
+        version: "beta",
+        libraries: ["marker"],
+        language: mapLanguage
+      });
+
+      loader.load().then((google) => {
+        const center = project_loc;
+        let map = new google.maps.Map(document.getElementById("map"), {
+          center: center,
+          zoom: project_zoom,
+          mapId: "jkhjkhkjhjkh"
+        });
+        const tourStops = locations;
+        // Create an info window to share between markers.
+        const infoWindow = new google.maps.InfoWindow();
+        tourStops.forEach(({ position, title }, i) => {
+          const pinView = new google.maps.marker.PinView({
+            glyph: `${i + 1}`,
+          });
+          const marker = new google.maps.marker.AdvancedMarkerView({
+            position,
+            map,
+            title: `${i + 1}. ${title}`,
+            content: pinView.element,
+          });
+
+          // Add a click listener for each marker, and set up the info window.
+          marker.addListener("click", ({ domEvent, latLng }) => {
+            const { target } = domEvent;
+
+            infoWindow.close();
+            infoWindow.setContent(marker.title);
+            infoWindow.open(marker.map, marker);
+          });
+        });
+
+      });
+    };
     return {
+      loadMap,
       type,
       value,
       products,
-      countPage,
+      project_loc,
+      project_zoom,
+      locations,
       handleClick() {
         loadingRef.value = true
         setTimeout(() => {
@@ -211,29 +264,8 @@ export default defineComponent({
   },
   data(){
     return{
-      countPage: ref(),
-      itineraryData: [],
-      products: []
+      countPage: 0,
     }
-  },
-  methods:{
-    pageChange(newPage){
-      axios.post('/homepage/more_program_list',{
-        page: newPage,
-        startTime: startTime.value,
-        endTime: endTime.value,
-        currentLocation: currentLocation.value,
-        tourType: tourType.value,
-        price: price.value,
-        duration: duration.value,
-      }).then(function (response){
-        products.value = response.data
-        console.log("分页成功嘞 yeeee")
-      }).catch(function (error){
-        console.log(error);
-      });
-    }
-
   },
 })
 

@@ -226,6 +226,17 @@ export default defineComponent({
             }
           }
         }
+        project_loc = {
+          lat: products.value[0].map_latitude,
+          lng: products.value[0].map_longitude
+        }
+        for (let i = 0; i < products.value.length; i++){
+          locations.push({
+            position: {lat: products.value[i].map_latitude, lng: products.value[i].map_longitude},
+            title: products.value[i].title
+          });
+        }
+        loadMap();
       })
       axios.post("/search/product_number",
           {
