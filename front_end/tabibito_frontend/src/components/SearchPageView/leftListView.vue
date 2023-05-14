@@ -477,28 +477,28 @@ export default defineComponent({
       typeOptions: [
         {
           label: 'Wildlife Tour',
-          key: 'Wildlife Tour',
-          value: 'Wildlife Tour'
+          key: 'WildlifeTour',
+          value: 'WildlifeTour'
         },
         {
           label: 'Adventure Tour',
-          key: "Adventure Tour",
-          value: "Adventure Tour"
+          key: "AdventureTour",
+          value: "AdventureTour"
         },
         {
-          label: 'City Tours',
-          key: 'City Tours',
-          value: 'City Tours'
+          label: 'City Tour',
+          key: 'CityTour',
+          value: 'CityTour'
         },
         {
-          label: 'Museum Tours',
-          key: 'Museum Tours',
-          value: 'Museum Tours'
+          label: 'Museum Tour',
+          key: 'MuseumTour',
+          value: 'MuseumTour'
         },
         {
           label: 'Beaches Tour',
-          key: 'Beaches Tour',
-          value: 'Beaches Tour'
+          key: 'BeachesTour',
+          value: 'BeachesTour'
         }
       ],
       sortoptions: [

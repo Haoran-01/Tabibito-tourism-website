@@ -263,9 +263,9 @@ class Product(db.Model):
         if datetime.timestamp(self.end_time) - datetime.timestamp(self.start_time) <= 604800:
             return "1 week"
         elif 604800 < datetime.timestamp(self.end_time) - datetime.timestamp(self.start_time) <= 1209600:
-            return "2 week"
+            return "2 weeks"
         elif 1209600 <= datetime.timestamp(self.end_time) - datetime.timestamp(self.start_time) <= 1814400:
-            return "3 week"
+            return "3 weeks"
         else:
             return "1 month"
 

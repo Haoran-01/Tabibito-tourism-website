@@ -65,6 +65,7 @@ def search():
 def get_product_number():
     data = request.get_json(silent=True)
     products = db.session.query(Product).all()
+    print(data)
 
     # if "state" in data:
     #     if data["state"] == "hot":
@@ -103,7 +104,6 @@ def get_product_number():
             filters.append({'field': 'low_price', 'operator': '>=', 'value': low_price})
     if 'duration' in data and data['duration'] is not None:
         filters.append({'field': 'duration', 'operator': '==', 'value': data['duration']})
-
     if filters:
         # 使用筛选条件查询产品数据
         results = []
@@ -111,13 +111,13 @@ def get_product_number():
             match = True
             for f in filters:
                 if f['operator'] == '==':
-                    if f['field'] == 'currentLocation' and product.currency != f['value']:
+                    if f['field'] == 'currentLocation' and f['value'] not in product.raw_loc:
                         match = False
                         break
                     elif f['field'] == 'tourType' and not f['value'] in product.get_types_list():
                         match = False
                         break
-                    elif f['field'] == 'duration' and product.duration() != f['value']:
+                    elif f['field'] == 'duration' and product.duration_time() != f['value']:
                         match = False
                         break
                 elif f['operator'] == '>=':
@@ -215,13 +215,13 @@ def get_product_list():
         match = True
         for f in filters:
             if f['operator'] == '==':
-                if f['field'] == 'currentLocation' and product.currency != f['value']:
+                if f['field'] == 'currentLocation' and f['value'] not in product.raw_loc:
                     match = False
                     break
                 elif f['field'] == 'tourType' and not f['value'] in product.get_types_list():
                     match = False
                     break
-                elif f['field'] == 'duration' and product.duration() != f['value']:
+                elif f['field'] == 'duration' and product.duration_time() != f['value']:
                     match = False
                     break
             elif f['operator'] == '>=':
