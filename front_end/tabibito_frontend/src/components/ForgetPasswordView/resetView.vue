@@ -93,7 +93,7 @@ export default {
   name: "loginView",
   setup(){
     const axios = getCurrentInstance().appContext.config.globalProperties.axios;
-    axios.defaults.withCredentials = true;
+    // axios.defaults.withCredentials = true;
   },
   data() {
     return {

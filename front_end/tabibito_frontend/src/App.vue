@@ -68,7 +68,7 @@ body {
 }
 @font-face {
   font-family: Jost;
-  src: url("assets/fonts/Jost-VariableFont_wght.ttf");
+  src: url("assets/fonts/Jost-VariableFont_wght.ttf") format("truetype");
 }
 @font-face {
   font-family: JostBlod;

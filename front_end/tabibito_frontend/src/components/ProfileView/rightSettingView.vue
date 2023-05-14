@@ -4,15 +4,25 @@
       <div class="row y-gap-30 tab_main">
         <div class="col-auto">
           <div class="avatar_container">
+            <img :src="avatar" alt="avatar" style="
+              position: absolute;
+              top: 30px;
+              left: 30px;
+              width: 200px;
+              height: 200px;
+              -o-object-fit: cover;
+              object-fit: cover;
+              border-radius: 4px;"
+            />
             <n-upload
-                action="http://127.0.0.1:5000/profile/uploadavatar"
+                action="/profile/uploadavatar"
                 :default-file-list="coverImageList"
                 list-type="image-card"
                 style="position: absolute;
                        top: 30px;
                        left: 30px;
-                       width: 100%;
-                       height: 100%;
+                       width: 200px;
+                       height: 200px;
                        -o-object-fit: cover;
                        object-fit: cover;
                        border-radius: 4px;"
@@ -20,6 +30,7 @@
                 accept="image/*"
                 @finish="handleFinishAvatar"
                 :max=1
+                :disabled="!isEditing"
             />
           </div>
         </div>
@@ -37,8 +48,8 @@
           <div class="col-12">
 
             <div class="input_form">
-              <input type="text" required>
-              <label class="label">Business Name</label>
+              <input type="text" v-model="gender" :readonly="!isEditing" required>
+              <label class="label">Gender</label>
             </div>
 
           </div>
@@ -46,7 +57,7 @@
           <div class="col-12">
 
             <div class="input_form">
-              <input type="text" required>
+              <input type="text" v-model="u_name" :readonly="!isEditing" required>
               <label class="label">User Name</label>
             </div>
 
@@ -55,7 +66,7 @@
           <div class="col-md-6">
 
             <div class="input_form">
-              <input type="text" required>
+              <input type="text" v-model="f_name" :readonly="!isEditing" required>
               <label class="label">First Name</label>
             </div>
 
@@ -64,7 +75,7 @@
           <div class="col-md-6">
 
             <div class="input_form">
-              <input type="text" required>
+              <input type="text" v-model="l_name" :readonly="!isEditing" required>
               <label class="label">Last Name</label>
             </div>
 
@@ -73,7 +84,7 @@
           <div class="col-md-6">
 
             <div class="input_form">
-              <input type="text" required>
+              <input type="text" v-model="email" :readonly="true" required>
               <label class="label">Email</label>
             </div>
 
@@ -82,7 +93,7 @@
           <div class="col-md-6">
 
             <div class="input_form">
-              <input type="text" required>
+              <input type="text" v-model="phone" :readonly="!isEditing" required>
               <label class="label">Phone Number</label>
             </div>
 
@@ -91,7 +102,7 @@
           <div class="col-12">
 
             <div class="input_form">
-              <input type="text" required>
+              <input type="text" v-model="birthday" :readonly="!isEditing" required>
               <label class="label">Birthday</label>
             </div>
 
@@ -100,7 +111,7 @@
           <div class="col-12">
 
             <div class="input_form">
-              <textarea required rows="5"></textarea>
+              <textarea v-model="about" :readonly="!isEditing" required rows="5"></textarea>
               <label class="label">About Yourself</label>
             </div>
 
@@ -109,8 +120,8 @@
       </div>
 
       <div class="btn_container">
-        <a href="#" class="button px-24 -dark-1 btn_bg">
-          Save Changes <div class="icon-arrow-top-right ml-15"></div>
+        <a href="#" class="button px-24 -dark-1 btn_bg" @click="toggleEdit">
+          {{ buttonText }} <div class="icon-arrow-top-right ml-15"></div>
         </a>
       </div>
 
@@ -122,12 +133,62 @@
 <script>
 import { defineComponent, ref } from 'vue'
 import {ArrowForwardOutline} from "@vicons/ionicons5";
+import axios from 'axios';
 
 export default defineComponent({
   name: "rightSettingView",
   components: {
     ArrowForwardOutline
-  }
+  },
+  created() {
+    this.axios.get('/profile/info').then(res => {
+      this.avatar = res.data.avatar;
+      this.gender = res.data.gender;
+      this.u_name = res.data.u_name;
+      this.f_name = res.data.f_name;
+      this.l_name = res.data.l_name;
+      this.email = res.data.email;
+      this.phone = res.data.phone;
+      this.birthday = res.data.birthday;
+      this.about = res.data.about;
+    })
+  },
+  data() {
+    return {
+      isEditing: false,
+      avatar: '',
+      gender: '',
+      u_name: '',
+      f_name: '',
+      l_name: '',
+      email: '',
+      phone: '',
+      birthday: '',
+      about: ''
+    }
+  },
+  computed: {
+    buttonText() {
+      return this.isEditing ? 'Save' : 'Edit';
+    },
+  },
+  methods: {
+    toggleEdit() {
+      this.isEditing = !this.isEditing;
+      if (!this.isEditing) {
+        axios.post('/profile/update_info', {
+          u_name: this.u_name,
+          gender: this.gender,
+          f_name: this.f_name,
+          l_name: this.l_name,
+          email: this.email,
+          phone: this.phone,
+          birthday: this.birthday,
+          about: this.about,
+        });
+      }
+    },
+  },
 })
 </script>
 

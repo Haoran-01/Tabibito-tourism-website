@@ -1,4 +1,5 @@
 <template>
+
   <navigation-bar class="chatHead"></navigation-bar>
 
   <div class="CVImg">
@@ -29,7 +30,11 @@
       <!-- TUICallKitMini 组件：通话 UI 悬浮窗组件，提供最小化功能 -->
       <TUICallKitMini style="position: static" />
     </Drag>
-  </div>
+      <button class="gpt-chat-btn" :class="{ active: showGptChatView }" @click="toggleGptChatView">
+        <img src="../../assets/ChatGPT_logo.png" alt="GPT Chat Button" />
+      </button>
+      <gpt-chat-view v-show="showGptChatView" class="gpt-chat-view" />
+    </div>
   </div>
 </template>
 
@@ -44,11 +49,13 @@ import Drag from '../../TUIKit/TUIComponents/components/drag';
 import { handleErrorPrompts } from '../../TUIKit/TUIComponents/container/utils';
 import NavigationBar from "../GeneralComponents/navigationBar.vue";
 import {useStore} from "../../store.js";
+import GptChatView from "./gptChatView.vue";
 
 
 export default defineComponent({
   name: 'chatView',
   components: {
+    GptChatView,
     NavigationBar,
     Drag,
   },
@@ -135,11 +142,66 @@ export default defineComponent({
       onMessageSentByMe,
     };
   },
+  methods: {
+    toggleGptChatView() {
+      this.showGptChatView = !this.showGptChatView;
+    }
+  },
+  data() {
+    return {
+      showGptChatView: false
+    }
+  }
 });
 </script>
 
 
 <style scoped>
+.gpt-chat-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: rgb(223, 239, 247);
+  transition: background-color 0.3s ease-in-out;
+}
+
+.gpt-chat-btn:hover {
+  cursor: pointer;
+}
+
+.gpt-chat-btn.active {
+  background-color: #fff;
+}
+
+.gpt-chat-btn img {
+  width: 30px;
+  height: 30px;
+  opacity: 0.5;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.gpt-chat-btn.active img {
+  opacity: 1;
+}
+
+.gpt-chat-btn:active {
+  background-color: #ccc;
+}
+
+.gpt-chat-view {
+  position: fixed;
+  z-index: 9999;
+  bottom: 100px;
+  right: 20px;
+}
+
 .chatHead{
   position: relative;
 }

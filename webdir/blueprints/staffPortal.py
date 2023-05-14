@@ -1,7 +1,11 @@
+import os
+
 from flask import Blueprint, request, jsonify
+
 from datetime import datetime, timedelta
 from exts import db
-from models import Order, Product, OrderStatus, ProductStatus
+from models import Order, Product, OrderStatus, ProductStatus, User
+
 
 bp = Blueprint("Staff", __name__, url_prefix="/staff_portal")
 
@@ -38,7 +42,7 @@ def view_latest_order():
     return jsonify(code=200, orders=[order.serialize_latest() for order in latest_orders])
 
 
-@bp.route("/product_number",methods=["GET"])
+@bp.route("/product_number", methods=["GET"])
 def product_number():
     number = Product.query.count()
     return jsonify(number=number)
@@ -72,7 +76,6 @@ def change_product_status():
 
 @bp.route("/get_statistic", methods=['GET'])
 def statistic():
-
     last_thirty_days = datetime.now() - timedelta(days=30)
     last_ninty_days = datetime.now() - timedelta(days=90)
 
@@ -81,28 +84,32 @@ def statistic():
         Order.order_status == OrderStatus.Processing
     ).all()
 
-    month_pending = sum(order.product.ori_price * order.product.discount * order.product_number for order in pending_orders_month)
+    month_pending = sum(
+        order.product.ori_price * order.product.discount * order.product_number for order in pending_orders_month)
 
     confirm_orders_month = Order.query.filter(
         Order.create_time >= last_thirty_days,
         Order.order_status == OrderStatus.Completed
     ).all()
 
-    month_earning = sum(order.product.ori_price * order.product.discount * order.product_number for order in confirm_orders_month)
+    month_earning = sum(
+        order.product.ori_price * order.product.discount * order.product_number for order in confirm_orders_month)
 
     pending_orders_quarter = Order.query.filter(
         Order.create_time >= last_ninty_days,
         Order.order_status == OrderStatus.Processing
     ).all()
 
-    quarterly_pending = sum(order.product.ori_price * order.product.discount * order.product_number for order in pending_orders_quarter)
+    quarterly_pending = sum(
+        order.product.ori_price * order.product.discount * order.product_number for order in pending_orders_quarter)
 
     confirm_orders_quarter = Order.query.filter(
         Order.create_time >= last_ninty_days,
         Order.order_status == OrderStatus.Completed
     ).all()
 
-    quarterly_earning = sum(order.product.ori_price * order.product.discount * order.product_number for order in confirm_orders_quarter)
+    quarterly_earning = sum(
+        order.product.ori_price * order.product.discount * order.product_number for order in confirm_orders_quarter)
 
     return jsonify(
         month_pending=round(month_pending),
@@ -110,3 +117,4 @@ def statistic():
         quarterly_pending=round(quarterly_pending),
         quarterly_earning=round(quarterly_earning)
     )
+

@@ -41,29 +41,84 @@
             style="margin: 0 -4px"
             pane-style="padding-left: 4px; padding-right: 4px; box-sizing: border-box;">
 
-          <n-tab-pane name="Dashboard" tab="Dashboard"></n-tab-pane>
+          <n-tab-pane name="Dashboard" tab="Dashboard">
+            <div class="helloSection">
+              <img :src="basicInfo.avatar_url" class="helloAvatar">
+              <div class="greeting">{{'Hello, ' + basicInfo.username + '. Which trip do you want to enjoy today?'}}</div>
+            </div>
+            <n-tabs
+                v-model:value = "dashboardValue"
+                class="card-tabs"
+                size="large"
+                animated
+                style="margin: 0 24px;"
+                pane-style="padding-left: 4px; padding-right: 4px; box-sizing: border-box;"
+              >
+              <n-tab-pane name="Recent Trips" tab="Recent Trips">
+                <div class="recentTrip" v-for="trip in recentTrips">
+                  <div class="recentTripTitleBar">
+                    <div class="recentTripName">{{trip.name}}</div>
+                    <div class="recentTripMore" @click="this.$router.push('/trip/' + trip.trip_id)">More</div>
+                  </div>
+                  <div class="recentTripBody">
+                    <img class="tripCover" :src="trip.cover_url"/>
+                    <n-modal v-model:show="showWeatherModel">
 
-          <n-tab-pane name="Profile" tab="Profile">
-            <div class="infoCard">
-              <img class="avatar" :src="basicInfo.avatar_url">
-              <div class="cardText">
-                <div class="nameBar">
-                  <div class="userName">{{basicInfo.username}}</div>
-                  <div class="edit">
-                    edit info
+                    </n-modal>
+                    <div class="weatherPart">
+                      <div class="city">Shanghai</div>
+                      <div class="weatherMain">
+                        <div class="temperature">24℃</div>
+                        <img src="" alt="" class="weatherImg">
+                      </div>
+                      <div class="forecast">
+                        <div class="foreTemp">
+                          <div class="tempValue">24℃</div>
+                          <div class="tempType">Max</div>
+                        </div>
+                        <div class="foreTemp">
+                          <div class="tempValue">24℃</div>
+                          <div class="tempType">Avg</div>
+                        </div>
+                        <div class="foreTemp">
+                          <div class="tempValue">24℃</div>
+                          <div class="tempType">Min</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="aeroPart"></div>
                   </div>
                 </div>
-                <div class="userDescription">{{basicInfo.description}}</div>
-              </div>
-            </div>
-            <div class="attrTitle">Real Name</div>
-            <div class="attrValue">{{basicInfo.first_name + ' ' + basicInfo.last_name}}</div>
-            <div class="attrTitle">Email</div>
-            <div class="attrValue">{{basicInfo.email}}</div>
-            <div class="attrTitle">Phone Number</div>
-            <div class="attrValue">{{basicInfo.phone_number}}</div>
-            <div class="attrTitle">Birthday</div>
-            <div class="attrValue">{{basicInfo.birthday}}</div>
+              </n-tab-pane>
+
+              <n-tab-pane name="Foot Print Wall" tab="Foot Print Wall">
+
+              </n-tab-pane>
+            </n-tabs>
+          </n-tab-pane>
+
+          <n-tab-pane name="Profile" tab="Profile">
+            <right-setting-view />
+<!--            <div class="infoCard">-->
+<!--              <img class="avatar" :src="basicInfo.avatar_url">-->
+<!--              <div class="cardText">-->
+<!--                <div class="nameBar">-->
+<!--                  <div class="userName">{{basicInfo.username}}</div>-->
+<!--                  <div class="edit">-->
+<!--                    edit info-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--                <div class="userDescription">{{basicInfo.description}}</div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <div class="attrTitle">Real Name</div>-->
+<!--            <div class="attrValue">{{basicInfo.first_name + ' ' + basicInfo.last_name}}</div>-->
+<!--            <div class="attrTitle">Email</div>-->
+<!--            <div class="attrValue">{{basicInfo.email}}</div>-->
+<!--            <div class="attrTitle">Phone Number</div>-->
+<!--            <div class="attrValue">{{basicInfo.phone_number}}</div>-->
+<!--            <div class="attrTitle">Birthday</div>-->
+<!--            <div class="attrValue">{{basicInfo.birthday}}</div>-->
           </n-tab-pane>
 
           <n-tab-pane name="Orders" tab="Orders">
@@ -193,6 +248,7 @@
 import NavigationBar from "../GeneralComponents/navigationBar.vue";
 import {getCurrentInstance, h, ref} from "vue";
 import { NButton, useMessage } from "naive-ui";
+import RightSettingView from "./rightSettingView.vue";
 
 const createInProgressColumns = ({ cancel, viewDetail }) => {
   return [
@@ -341,7 +397,7 @@ const createCancelledColumns = ({ viewDetail }) => {
 }
 export default {
   name: "profileView",
-  components: {NavigationBar},
+  components: {RightSettingView, NavigationBar},
   setup(){
     const axios = getCurrentInstance().appContext.config.globalProperties.axios;
     const inProgressData = ref([]);
@@ -384,7 +440,8 @@ export default {
       inProgressData,
       showModal,
       modalData,
-      tabValue: ref("Profile"),
+      tabValue: ref("Dashboard"),
+      dashboardValue: ref("Recent Trips"),
       orderType: ref("In Progress"),
       inProgressColumns: createInProgressColumns({
         cancel(row){
@@ -447,6 +504,7 @@ export default {
   },
   data(){
     return{
+      recentTrips: [],
       basicInfo: {},
       completedData: [],
       cancelledData: [],
@@ -510,7 +568,7 @@ export default {
         new_status: 'old'
       })
           .then((res)=>{
-            if (res.status === 200){
+            if (res.status === 204){
               let index = -1
               for (let i = 0; i<this.newNotices.length; i++){
                 if (this.newNotices[i].id === id){
@@ -528,7 +586,7 @@ export default {
         new_status: 'new'
       })
           .then((res)=>{
-            if (res.status === 200){
+            if (res.status === 204){
               let index = -1
               for (let i = 0; i<this.oldNotices.length; i++){
                 if (this.oldNotices[i].id === id){
@@ -542,6 +600,26 @@ export default {
     }
   },
   created() {
+    this.axios.post('/user/dashboard/get_recent_trips')
+        .then((res) => {
+          if (res.status === 200){
+            this.recentTrips = res.data.recentTrips
+            for (let trip of this.recentTrips){
+              this.axios({
+                url: '/current.json',
+                baseURL: 'http://api.weatherapi.com/v1',
+                params: {
+                  key: '9fa81e39ed22488fa10104307230905',
+                  q: trip.raw_loc
+                }
+              })
+                  .then((res) => {
+                    if (res.status === 200){
+                    }
+                  })
+            }
+          }
+        })
     this.axios.post('/user/getprofile', {
       user_id: this.$route.params.uid
     })
@@ -634,8 +712,9 @@ template{
   background-color: #F5F5F5;
 }
 .container{
-  width: 100%;
-  padding: 60px 60px 60px 60px;
+  width: 1260px;
+  padding: 60px 0 0 0;
+  margin: auto;
   box-sizing: border-box;
   background-color: #F5F5F5;
 }
@@ -668,9 +747,149 @@ template{
   padding: 30px;
   box-sizing: border-box;
   background-color: white;
+  max-width: 100%;
 }
 .tabInnerContainer{
   width: 83.33%;
+}
+.helloSection{
+  margin: 24px;
+  height: 140px;
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  grid-template-rows: 1fr;
+  border-radius: 4px;
+  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.08) ;
+}
+.helloAvatar{
+  width: 100px;
+  height: 100px;
+  border-radius: 100%;
+  margin: 20px;
+}
+.greeting{
+  font-size: 24px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+}
+.recentTrip{
+  margin: 24px;
+  height: 240px;
+  border-radius: 4px;
+  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.08) ;
+  margin-right: 48px;
+}
+.recentTripTitleBar{
+  width: 100%;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+  align-items: center;
+  padding: 0 24px;
+}
+.recentTripName{
+  font-size: 20px;
+}
+.recentTripMore{
+  color: var(--primary-color);
+  text-decoration: underline;
+  cursor: pointer;
+}
+.recentTripBody{
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  padding: 24px;
+}
+.tripCover{
+  width: 200px;
+  height: 132px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 4px;
+}
+.weatherPart{
+  width: calc((100% - 200px - 48px - 48px) * 0.33);
+  height: 132px;
+  transition: .2s ease-in;
+  border-radius: 4px;
+  cursor: pointer;
+  box-sizing: border-box;
+  padding: 6px;
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  grid-template-rows: 40px 80px;
+  background-color: #2F80ED;
+}
+.city{
+  grid-area: 1 / 1 / 2 / 2;
+  font-weight: bold;
+  color: white;
+  box-sizing: border-box;
+  padding-right: 12px;
+}
+.weatherMain{
+  grid-area: 2 / 1 / 3 / 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding-right: 12px;
+}
+.temperature {
+  font-size: 48px;
+  color: white;
+}
+.weatherImg{
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  object-position: center;
+}
+.forecast{
+  grid-area: 1 / 2 / 3 / 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.foreTemp{
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 6px;
+  width: 100%;
+  height: 30px;
+  display: flex;
+  color: black;
+  align-items: center;
+  justify-content: space-around;
+}
+.tempValue{
+  font-size: 14px;
+}
+.tempType{
+  font-size: 10px;
+}
+.weatherPart:hover{
+  transition: .2s ease-out;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12) ;
+}
+.aeroPart{
+  width: calc((100% - 200px - 48px - 48px) * 0.67);
+  height: 132px;
+  border-radius: 4px;
+  transition: .2s ease-in;
+  cursor: pointer;
+  padding: 6px;
+}
+.aeroPart:hover{
+  transition: .2s ease-out;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12) ;
 }
 .infoCard{
   width: 100%;
@@ -680,7 +899,10 @@ template{
 }
 .avatar{
   margin-right: 24px;
-  object-fit: contain;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  object-position: top;
 }
 .nameBar{
   display: flex;

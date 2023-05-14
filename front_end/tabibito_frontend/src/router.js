@@ -16,6 +16,8 @@ const notFoundView = () => import("./components/ErrorViews/notFoundView.vue");
 const forbiddenView = () => import("./components/ErrorViews/forbiddenView.vue");
 const reservationEdit = () => import("./components/ReservationView/reservationEdit.vue");
 const moreView = () => import("./components/SearchPageView/moreView.vue");
+const rightSettingView = () => import("./components/ProfileView/rightSettingView.vue");
+
 const chatView = () => import("./components/ChatView/chatView.vue");
 
 const routes = [
@@ -44,7 +46,7 @@ const routes = [
     { path: '/trip/:trip_id', component: TravelDetailsView, meta: {title: 'project detail - Tabibito'}},
     { path: '/search_result', name: 'search', component: leftListView, meta: {title: 'search result - Tabibito'}},
     { path: '/user/profile/:uid', component: profileView, meta: {title: 'profile - Tabibito'}},
-    { path: '/user/profile/:uid/edit', component: profileView, meta: {title: 'edit profile - Tabibito'}},
+    { path: '/user/profile/:uid/edit', component: rightSettingView, meta: {title: 'edit profile - Tabibito'}},
     { path: '/chat', component: chatView, meta: {title: 'chat - Tabibito'}},
     { path: '/moreView', component: moreView, meta: {title: 'more View - Tabibito'}}
 ]

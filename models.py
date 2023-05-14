@@ -189,7 +189,7 @@ class Order(db.Model):
     product = relationship('Product', back_populates='orders')
 
     def __repr__(self):
-        return "<Order(id='%s', product_id='%2.2f')>" % (self.id, self.product_id)
+        return "<Order(id='%s', product_id='%2.2f', create_time='%s')>" % (self.id, self.product_id, self.create_time)
 
     def serialize_latest(self):
         return {
@@ -215,6 +215,15 @@ class Order(db.Model):
             "end_time": self.product.end_time.strftime('%Y-%m-%d'),
         }
 
+    def serialize_trip(self):
+        return {
+            "trip_id": self.id,
+            "name": self.product.name,
+            "cover_url": self.product.get_cover(),
+            "raw_loc": self.product.raw_loc,
+            "flight_num": self.product.flight
+        }
+
     def total(self):
         return round(self.product_number * self.product.ori_price * self.product.discount, 1)
 
@@ -236,6 +245,7 @@ class Product(db.Model):
     end_time = db.Column(db.DateTime, nullable=False, default=datetime.now())
     app_ddl = db.Column(db.DateTime, nullable=False, default=datetime.now())
     status = db.Column(DBEnum(ProductStatus), default=ProductStatus.Delisted)
+    flight = db.Column(db.CHAR(10), nullable=True)
 
     comments = relationship('Comment', order_by='Comment.id', back_populates="product")
     trips = relationship('Trip', order_by='Trip.id', back_populates="product")
@@ -243,7 +253,7 @@ class Product(db.Model):
     tags = relationship('Tag', order_by='Tag.id', back_populates="product")
     pictures = relationship('ProductPicture', order_by='ProductPicture.id', back_populates="product")
     user_browses = relationship('UserBrowse', order_by='UserBrowse.id', back_populates='product')
-    orders = relationship('Order', order_by="Order.id", back_populates='product')
+    orders = relationship('Order', order_by="Order.create_time", back_populates='product')
     types = relationship('ProductType', secondary=association_table, back_populates='products')
 
     def duration(self):
@@ -253,9 +263,9 @@ class Product(db.Model):
         if datetime.timestamp(self.end_time) - datetime.timestamp(self.start_time) <= 604800:
             return "1 week"
         elif 604800 < datetime.timestamp(self.end_time) - datetime.timestamp(self.start_time) <= 1209600:
-            return "2 week"
+            return "2 weeks"
         elif 1209600 <= datetime.timestamp(self.end_time) - datetime.timestamp(self.start_time) <= 1814400:
-            return "3 week"
+            return "3 weeks"
         else:
             return "1 month"
 
@@ -401,7 +411,7 @@ class Product(db.Model):
             "id": self.id,
             "reviews": len(self.comments),
             'duration': (self.end_time.timestamp() - self.start_time.timestamp()) * 1000,
-            "types": [type.type for type in self.types],
+            "types": [type.type.value for type in self.types],
             "title": self.name,
             "location": self.raw_loc,
             "longitude": self.map_longitude,
@@ -610,11 +620,26 @@ class UserProfile(db.Model):
     job = db.Column(DBEnum(UserJob), default=UserJob.Customer)
     language = db.Column(DBEnum(Language), default=Language.en)
     user_name = db.Column(db.CHAR(100), nullable=True, default="Tabibito_User")
+    gender = db.Column(db.CHAR(100), nullable=True, default="unknown")
     phone_number = db.Column(db.CHAR(30), nullable=True)
     birthday = db.Column(db.Date, nullable=True, default=datetime.now().date())
     description = db.Column(db.Text, nullable=True, default="This tabibito did not remain any thing")
     user_id = db.Column(db.Integer, ForeignKey('user.user_id', ondelete='CASCADE', onupdate='CASCADE'))
     user = relationship('User', back_populates="profile")
+
+    def serialize_profile(self):
+        return {
+            "avatar": self.picture_address,
+            "gender": self.gender,
+            "u_name": self.user_name,
+            "f_name": self.user.user_first_name,
+            "l_name": self.user.user_last_name,
+            "email": self.user.user_email,
+            "phone": self.phone_number,
+            "birthday": self.birthday,
+            "about": self.description
+        }
+
 
 
 class UserNotice(db.Model):

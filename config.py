@@ -11,6 +11,7 @@ class Config:
     FLASKY_ADMIN_F = ''
 
     UPLOAD_FOLDER = '/pictures'
+    AVATAR_FOLDER = '/avatar'
 
     @staticmethod
     def init_app(app):
@@ -20,7 +21,8 @@ class Config:
 class DevelopmentConfig(Config):
     DEBUG = True
     SESSION_COOKIE_SAMESITE = None
-    SESSION_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = False
+
     # 数据库的配置变量
     HOSTNAME = '127.0.0.1'
     PORT = '3306'
@@ -46,7 +48,6 @@ class DevelopmentConfig(Config):
     MAIL_PASSWORD = "INKSISDGQFZCIQLS"
     MAIL_DEFAULT_SENDER = "tabibito_1@163.com"
 
-
 class TestingConfig(Config):
     TESTING = True
     # SQLALCHEMY_DATABASE_URI = \
@@ -60,6 +61,13 @@ class ProductionConfig(Config):
     # SQLALCHEMY_DATABASE_URI = \
     #     "sqlite:///" + os.path.join(basedir, "data.sqlite")
     # SQLALCHEMY_TRACK_MODIFICATIONS = True
+
+
+class ThirdConfig(Config):
+    WEATHER_URL = "http://api.weatherapi.com/v1"
+    WEATHER_KEY = "9fa81e39ed22488fa10104307230905"
+    FLIGHT_URL = "https://aeroapi.flightaware.com/aeroapi/flights/"
+    FLIGHT_KEY = "yaBZdh4pjUvChVtNh8OoFcfAzbMfapTI"
 
 
 config = {
