@@ -56,7 +56,7 @@
           <div class="input_border">
             <div class="text_center">{{ $t('login.signin2') }}</div>
 
-            <button class="other_login_btn">
+            <button class="other_login_btn" @click="googleLogin">
               <i class="google_icon"></i>
               {{$t("login.google")}}
             </button>
@@ -171,6 +171,12 @@ export default {
             });
       }
 
+    },
+    googleLogin(){
+      this.axios.post('/user/authorize', {
+      }).then(function (response){
+
+      });
     }
   }
 }
