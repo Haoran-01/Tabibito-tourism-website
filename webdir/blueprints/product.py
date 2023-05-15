@@ -43,7 +43,10 @@ def add_product():
             app_ddl = data['app_ddl']
             if app_ddl:
                 product.app_ddl = datetime.datetime.fromtimestamp(int(app_ddl)/1000)
-
+            flight_numbers = data['flight_numbers']
+            if flight_numbers and len(flight_numbers) > 0:
+                flight_numbers = " ".join([str(n).strip() for n in data['flight_numbers']])
+                product.flight = flight_numbers
             db.session.add(product)
             db.session.commit()
 
