@@ -221,7 +221,7 @@ class Order(db.Model):
             "name": self.product.name,
             "cover_url": self.product.get_cover(),
             "raw_loc": self.product.raw_loc,
-            "flight_num": self.product.flight
+            "flight_num": self.product.flight.split(" ")
         }
 
     def total(self):
@@ -245,7 +245,7 @@ class Product(db.Model):
     end_time = db.Column(db.DateTime, nullable=False, default=datetime.now())
     app_ddl = db.Column(db.DateTime, nullable=False, default=datetime.now())
     status = db.Column(DBEnum(ProductStatus), default=ProductStatus.Delisted)
-    flight = db.Column(db.CHAR(10), nullable=True)
+    flight = db.Column(db.CHAR(50), nullable=True)
 
     comments = relationship('Comment', order_by='Comment.id', back_populates="product")
     trips = relationship('Trip', order_by='Trip.id', back_populates="product")
