@@ -13,8 +13,8 @@ from flask_cors import CORS
 
 
 def create_app(config_name):
-    created_app = Flask(__name__, template_folder="../front_end/tabibito_frontend/dist2",
-                static_folder="../front_end/tabibito_frontend/dist2", static_url_path="")
+    created_app = Flask(__name__, template_folder="../front_end/tabibito_frontend/dist",
+                static_folder="../front_end/tabibito_frontend/dist", static_url_path="")
     created_app.config.from_object(config[config_name])
     config[config_name].init_app(created_app)
 
