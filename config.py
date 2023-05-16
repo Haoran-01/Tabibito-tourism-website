@@ -28,7 +28,7 @@ class DevelopmentConfig(Config):
     PORT = '3306'
     DATABASE = 'tabibito'
     USERNAME = 'root'
-    PASSWORD = 'Wangji1208'
+    PASSWORD = 'l20011026'
     DB_URI = 'mysql+pymysql://{}:{}@{}:{}/{}?charset=utf8'.format(USERNAME, PASSWORD, HOSTNAME, PORT, DATABASE)
     SQLALCHEMY_DATABASE_URI = DB_URI
     SQLALCHEMY_TRACK_MODIFICATIONS = True
@@ -47,7 +47,6 @@ class DevelopmentConfig(Config):
     MAIL_USERNAME = "tabibito_1@163.com"
     MAIL_PASSWORD = "INKSISDGQFZCIQLS"
     MAIL_DEFAULT_SENDER = "tabibito_1@163.com"
-
 
 class TestingConfig(Config):
     TESTING = True
