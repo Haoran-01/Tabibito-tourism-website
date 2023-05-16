@@ -8,13 +8,46 @@ bp = Blueprint("Third", __name__, url_prefix="/third")
 @bp.route("/weather", methods=['GET', 'POST'])
 def weather():
     location = request.json.get("location")
+    print("well")
     weather_data = util.get_weather_data(location)
     if weather_data is not None:
         print(weather_data)
-        return jsonify(city=weather_data['location'], temp=weather_data['current']['temp_c'], img_url=weather_data['current']['condition']['icon'], max_temp=weather_data['forecast']['forecastday'][0]['day']['maxtemp_c'], avg_temp=weather_data['forecast']['forecastday'][0]['day']['avgtemp_c'], min_temp=weather_data['forecast']['forecastday'][0]['day']['mintemp_c']), 200
+        return jsonify(city=weather_data['location']['name'], temp=int(weather_data['current']['temp_c']), img_url="http:" + weather_data['current']['condition']['icon'], max_temp=int(weather_data['forecast']['forecastday'][0]['day']['maxtemp_c']), avg_temp=int(weather_data['forecast']['forecastday'][0]['day']['avgtemp_c']), min_temp=int(weather_data['forecast']['forecastday'][0]['day']['mintemp_c'])), 200
     else:
         return jsonify(error="No weather Data"), 304
 
+
+@bp.route("/weather_forecast", methods=['GET', 'POST'])
+def weather_forecast():
+    location = request.json.get("location")
+    print("well")
+    weather_data = util.get_weather_forcast(location)
+    if weather_data is not None:
+        print(weather_data)
+        return jsonify(
+            weather=[
+                {"city": weather_data['location']['name'],
+                 "img_url": "http:" + weather_data['forecast']['forecastday'][0]["day"]['condition']['icon'],
+                 "max_temp": int(weather_data['forecast']['forecastday'][0]['day']['maxtemp_c']),
+                 "avg_temp": int(weather_data['forecast']['forecastday'][0]['day']['avgtemp_c']),
+                 "min_temp": int(weather_data['forecast']['forecastday'][0]['day']['mintemp_c']),
+                 "date": weather_data['forecast']['forecastday'][0]['date']},
+                {"city": weather_data['location']['name'],
+                 "img_url": "http:" + weather_data['forecast']['forecastday'][1]["day"]['condition']['icon'],
+                 "max_temp": int(weather_data['forecast']['forecastday'][1]['day']['maxtemp_c']),
+                 "avg_temp": int(weather_data['forecast']['forecastday'][1]['day']['avgtemp_c']),
+                 "min_temp": int(weather_data['forecast']['forecastday'][1]['day']['mintemp_c']),
+                 "date": weather_data['forecast']['forecastday'][1]['date']},
+                {"city": weather_data['location']['name'],
+                 "img_url": "http:" + weather_data['forecast']['forecastday'][2]["day"]['condition']['icon'],
+                 "max_temp": int(weather_data['forecast']['forecastday'][2]['day']['maxtemp_c']),
+                 "avg_temp": int(weather_data['forecast']['forecastday'][2]['day']['avgtemp_c']),
+                 "min_temp": int(weather_data['forecast']['forecastday'][2]['day']['mintemp_c']),
+                 "date": weather_data['forecast']['forecastday'][2]['date']},
+                 ]
+        ), 200
+    else:
+        return jsonify(error="No weather Data"), 304
 
 @bp.route("/flight", methods=['GET', 'POST'])
 def flight():
