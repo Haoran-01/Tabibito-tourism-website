@@ -37,6 +37,18 @@
             {{ $t('traveldetails.seeAllPhotos') }}
             <div class="icon_add"></div>
           </button>
+
+          <button type="submit" class="TDmodel">
+            See Model
+            <div class="icon_add"></div>
+          </button>
+          <button type="submit" class="TDmodel" @click="toggleModel" :disabled="!details.model">
+            {{ details.model ? (showModalModel ? 'Hide Model' : 'See Model') : 'No Model'}}
+            <div class="icon_add"></div>
+          </button>
+          <iframe v-show="showModalModel" allowfullscreen class ="model" loading="lazy" frameborder="0" :src="details.model"></iframe>
+
+
           <!--     显示图片     -->
           <div v-if="showModal" class="modal">
             <div class="modal-container">
@@ -222,6 +234,8 @@ export default {
     star: ref()
     id1: ref()
     return {
+      showModalPhotos: false,
+      showModalModel: false,
       showModal: false,
       currentIndex: 0,
       imageList: ref(),
@@ -321,6 +335,9 @@ export default {
     window.removeEventListener("scroll", this.handleScroll);
   },
   methods: {
+    toggleModel() {
+      this.showModalModel = !this.showModalModel;
+    },
     handleScroll() {
       this.scrollTop =
           window.pageYOffset || document.documentElement.scrollTop;
@@ -347,6 +364,19 @@ export default {
 </script>
 
 <style scoped>
+.model {
+  width: 640px;
+  height: 480px;
+}
+
+iframe {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999; /* 设置z-index属性来保证iframe浮动在页面最顶层 */
+}
+
 .pd{
   padding-top: 40px !important;
 }
@@ -428,7 +458,34 @@ export default {
   width:100%;
   margin-top: 20px;
 }
+.TDmodel{
+  position: absolute;
+  font-weight: 900;
+  font-size: 16px;
+  line-height: 1.2;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
 
+  padding-top: 15px !important;
+  padding-bottom: 15px !important;
+
+  margin-top: 380px;
+  margin-left: 20px;
+  z-index: 100;
+
+
+  background-color: white !important;
+  color: #3554D1;
+  width:170px;
+  text-decoration:none;
+  font-family: Jost;
+}
+
+.TDmodel:hover{
+  background-color: #3554D1 !important;
+  color: white !important;
+}
 .TDAdd_btn{
   position: absolute;
   font-weight: 900;
