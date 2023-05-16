@@ -8,8 +8,8 @@
     <div class="TCon">
       <div class="TTit">
         <div class="TCol">
-          <h1 class="TTex1">Travel Programs List</h1>
-          <div class="TTex2">Manage the tourism programs</div>
+          <h1 class="TTex1">{{ $t('backList.travelProgramsList') }}</h1>
+          <div class="TTex2">{{ $t('backList.manageTheTourismPrograms') }}</div>
 
         </div>
 
@@ -17,13 +17,13 @@
           <div class="but">
             <router-link to="/management" style="text-decoration: none">
               <button class="nBtn nBtn1">
-                Back To Dashboard
+                {{ $t('backList.backToDashboard') }}
               </button>
             </router-link>
 
             <router-link to="/management/project_detail/add" style="text-decoration: none">
               <button class="nBtn nBtn2">
-                Add New Program
+                {{ $t('backList.addNewProgram') }}
               </button>
             </router-link>
 
@@ -60,7 +60,7 @@
                 <div class="row contact-foot-sub">
                   <div class="col-auto">
                     <div class="contact-foot-text">
-                      © 2023 Tabibito All rights reserved.
+                      {{ $t('backList.TabibitoAllRightsReserved') }}
                     </div>
                   </div>
                 </div>

@@ -5,7 +5,7 @@
         <div class="row dash_head y-gap-20 pb-60 lg:pb-40 md:pb-32">
           <div class="col-auto">
 
-            <h1 class="dash_title">Dashboard</h1>
+            <h1 class="dash_title">{{ $t('rightContentView.dashboard') }}</h1>
             <div class="dash_text"></div>
 
           </div>
@@ -22,13 +22,13 @@
             <div class="block_sub_wrap">
               <div class="row block_content">
                 <div class="col-auto">
-                  <div class="block_title">Monthly Pending</div>
+                  <div class="block_title">{{ $t('rightContentView.monthlyPending') }}</div>
                   <div class="block_money">${{ Number(earns.month_pending).toFixed(2) }}</div>
 <!--                  <div class="block_total">Total pending</div>-->
                 </div>
 
                 <div class="col-auto">
-                  <img src="../../assets/dashboard/icons/1.svg" alt="icon">
+                  <img src="../../assets/dashboard/icons/1.svg" :alt="$t('rightContentView.icon')">
                 </div>
               </div>
             </div>
@@ -37,7 +37,7 @@
             <div class="block_sub_wrap">
               <div class="row block_content">
                 <div class="col-auto">
-                  <div class="block_title">Monthly Earning</div>
+                  <div class="block_title">{{ $t('rightContentView.monthlyEarning') }}</div>
                   <div class="block_money">${{ Number(earns.month_earning).toFixed(2) }}</div>
 <!--                  <div class="block_total">Total Confirmed</div>-->
                 </div>
@@ -52,7 +52,7 @@
             <div class="block_sub_wrap">
               <div class="row block_content">
                 <div class="col-auto">
-                  <div class="block_title">Quarterly Pending</div>
+                  <div class="block_title">{{ $t('rightContentView.quarterlyPending') }}</div>
                   <div class="block_money">${{ Number(earns.quarterly_pending).toFixed(2) }}</div>
 <!--                  <div class="block_total">Total pending</div>-->
                 </div>
@@ -67,7 +67,7 @@
             <div class="block_sub_wrap">
               <div class="row block_content">
                 <div class="col-auto">
-                  <div class="block_title">Quarterly Earning</div>
+                  <div class="block_title">{{ $t('rightContentView.quarterlyEarning') }}</div>
                   <div class="block_money">${{ Number(earns.quarterly_earning).toFixed(2) }}</div>
 <!--                  <div class="block_total">Earning</div>-->
                 </div>
@@ -86,13 +86,13 @@
             <div class="statistics_wrap_sub">
               <div class="statistics_head">
                 <h2 class="statistics_title">
-                  Visualisation Charts
+                  {{ $t('rightContentView.visualisationCharts') }}
                 </h2>
 
 
                 <div class="dropdown">
                 <n-dropdown trigger="hover" :options="options" @select="handleSelect">
-                  <n-button>More Charts</n-button>
+                  <n-button>{{ $t('rightContentView.moreCharts') }}</n-button>
                 </n-dropdown>
                 </div>
 
@@ -113,11 +113,11 @@
             <div class="table_wrap">
               <div class="table_head">
                 <h2 class="table_head_text">
-                  Recent Bookings
+                  {{ $t('rightContentView.recentBookings') }}
                 </h2>
 
                 <div class="">
-                  <h4 class="table_head_href" @click="this.$router.push('/management/reservation_list')">View All</h4>
+                  <h4 class="table_head_href" @click="this.$router.push('/management/reservation_list')">{{ $t('rightContentView.viewAll') }}</h4>
                 </div>
               </div>
 
@@ -125,25 +125,25 @@
                 <thead>
                 <tr>
                   <th>#</th>
-                  <th>Item</th>
-                  <th>Total</th>
-                  <th>Paid</th>
-                  <th>Status</th>
-                  <th>Created At</th>
+                  <th>{{ $t('rightContentView.item') }}</th>
+                  <th>{{ $t('rightContentView.total') }}</th>
+                  <th>{{ $t('rightContentView.paid') }}</th>
+                  <th>{{ $t('rightContentView.status') }}</th>
+                  <th>{{ $t('rightContentView.createdAt') }}</th>
                 </tr>
                 </thead>
                 <tbody>
 
                 <template v-for="(item, index) in items" :key="index">
                   <tr>
-                    <td>#{{ index + 1 }}</td>
+                    <td>{{ $t('rightContentView.key', {expr: index + 1}) }}</td>
                     <td>{{ item.destination }}</td>
                     <td class="table_money">${{ item.price }}</td>
                     <td>${{ item.discount }}</td>
                     <td>
-                      <div v-if="item.status === 'Processing'" class="table_pending">Processing</div>
-                      <div v-else-if="item.status === 'Completed'" class="table_confirm">Completed</div>
-                      <div v-else-if="item.status === 'Cancelled'" class="table_reject">Cancelled</div>
+                      <div v-if="item.status === 'Processing'" class="table_pending">{{ $t('rightContentView.processing') }}</div>
+                      <div v-else-if="item.status === 'Completed'" class="table_confirm">{{ $t('rightContentView.completed') }}</div>
+                      <div v-else-if="item.status === 'Cancelled'" class="table_reject">{{ $t('rightContentView.cancelled') }}</div>
                     </td>
                     <td>{{ item.date }}<br>{{ item.time }}</td>
                   </tr>

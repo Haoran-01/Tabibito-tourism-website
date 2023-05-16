@@ -30,23 +30,23 @@
                 <div class="d-flex flex-column h-full justify-between">
                   <div class="">
                     <p class="text-14 lh-14 mb-5 text-light-1">{{  item.location }}</p>
-                    <h3 class="text-16 lh-16 fw-500">{{  item.title }}<br> Garden</h3>
+                    <h3 class="text-16 lh-16 fw-500">{{  item.title }}<br> {{ $t('moreView.garden') }}</h3>
 
                     <div class="row x-gap-5 items-center pt-5">
                       <div class="col-auto">
-                        <div class="text-14 text-light-1">2 guests</div>
+                        <div class="text-14 text-light-1">{{ $t('moreView.2Guests') }}</div>
                       </div>
                       <div class="col-auto round">
                         <div class="size-3 rounded-full bg-light-1"></div>
                       </div>
                       <div class="col-auto">
-                        <div class="text-14 text-light-1">1 bedroom</div>
+                        <div class="text-14 text-light-1">{{ $t('moreView.1Bedroom') }}</div>
                       </div>
                       <div class="col-auto round">
                         <div class="size-3 rounded-full bg-light-1"></div>
                       </div>
                       <div class="col-auto">
-                        <div class="text-14 text-light-1">1 bed</div>
+                        <div class="text-14 text-light-1">{{ $t('moreView.1Bed') }}</div>
                       </div>
                     </div>
                   </div>
@@ -54,7 +54,7 @@
                   <div class="row x-gap-10 y-gap-10 pt-20">
 
                     <div class="col-auto">
-                      <div class="border-light rounded-100 py-5 px-20 text-14 lh-14">Breakfast</div>
+                      <div class="border-light rounded-100 py-5 px-20 text-14 lh-14">{{ $t('moreView.breakfast') }}</div>
                     </div>
 
                     <div class="col-auto">
@@ -62,11 +62,11 @@
                     </div>
 
                     <div class="col-auto">
-                      <div class="border-light rounded-100 py-5 px-20 text-14 lh-14">Spa</div>
+                      <div class="border-light rounded-100 py-5 px-20 text-14 lh-14">{{ $t('moreView.spa') }}</div>
                     </div>
 
                     <div class="col-auto">
-                      <div class="border-light rounded-100 py-5 px-20 text-14 lh-14">Bar</div>
+                      <div class="border-light rounded-100 py-5 px-20 text-14 lh-14">{{ $t('moreView.bar') }}</div>
                     </div>
 
                   </div>
@@ -76,21 +76,21 @@
               <div class="col-md-auto content_right">
                 <div class="review-and-grade row x-gap-10 y-gap-10 justify-end items-center md:justify-start">
                   <div class="col-auto">
-                    <div class="text-14 lh-14 fw-500">Exceptional</div>
-                    <div class="text-14 lh-14 text-light-1">3,014 reviews</div>
+                    <div class="text-14 lh-14 fw-500">{{ $t('moreView.exceptional') }}</div>
+                    <div class="text-14 lh-14 text-light-1">{{ $t('moreView.3014Reviews') }}</div>
                   </div>
                   <div class="col-auto">
                     <div class="star">4.8</div>
                   </div>
                 </div>
 
-                <div class="from">From</div>
+                <div class="from">{{ $t('discount.from') }}</div>
                 <div class="price">US${{ item.price }}</div>
-                <div class="per">per adult</div>
+                <div class="per">{{ $t('moreView.perAdult') }}</div>
 
 
                 <a class="button -dark-1 btn_detail" @click="this.$router.push('/trip/' + item.id)">
-                  View Detail <n-icon class="margin"><ArrowForward /></n-icon>
+                  {{ $t('moreView.viewDetail') }} <n-icon class="margin"><ArrowForward /></n-icon>
                 </a>
 
               </div>

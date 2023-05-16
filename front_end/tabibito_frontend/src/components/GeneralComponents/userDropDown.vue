@@ -3,7 +3,7 @@
   <div class="userInfo">
     <div class="userAvatar"></div>
     <div class="userInfoText">
-      <div class="userName">Hello</div>
+      <div class="userName">{{ $t('hello') }}</div>
       <div class="userRole"></div>
     </div>
   </div>

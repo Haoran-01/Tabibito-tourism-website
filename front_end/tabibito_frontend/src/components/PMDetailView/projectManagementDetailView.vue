@@ -3,8 +3,8 @@
     <div class="container">
       <div class="titlePart">
         <div class="titleMain">
-          <h1 class="mainTitle">Add Travel Project</h1>
-          <div class="slogan">Add a new tourism project.</div>
+          <h1 class="mainTitle">{{ $t('PMDV.addTravelProject') }}</h1>
+          <div class="slogan">{{ $t('traveldetails.addANewTourismProject') }}</div>
         </div>
       </div>
       <div class="settings">
@@ -19,16 +19,16 @@
 
           <n-tab-pane name="Basic Information" tab="1. Basic Information">
             <div class="tabInnerContainer">
-              <div class="inputTitle">Introduction</div>
+              <div class="inputTitle">{{ $t('traveldetails.introduction') }}</div>
               <div class="input_form">
                 <input type="text" v-model="projectName" required :class="projectNameStyle" @focus="resetInput($event)">
-                <label class="input_label">Project Name</label>
+                <label class="input_label">{{ $t('traveldetails.projectName') }}</label>
               </div>
               <div class="input_form">
                 <textarea v-model="projectDescription" required></textarea>
-                <label class="input_label">Project Description</label>
+                <label class="input_label">{{ $t('traveldetails.projectDescription') }}</label>
               </div>
-              <div class="inputTitle">Duration</div>
+              <div class="inputTitle">{{ $t('searchPage.duration') }}</div>
 <!--              <n-tabs
                   class="card-tabs"
                   size="large"
@@ -63,16 +63,16 @@
                 </n-tab-pane>
               </n-tabs>-->
               <div class="dataPickers">
-                <n-date-picker v-model:value="startTime" type="date" :is-date-disabled="secureStartTime" size="large" clearable placeholder="Start Date"/>
-                <n-date-picker v-model:value="endTime" type="date" placement="bottom-end" :is-date-disabled="secureEndTime" size="large" clearable placeholder="End Date"/>
-                <n-date-picker v-model:value="cutoffDate" type="date" placement="bottom-end" size="large" clearable placeholder="Cutoff Date"/>
+                <n-date-picker v-model:value="startTime" type="date" :is-date-disabled="secureStartTime" size="large" clearable :placeholder="$t('homepage.searchPart.st')"/>
+                <n-date-picker v-model:value="endTime" type="date" placement="bottom-end" :is-date-disabled="secureEndTime" size="large" clearable :placeholder="$t('homepage.searchPart.et')"/>
+                <n-date-picker v-model:value="cutoffDate" type="date" placement="bottom-end" size="large" clearable :placeholder="$t('traveldetails.cutoffDate')"/>
               </div>
-              <div class="inputTitle">Group Number</div>
+              <div class="inputTitle">{{ $t('traveldetails.groupNumber') }}</div>
               <div class="input_form">
                 <input v-model="groupNumber" required @blur="validateInteger($event, groupNumber, 'groupNumber')" @focus="resetInput($event)"/>
-                <label class="input_label" >Group Number</label>
+                <label class="input_label" >{{ $t('traveldetails.groupNumber') }}</label>
               </div>
-              <div class="inputTitle">Cover Image</div>
+              <div class="inputTitle">{{ $t('traveldetails.coverImage') }}</div>
               <n-upload
                   :action="imageAPI"
                   v-model:file-list="coverImageList"
@@ -84,7 +84,7 @@
                   @remove="handleRemoveImage"
                   :max=1
               />
-              <div class="inputTitle">Banner Image</div>
+              <div class="inputTitle">{{ $t('traveldetails.bannerImage') }}</div>
               <n-upload
                   :action="imageAPI"
                   v-model:file-list="bannerImageList"
@@ -96,7 +96,7 @@
                   @remove="handleRemoveImage"
                   :max=4
               />
-              <div class="inputTitle">Gallery</div>
+              <div class="inputTitle">{{ $t('traveldetails.gallery') }}</div>
               <n-upload
                   :action="imageAPI"
                   v-model:file-list="galleryImageList"
@@ -107,37 +107,37 @@
                   @finish="handleFinishGallery"
                   @remove="handleRemoveImage"
               />
-              <div class="inputTitle">Tags</div>
+              <div class="inputTitle">{{ $t('homepage.searchPart.tags') }}</div>
 
               <div class="input_form" v-for="tag in tags">
                 <n-select
                     v-model:value="tag.key"
                     size="large"
                     :options="tagOptions"
-                    placeholder='Select A Tag Type'
+                    :placeholder="$t('traveldetails.selectATagType')"
                     style="width: 250px; margin-right: 10px"
                 />
                 <input type="text" v-model="tag.value" required @focus="resetInput($event)">
-                <label class="input_label tag_input_label" style="left: 200px">Tag Value</label>
+                <label class="input_label tag_input_label" style="left: 200px">{{ $t('traveldetails.tagValue') }}</label>
               </div>
 
-              <div class="inputTitle">Types</div>
+              <div class="inputTitle">{{ $t('traveldetails.types') }}</div>
 
               <div class="typesContainer">
                 <div class="type" @click="handleChooseType('WildlifeTour', $event)">
-                  <div class="typeTitle">Wildlife Tour</div>
+                  <div class="typeTitle">{{ $t('chooseTourTypes.wildlifeTour') }}</div>
                 </div>
                 <div class="type" @click="handleChooseType('AdventureTour', $event)">
-                  <div class="typeTitle">Adventure Tour</div>
+                  <div class="typeTitle">{{ $t('chooseTourTypes.adventureTour') }}</div>
                 </div>
                 <div class="type" @click="handleChooseType('CityTour', $event)">
-                  <div class="typeTitle">City Tour</div>
+                  <div class="typeTitle">{{ $t('traveldetails.cityTour') }}</div>
                 </div>
                 <div class="type" @click="handleChooseType('MuseumTour', $event)">
-                  <div class="typeTitle">Museum Tour</div>
+                  <div class="typeTitle">{{ $t('traveldetails.museumTour') }}</div>
                 </div>
                 <div class="type" @click="handleChooseType('BeachesTour', $event)">
-                  <div class="typeTitle">Beaches Tour</div>
+                  <div class="typeTitle">{{ $t('chooseTourTypes.beachesTour') }}</div>
                 </div>
               </div>
             </div>
@@ -146,23 +146,23 @@
 
           <n-tab-pane name="Location" tab="2. Location">
             <div class="tabInnerContainer">
-              <div class="inputTitle">Location</div>
+              <div class="inputTitle">{{ $t('homepage.searchPart.loc') }}</div>
               <div class="input_form">
                 <input type="text" v-model="locationText" required>
-                <label class="input_label">Location Text</label>
+                <label class="input_label">{{ $t('PMDV.locationText') }}</label>
               </div>
               <div class="input_form" style="justify-content: space-between;">
                 <div class="inner_input_form">
                   <input type="text" v-model="mapLatitude" required>
-                  <label class="input_label">Map Latitude</label>
+                  <label class="input_label">{{ $t('routeStep.mapLatitude') }}</label>
                 </div>
                 <div class="inner_input_form">
                   <input type="text" v-model="mapLongitude" required>
-                  <label class="input_label">Map Longitude</label>
+                  <label class="input_label">{{ $t('routeStep.mapLongitude') }}</label>
                 </div>
                 <div class="inner_input_form">
                   <input type="text" v-model="mapZoom" required>
-                  <label class="input_label">Map Zoom</label>
+                  <label class="input_label">{{ $t('routeStep.mapZoom') }}</label>
                 </div>
               </div>
             </div>
@@ -170,14 +170,14 @@
 
 
           <n-tab-pane name="Route" tab="3. Route">
-            <div class="inputTitle">Total Day Number</div>
+            <div class="inputTitle">{{ $t('traveldetails.totalDayNumber') }}</div>
             <div class="input_form">
               <input type="text" v-model="totalDayNumber" :disabled="totalDayNumberDisabled" required @change="checkAddStepStatus" @blur="validateInteger($event, totalDayNumber, 'totalDayNumber')" @focus="resetInput($event)">
-              <label class="input_label">Total Day Number</label>
+              <label class="input_label">{{ $t('reservationEdit.totalDayNumber') }}</label>
             </div>
             <button type="submit" class="add_step_btn" :class="add_step_status" @click="addStep">
               <div class="icon_add"></div>
-              Add Step
+              {{ $t('traveldetails.addStep') }}
             </button>
             <div v-for="(routeData, index) in routeDatas">
               <route-step :step-data="routeData" :step-index="index" @delete-step="handleDeleteStep(index)"></route-step>
@@ -186,26 +186,26 @@
 
 
           <n-tab-pane name="Price" tab="4. Price" >
-            <div class="inputTitle">Original Price</div>
+            <div class="inputTitle">{{ $t('traveldetails.originalPrice') }}</div>
             <div class="input_form">
               <input type="text" v-model="originalPrice" required :style="originalPriceStyle" @blur="validateNumber($event, originalPrice, 'originalPrice')" @focus="resetInput($event)">
-              <label class="input_label">Original Price</label>
+              <label class="input_label">{{ $t('traveldetails.originalPrice') }}</label>
               <n-select
                   v-model:value="currencyType"
                   size="large"
                   :options="currencyOptions"
-                  placeholder='Select Currency Unit'
+                  :placeholder="$t('traveldetails.selectCurrencyUnit')"
                   style="width: 200px; margin-left: 10px"
               />
             </div>
-            <div class="inputTitle">Discount</div>
+            <div class="inputTitle">{{ $t('traveldetails.discount') }}</div>
             <div class="input_form">
               <input type="text" v-model="discount" required @blur="validateNumber($event, discount, 'discount')" @focus="resetInput($event)">
-              <label class="input_label">Discount</label>
+              <label class="input_label">{{ $t('reservationEdit.discount') }}</label>
             </div>
             <button type="submit" class="add_step_btn" @click="addCharge">
               <div class="icon_add"></div>
-              Add Charge
+              {{ $t('traveldetails.addCharge') }}
             </button>
             <div v-for="(chargeData, index) in chargeDatas">
               <price-item :item-data="chargeData" :item-index="index" @delete-charge="handleDeleteCharge(index)"></price-item>
@@ -213,12 +213,12 @@
           </n-tab-pane>
 
           <n-tab-pane name="Notification" tab="5. Notification">
-            <div class="inputTitle">Title</div>
+            <div class="inputTitle">{{ $t('traveldetails.title') }}</div>
             <div class="input_form">
               <input type="text" @focus="resetInput($event)">
-              <label class="input_label">Title</label>
+              <label class="input_label">{{ $t('traveldetails.title') }}</label>
             </div>
-            <div class="inputTitle">Tags</div>
+            <div class="inputTitle">{{ $t('homepage.searchPart.tags') }}</div>
 
             <div class="input_form" style="justify-content: space-between;">
               <n-select
@@ -229,21 +229,21 @@
                   :options="tags"
                   max-tag-count="1"
               />
-              <n-input placeholder="New Tag" style="margin-right: 20px"></n-input>
-              <n-button type="primary">Add</n-button>
+              <n-input :placeholder="$t('traveldetails.newTag')" style="margin-right: 20px"></n-input>
+              <n-button type="primary">{{ $t('traveldetails.add') }}</n-button>
             </div>
 
-            <div class="inputTitle">Content</div>
+            <div class="inputTitle">{{ $t('traveldetails.content') }}</div>
             <div class="input_form">
               <textarea v-model="projectDescription" required></textarea>
-              <label class="input_label">Content</label>
+              <label class="input_label">{{ $t('traveldetails.content') }}</label>
             </div>
           </n-tab-pane>
 
 
           <n-tab-pane name="Submit" tab="6. Submit">
             <button type="submit" class="add_step_btn" @click="submitForm">
-              Submit
+              {{ $t('traveldetails.submit') }}
               <div class="icon_submit"></div>
             </button>
           </n-tab-pane>

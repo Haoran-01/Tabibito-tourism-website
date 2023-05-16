@@ -25,7 +25,7 @@
             </div>
             <div class="text">
             <div class="text1" >{{ location.name }}</div>
-            <div class="text2">{{ location.project_count }} projects</div>
+            <div class="text2">{{ $t('hotLocation.projects', {project_count: location.project_count}) }}</div>
             </div>
           </a>
         </div>

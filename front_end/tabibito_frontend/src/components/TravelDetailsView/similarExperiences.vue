@@ -5,13 +5,13 @@
       <div class="mostPopularHead">
         <div class="col-auto">
           <div class="sectionTitle -md">
-            <h2 class="sectionTitle__title">Similar Experiences</h2>
-            <p class="sectionTitle__text">Interdum et malesuada fames ac ante ipsum</p>
+            <h2 class="sectionTitle__title">{{ $t('simEx.similarExperiences') }}</h2>
+            <p class="sectionTitle__text">{{ $t('simEx.interdumEtMalesuadaFamesAcAnteIpsum') }}</p>
           </div>
 
           <div class="col-auto">
             <a href="#" class="button -md -blue-1 bg-blue-1-05 text-blue-1">
-              More <div class="icon"></div>
+              {{ $t('hotLocation.more') }} <div class="icon"></div>
             </a>
           </div>
         </div>
@@ -77,13 +77,13 @@
 
                       </div>
 
-                      <div class="review">{{ product.reviews }} reviews</div>
+                      <div class="review">{{ $t('mostPopularTours.reviews', {reviews: product.reviews}) }}</div>
                     </div>
                   </div>
 
                   <div class="col-auto">
                     <div class="footer">
-                      From
+                      {{ $t('discount.from') }}
                       <span class="price">US${{ product.price.toFixed(2) }}</span>
                     </div>
                   </div>

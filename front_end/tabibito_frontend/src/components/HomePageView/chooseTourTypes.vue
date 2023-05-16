@@ -17,8 +17,8 @@
               <a class="cardHref">
                 <div class="tourTypeCardContent">
                   <n-icon class="icon"><Leaf /></n-icon>
-                  <h4 class="cardText">Wildlife Tour</h4>
-                  <p class="cardPrice">5 Tours From 550$</p>
+                  <h4 class="cardText">{{ $t('chooseTourTypes.wildlifeTour') }}</h4>
+                  <p class="cardPrice">{{ $t('chooseTourTypes.5ToursFrom550') }}</p>
                 </div>
               </a>
             </div>
@@ -30,8 +30,8 @@
               <a class="cardHref">
                 <div class="tourTypeCardContent">
                   <n-icon class="icon"><Bonfire /></n-icon>
-                  <h4 class="cardText">Adventure Tour</h4>
-                  <p class="cardPrice">5 Tours From 550$</p>
+                  <h4 class="cardText">{{ $t('chooseTourTypes.adventureTour') }}</h4>
+                  <p class="cardPrice">{{ $t('chooseTourTypes.5ToursFrom550') }}</p>
                 </div>
               </a>
             </div>
@@ -43,8 +43,8 @@
               <a class="cardHref">
                 <div class="tourTypeCardContent">
                   <n-icon class="icon"><CarSport /></n-icon>
-                  <h4 class="cardText">City Tours</h4>
-                  <p class="cardPrice">5 Tours From 550$</p>
+                  <h4 class="cardText">{{ $t('chooseTourTypes.cityTours') }}</h4>
+                  <p class="cardPrice">{{ $t('chooseTourTypes.5ToursFrom550') }}</p>
                 </div>
               </a>
             </div>
@@ -56,8 +56,8 @@
               <a class="cardHref">
                 <div class="tourTypeCardContent">
                   <n-icon class="icon"><Business /></n-icon>
-                  <h4 class="cardText">Museum Tours</h4>
-                  <p class="cardPrice">5 Tours From 550$</p>
+                  <h4 class="cardText">{{ $t('chooseTourTypes.museumTours') }}</h4>
+                  <p class="cardPrice">{{ $t('chooseTourTypes.5ToursFrom550') }}</p>
                 </div>
               </a>
             </div>
@@ -69,8 +69,8 @@
               <a class="cardHref">
                 <div class="tourTypeCardContent">
                   <n-icon class="icon"><Boat /></n-icon>
-                  <h4 class="cardText">Beaches Tour</h4>
-                  <p class="cardPrice">5 Tours From 550$</p>
+                  <h4 class="cardText">{{ $t('chooseTourTypes.beachesTour') }}</h4>
+                  <p class="cardPrice">{{ $t('chooseTourTypes.5ToursFrom550') }}</p>
                 </div>
               </a>
             </div>

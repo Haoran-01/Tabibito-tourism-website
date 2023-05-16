@@ -3,8 +3,8 @@
     <div class="container">
       <div class="titlePart">
         <div class="titleMain">
-          <h1 class="mainTitle">Edit Reservation</h1>
-          <div class="slogan">Edit the reservation details and announce the changes to the customers.</div>
+          <h1 class="mainTitle">{{ $t('reservationEdit.editReservation') }}</h1>
+          <div class="slogan">{{ $t('reservationEdit.editTheReservationDetailsAndAnnounceTheChangesToTh') }}</div>
         </div>
       </div>
       <div class="settings">
@@ -20,26 +20,26 @@
           <n-tab-pane name="Basic Information" tab="1. Basic Information">
             <div class="tabInnerContainer">
 
-              <div class="inputTitle">Travel Time Detail</div>
+              <div class="inputTitle">{{ $t('reservationEdit.travelTimeDetail') }}</div>
 
               <div class="dataPickers">
-                <n-date-picker v-model:value="startTime" type="date" :is-date-disabled="secureStartTime" size="large" clearable placeholder="Start Date"/>
-                <n-date-picker v-model:value="endTime" type="date" placement="bottom-end" :is-date-disabled="secureEndTime" size="large" clearable placeholder="End Date"/>
+                <n-date-picker v-model:value="startTime" type="date" :is-date-disabled="secureStartTime" size="large" clearable :placeholder="$t('homepage.searchPart.st')"/>
+                <n-date-picker v-model:value="endTime" type="date" placement="bottom-end" :is-date-disabled="secureEndTime" size="large" clearable :placeholder="$t('homepage.searchPart.et')"/>
               </div>
             </div>
-            <p class="note"> * New travel time will be announced to the booking holder once it's changed.</p>
+            <p class="note"> {{ $t('reservationEdit.newTravelTimeWillBeAnnouncedToTheBookingHolderOnce') }}</p>
 
           </n-tab-pane>
 
           <n-tab-pane name="Route" tab="2. Route">
-            <div class="inputTitle">Total Day Number</div>
+            <div class="inputTitle">{{ $t('reservationEdit.totalDayNumber') }}</div>
             <div class="input_form">
               <input type="text" v-model="totalDayNumber" :disabled="totalDayNumberDisabled" required @change="checkAddStepStatus" @blur="validateInteger($event, totalDayNumber, 'totalDayNumber')" @focus="resetInput($event)">
-              <label class="input_label">Total Day Number</label>
+              <label class="input_label">{{ $t('reservationEdit.totalDayNumber') }}</label>
             </div>
             <button type="submit" class="add_step_btn" :class="add_step_status" @click="addStep">
               <div class="icon_add"></div>
-              Add Step
+              {{ $t('reservationEdit.addStep') }}
             </button>
             <div v-for="(routeData, index) in routeDatas">
               <route-step :step-data="routeData" :step-index="index" @delete-step="handleDeleteStep(index)"></route-step>
@@ -48,26 +48,26 @@
 
 
           <n-tab-pane name="Price" tab="3. Price" >
-            <div class="inputTitle">Original Price</div>
+            <div class="inputTitle">{{ $t('reservationEdit.originalPrice') }}</div>
             <div class="input_form">
               <input type="text" v-model="originalPrice" required :style="originalPriceStyle" @blur="validateNumber($event, originalPrice, 'originalPrice')" @focus="resetInput($event)">
-              <label class="input_label">Original Price</label>
+              <label class="input_label">{{ $t('reservationEdit.originalPrice') }}</label>
               <n-select
                   v-model:value="currencyType"
                   size="large"
                   :options="currencyOptions"
-                  placeholder='Select Currency Unit'
+                  :placeholder="$t('traveldetails.selectCurrencyUnit')"
                   style="width: 200px; margin-left: 10px"
               />
             </div>
-            <div class="inputTitle">Discount</div>
+            <div class="inputTitle">{{ $t('reservationEdit.discount') }}</div>
             <div class="input_form">
               <input type="text" v-model="discount" required @blur="validateNumber($event, discount, 'discount')" @focus="resetInput($event)">
-              <label class="input_label">Discount</label>
+              <label class="input_label">{{ $t('reservationEdit.discount') }}</label>
             </div>
             <button type="submit" class="add_step_btn" @click="addCharge">
               <div class="icon_add"></div>
-              Add Charge
+              {{ $t('reservationEdit.addCharge') }}
             </button>
             <div v-for="(chargeData, index) in chargeDatas">
               <price-item :item-data="chargeData" :item-index="index" @delete-charge="handleDeleteCharge(index)"></price-item>
@@ -76,10 +76,10 @@
 
           <n-tab-pane name="Location" tab="4. Reason">
             <div class="tabInnerContainer">
-              <div class="inputTitle">Reason</div>
+              <div class="inputTitle">{{ $t('reservationEdit.reason') }}</div>
               <div class="input_form">
                 <input type="text" v-model="locationText" required>
-                <label class="input_label">Reasons for changing the reservation</label>
+                <label class="input_label">{{ $t('reservationEdit.reasonsForChangingTheReservation') }}</label>
               </div>
 
             </div>
@@ -87,7 +87,7 @@
 
           <n-tab-pane name="Submit" tab="5. Submit">
             <button type="submit" class="add_step_btn" @click="submitForm">
-              Submit
+              {{ $t('reservationEdit.submit') }}
               <div class="icon_submit"></div>
             </button>
           </n-tab-pane>
