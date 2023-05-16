@@ -18,7 +18,6 @@ def add_product():
         group_number = data['group_number']
         if name and description and group_number:
             product = Product(name=name, description=description, group_number=group_number)
-
             location = data['location']
             if location:
                 product.raw_loc = location['raw_loc']
@@ -36,17 +35,20 @@ def add_product():
                 product.currency = currency
             start_time = data['start_time']
             if start_time:
-                product.start_time = datetime.datetime.fromtimestamp(int(start_time)/1000)
+                product.start_time = datetime.datetime.fromtimestamp(int(start_time) / 1000)
             end_time = data['end_time']
             if end_time:
-                product.end_time = datetime.datetime.fromtimestamp(int(end_time)/1000)
+                product.end_time = datetime.datetime.fromtimestamp(int(end_time) / 1000)
             app_ddl = data['app_ddl']
             if app_ddl:
-                product.app_ddl = datetime.datetime.fromtimestamp(int(app_ddl)/1000)
+                product.app_ddl = datetime.datetime.fromtimestamp(int(app_ddl) / 1000)
             flight_numbers = data['flight_numbers']
             if flight_numbers and len(flight_numbers) > 0:
                 flight_numbers = " ".join([str(n).strip() for n in data['flight_numbers']])
                 product.flight = flight_numbers
+            url_3d = data["url_3d"]
+            if url_3d:
+                product.url_3d = url_3d
             db.session.add(product)
             db.session.commit()
 
@@ -82,7 +84,7 @@ def add_product():
                 for trip in trips:
                     t = Trip(
                         product_id=product.id,
-                        time=datetime.datetime.fromtimestamp(int(trip['time'])/1000),
+                        time=datetime.datetime.fromtimestamp(int(trip['time']) / 1000),
                         activity=trip['activity'],
                         picture=trip['picture'],
                         day=trip['day'],
@@ -116,7 +118,6 @@ def product_detail():
 
 @bp.route("/type_products", methods=["POST", "GET"])
 def get_type_products():
-
     product_type = request.json.get('type')
 
     products = Product.query.join(Product.types).filter(ProductType.type == product_type).all()
@@ -151,14 +152,13 @@ def get_comments():
     product_id = data["product_id"]
     page = data["page"]
     page_size = 10
-    comments = Comment.query.filter_by(product_id=product_id).order_by(Comment.datetime.desc())\
+    comments = Comment.query.filter_by(product_id=product_id).order_by(Comment.datetime.desc()) \
         .offset((page - 1) * page_size).limit(page_size).all()
     return jsonify(code=200, comments=[comment.serialize_product_page_simple() for comment in comments])
 
 
 @bp.route("/uploadpicture", methods=["POST", "GET"])
 def upload_picture():
-
     file = request.files['file']  # 获取上传的文件
 
     filename = secure_filename(file.filename)  # 安全获取文件名
@@ -169,7 +169,6 @@ def upload_picture():
 
 @bp.route("/deletepicture", methods=["POST", "GET"])
 def delete_picture():
-
     file_name = request.json.get("url")  # 获取上传的文件
     if os.path.exists(file_name):
         os.remove(file_name)
@@ -177,6 +176,7 @@ def delete_picture():
         return {}, 204
     else:
         return {}, 404
+
 
 @bp.route("/charge_detail", methods=["POST", "GET"])
 def charge_detail():
@@ -198,4 +198,4 @@ def get_trips():
     if len(trips) == 0:
         return jsonify(code="product not found")
     else:
-        return jsonify(location=product.location(),trips=[trip.serialize() for trip in trips])
+        return jsonify(location=product.location(), trips=[trip.serialize() for trip in trips])

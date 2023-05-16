@@ -246,6 +246,7 @@ class Product(db.Model):
     app_ddl = db.Column(db.DateTime, nullable=False, default=datetime.now())
     status = db.Column(DBEnum(ProductStatus), default=ProductStatus.Delisted)
     flight = db.Column(db.CHAR(50), nullable=True)
+    url_3d = db.Column(db.CHAR(100), nullable=False, default=None)
 
     comments = relationship('Comment', order_by='Comment.id', back_populates="product")
     trips = relationship('Trip', order_by='Trip.id', back_populates="product")
@@ -437,8 +438,8 @@ class Product(db.Model):
             'banner_image': self.banners(),
             'start_time': self.start_time.strftime("%A, %d %B %Y"),
             'end_time': self.end_time.strftime("%A, %d %B %Y"),
-            "fee_des": [fee.serialize() for fee in self.fee_des]
-
+            "fee_des": [fee.serialize() for fee in self.fee_des],
+            "model": self.url_3d
         }
 
     def serialize_product_list(self):
