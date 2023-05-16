@@ -68,7 +68,7 @@
 
                 <div class="col-auto">
                   <div class="footer">
-                    From
+                    {{ $t('discount.from') }}
                     <span class="price">{{'$' + item.price.toFixed(2)}}</span>
                   </div>
                 </div>

@@ -13,12 +13,12 @@
               <n-rate size="small" readonly allow-half :value="details.mark" />
 
             </div>
-            <div class="TDReview">{{ details.reviews }} reviews</div>
+            <div class="TDReview">{{ $t('mostPopularTours.reviews', {reviews: details.reviews}) }}</div>
 
             <img class="loc" src="../../assets/location.svg" alt="">
             <div class="TDLoc">{{ details.location }}</div>
 
-            <button class="map">Show on map</button>
+            <button class="map">{{ $t('traveldetails.showOnMap') }}</button>
 
           </div>
 
@@ -34,7 +34,7 @@
         <div class="TDInput_border">
 
           <button type="submit" class="TDAdd_btn" @click="showModal = true">
-            See All Photos
+            {{ $t('traveldetails.seeAllPhotos') }}
             <div class="icon_add"></div>
           </button>
 
@@ -78,21 +78,21 @@
         </n-carousel>
 
         <h3 class="TDTex1">
-          Tour snapshot
+          {{ $t('traveldetails.tourSnapshot') }}
         </h3>
 
         <div class="TDRow1">
           <div class="TDR1">
             <img class="TDIcon1" src="../../assets/time_icon.svg" alt="">
             <div class="TDT1">
-              Duration:<br> {{ duration }} Day
+              {{ $t('traveldetails.duration') }}<br> {{ $t('traveldetails.day', {duration: duration}) }}
             </div>
           </div>
 
           <div class="TDR1">
             <img class="TDIcon1" src="../../assets/group.svg" alt="">
             <div class="TDT1">
-              Group Size:<br> {{ details.group_number }}
+              {{ $t('traveldetails.groupSize') }}<br> {{ details.group_number }}
             </div>
           </div>
 
@@ -112,7 +112,7 @@
         <div class="TDLine"></div>
 
         <div class="TDOverview">
-          <h3 class="TDTex2">Overview</h3>
+          <h3 class="TDTex2">{{ $t('traveldetails.overview') }}</h3>
 
           <p class="TDTex3">
             {{ details.description }}
@@ -144,13 +144,13 @@
       <div class="TDConBox" :style="{top: blockTop}">
         <div class="TDBox">
           <div class="TDTex5">
-            Price <span class="TDTex6">US${{ details.price }}</span>
+            {{ $t('traveldetails.price') }} <span class="TDTex6">US${{ details.price }}</span>
           </div>
 
 
           <!--     date chosen     -->
           <div class="TDDate">
-            <div class="TDOptionName">Date</div>
+            <div class="TDOptionName">{{ $t('traveldetails.date') }}</div>
             <div class="TDDataPickers">
               {{ details.start_time }}
               <span>—</span>
@@ -160,11 +160,11 @@
 
           <!--     number     -->
           <div class="TDDate">
-            <div class="TDOptionName">Number of travelers</div>
+            <div class="TDOptionName">{{ $t('traveldetails.numberOfTravelers') }}</div>
             <n-space vertical>
               <n-input-number
                   v-model:value="groupNum"
-                  placeholder="Group Number"
+                  :placeholder="$t('traveldetails.groupNumber')"
                   :min="1"
                   :max="details.group_number"
                   size="large"
@@ -175,19 +175,19 @@
           <div class="book">
             <div class="input_border">
               <button type="submit" class="add_step_btn c" @click="handleClickProject">
-                Book Now
+                {{ $t('homepage.discountPart.button') }}
               </button>
             </div>
           </div>
 
           <div class="com">
             <img class="love" src="../../assets/love4.svg">
-            <div class="TDTex7">More than half of travelers recommend this trip</div>
+            <div class="TDTex7">{{ $t('traveldetails.moreThanHalfOfTravelersRecommendThisTrip') }}</div>
           </div>
 
         </div>
 
-        <div class="TDTex4">Not sure? You can cancel this reservation up to 24 hours in advance for a full refund.</div>
+        <div class="TDTex4">{{ $t('traveldetails.notSureYouCanCancelThisReservationUpTo24HoursInAdv') }}</div>
         </div>
     </div>
 

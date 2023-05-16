@@ -11,7 +11,7 @@
 
         <div class="col-auto">
           <a class="button -md -blue-1 bg-blue-1-05 text-blue-1" @click="handleSearchPopular">
-            More <div class="icon"></div>
+            {{ $t('mostPopularTours.more') }} <div class="icon"></div>
           </a>
         </div>
       </div>
@@ -77,13 +77,13 @@
 
                     </div>
 
-                    <div class="review">{{ popular.reviews }} reviews</div>
+                    <div class="review">{{ $t('mostPopularTours.reviews', {reviews: popular.reviews}) }}</div>
                   </div>
                 </div>
 
                 <div class="col-auto">
                   <div class="footer">
-                    From
+                    {{ $t('mostPopularTours.from') }}
                     <span class="price">US${{ popular.price.toFixed(2) }}</span>
                   </div>
                 </div>

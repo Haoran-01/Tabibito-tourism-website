@@ -7,17 +7,17 @@
           <div class="row">
             <div class="col-auto">
               <h3 class="lm_left_title">
-                Leave a Reply
+                {{ $t('leaveReply.leaveAReply') }}
               </h3>
               <p class="lm_left_subtitle">
-                Your email address will not be published.
+                {{ $t('leaveReply.yourEmailAddressWillNotBePublished') }}
               </p>
             </div>
           </div>
           <div class="row y-gap-30 lm_left_stars">
             <div class="col-sm-6">
               <div class="star_title">
-                Location
+                {{ $t('homepage.searchPart.loc') }}
               </div>
               <div class="star_wrap">
                 <n-icon class="star"><star /></n-icon>
@@ -29,7 +29,7 @@
             </div>
             <div class="col-sm-6">
               <div class="star_title">
-                Staff
+                {{ $t('leaveReply.staff2') }}
               </div>
               <div class="star_wrap">
                 <n-icon class="star"><star /></n-icon>
@@ -41,7 +41,7 @@
             </div>
             <div class="col-sm-6">
               <div class="star_title">
-                Cleanliness
+                {{ $t('leaveReply.cleanliness2') }}
               </div>
               <div class="star_wrap">
                 <n-icon class="star"><star /></n-icon>
@@ -53,7 +53,7 @@
             </div>
             <div class="col-sm-6">
               <div class="star_title">
-                Value for money
+                {{ $t('leaveReply.valueForMoney2') }}
               </div>
               <div class="star_wrap">
                 <n-icon class="star"><star /></n-icon>
@@ -65,7 +65,7 @@
             </div>
             <div class="col-sm-6">
               <div class="star_title">
-                Comfort
+                {{ $t('leaveReply.comfort2') }}
               </div>
               <div class="star_wrap">
                 <n-icon class="star"><star /></n-icon>
@@ -77,7 +77,7 @@
             </div>
             <div class="col-sm-6">
               <div class="star_title">
-                Facilities
+                {{ $t('leaveReply.facilities2') }}
               </div>
               <div class="star_wrap">
                 <n-icon class="star"><star /></n-icon>
@@ -89,7 +89,7 @@
             </div>
             <div class="col-sm-6">
               <div class="star_title">
-                Free WiFi
+                {{ $t('leaveReply.freeWifi2') }}
               </div>
               <div class="star_wrap">
                 <n-icon class="star"><star /></n-icon>
@@ -105,7 +105,7 @@
         <div class="list_wrap">
           <n-space vertical>
             <div class="form_input">
-              <n-input v-model:value="title" type="text" size="large" placeholder="Title" clearable
+              <n-input v-model:value="title" type="text" size="large" :placeholder="$t('leaveReply.title')" clearable
                        show-count
                        :maxlength="12"
                        :count-graphemes="countGraphemes"/>
@@ -115,7 +115,7 @@
                   v-model:value="des"
                   type="textarea"
                   size="large"
-                  placeholder="Write Your Comment"
+                  :placeholder="$t('leaveReply.writeYourComment')"
                   clearable
                   show-count
                   :maxlength="200"
@@ -128,7 +128,7 @@
                   <ArrowForwardOutline />
                 </n-icon>
               </template>
-              Post Comment
+              {{ $t('leaveReply.postComment') }}
             </n-button>
           </n-space>
 

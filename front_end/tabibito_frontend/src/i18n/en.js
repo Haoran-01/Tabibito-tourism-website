@@ -75,7 +75,11 @@ export default {
         intro2: "At Tabibito, we understand that planning a vacation can be overwhelming. That's why we offer Precise Info Guarantee - we provide you with accurate and up-to-date information about your destination, so you can make informed decisions about your itinerary. We also offer Easy & Quick Reserving, allowing you to book your trip hassle-free and with confidence.",
         intro3: "Our commitment to customer satisfaction is unwavering, and we provide Customer Care 24/7 to ensure that your trip goes smoothly. Whether you need assistance with your booking, have questions about your itinerary, or need help while you're on the go, our team is always here to help.",
         intro4: "We offer a wide range of travel services, including flights, accommodations, tours, and more. Our expert travel consultants can help you plan the perfect vacation based on your preferences and budget.",
-        intro5: "Tabibito is dedicated to providing our customers with unforgettable travel experiences. Let us help you embark on your next adventure - contact us today to start planning your dream vacation."
+        intro5: "Tabibito is dedicated to providing our customers with unforgettable travel experiences. Let us help you embark on your next adventure - contact us today to start planning your dream vacation.",
+        reviews: 'Reviews',
+        travelProjects: 'Travel Projects',
+        happyCustomers: 'Happy customers',
+        monthlyIncome: 'Monthly Income'
     },
     fourZeroFourPage:{
         slogan: "Oops! It looks like you're lost.",
@@ -131,11 +135,18 @@ export default {
     hotLocation: {
         explore: "Explore Hot Locations",
         choose: "Choose The Popular Travel Places",
-        more: "More"
+        more: "More",
+        projects: '{project_count} projects'
     },
     chooseTourTypes: {
         choose: "Choose Tour Types",
-        choose1: "Choose A Tour Type"
+        choose1: "Choose A Tour Type",
+        wildlifeTour: 'Wildlife Tour',
+        '5ToursFrom550': '5 Tours From 550$',
+        adventureTour: 'Adventure Tour',
+        cityTours: 'City Tours',
+        museumTours: 'Museum Tours',
+        beachesTour: 'Beaches Tour'
     },
     customerReview: {
         title: "Customer Reviews",
@@ -147,7 +158,10 @@ export default {
     },
     mostPopularTours: {
         most: "Most Popular Tours",
-        choose: "Choose The Popular Travel Programs"
+        choose: "Choose The Popular Travel Programs",
+        more: 'More',
+        reviews: '{reviews} reviews',
+        from: 'From'
     },
     notMember: {
         not: "Not a Member Yet?",
@@ -157,10 +171,23 @@ export default {
     },
     overheard: {
         overheard: "Overheard from travelers",
-        these: "These popular destinations have a lot to offer"
+        these: "These popular destinations have a lot to offer",
+        hotelEquatorialMelaka: 'Hotel Equatorial Melaka',
+        ourFamilyWasTravelingViaBulletTrainBetweenCitiesIn: '"Our family was traveling via bullet train between cities in Japan with our luggage the location for this hotel made that so easy. Agoda price was fantastic!"',
+        image: 'image',
+        courtneyHenry: 'Courtney Henry',
+        webDesigner: 'Web Designer'
     },
     our: {
-        team: "Our Team"
+        team: "Our Team",
+        comeToKnowOurTeam: 'Come to know our team!',
+        donglinLiu: 'Donglin Liu',
+        seniorTourGuide: 'Senior Tour Guide',
+        feiheHuang: 'Feihe Huang',
+        haoranYan: 'Haoran Yan',
+        jiaheZhang: 'Jiahe Zhang',
+        wenbeiXie: 'Wenbei Xie',
+        wenjieWu: 'Wenjie Wu'
     },
     reg: {
         sign: "Sign in or create an account",
@@ -200,5 +227,176 @@ export default {
         or: "or sign in with",
         goo: "Google",
         rese: "Reset your password with a verification code or log in with google."
-    }
+    },
+    backList: {
+        travelProgramsList: 'Travel Programs List',
+        manageTheTourismPrograms: 'Manage the tourism programs',
+        backToDashboard: 'Back To Dashboard',
+        addNewProgram: 'Add New Program',
+        TabibitoAllRightsReserved: '© 2023 Tabibito All rights reserved.',
+    },
+    hello: 'Hello',
+    discount: {
+        from: 'From'
+    },
+    priceItem: {
+        areYouSureYouWantToDeleteThisStepTheInformationWil: 'Are you sure you want to delete this step? The information will lost.',
+        chargeName: 'Charge Name',
+        chargeDescription: 'Charge Description'
+    },
+    routeStep: {
+        areYouSureYouWantToDeleteThisStepTheInformationWil: 'Are you sure you want to delete this step? The information will lost.',
+        activityName: 'Activity Name',
+        location: 'Location',
+        exactLocation: 'Exact Location',
+        mapLatitude: 'Map Latitude',
+        mapLongitude: 'Map Longitude',
+        mapZoom: 'Map Zoom',
+        time: 'Time',
+        dayNumber: 'Day Number',
+        period: 'Period',
+        activityImage: 'Activity Image'
+    },
+    reservationEdit: {
+        editReservation: 'Edit Reservation',
+        editTheReservationDetailsAndAnnounceTheChangesToTh: 'Edit the reservation details and announce the changes to the customers.',
+        travelTimeDetail: 'Travel Time Detail',
+        newTravelTimeWillBeAnnouncedToTheBookingHolderOnce: '* New travel time will be announced to the booking holder once it\'\'s changed.',
+        totalDayNumber: 'Total Day Number',
+        addStep: 'Add Step',
+        originalPrice: 'Original Price',
+        discount: 'Discount',
+        addCharge: 'Add Charge',
+        reason: 'Reason',
+        reasonsForChangingTheReservation: 'Reasons for changing the reservation',
+        submit: 'Submit'
+    },
+    resView: {
+        reservationList: 'Reservation List',
+        viewAllPrograms: 'View all Programs'
+    },
+    searchPage: {
+        destinations: 'Destinations',
+        select: 'Select',
+        checkInCheckOut: 'Check in - Check out',
+        tourType: 'Tour Type',
+        price: 'Price',
+        duration: 'Duration',
+        '3269Properties': '3,269 properties',
+        inEurope: 'in Europe',
+        sort: 'Sort',
+        perAdult: 'per adult',
+        viewDetail: 'View Detail'
+    },
+    moreView: {
+        garden: 'Garden',
+        '2Guests': '2 guests',
+        '1Bedroom': '1 bedroom',
+        '1Bed': '1 bed',
+        breakfast: 'Breakfast',
+        spa: 'Spa',
+        bar: 'Bar',
+        exceptional: 'Exceptional',
+        '3014Reviews': '3,014 reviews',
+        perAdult: 'per adult',
+        viewDetail: 'View Detail'
+    },
+    rightContentView: {
+        dashboard: 'Dashboard',
+        monthlyPending: 'Monthly Pending',
+        icon: 'icon',
+        monthlyEarning: 'Monthly Earning',
+        quarterlyPending: 'Quarterly Pending',
+        quarterlyEarning: 'Quarterly Earning',
+        visualisationCharts: 'Visualisation Charts',
+        moreCharts: 'More Charts',
+        recentBookings: 'Recent Bookings',
+        viewAll: 'View All',
+        item: 'Item',
+        total: 'Total',
+        paid: 'Paid',
+        status: 'Status',
+        createdAt: 'Created At',
+        key: '#{expr}',
+        processing: 'Processing',
+        completed: 'Completed',
+        cancelled: 'Cancelled'
+    },
+    sidebarView: {
+        menu: 'Menu'
+    },
+    notHelpful: 'Not helpful',
+    helpful: 'Helpful',
+    freeWifi: 'Free WiFi',
+    facilities: 'Facilities',
+    comfort: 'Comfort',
+    valueForMoney: 'Value for money',
+    cleanliness: 'Cleanliness',
+    staff: 'Staff',
+    reviews: '{reviews_num} reviews',
+    guestReviews: 'Guest reviews',
+    leaveReply: {
+        leaveAReply: 'Leave a Reply',
+        yourEmailAddressWillNotBePublished: 'Your email address will not be published.',
+        staff2: 'Staff',
+        cleanliness2: 'Cleanliness',
+        valueForMoney2: 'Value for money',
+        comfort2: 'Comfort',
+        facilities2: 'Facilities',
+        freeWifi2: 'Free WiFi',
+        title: 'Title',
+        writeYourComment: 'Write Your Comment',
+        postComment: 'Post Comment'
+    },
+    simEx: {
+        similarExperiences: 'Similar Experiences',
+        interdumEtMalesuadaFamesAcAnteIpsum: 'Interdum et malesuada fames ac ante ipsum'
+    },
+    traveldetails: {
+        showOnMap: 'Show on map',
+        seeAllPhotos: 'See All Photos',
+        tourSnapshot: 'Tour snapshot',
+        duration: 'Duration:',
+        day: '{duration} Day',
+        groupSize: 'Group Size:',
+        overview: 'Overview',
+        price: 'Price',
+        date: 'Date',
+        numberOfTravelers: 'Number of travelers',
+        moreThanHalfOfTravelersRecommendThisTrip: 'More than half of travelers recommend this trip',
+        notSureYouCanCancelThisReservationUpTo24HoursInAdv: 'Not sure? You can cancel this reservation up to 24 hours in advance for a full refund.',
+        addANewTourismProject: 'Add a new tourism project.',
+        introduction: 'Introduction',
+        projectName: 'Project Name',
+        projectDescription: 'Project Description',
+        cutoffDate: 'Cutoff Date',
+        groupNumber: 'Group Number',
+        coverImage: 'Cover Image',
+        bannerImage: 'Banner Image',
+        gallery: 'Gallery',
+        selectATagType: 'Select A Tag Type',
+        tagValue: 'Tag Value',
+        types: 'Types',
+        cityTour: 'City Tour',
+        museumTour: 'Museum Tour',
+        totalDayNumber: 'Total Day Number',
+        addStep: 'Add Step',
+        originalPrice: 'Original Price',
+        selectCurrencyUnit: 'Select Currency Unit',
+        discount: 'Discount',
+        addCharge: 'Add Charge',
+        title: 'Title',
+        newTag: 'New Tag',
+        add: 'Add',
+        content: 'Content',
+        submit: 'Submit'
+    },
+    PMDV: {
+        addTravelProject: 'Add Travel Project',
+        locationText: 'Location Text'
+    },
+    sidebarViewprograms: 'Programs',
+    sidebarViewreservations: 'Reservations',
+    sidebarViewsettings: 'Settings',
+    sidebarViewlogout: 'Logout'
 }

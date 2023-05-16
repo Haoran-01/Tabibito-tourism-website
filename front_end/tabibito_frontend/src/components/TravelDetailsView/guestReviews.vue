@@ -4,17 +4,17 @@
     <div class="row y-gap-30 guest_reviews_wrap">
       <div class="col-xl-3">
         <h3 class="gr_title">
-          Guest reviews
+          {{ $t('guestReviews') }}
         </h3>
 
         <div class="exceptional">
           <div class="ex_point">{{ scores.exceptional }}</div>
           <div class="ex_sub_wrap">
             <div class="ex_text">
-              Exceptional
+              {{ $t('moreView.exceptional') }}
             </div>
             <div class="ex_sta">
-              {{ reviews.reviews_num }} reviews
+              {{ $t('reviews', {reviews_num: reviews.reviews_num}) }}
             </div>
           </div>
         </div>
@@ -24,7 +24,7 @@
             <div class="">
               <div class="bar_head">
                 <div class="bar_title">
-                  Location
+                  {{ $t('homepage.searchPart.loc') }}
                 </div>
                 <div class="bar_score">
                   {{ scores.location }}
@@ -46,7 +46,7 @@
             <div class="">
               <div class="bar_head">
                 <div class="bar_title">
-                  Staff
+                  {{ $t('staff') }}
                 </div>
                 <div class="bar_score">
                   {{ scores.staff }}
@@ -68,7 +68,7 @@
             <div class="">
               <div class="bar_head">
                 <div class="bar_title">
-                  Cleanliness
+                  {{ $t('cleanliness') }}
                 </div>
                 <div class="bar_score">
                   {{ scores.cleanliness }}
@@ -90,7 +90,7 @@
             <div class="">
               <div class="bar_head">
                 <div class="bar_title">
-                  Value for money
+                  {{ $t('valueForMoney') }}
                 </div>
                 <div class="bar_score">
                   {{ scores.value_for_money }}
@@ -112,7 +112,7 @@
             <div class="">
               <div class="bar_head">
                 <div class="bar_title">
-                  Comfort
+                  {{ $t('comfort') }}
                 </div>
                 <div class="bar_score">
                   {{ scores.comfort }}
@@ -134,7 +134,7 @@
             <div class="">
               <div class="bar_head">
                 <div class="bar_title">
-                  Facilities
+                  {{ $t('facilities') }}
                 </div>
                 <div class="bar_score">
                   {{ scores.facilities }}
@@ -156,7 +156,7 @@
             <div class="">
               <div class="bar_head">
                 <div class="bar_title">
-                  Free WiFi
+                  {{ $t('freeWifi') }}
                 </div>
                 <div class="bar_score">
                   {{ scores.free_wifi }}
@@ -212,7 +212,7 @@
                     <ThumbsUp />
                   </n-icon>
                 </template>
-                Helpful
+                {{ $t('helpful') }}
               </n-button>
 
               <n-button text :loading="loading" @click="handleClick">
@@ -221,7 +221,7 @@
                     <ThumbsDown />
                   </n-icon>
                 </template>
-                Not helpful
+                {{ $t('notHelpful') }}
               </n-button>
             </div>
           </div>

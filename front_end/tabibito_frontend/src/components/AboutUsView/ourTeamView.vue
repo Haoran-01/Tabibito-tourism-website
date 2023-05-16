@@ -6,7 +6,7 @@
           <div class="col-auto">
             <div class="sectionTitle-our-team">
               <h2 class="sectionTitle__title">{{ $t('our.team')}}</h2>
-              <p class="sectionTitle__text">Come to know our team!</p>
+              <p class="sectionTitle__text">{{ $t('our.comeToKnowOurTeam') }}</p>
             </div>
           </div>
         </div>
@@ -19,8 +19,8 @@
                   src="../../assets/team/LDL.jpg"
               >
                 <div class="name-bar-our-team">
-                  <div class="our-team-name">Donglin Liu</div>
-                  <div class="our-team-job">Senior Tour Guide</div>
+                  <div class="our-team-name">{{ $t('our.donglinLiu') }}</div>
+                  <div class="our-team-job">{{ $t('our.seniorTourGuide') }}</div>
                 </div>
             </div>
 
@@ -30,8 +30,8 @@
                   src="../../assets/team/HFH.jpg"
               >
               <div class="name-bar-our-team">
-                <div class="our-team-name">Feihe Huang</div>
-                <div class="our-team-job">Senior Tour Guide</div>
+                <div class="our-team-name">{{ $t('our.feiheHuang') }}</div>
+                <div class="our-team-job">{{ $t('our.seniorTourGuide') }}</div>
               </div>
             </div>
 
@@ -41,8 +41,8 @@
                   src="../../assets/team/YHR.jpg"
               >
               <div class="name-bar-our-team">
-                <div class="our-team-name">Haoran Yan</div>
-                <div class="our-team-job">Senior Tour Guide</div>
+                <div class="our-team-name">{{ $t('our.haoranYan') }}</div>
+                <div class="our-team-job">{{ $t('our.seniorTourGuide') }}</div>
               </div>
             </div>
 
@@ -52,8 +52,8 @@
                   src="../../assets/team/ZJH.jpg"
               >
               <div class="name-bar-our-team">
-                <div class="our-team-name">Jiahe Zhang</div>
-                <div class="our-team-job">Senior Tour Guide</div>
+                <div class="our-team-name">{{ $t('our.jiaheZhang') }}</div>
+                <div class="our-team-job">{{ $t('our.seniorTourGuide') }}</div>
               </div>
             </div>
 
@@ -63,8 +63,8 @@
                   src="../../assets/team/XWB.jpg"
               >
               <div class="name-bar-our-team">
-                <div class="our-team-name">Wenbei Xie</div>
-                <div class="our-team-job">Senior Tour Guide</div>
+                <div class="our-team-name">{{ $t('our.wenbeiXie') }}</div>
+                <div class="our-team-job">{{ $t('our.seniorTourGuide') }}</div>
               </div>
             </div>
 
@@ -74,8 +74,8 @@
                   src="../../assets/team/WWJ.jpg"
               >
               <div class="name-bar-our-team">
-                <div class="our-team-name">Wenjie Wu</div>
-                <div class="our-team-job">Senior Tour Guide</div>
+                <div class="our-team-name">{{ $t('our.wenjieWu') }}</div>
+                <div class="our-team-job">{{ $t('our.seniorTourGuide') }}</div>
               </div>
             </div>
 

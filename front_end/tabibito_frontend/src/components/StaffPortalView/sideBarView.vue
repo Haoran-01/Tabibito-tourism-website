@@ -14,28 +14,28 @@
       </button>
     </div>
 
-    <h3>Menu</h3>
+    <h3>{{ $t('sidebarView.menu') }}</h3>
     <div class="menu">
       <router-link class="button" to="/management">
-        <img class="material-symbols-outlined" src="../../assets/dashboard/sidebar/compass.svg" alt="icon">
-        <span class="text">Dashboard</span>
+        <img class="material-symbols-outlined" src="../../assets/dashboard/sidebar/compass.svg" :alt="$t('rightContentView.icon')">
+        <span class="text">{{ $t('rightContentView.dashboard') }}</span>
       </router-link>
       <router-link class="button" to="/chat">
-        <img class="material-symbols-outlined iconC" src="../../assets/Chat.svg" alt="icon">
-        <span class="text">Chat</span>
+        <img class="material-symbols-outlined iconC" src="../../assets/Chat.svg" :alt="$t('rightContentView.icon')">
+        <span class="text">{{ $t('navi.chat') }}</span>
       </router-link>
       <router-link class="button" to="/management/project_list">
-        <img class="material-symbols-outlined" src="../../assets/dashboard/sidebar/booking.svg" alt="icon">
-        <span class="text">Programs</span>
+        <img class="material-symbols-outlined" src="../../assets/dashboard/sidebar/booking.svg" :alt="$t('rightContentView.icon')">
+        <span class="text">{{ $t('sidebarViewprograms') }}</span>
       </router-link><router-link class="button" to="/management/reservation_list">
-      <img class="material-symbols-outlined" src="../../assets/dashboard/sidebar/bookmark.svg" alt="icon">
-      <span class="text">Reservations</span>
+      <img class="material-symbols-outlined" src="../../assets/dashboard/sidebar/bookmark.svg" :alt="$t('rightContentView.icon')">
+      <span class="text">{{ $t('sidebarViewreservations') }}</span>
     </router-link><router-link class="button" to="/">
-      <img class="material-symbols-outlined" src="../../assets/dashboard/sidebar/gear.svg" alt="icon">
-      <span class="text">Settings</span>
+      <img class="material-symbols-outlined" src="../../assets/dashboard/sidebar/gear.svg" :alt="$t('rightContentView.icon')">
+      <span class="text">{{ $t('sidebarViewsettings') }}</span>
     </router-link><router-link class="button" to="/">
-      <img class="material-symbols-outlined" src="../../assets/dashboard/sidebar/log-out.svg" alt="icon">
-      <span class="text">Logout</span>
+      <img class="material-symbols-outlined" src="../../assets/dashboard/sidebar/log-out.svg" :alt="$t('rightContentView.icon')">
+      <span class="text">{{ $t('sidebarViewlogout') }}</span>
     </router-link>
     </div>
   </aside>

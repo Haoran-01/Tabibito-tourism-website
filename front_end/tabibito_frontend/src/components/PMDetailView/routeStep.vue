@@ -9,44 +9,44 @@
           <template #trigger>
             <div class="actionButton deleteButtonIcon" @click.stop=""></div>
           </template>
-          Are you sure you want to delete this step? The information will lost.
+          {{ $t('routeStep.areYouSureYouWantToDeleteThisStepTheInformationWil') }}
         </n-popconfirm>
         <div class="actionButton" :class="expandButtonIcon"></div>
       </div>
     </div>
     <n-collapse-transition :show="show">
       <div class="stepContent">
-        <div class="inputTitle">Activity Name</div>
+        <div class="inputTitle">{{ $t('routeStep.activityName') }}</div>
         <div class="input_form">
           <input type="text" v-model="stepData.activityName" required>
-          <label class="input_label">Activity Name</label>
+          <label class="input_label">{{ $t('routeStep.activityName') }}</label>
         </div>
-        <div class="inputTitle">Location</div>
+        <div class="inputTitle">{{ $t('routeStep.location') }}</div>
         <div class="input_form">
           <input type="text" v-model="stepData.exactLocation" required>
-          <label class="input_label">Exact Location</label>
+          <label class="input_label">{{ $t('routeStep.exactLocation') }}</label>
         </div>
         <div class="input_form" style="justify-content: space-between;">
           <div class="inner_input_form">
             <input type="text" v-model="stepData.mapLatitude" required>
-            <label class="input_label">Map Latitude</label>
+            <label class="input_label">{{ $t('routeStep.mapLatitude') }}</label>
           </div>
           <div class="inner_input_form">
             <input type="text" v-model="stepData.mapLongitude" required>
-            <label class="input_label">Map Longitude</label>
+            <label class="input_label">{{ $t('routeStep.mapLongitude') }}</label>
           </div>
           <div class="inner_input_form">
             <input type="text" v-model="stepData.mapZoom" required>
-            <label class="input_label">Map Zoom</label>
+            <label class="input_label">{{ $t('routeStep.mapZoom') }}</label>
           </div>
         </div>
-        <div class="inputTitle">Time</div>
+        <div class="inputTitle">{{ $t('routeStep.time') }}</div>
           <div class="timeInputForm">
-            <n-select v-model:value="stepData.dayNumber" :disabled="isDayNumberDisabled" size="large" placeholder="Day Number" :options="dayOptions" placement="bottom"/>
-            <n-select v-model:value="stepData.periodValue" size="large" placeholder="Period" :options="periodOptions" placement="bottom"/>
+            <n-select v-model:value="stepData.dayNumber" :disabled="isDayNumberDisabled" size="large" :placeholder="$t('routeStep.dayNumber')" :options="dayOptions" placement="bottom"/>
+            <n-select v-model:value="stepData.periodValue" size="large" :placeholder="$t('routeStep.period')" :options="periodOptions" placement="bottom"/>
             <n-time-picker v-model:value="stepData.exactTime" size="large" :is-hour-disabled="isHourDisabled" placement="bottom"/>
           </div>
-        <div class="inputTitle">Activity Image</div>
+        <div class="inputTitle">{{ $t('routeStep.activityImage') }}</div>
         <n-upload
             :action="imageAPI"
             :default-file-list="picList"

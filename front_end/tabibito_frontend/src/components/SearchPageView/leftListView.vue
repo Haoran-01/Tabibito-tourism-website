@@ -12,9 +12,9 @@
             <n-icon class="icon_loc"><LocationOutline /></n-icon>
 
             <div class="loc_margin">
-              <h4 class="loc_title">Destinations</h4>
+              <h4 class="loc_title">{{ $t('searchPage.destinations') }}</h4>
               <div class="loc_input">
-                <n-select class="dropdown" v-model:value="currentLocation" :options="locOptions" clearable placeholder="Select" @select="handleSelectLoc"/>
+                <n-select class="dropdown" v-model:value="currentLocation" :options="locOptions" clearable :placeholder="$t('searchPage.select')" @select="handleSelectLoc"/>
               </div>
             </div>
           </div>
@@ -26,7 +26,7 @@
             <n-icon class="icon_loc"><TodayOutline /></n-icon>
 
             <div class="loc_margin">
-              <h4 class="loc_title">Check in - Check out</h4>
+              <h4 class="loc_title">{{ $t('searchPage.checkInCheckOut') }}</h4>
               <div class="loc_input">
                 <n-date-picker v-model:value="startTime" type="date" :is-date-disabled="secureStartTime" size="small" clearable :placeholder="$t('homepage.searchPart.st')"/>
                 <span>-</span>
@@ -42,9 +42,9 @@
             <n-icon class="icon_loc"><CompassOutline /></n-icon>
 
             <div class="loc_margin">
-              <h4 class="loc_title">Tour Type</h4>
+              <h4 class="loc_title">{{ $t('searchPage.tourType') }}</h4>
               <div class="loc_input">
-                <n-select class="dropdown" v-model:value="tourType" :options="typeOptions" clearable placeholder="Tour Type" @select="handleSelectType"/>
+                <n-select class="dropdown" v-model:value="tourType" :options="typeOptions" clearable :placeholder="$t('searchPage.tourType')" @select="handleSelectType"/>
               </div>
             </div>
           </div>
@@ -59,13 +59,13 @@
     </div>
 
     <div class="row x-gap-10 y-gap-10 select_menu">
-      <n-select class="dropdown" v-model:value="price" :options="priceoptions" clearable placeholder="Price" @select="handleSelectPrice"/>
-      <n-select class="dropdown" v-model:value="duration" :options="durationoptions" clearable placeholder="Duration" @select="handleSelectDuration"/>
+      <n-select class="dropdown" v-model:value="price" :options="priceoptions" clearable :placeholder="$t('searchPage.price')" @select="handleSelectPrice"/>
+      <n-select class="dropdown" v-model:value="duration" :options="durationoptions" clearable :placeholder="$t('searchPage.duration')" @select="handleSelectDuration"/>
     </div>
 
     <div class="row y-gap-10 property">
       <div class="col-auto">
-        <div class="property_text"><span class="property_num">3,269 properties</span> in Europe</div>
+        <div class="property_text"><span class="property_num">{{ $t('searchPage.3269Properties') }}</span> {{ $t('searchPage.inEurope') }}</div>
       </div>
       <div class="col-auto">
           <n-dropdown
@@ -80,7 +80,7 @@
                 <StatsChartOutline />
               </n-icon>
             </template>
-            Sort
+            {{ $t('searchPage.sort') }}
           </n-button>
         </n-dropdown>
       </div>
@@ -122,15 +122,15 @@
               <div class="stars x-gap-10">
                 <n-icon class="star" v-for="star in item.stars" :key="star"><Star /></n-icon>
               </div>
-              <div class="reviews">{{ item.reviews }} reviews</div>
+              <div class="reviews">{{ $t('mostPopularTours.reviews', {reviews: item.reviews}) }}</div>
 
-              <div class="from">From</div>
+              <div class="from">{{ $t('discount.from') }}</div>
               <div class="price">US${{ item.price }}</div>
-              <div class="per">per adult</div>
+              <div class="per">{{ $t('searchPage.perAdult') }}</div>
 
 
               <a class="button -dark-1 btn_detail" @click="this.$router.push('/trip/' + item.id)">
-                View Detail <n-icon class="margin"><ArrowForward /></n-icon>
+                {{ $t('searchPage.viewDetail') }} <n-icon class="margin"><ArrowForward /></n-icon>
               </a>
 
             </div>

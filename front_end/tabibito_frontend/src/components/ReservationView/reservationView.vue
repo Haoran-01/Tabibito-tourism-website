@@ -9,21 +9,21 @@
     <div class="TCon">
       <div class="TTit">
         <div class="TCol">
-          <h1 class="TTex1">Reservation List</h1>
-          <div class="TTex2">Manage the tourism programs</div>
+          <h1 class="TTex1">{{ $t('resView.reservationList') }}</h1>
+          <div class="TTex2">{{ $t('backList.manageTheTourismPrograms') }}</div>
         </div>
 
         <div class="TAuto">
           <div class="but">
             <router-link to="/management" style="text-decoration: none">
               <button class="nBtn nBtn1">
-                Back To Dashboard
+                {{ $t('backList.backToDashboard') }}
               </button>
             </router-link>
 
             <router-link to="/management/project_list" style="text-decoration: none">
               <button class="nBtn nBtn2">
-                View all Programs
+                {{ $t('resView.viewAllPrograms') }}
               </button>
             </router-link>
 
@@ -62,7 +62,7 @@
                 <div class="row contact-foot-sub">
                   <div class="col-auto">
                     <div class="contact-foot-text">
-                      © 2023 Tabibito All rights reserved.
+                      {{ $t('backList.TabibitoAllRightsReserved') }}
                     </div>
                   </div>
                 </div>

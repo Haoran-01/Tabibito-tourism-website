@@ -27,83 +27,83 @@
             content: true,
             footer: 'soft'}"
           >
-            <h4 class="commentTitle">Hotel Equatorial Melaka</h4>
+            <h4 class="commentTitle">{{ $t('overheard.hotelEquatorialMelaka') }}</h4>
 
-            <p class="commentText"> "Our family was traveling via bullet train between cities in Japan with our luggage the location for this hotel made that so easy. Agoda price was fantastic!"</p>
+            <p class="commentText"> {{ $t('overheard.ourFamilyWasTravelingViaBulletTrainBetweenCitiesIn') }}</p>
             <div class="commentFooter">
               <div class="col-auto">
-                <img class="commentAvatar" src="../../assets/avatars/1.png" alt="image">
+                <img class="commentAvatar" src="../../assets/avatars/1.png" :alt="$t('overheard.image')">
               </div>
 
               <div class="col-auto">
-                <div class="commentName">Courtney Henry</div>
-                <div class="commentJob">Web Designer</div>
+                <div class="commentName">{{ $t('overheard.courtneyHenry') }}</div>
+                <div class="commentJob">{{ $t('overheard.webDesigner') }}</div>
               </div>
             </div>
           </n-card>
         </n-carousel-item>
-        <n-carousel-item :style="{ width: '50%' }">
+        <n-carousel-item :style="{ width: '50%'}">
           <n-card
               size="large"
               :segmented="{
             content: true,
             footer: 'soft'}"
           >
-            <h4 class="commentTitle">Hotel Equatorial Melaka</h4>
+            <h4 class="commentTitle">{{ $t('overheard.hotelEquatorialMelaka') }}</h4>
 
-            <p class="commentText"> "Our family was traveling via bullet train between cities in Japan with our luggage the location for this hotel made that so easy. Agoda price was fantastic!"</p>
+            <p class="commentText"> {{ $t('overheard.ourFamilyWasTravelingViaBulletTrainBetweenCitiesIn') }}</p>
             <div class="commentFooter">
               <div class="col-auto">
-                <img class="commentAvatar" src="../../assets/avatars/1.png" alt="image">
+                <img class="commentAvatar" src="../../assets/avatars/1.png" :alt="$t('overheard.image')">
               </div>
 
               <div class="col-auto">
-                <div class="commentName">Courtney Henry</div>
-                <div class="commentJob">Web Designer</div>
+                <div class="commentName">{{ $t('overheard.courtneyHenry') }}</div>
+                <div class="commentJob">{{ $t('overheard.webDesigner') }}</div>
               </div>
             </div>
           </n-card>
         </n-carousel-item>
-        <n-carousel-item :style="{ width: '50%' }">
+        <n-carousel-item :style="{ width: '50%'}">
           <n-card
               size="large"
               :segmented="{
             content: true,
             footer: 'soft'}"
           >
-            <h4 class="commentTitle">Hotel Equatorial Melaka</h4>
+            <h4 class="commentTitle">{{ $t('overheard.hotelEquatorialMelaka') }}</h4>
 
-            <p class="commentText"> "Our family was traveling via bullet train between cities in Japan with our luggage the location for this hotel made that so easy. Agoda price was fantastic!"</p>
+            <p class="commentText"> {{ $t('overheard.ourFamilyWasTravelingViaBulletTrainBetweenCitiesIn') }}</p>
             <div class="commentFooter">
               <div class="col-auto">
-                <img class="commentAvatar" src="../../assets/avatars/1.png" alt="image">
+                <img class="commentAvatar" src="../../assets/avatars/1.png" :alt="$t('overheard.image')">
               </div>
 
               <div class="col-auto">
-                <div class="commentName">Courtney Henry</div>
-                <div class="commentJob">Web Designer</div>
+                <div class="commentName">{{ $t('overheard.courtneyHenry') }}</div>
+                <div class="commentJob">{{ $t('overheard.webDesigner') }}</div>
               </div>
             </div>
           </n-card>
         </n-carousel-item>
-        <n-carousel-item :style="{ width: '50%' }">
+        <n-carousel-item :style="{ width: '50%'}">
           <n-card
               size="large"
               :segmented="{
             content: true,
             footer: 'soft'}"
           >
-            <h4 class="commentTitle">Hotel Equatorial Melaka</h4>
+            <h4 class="commentTitle">{{ $t('overheard.hotelEquatorialMelaka') }}</h4>
 
-            <p class="commentText"> "Our family was traveling via bullet train between cities in Japan with our luggage the location for this hotel made that so easy. Agoda price was fantastic!"</p>
+            <p class="commentText"> {{ $t('overheard.ourFamilyWasTravelingViaBulletTrainBetweenCitiesIn') }}</p>
             <div class="commentFooter">
               <div class="col-auto">
-                <img class="commentAvatar" src="../../assets/avatars/1.png" alt="image">
+                <img class="commentAvatar" src="../../assets/avatars/1.png" :alt="$t('overheard.image')">
               </div>
 
               <div class="col-auto">
-                <div class="commentName">Courtney Henry</div>
-                <div class="commentJob">Web Designer</div>
+                <div class="commentName">{{ $t('overheard.courtneyHenry') }}</div>
+                <div class="commentJob">{{ $t('overheard.webDesigner') }}</div>
               </div>
             </div>
           </n-card>

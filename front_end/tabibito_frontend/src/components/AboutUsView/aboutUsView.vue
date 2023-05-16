@@ -53,28 +53,28 @@
                           :from="0"
                           :to="0"
                           class="mainFigure"></n-number-animation>
-      <div class="figureName">Reviews</div>
+      <div class="figureName">{{ $t('aboutUsPage.reviews') }}</div>
     </div>
     <div class="figure">
       <n-number-animation show-separator
                           :from="0"
                           :to="0"
                           class="mainFigure"></n-number-animation>
-      <div class="figureName">Travel Projects</div>
+      <div class="figureName">{{ $t('aboutUsPage.travelProjects') }}</div>
     </div>
     <div class="figure">
       <n-number-animation show-separator
                           :from="0"
                           :to="0"
                           class="mainFigure"></n-number-animation>
-      <div class="figureName">Happy customers</div>
+      <div class="figureName">{{ $t('aboutUsPage.happyCustomers') }}</div>
     </div>
     <div class="figure">
       <n-number-animation show-separator
                           :from="0"
                           :to="0"
                           class="mainFigure"></n-number-animation>
-      <div class="figureName">Monthly Income</div>
+      <div class="figureName">{{ $t('aboutUsPage.monthlyIncome') }}</div>
     </div>
   </div>
 

@@ -9,22 +9,22 @@
           <template #trigger>
             <div class="actionButton deleteButtonIcon" @click.stop=""></div>
           </template>
-          Are you sure you want to delete this step? The information will lost.
+          {{ $t('priceItem.areYouSureYouWantToDeleteThisStepTheInformationWil') }}
         </n-popconfirm>
         <div class="actionButton" :class="expandButtonIcon"></div>
       </div>
     </div>
     <n-collapse-transition :show="show">
       <div class="stepContent">
-        <div class="inputTitle">Charge Name</div>
+        <div class="inputTitle">{{ $t('priceItem.chargeName') }}</div>
         <div class="input_form">
           <input type="text" v-model="itemData.chargeName" required>
-          <label class="input_label">Charge Name</label>
+          <label class="input_label">{{ $t('priceItem.chargeName') }}</label>
         </div>
-        <div class="inputTitle">Charge Description</div>
+        <div class="inputTitle">{{ $t('priceItem.chargeDescription') }}</div>
         <div class="input_form">
           <textarea type="text" v-model="itemData.chargeDescription" required></textarea>
-          <label class="input_label">Charge Description</label>
+          <label class="input_label">{{ $t('priceItem.chargeDescription') }}</label>
         </div>
       </div>
     </n-collapse-transition>
