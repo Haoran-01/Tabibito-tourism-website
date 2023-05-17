@@ -169,7 +169,7 @@
             <div v-for="comment in this.comments" class="comment">
               <div class="commentHead">
                 <div class="leftCommentHead">
-                  <img class="commentAvatar">
+                  <img class="commentAvatar" :src="comment.user_portrait">
                   <div class="commentHeadTexts">
                     <div class="commentName">{{comment.user_name}}</div>
                     <div class="commentTime">{{comment.datetime}}</div>
@@ -583,21 +583,20 @@ export default {
         };
 
         const data = {
-          search_values: [
-            {
-              "address": "2627 N Hollywood Way, Burbank, CA",
-              "place_type": "ADMINISTRATIVE_AREA_LEVEL_1",
-              "region_code": "us"
-
-            },
-            {
-              "address": "Statue of liberty",
-              "place_type": "ADMINISTRATIVE_AREA_LEVEL_1",
-              "region_code": "us"
-
-            },
-          ],
+          search_values: [],
         };
+        axios.get('/third/getfootprint')
+            .then((res) => {
+              if (res.status === 200){
+                for (let item of res.data.locations){
+                  data.search_values.push({
+                    "address": item,
+                    "place_type": "ADMINISTRATIVE_AREA_LEVEL_1",
+                  })
+                }
+              }
+            })
+
         const response = regionLookupClient.searchRegion({headers, data});
         let placeIDs;
         response.then((res) => {
