@@ -9,7 +9,7 @@ def index():
 
 @app.route('/pictures/<path:filename>')
 def get_picture(filename):
-    return send_from_directory('website/pictures', filename, as_attachment=True)
+    return send_from_directory(app.static_folder, filename, as_attachment=True)
 
 
 if __name__ == '__main__':
