@@ -577,27 +577,16 @@ export default {
 
 
       },*/
-      initMap(){
+      initMap(d){
         const headers = {
           "X-Goog-Api-Key": "AIzaSyBctzU8ocpP_0j4IdTRqA-GABIAnaXd0ow",
         };
 
-        const data = {
-          search_values: [],
-        };
-        axios.get('/third/getfootprint')
-            .then((res) => {
-              if (res.status === 200){
-                for (let item of res.data.locations){
-                  data.search_values.push({
-                    "address": item,
-                    "place_type": "ADMINISTRATIVE_AREA_LEVEL_1",
-                  })
-                }
-              }
-            })
-
-        const response = regionLookupClient.searchRegion({headers, data});
+        /*let instance = axios.create();
+        instance.headers = headers;
+        instance.data = d;
+        instance.defaults.withCredentials = false;*/
+        const response = regionLookupClient.searchRegion({headers, d});
         let placeIDs;
         response.then((res) => {
           placeIDs = res.data.matches;
@@ -840,7 +829,22 @@ export default {
     script.type = 'text/javascript';
     script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBctzU8ocpP_0j4IdTRqA-GABIAnaXd0ow&callback=initMap&v=beta&language=' + this.mapLanguage;
     document.body.appendChild(script);
-    window.initMap = this.initMap
+    this.axios.get('/third/getfootprint')
+        .then((res) => {
+          if (res.status === 200){
+            const data = {
+              search_values: [],
+            };
+            for (let item of res.data.locations){
+              data.search_values.push({
+                "address": item,
+                "place_type": "ADMINISTRATIVE_AREA_LEVEL_1",
+              })
+            }
+            window.initMap = this.initMap
+            window.initMap.d = data;
+          }
+        })
   }
 }
 </script>
