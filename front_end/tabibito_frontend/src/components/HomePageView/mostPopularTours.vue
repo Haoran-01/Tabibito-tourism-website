@@ -193,11 +193,13 @@ export default {
       space_between,
       populars,
       route,
-      handleSearchPopular() {
-        this.$router.push({ name: 'more', params: { type: 'popular' } });
-      }
     }
   },
+  methods: {
+    handleSearchPopular() {
+      this.route.push({ name: 'more', params: { type: 'popular' } });
+    }
+  }
 }
 </script>
 

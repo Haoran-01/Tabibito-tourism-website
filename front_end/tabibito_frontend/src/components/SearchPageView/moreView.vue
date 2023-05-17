@@ -85,7 +85,7 @@
                 </div>
 
                 <div class="from">{{ $t('discount.from') }}</div>
-                <div class="price">US${{ item.price }}</div>
+                <div class="price">US${{ item.price.toFixed(2) }}</div>
                 <div class="per">{{ $t('moreView.perAdult') }}</div>
 
 
