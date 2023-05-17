@@ -120,7 +120,7 @@
       </div>
 
       <div class="btn_container">
-        <a href="#" class="button px-24 -dark-1 btn_bg" @click="toggleEdit">
+        <a class="button px-24 -dark-1 btn_bg" @click="toggleEdit">
           {{ buttonText }} <div class="icon-arrow-top-right ml-15"></div>
         </a>
       </div>

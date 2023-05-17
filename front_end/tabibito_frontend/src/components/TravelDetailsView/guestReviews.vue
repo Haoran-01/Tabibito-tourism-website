@@ -283,8 +283,9 @@ export default defineComponent({
   },
   methods: {
     handleChangePage() {
-      this.axios.post('/comment/get_comment', {
+      this.axios.post('/product/get_comment', {
         page_number: this.commentPage,
+        product_id: route.params.trip_id,
       })
           .then((res) => {
             if (res.status === 200) {
@@ -315,7 +316,7 @@ export default defineComponent({
         .then((response)=>{
           const code = response.status
           if (code === 200){
-            const count = response.data.number
+            const count = response.number
             this.commentPages  = Math.floor(count / 10) + (count % 10 > 0 ? 1 : 0);
           }
         })
