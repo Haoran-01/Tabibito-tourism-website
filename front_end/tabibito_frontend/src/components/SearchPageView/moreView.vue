@@ -166,7 +166,7 @@ export default defineComponent({
       console.log(value.value, type.value, "++++++++++++++++++++++++")
       axios.post('/homepage/more_program_list',
           {
-            type: type.value,
+            type: type.value || 'popular',
             value: value.value,
             page: morePage.value,
           }
