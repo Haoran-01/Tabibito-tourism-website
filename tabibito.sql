@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.29, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.31, for macos12 (arm64)
 --
 -- Host: 127.0.0.1    Database: tabibito
 -- ------------------------------------------------------
--- Server version	8.0.29
+-- Server version	8.0.31
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -34,7 +34,7 @@ CREATE TABLE `alembic_version` (
 
 LOCK TABLES `alembic_version` WRITE;
 /*!40000 ALTER TABLE `alembic_version` DISABLE KEYS */;
-INSERT INTO `alembic_version` VALUES ('a0ee0b58ed65');
+INSERT INTO `alembic_version` VALUES ('159312329cf7');
 /*!40000 ALTER TABLE `alembic_version` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -145,7 +145,7 @@ CREATE TABLE `fee_des` (
   PRIMARY KEY (`id`),
   KEY `product_id` (`product_id`),
   CONSTRAINT `fee_des_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -273,9 +273,10 @@ CREATE TABLE `product` (
   `app_ddl` datetime NOT NULL,
   `status` enum('Delisted','Launched') DEFAULT NULL,
   `flight` char(50) DEFAULT NULL,
-  `url_3d` char(100) DEFAULT NULL,
+  `url_3d` char(250) DEFAULT NULL,
+  `video_url` char(250) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -284,7 +285,7 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
-INSERT INTO `product` VALUES (9,'Weekend Getaway in New York City','Experience the best of the Big Apple in just a weekend! Take in iconic sights, savor local cuisine, and shop your heart out.',10,'New York City, New York',40.7128,-74.006,12,0.2,'USD',999.99,'2023-07-26 13:20:00','2023-07-28 16:00:00','2023-07-25 16:00:00','Delisted','EI68','https://p3d.in/e/efVI1'),(11,'Discovering Beijing\'s Hidden Gems','Get off the beaten path and explore Beijing\'s lesser-known treasures with our expert guides.',10,'Beijing, China',39.9042,116.407,12,0.8,'CNY',300,'2023-07-31 10:40:00','2023-08-02 10:40:00','2023-07-27 02:40:00','Launched','EI422',''),(15,'Explore Japan','Experience the beauty and culture of Japan with this 7-day tour.',10,'Tokyo, Japan',35.6895,139.692,12,0.75,'USD',1500,'2023-05-21 08:00:00','2023-05-28 08:00:00','2023-05-16 18:40:00','Launched','AA8111',''),(17,'Big Apple','Experience the best of the Big Apple in just a weekend! Take in iconic sights, savor local cuisine, and shop your heart out.',10,'New York City, New York',40.7128,-74.006,12,0.2,'USD',999.99,'2023-07-26 13:20:00','2023-07-28 16:00:00','2023-07-25 16:00:00','Launched','BA6122',''),(18,'Discover the Ancient Wonders of Xi\'an: 10-Day Adventure','Discover the ancient wonders of Xi\'an, one of China\'s oldest cities',10,'Xi\'an, Shaanxi Province, China',34.3416,108.94,12,0.75,'USD',1200,'2023-07-18 08:00:00','2023-07-26 10:39:59','2023-07-10 02:40:00','Launched','HU751',''),(20,'Discovering the Best of Qingdao in 2 Days','Explore the best of Qingdao in 2 days with our guided tour. From its famous beaches to its historic architecture, get to know this charming coastal city and its rich cultural heritage.',10,'Qingdao, Shandong, China',36.0671,120.383,12,0.8,'CNY',279.99,'2023-07-31 13:20:00','2023-08-01 13:20:00','2023-07-29 18:40:00','Launched','QR19',''),(21,'3-Day Hong Kong Tour','Experience the vibrant culture and attractions of Hong Kong on this 3-day tour.',10,'Hong Kong',22.284,114.158,11,0.8,'HKD',500,'2023-11-26 10:40:00','2023-11-28 10:40:00','2023-11-21 16:00:00','Launched','EI776',''),(22,'1-Day Los Angeles Tour','Discover the highlights of Los Angeles in just one day!',20,'Los Angeles',34.0522,-118.244,10,0.9,'USD',100,'2023-06-02 05:20:00','2023-06-03 05:20:00','2023-05-27 05:20:00','Launched','FR1024',''),(25,'3-Day Yunnan Primitive Forest Tour','Discover the beauty of Yunnan\'s primitive forests on this 3-day tour.',15,'Yunnan, China',24.4753,101.343,7,0.9,'CNY',800,'2023-05-28 10:40:00','2023-05-31 10:40:00','2023-05-22 10:40:00','Launched','B66854',''),(26,'Majestic Mountains Tour','Experience the awe-inspiring beauty of the Rocky Mountains on this 7-day tour.',15,'Rocky Mountains',40.015,-105.271,10,0.3,'USD',1499.99,'2023-08-31 22:20:00','2023-08-07 22:20:00','2023-08-25 02:20:00','Launched','EI550',''),(27,'Paris Adventure Getaway','Experience the magic of Paris in this 3-day adventure getaway. From iconic landmarks to hidden gems, immerse yourself in the city\'s culture, history, and cuisine.',10,'Paris, France',48.8566,2.3522,12.5,0.6,'EUR',599.99,'2023-07-25 13:20:00','2023-07-27 18:40:00','2023-07-25 12:20:00','Launched','BA836',''),(28,'Discover Germany in 7 Days','Experience the best of Germany in just 7 days! From the historic city of Berlin to the stunning Rhine River Valley, this tour will take you on a journey through the heart of Germany.',20,'Germany',51.1657,10.4515,6.5,0.3,'EUR',2300,'2023-07-21 02:40:00','2023-07-28 02:40:00','2023-07-21 01:40:00','Launched','FR9717',''),(33,'Tropical Paradise Retreat','Escape to a tropical paradise and experience the beauty and culture of Thailand. From the bustling city of Bangkok to the tranquil beaches of Phuket, this 10-day retreat will leave you feeling rejuvenated and inspired.',10,'Thailand',15.87,100.993,6.5,0.2,'THB',3200,'2023-06-17 00:00:00','2023-06-02 02:40:00','2023-06-16 02:40:00','Launched','EI154',''),(36,'Safari Adventure','Get ready for an unforgettable safari adventure in South Africa! Explore the breathtaking natural beauty of the African savannah and see incredible wildlife up close. This 7-day trip includes everything you need to make the most of your safari experience.',8,'South Africa',-28.5306,24.5928,6.5,0.1,'ZAR',5500,'2023-11-23 21:20:00','2023-11-30 21:20:00','2023-11-23 00:00:00','Launched','BA5954',''),(37,'Innovative London Tour','Experience the best of London on this innovative tour!',10,'London, United Kingdom',51.5074,-0.1278,12,0.6,'USD',2500,'2023-07-06 08:40:00','2023-07-11 01:20:00','2023-07-04 08:40:00','Launched','LX407',''),(38,'Dublin 2-Day Tour','Experience the beauty and charm of Dublin on this 2-day tour. Explore the city\'s historic landmarks and vibrant culture, and sample traditional Irish cuisine.',10,'Dublin, Ireland',53.3498,-6.2603,12,0.75,'EUR',289.99,'2023-12-03 08:00:00','2023-12-10 08:00:00','2023-12-03 08:00:00','Launched','AA6765',''),(39,'Australian Adventure','Experience the beauty of Australia on this thrilling adventure tour!\n',55,'Sydney, Australia',-33.8688,151.209,10,0.8,'USD',1299.99,'2023-06-08 00:00:00','2023-06-11 00:00:00','2023-06-06 00:00:00','Launched','FR211',''),(40,'Kuala Lumpur Tour','Discover the beauty of Kuala Lumpur',10,'Kuala Lumpur',101.687,3.139,12,0.8,'USD',250,'2023-11-26 08:00:00','2023-12-03 08:00:00','2023-11-26 08:00:00','Launched','ABC123 DEF456','https://p3d.in/e/8Csxr'),(42,'Leaning Tower of Pisa Tour','Experience the iconic Leaning Tower of Pisa and learn about its fascinating history and architectural marvel.',15,'Leaning Tower of Pisa, Piazza del Duomo, 56126 Pisa PI, Italy',43.723,10.3966,16,0.25,'EUR',80,'2023-11-05 08:00:00','2023-11-12 08:00:00','2023-11-05 08:00:00','Launched','AZ1234 LH5678 BA9012','https://p3d.in/e/jvQSb'),(43,'Explore Ancient Rome','Discover the secrets of ancient Rome with our expert guides. Explore the Colosseum, Roman Forum, and Palatine Hill and immerse yourself in the history and culture of this fascinating city.',10,'Rome, Italy',41.9028,12.4964,13.5,0.7,'EUR',199.99,'2023-11-12 08:00:00','2023-11-19 08:00:00','2023-11-12 08:00:00','Launched','AA1234 BA5678','https://p3d.in/e/tXr3f');
+INSERT INTO `product` VALUES (9,'Weekend Getaway in New York City','Experience the best of the Big Apple in just a weekend! Take in iconic sights, savor local cuisine, and shop your heart out.',10,'New York City, New York',40.7128,-74.006,12,0.2,'USD',999.99,'2023-07-26 13:20:00','2023-07-28 16:00:00','2023-07-25 16:00:00','Delisted','EI68','https://p3d.in/e/efVI1',NULL),(11,'Discovering Beijing\'s Hidden Gems','Get off the beaten path and explore Beijing\'s lesser-known treasures with our expert guides.',10,'Beijing, China',39.9042,116.407,12,0.8,'CNY',300,'2023-07-31 10:40:00','2023-08-02 10:40:00','2023-07-27 02:40:00','Launched','EI422','',NULL),(15,'Explore Japan','Experience the beauty and culture of Japan with this 7-day tour.',10,'Tokyo, Japan',35.6895,139.692,12,0.75,'USD',1500,'2023-05-21 08:00:00','2023-05-28 08:00:00','2023-05-16 18:40:00','Launched','AA8111','',NULL),(17,'Big Apple','Experience the best of the Big Apple in just a weekend! Take in iconic sights, savor local cuisine, and shop your heart out.',10,'New York City, New York',40.7128,-74.006,12,0.2,'USD',999.99,'2023-07-26 13:20:00','2023-07-28 16:00:00','2023-07-25 16:00:00','Launched','BA6122','',NULL),(18,'Discover the Ancient Wonders of Xi\'an: 10-Day Adventure','Discover the ancient wonders of Xi\'an, one of China\'s oldest cities',10,'Xi\'an, Shaanxi Province, China',34.3416,108.94,12,0.75,'USD',1200,'2023-07-18 08:00:00','2023-07-26 10:39:59','2023-07-10 02:40:00','Launched','HU751','',NULL),(20,'Discovering the Best of Qingdao in 2 Days','Explore the best of Qingdao in 2 days with our guided tour. From its famous beaches to its historic architecture, get to know this charming coastal city and its rich cultural heritage.',10,'Qingdao, Shandong, China',36.0671,120.383,12,0.8,'CNY',279.99,'2023-07-31 13:20:00','2023-08-01 13:20:00','2023-07-29 18:40:00','Launched','QR19','',NULL),(21,'3-Day Hong Kong Tour','Experience the vibrant culture and attractions of Hong Kong on this 3-day tour.',10,'Hong Kong',22.284,114.158,11,0.8,'HKD',500,'2023-11-26 10:40:00','2023-11-28 10:40:00','2023-11-21 16:00:00','Launched','EI776','',NULL),(22,'1-Day Los Angeles Tour','Discover the highlights of Los Angeles in just one day!',20,'Los Angeles',34.0522,-118.244,10,0.9,'USD',100,'2023-06-02 05:20:00','2023-06-03 05:20:00','2023-05-27 05:20:00','Launched','FR1024','',NULL),(25,'3-Day Yunnan Primitive Forest Tour','Discover the beauty of Yunnan\'s primitive forests on this 3-day tour.',15,'Yunnan, China',24.4753,101.343,7,0.9,'CNY',800,'2023-05-28 10:40:00','2023-05-31 10:40:00','2023-05-22 10:40:00','Launched','B66854','',NULL),(26,'Majestic Mountains Tour','Experience the awe-inspiring beauty of the Rocky Mountains on this 7-day tour.',15,'Rocky Mountains',40.015,-105.271,10,0.3,'USD',1499.99,'2023-08-31 22:20:00','2023-08-07 22:20:00','2023-08-25 02:20:00','Launched','EI550','',NULL),(27,'Paris Adventure Getaway','Experience the magic of Paris in this 3-day adventure getaway. From iconic landmarks to hidden gems, immerse yourself in the city\'s culture, history, and cuisine.',10,'Paris, France',48.8566,2.3522,12.5,0.6,'EUR',599.99,'2023-07-25 13:20:00','2023-07-27 18:40:00','2023-07-25 12:20:00','Launched','BA836','',NULL),(28,'Discover Germany in 7 Days','Experience the best of Germany in just 7 days! From the historic city of Berlin to the stunning Rhine River Valley, this tour will take you on a journey through the heart of Germany.',20,'Germany',51.1657,10.4515,6.5,0.3,'EUR',2300,'2023-07-21 02:40:00','2023-07-28 02:40:00','2023-07-21 01:40:00','Launched','FR9717','',NULL),(33,'Tropical Paradise Retreat','Escape to a tropical paradise and experience the beauty and culture of Thailand. From the bustling city of Bangkok to the tranquil beaches of Phuket, this 10-day retreat will leave you feeling rejuvenated and inspired.',10,'Thailand',15.87,100.993,6.5,0.2,'THB',3200,'2023-06-17 00:00:00','2023-06-02 02:40:00','2023-06-16 02:40:00','Launched','EI154','',NULL),(36,'Safari Adventure','Get ready for an unforgettable safari adventure in South Africa! Explore the breathtaking natural beauty of the African savannah and see incredible wildlife up close. This 7-day trip includes everything you need to make the most of your safari experience.',8,'South Africa',-28.5306,24.5928,6.5,0.1,'ZAR',5500,'2023-11-23 21:20:00','2023-11-30 21:20:00','2023-11-23 00:00:00','Launched','BA5954','',NULL),(37,'Innovative London Tour','Experience the best of London on this innovative tour!',10,'London, United Kingdom',51.5074,-0.1278,12,0.6,'USD',2500,'2023-07-06 08:40:00','2023-07-11 01:20:00','2023-07-04 08:40:00','Launched','LX407','',NULL),(38,'Dublin 2-Day Tour','Experience the beauty and charm of Dublin on this 2-day tour. Explore the city\'s historic landmarks and vibrant culture, and sample traditional Irish cuisine.',10,'Dublin, Ireland',53.3498,-6.2603,12,0.75,'EUR',289.99,'2023-12-03 08:00:00','2023-12-10 08:00:00','2023-12-03 08:00:00','Launched','AA6765','',NULL),(39,'Australian Adventure','Experience the beauty of Australia on this thrilling adventure tour!\n',55,'Sydney, Australia',-33.8688,151.209,10,0.8,'USD',1299.99,'2023-06-08 00:00:00','2023-06-11 00:00:00','2023-06-06 00:00:00','Launched','FR211','',NULL),(40,'Kuala Lumpur Tour','Discover the beauty of Kuala Lumpur',10,'Kuala Lumpur',101.687,3.139,12,0.8,'USD',250,'2023-11-26 08:00:00','2023-12-03 08:00:00','2023-11-26 08:00:00','Launched','ABC123 DEF456','https://p3d.in/e/8Csxr',NULL),(42,'Leaning Tower of Pisa Tour','Experience the iconic Leaning Tower of Pisa and learn about its fascinating history and architectural marvel.',15,'Leaning Tower of Pisa, Piazza del Duomo, 56126 Pisa PI, Italy',43.723,10.3966,16,0.25,'EUR',80,'2023-11-05 08:00:00','2023-11-12 08:00:00','2023-11-05 08:00:00','Launched','AZ1234 LH5678 BA9012','https://p3d.in/e/jvQSb',NULL),(43,'Explore Ancient Rome','Discover the secrets of ancient Rome with our expert guides. Explore the Colosseum, Roman Forum, and Palatine Hill and immerse yourself in the history and culture of this fascinating city.',10,'Rome, Italy',41.9028,12.4964,13.5,0.7,'EUR',199.99,'2023-11-12 08:00:00','2023-11-19 08:00:00','2023-11-12 08:00:00','Launched','AA1234 BA5678','https://p3d.in/e/tXr3f',NULL);
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -303,7 +304,7 @@ CREATE TABLE `product_picture` (
   PRIMARY KEY (`id`),
   KEY `product_id` (`product_id`),
   CONSTRAINT `product_picture_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=231 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=243 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -382,7 +383,7 @@ CREATE TABLE `tag` (
   PRIMARY KEY (`id`),
   KEY `product_id` (`product_id`),
   CONSTRAINT `tag_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=89 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=95 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -417,7 +418,7 @@ CREATE TABLE `trip` (
   PRIMARY KEY (`id`),
   KEY `product_id` (`product_id`),
   CONSTRAINT `trip_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=211 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=243 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -532,4 +533,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-05-17 10:15:18
+-- Dump completed on 2023-05-17 10:41:48
