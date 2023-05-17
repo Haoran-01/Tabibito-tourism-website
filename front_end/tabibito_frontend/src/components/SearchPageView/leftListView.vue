@@ -67,23 +67,23 @@
       <div class="col-auto">
         <div class="property_text"><span class="property_num">{{ $t('searchPage.3269Properties') }}</span> {{ $t('searchPage.inEurope') }}</div>
       </div>
-      <div class="col-auto">
-          <n-dropdown
-              trigger="click"
-              placement="bottom-start"
-              :options="sortoptions"
-              @select="handleSelectSort"
-          >
-          <n-button strong ghost size="large" icon-placement="left">
-            <template #icon>
-              <n-icon>
-                <StatsChartOutline />
-              </n-icon>
-            </template>
-            {{ $t('searchPage.sort') }}
-          </n-button>
-        </n-dropdown>
-      </div>
+<!--      <div class="col-auto">-->
+<!--          <n-dropdown-->
+<!--              trigger="click"-->
+<!--              placement="bottom-start"-->
+<!--              :options="sortoptions"-->
+<!--              @select="handleSelectSort"-->
+<!--          >-->
+<!--          <n-button strong ghost size="large" icon-placement="left">-->
+<!--            <template #icon>-->
+<!--              <n-icon>-->
+<!--                <StatsChartOutline />-->
+<!--              </n-icon>-->
+<!--            </template>-->
+<!--            {{ $t('searchPage.sort') }}-->
+<!--          </n-button>-->
+<!--        </n-dropdown>-->
+<!--      </div>-->
     </div>
 
     <div class="row y-gap-20 contents_wrap">
@@ -140,8 +140,11 @@
       </div>
     </div>
 
-    <n-pagination class="page" v-model:page="page" :on-update:page="pageChange"	:page-count="countPage"/>
-
+    <n-pagination
+        v-model:page="searchPage"
+        :page-count="searchPages"
+        v-model:page-size="searchPageSize"
+        @update:page="handleChangePage"></n-pagination>
 
   </div>
 
@@ -176,6 +179,10 @@ export default defineComponent({
     ArrowForward
   },
   setup () {
+    const searchPage = ref(1);
+    const searchPages = ref(1);
+    const searchNumber = 0;
+    const searchPageSize = ref(3);
     const currentLocation = ref();
     const startTime = ref();
     const endTime = ref();
@@ -196,7 +203,7 @@ export default defineComponent({
     onMounted(() => {
       axios.post('/search/product_list',
           {
-            page: 1,
+            page: searchPage.value,
             currentLocation: null,
             startTime: null,
             endTime: null,
@@ -250,8 +257,8 @@ export default defineComponent({
       ).then((response)=>{
             const code = response.status
             if (code === 200){
-              const count = response.data.number
-              self.countPage  = Math.floor(count / 3) + (count % 3 > 0 ? 1 : 0);
+              const count = response.data.number;
+              searchPages.value = Math.ceil(count / 3);
             }
           })
     });
@@ -297,6 +304,10 @@ export default defineComponent({
       });
     };
     return {
+      searchPage,
+      searchPages,
+      searchNumber,
+      searchPageSize,
       loadMap,
       products,
       project_loc,
@@ -308,7 +319,6 @@ export default defineComponent({
       tourType,
       price,
       duration,
-
       secureStartTime(ts) {
         if (endTime.value != null){
           return ts < Date.now() || ts > endTime.value;
@@ -334,7 +344,7 @@ export default defineComponent({
       handleSearchProject() {
         axios.post("/search/product_list",
             {
-              page: 1,
+              page: searchPage.value,
               currentLocation: currentLocation.value || null,
               startTime: startTime.value || null,
               endTime: endTime.value || null,
@@ -390,16 +400,60 @@ export default defineComponent({
             .then((response)=>{
               const code = response.status
               if (code === 200){
-                const count = response.data.number
-                countPage  = Math.floor(count / 3) + (count % 3 > 0 ? 1 : 0);
+                const count = response.data.number;
+                searchPages.value = Math.ceil(count / 3);
               }
             })
-      }
+      },
+      handleChangePage() {
+        axios.post("/search/product_list", {
+              currentLocation: currentLocation.value || null,
+              startTime: startTime.value || null,
+              endTime: endTime.value || null,
+              tourType: tourType.value || null,
+              price: price.value || null,
+              duration: duration.value || null,
+              page: searchPage.value,
+            })
+            .then((response) => {
+              const code = response.status;
+              if (code === 200) {
+                products.value = response.data.products;
+                for(let i = 0; i < products.value.length; i++){
+                  let raw_time = products.value[i].duration;
+                  let hour = Math.round(raw_time/3600);
+                  let day = Math.round(hour/24);
+                  if (hour > 24 && day === 1){
+                    products.value[i].duration = '1 Day'
+                  }
+                  if (hour > 24 && day > 1){
+                    products.value[i].duration = day + ' Days'
+                  }
+                  if (hour === 1){
+                    products.value[i].duration = '1 Hour'
+                  }
+                  if (hour < 24 && hour !== 1){
+                    products.value[i].duration = hour + ' Hours'
+                  }
+                }
+                project_loc = {
+                  lat: products.value[0].map_latitude,
+                  lng: products.value[0].map_longitude
+                }
+                for (let i = 0; i < products.value.length; i++){
+                  locations.push({
+                    position: {lat: products.value[i].map_latitude, lng: products.value[i].map_longitude},
+                    title: products.value[i].title
+                  });
+                }
+                loadMap();
+              }
+            });
+      },
     }
   },
   data(){
     return{
-      countPage: 0,
       priceoptions: [
         {
           label: "Less than $500",

@@ -411,6 +411,12 @@ export default {
   background-color: rgba(53, 84, 209, 0.05);
 }
 
+.tourTypeCard:hover{
+  background-color: #68abf6;
+  transform: scale(1.08); /* 放大到 1.2 倍 */
+
+}
+
 .chooseCards {
   position: relative;
   overflow: hidden !important;

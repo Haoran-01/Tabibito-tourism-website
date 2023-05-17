@@ -278,15 +278,7 @@ export default {
       // console.log( `${row.key}`)
     }
 
-    function page(newPage){
-      this.axios.post('/staff_portal/product_list',{
-        page: newPage
-      }).then(function (response){
-        this.data = response.data.products
-      }).catch(function (error){
-        console.log(error);
-      });
-    }
+    function page(newPage){}
 
     return {
       route,
