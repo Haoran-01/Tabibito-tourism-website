@@ -6,9 +6,11 @@ from flask import render_template, send_from_directory
 def index():
     return render_template('index.html')
 
+
 @app.route('/pictures/<path:filename>')
 def get_picture(filename):
-    return send_from_directory('website/pictures', filename)
+    return send_from_directory('website/pictures', filename, as_attachment=True)
+
 
 if __name__ == '__main__':
     app.debug = True
