@@ -283,8 +283,9 @@ export default defineComponent({
   },
   methods: {
     handleChangePage() {
-      this.axios.post('/comment/get_comment', {
+      this.axios.post('/product/get_comment', {
         page_number: this.commentPage,
+        product_id: route.params.trip_id,
       })
           .then((res) => {
             if (res.status === 200) {
