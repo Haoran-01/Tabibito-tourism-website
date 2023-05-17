@@ -5,7 +5,7 @@ import os
 from exts import db
 from config import Config
 from werkzeug.utils import secure_filename
-from models import Product, ProductPicture, Tag, Trip, FeeDes, ProductType, Comment, PictureType, UserBrowse, NoticeType
+from models import Product, ProductPicture, Tag, Trip, FeeDes, ProductType, Comment, PictureType, UserBrowse, NoticeType, UserNotice
 
 bp = Blueprint("Product", __name__, url_prefix="/product")
 
@@ -266,5 +266,25 @@ def get_edit_info():
         types = NoticeType.query.all()
         result['notice_tags'] = [type.type for type in types]
         return result, 200
+    else:
+        return {}, 404
+
+
+@bp.route("/send_notice", methods=["POST", "GET"])
+def send_notice():
+    product_id = request.json.get("product_id")
+    product = Product.query.filter_by(id=product_id).first()
+    if product:
+        notice_type = request.json.get("tag")
+        title = request.json.get("title")
+        content = request.json.get("content")
+
+        for order in product.orders:
+            customer = order.user
+            notice = UserNotice(type=notice_type, title=title, content=content)
+            notice.user = customer
+            db.session.add(notice)
+        db.session.commit()
+        return {}, 200
     else:
         return {}, 404
