@@ -21,6 +21,7 @@ const chatView = () => import("./components/ChatView/chatView.vue");
 const chartsView = () => import("./components/ChartsView/chartsViewData.vue");
 const chartsView1 = () => import("./components/ChartsView/chartViewMaps.vue");
 const chartsView2 = () => import("./components/ChartsView/chartViewRates.vue");
+const loadView = () => import("./components/LoadView/load.vue");
 
 const routes = [
     { path: '/', component: homepageView, meta: {title: 'home - Tabibito'} },
@@ -54,7 +55,7 @@ const routes = [
     { path: '/chartsData', component: chartsView, meta: {title: 'charts View - Tabibito'}},
     { path: '/chartsMaps', component: chartsView1, meta: {title: 'charts View - Tabibito'}},
     { path: '/chartsRates', component: chartsView2, meta: {title: 'charts View - Tabibito'}},
-
+    { path: '/load', component: loadView, meta: {title: 'Loading View - Tabibito'}},
 ]
 
 const router = createRouter({

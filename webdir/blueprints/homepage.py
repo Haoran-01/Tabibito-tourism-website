@@ -126,12 +126,15 @@ def more_products():
     page_number = 0
     search_type = request.json.get('type')
     value = request.json.get('value')
-
+    print(search_type, value)
     if search_type == "popular":
         page_number = 8
     elif search_type == "type":
+        print(value)
         page_number = Product.query.filter(Product.types.any(ProductType.type == PType(value))).count()
     elif search_type == "location":
+        print(value)
+
         page_number = Product.query.filter(Product.raw_loc == value).count()
     else:
         page_number = 0

@@ -3,7 +3,7 @@
     <div class="chargeListTitle">{{ $t('projectDetailPage.ChargeList.video')}}</div>
     <iframe class="iframe" :width=frame_width :height=frame_height :src=" 'https://www.youtube.com/embed/' + videoLink" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
     <div class="divider"></div>
-    <div class="chargeListTitle">Weather Report</div>
+    <div class="chargeListTitle">{{ $t('projectDetailPage.weatherReport') }}</div>
     <div class="chargeList">
       <div class="weatherPart" v-for="day in weather">
         <div class="weatherTitleBar">
@@ -11,21 +11,21 @@
           <div class="date">{{day.date}}</div>
         </div>
         <div class="weatherMain">
-          <div class="temperature">{{day.temp.toFixed(0) + '℃'}}</div>
+          <div class="temperature">{{ $t('projectDetailPage.temp', {expr: day.temp.toFixed(0) + '℃'}) }}</div>
           <img :src="day.img_url" alt="" class="weatherImg">
         </div>
         <div class="forecast">
           <div class="foreTemp">
-            <div class="tempValue">{{day.max_temp.toFixed(0) + '℃'}}</div>
-            <div class="tempType">Max</div>
+            <div class="tempValue">{{ $t('projectDetailPage.maxtemp', {expr: day.max_temp.toFixed(0) + '℃'}) }}</div>
+            <div class="tempType">{{ $t('projectDetailPage.max') }}</div>
           </div>
           <div class="foreTemp">
-            <div class="tempValue">{{day.avg_temp.toFixed(0) + '℃'}}</div>
-            <div class="tempType">Avg</div>
+            <div class="tempValue">{{ $t('projectDetailPage.avgtemp', {expr: day.avg_temp.toFixed(0) + '℃'}) }}</div>
+            <div class="tempType">{{ $t('projectDetailPage.avg') }}</div>
           </div>
           <div class="foreTemp">
-            <div class="tempValue">{{day.min_temp.toFixed(0) + '℃'}}</div>
-            <div class="tempType">Min</div>
+            <div class="tempValue">{{ $t('projectDetailPage.mintemp', {expr: day.min_temp.toFixed(0) + '℃'}) }}</div>
+            <div class="tempType">{{ $t('projectDetailPage.min') }}</div>
           </div>
         </div>
       </div>

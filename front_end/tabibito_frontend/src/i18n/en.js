@@ -19,7 +19,10 @@ export default {
         profile: "Profile",
         logout: "Log out",
         signup: "Sign Up",
-        login: "Log In"
+        login: "Log In",
+        sear:"Tours",
+        chart:"Charts",
+        about:"Team",
     },
     homepage: {
         searchPart:{
@@ -101,6 +104,14 @@ export default {
             seeDetail: "See details & photo",
             collapse: "See less"
         },
+        weatherReport: 'Weather Report',
+        temp: '{expr}',
+        maxtemp: '{expr}',
+        max: 'Max',
+        avgtemp: '{expr}',
+        avg: 'Avg',
+        mintemp: '{expr}',
+        min: 'Min'
     },
     footer: {
         journey1: "Your Travel Journey Starts Here",
@@ -272,7 +283,11 @@ export default {
         addCharge: 'Add Charge',
         reason: 'Reason',
         reasonsForChangingTheReservation: 'Reasons for changing the reservation',
-        submit: 'Submit'
+        submit: 'Submit',
+        flightNumber: 'Flight Number',
+        flightNumber1: 'Flight Number 1',
+        flightNumber2: 'Flight Number 2',
+        flightNumber3: 'Flight Number 3'
     },
     resView: {
         reservationList: 'Reservation List',
@@ -394,7 +409,8 @@ export default {
         newTag: 'New Tag',
         add: 'Add',
         content: 'Content',
-        submit: 'Submit'
+        submit: 'Submit',
+        seeModel: 'See Model'
     },
     PMDV: {
         addTravelProject: 'Add Travel Project',
@@ -403,5 +419,41 @@ export default {
     sidebarViewprograms: 'Programs',
     sidebarViewreservations: 'Reservations',
     sidebarViewsettings: 'Settings',
-    sidebarViewlogout: 'Logout'
+    sidebarViewlogout: 'Logout',
+    profile: {
+        personalCenter: 'Personal Center',
+        manageAllTheInformationYouNeedHere: 'Manage all the information you need here',
+        travelName: 'Travel Name',
+        travelDetail: 'Travel Detail',
+        goToTravelDetail: 'Go to Travel Detail',
+        itinerary: 'Itinerary',
+        hello: '{expr}',
+        temp: '{expr}',
+        maxtemp: '{expr}',
+        max: 'Max',
+        avgtemp: '{expr}',
+        avg: 'Avg',
+        mintemp: '{expr}',
+        min: 'Min',
+        flightInformation: 'Flight Information',
+        takesOffFrom: 'takes off from',
+        landingAt: 'landing at',
+        editInfo: 'edit info',
+        realName: 'Real Name',
+        phoneNumber: 'Phone Number',
+        birthday: 'Birthday',
+        delete: 'delete',
+        areYouSureYouWantToDeleteYourComment: 'Are you sure you want to delete your comment?',
+        check: 'Check',
+        uncheck: 'Uncheck'
+    },
+    rightSetting: {
+        yourAvatar: 'Your avatar',
+        pngOrJpgNoBiggerThan800pxWideAndTall: 'PNG or JPG no bigger than 800px wide and tall.',
+        gender: 'Gender',
+        userName: 'User Name',
+        phoneNumber: 'Phone Number',
+        birthday: 'Birthday',
+        aboutYourself: 'About Yourself'
+    }
 }
