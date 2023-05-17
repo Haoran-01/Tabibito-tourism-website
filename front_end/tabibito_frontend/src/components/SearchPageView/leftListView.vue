@@ -140,8 +140,11 @@
       </div>
     </div>
 
-    <n-pagination class="page" v-model:page="page" :on-update:page="pageChange"	:page-count="countPage"/>
-
+    <n-pagination
+        v-model:page="searchPage"
+        :page-count="searchPages"
+        v-model:page-size="searchPageSize"
+        @update:page="handleChangePage"></n-pagination>
 
   </div>
 
@@ -176,6 +179,10 @@ export default defineComponent({
     ArrowForward
   },
   setup () {
+    const searchPage = ref(1);
+    const searchPages = ref(20);
+    const searchNumber = 0;
+    const searchPageSize = ref(3);
     const currentLocation = ref();
     const startTime = ref();
     const endTime = ref();
@@ -196,7 +203,7 @@ export default defineComponent({
     onMounted(() => {
       axios.post('/search/product_list',
           {
-            page: 1,
+            page: searchPage.value,
             currentLocation: null,
             startTime: null,
             endTime: null,
@@ -250,8 +257,8 @@ export default defineComponent({
       ).then((response)=>{
             const code = response.status
             if (code === 200){
-              const count = response.data.number
-              self.countPage  = Math.floor(count / 3) + (count % 3 > 0 ? 1 : 0);
+              const count = response.data.number;
+              searchPages.value = Math.ceil(count / 3);
             }
           })
     });
@@ -297,6 +304,10 @@ export default defineComponent({
       });
     };
     return {
+      searchPage,
+      searchPages,
+      searchNumber,
+      searchPageSize,
       loadMap,
       products,
       project_loc,
@@ -308,7 +319,6 @@ export default defineComponent({
       tourType,
       price,
       duration,
-
       secureStartTime(ts) {
         if (endTime.value != null){
           return ts < Date.now() || ts > endTime.value;
@@ -334,7 +344,7 @@ export default defineComponent({
       handleSearchProject() {
         axios.post("/search/product_list",
             {
-              page: 1,
+              page: searchPage.value,
               currentLocation: currentLocation.value || null,
               startTime: startTime.value || null,
               endTime: endTime.value || null,
@@ -390,16 +400,34 @@ export default defineComponent({
             .then((response)=>{
               const code = response.status
               if (code === 200){
-                const count = response.data.number
-                countPage  = Math.floor(count / 3) + (count % 3 > 0 ? 1 : 0);
+                const count = response.data.number;
+                searchPages.value = Math.ceil(count / 3);
               }
             })
-      }
+      },
+      handleChangePage() {
+        axios
+            .post("/search/product_list", {
+              currentLocation: currentLocation.value || null,
+              startTime: startTime.value || null,
+              endTime: endTime.value || null,
+              tourType: tourType.value || null,
+              price: price.value || null,
+              duration: duration.value || null,
+              page: searchPage.value,
+            })
+            .then((response) => {
+              const code = response.status;
+              if (code === 200) {
+                this.products = response.data.products;
+                // 更新其他相关的属性，例如搜索结果总页数和总数
+              }
+            });
+      },
     }
   },
   data(){
     return{
-      countPage: 0,
       priceoptions: [
         {
           label: "Less than $500",
