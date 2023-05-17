@@ -837,6 +837,29 @@ iframe {
   display: flex;
   flex-wrap:wrap;
 }
+@media (min-width:370px){
+  .TDCon{
+    max-width:350px
+  }
+  .TDConBox{
+    position: static;
+    margin-left: 0px;
+    justify-content: center;
+    flex-direction: row;
+    width: 100%;
+  }
+  .DTCols1{
+    width: 100%;
+  }
+  .TDBox{
+    width: 75%;
+  }
+  .TDTex4{
+    width: 75%;
+    text-align: center;
+  }
+}
+
 
 @media (min-width:576px){
   .TDCon{

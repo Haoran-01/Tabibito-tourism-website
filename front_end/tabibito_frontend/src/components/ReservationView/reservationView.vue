@@ -531,7 +531,7 @@ export default {
 }
 
 .mainTable{
-  min-width: 850px;
+  min-width: 1002px;
   height: 800px;
   margin-left: auto;
   margin-right: auto;
