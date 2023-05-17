@@ -11,7 +11,7 @@
           </div>
         </div>
         <div class="our-team-contents">
-          <n-carousel :slides-per-view="4" :space-between="20" :loop="false" autoplay show-arrow>
+          <n-carousel :slides-per-view=slides_per_view :space-between=space_between :loop="false" autoplay show-arrow>
 
             <div>
               <img
@@ -112,43 +112,102 @@
 
 <script>
 import {ArrowBack, ArrowForward} from '@vicons/ionicons5'
+import {useRouter} from "vue-router";
+import {onMounted, ref} from "vue";
 export default {
   components: {ArrowBack, ArrowForward},
-  name: "ourTeamView"
+  name: "ourTeamView",
+  setup() {
+    const route = useRouter();
+    let slides_per_view = ref(5);
+    let space_between = ref(20);
+    window.fullWidth = document.documentElement.clientWidth;
+    if (window.fullWidth < 500) {
+      slides_per_view.value = 2;
+      space_between.value = 7;
+    } else if (window.fullWidth < 400) {
+      slides_per_view.value = 2;
+      space_between.value = 10;
+    } else if (window.fullWidth < 500) {
+      slides_per_view.value = 3;
+      space_between.value = 10;
+    } else if (window.fullWidth < 700) {
+      slides_per_view.value = 3;
+      space_between.value = 15;
+    } else if (window.fullWidth < 900) {
+      slides_per_view.value = 4;
+      space_between.value = 15;
+    } else if (window.fullWidth < 1100) {
+      slides_per_view.value = 4;
+      space_between.value = 20;
+    } else if (window.fullWidth >= 1100) {
+      slides_per_view.value = 4;
+      space_between.value = 20;
+    }
+    onMounted(() => {
+      window.addEventListener('resize', () => {
+        window.fullWidth = document.documentElement.clientWidth;
+        // that.windowWidth = window.fullWidth; // 宽
+        if (window.fullWidth < 400) {
+          slides_per_view.value = 2;
+          space_between.value = 10;
+        } else if (window.fullWidth < 500) {
+          slides_per_view.value = 3;
+          space_between.value = 10;
+        } else if (window.fullWidth < 700) {
+          slides_per_view.value = 3;
+          space_between.value = 15;
+        } else if (window.fullWidth < 900) {
+          slides_per_view.value = 4;
+          space_between.value = 15;
+        } else if (window.fullWidth < 1100) {
+          slides_per_view.value = 4;
+          space_between.value = 20;
+        } else if (window.fullWidth >= 1100) {
+          slides_per_view.value = 4;
+          space_between.value = 20;
+        }
+      });
+    })
+    return {
+      space_between,
+      slides_per_view
+    }
+  }
 }
 </script>
 
 <style scoped>
 .carousel-img {
-  width: 234px;
+  width: auto;
   height: 300px;
   object-fit: cover;
 }
 
 @media (max-width: 1080px) {
   .carousel-img {
-    width: 175px;
+    /*width: 175px;*/
     height: 225px;
   }
   .our-team-name {
     font-size: 14px !important;
-    line-height: 1.125 !important;
+    line-height: 1.125 ;
     font-weight: 375;
   }
   .our-team-job {
     font-size: 11px !important;
-    line-height: 1.125 !important;
+    line-height: 1.125;
   }
 }
 
 @media (max-width: 800px) {
   .carousel-img {
-    width: 117px;
+    /*width: 117px;*/
     height: 150px;
   }
   .our-team-name {
     font-size: 9px !important;
-    line-height: 0.75 !important;
+    line-height: 1.2;
     font-weight: 250;
   }
   .our-team-job {
