@@ -34,7 +34,7 @@ CREATE TABLE `alembic_version` (
 
 LOCK TABLES `alembic_version` WRITE;
 /*!40000 ALTER TABLE `alembic_version` DISABLE KEYS */;
-INSERT INTO `alembic_version` VALUES ('de9a36dffb04');
+INSERT INTO `alembic_version` VALUES ('a0ee0b58ed65');
 /*!40000 ALTER TABLE `alembic_version` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -273,7 +273,7 @@ CREATE TABLE `product` (
   `app_ddl` datetime NOT NULL,
   `status` enum('Delisted','Launched') DEFAULT NULL,
   `flight` char(50) DEFAULT NULL,
-  `url_3d` char(100) NOT NULL,
+  `url_3d` char(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -532,4 +532,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-05-16 17:20:44
+-- Dump completed on 2023-05-17 10:15:18

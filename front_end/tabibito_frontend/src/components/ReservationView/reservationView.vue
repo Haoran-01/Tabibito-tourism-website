@@ -310,16 +310,7 @@ export default {
       route.push('/management/reservation_edit/'+`${row.id}`)
     }
 
-    function page(newPage){
-      this.axios.post('/staff_portal/change_order_status',{
-        page: newPage
-      }).then(function (response){
-        data = response.data.all_orders
-        console.log(this.data)
-      }).catch(function (error){
-        console.log(error);
-      });
-    }
+    function page(newPage){}
 
     return {
       route,
