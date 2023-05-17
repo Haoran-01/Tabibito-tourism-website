@@ -22,9 +22,13 @@
          </div>
          <div class="divider"></div>
 
-         <div class="actionButton currencyButton" @click="this.$router.push('/chartsData')">
+         <div class="actionButton currencyButton">
+
+
            <div class="actionIcon" id="currencyIcon" :style="currencyIcon2"></div>
-           <div class="actionText" id="currencyText">{{ $t('navi.chart') }}</div>
+           <n-dropdown trigger="click" style="z-index: 100000000 !important;" :options="options" @select="handleSelect">
+             {{ $t('navi.chart') }}
+           </n-dropdown>
          </div>
          <div class="divider"></div>
 
@@ -92,6 +96,8 @@ import DropDown from "./dropDown.vue";
 import userDropDown from "./userDropDown.vue";
 import {useStore, useLangStore} from "../../store.js";
 import {getCurrentInstance} from 'vue'
+import {useRouter} from 'vue-router';
+
 import {useI18n} from "vue-i18n";
 export default defineComponent({
   props: {
@@ -100,6 +106,7 @@ export default defineComponent({
   },
   components: {DropDown, userDropDown},
   setup(props) {
+    const route = useRouter();
     const store = useStore();
     let currency_is_shown = ref(false);
     let user_is_shown = ref(false);
@@ -160,7 +167,30 @@ export default defineComponent({
       user_is_logged_in,
       backgroundColor,
       currencyColor,
-      dropDownPosition
+      dropDownPosition,
+      options: [
+        {
+          label: "Reservation Rates",
+          key: "rate"
+        },
+        {
+          label: "Visual Travel Data",
+          key: "data"
+        },
+        {
+          label: "Tours Distribution",
+          key: "map"
+        }
+      ],
+      handleSelect(key) {
+        if (key === "data"){
+          route.push('/chartsData')
+        } else if (key === "map"){
+          route.push('/chartsMaps')
+        } else if (key === "rate"){
+          route.push('/chartsRates')
+        }
+      }
     };
   },
   data(){

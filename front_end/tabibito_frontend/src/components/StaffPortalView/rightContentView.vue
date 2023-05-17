@@ -99,9 +99,10 @@
               </div>
               <n-scrollbar x-scrollable>
                 <div class="echarts">
-                  <figure>
+                  <figure style="display: flex;">
 
-                    <div ref="chart" style="height: 400px;width: 1300px"></div>
+                    <chart-data-one style="width: 930px;scale: 0.85;margin-left: -200px"></chart-data-one>
+                    <div ref="chart" style="height: 500px;width: 700px;scale: 0.8"></div>
 
                   </figure>
                 </div>
@@ -179,6 +180,7 @@ import FooterView from "../GeneralComponents/footerView.vue";
 import {useRouter} from 'vue-router';
 
 import * as echarts from "echarts";
+import ChartDataOne from "../ChartsView/chartDataOne.vue";
 
 use([
   CanvasRenderer,
@@ -191,6 +193,7 @@ use([
 export default defineComponent({
   name: 'rightContentView',
   components: {
+    ChartDataOne,
     FooterView,
     VChart
   },
@@ -297,7 +300,7 @@ export default defineComponent({
       const myChart = echarts.init(chartDom);
       const option = {
         title: {
-          text: 'Visitors Trends Diagram'
+          text: 'Visitors Trends '
         },
         tooltip: {
           trigger: 'axis',
@@ -373,7 +376,7 @@ export default defineComponent({
             emphasis: {
               focus: 'series'
             },
-            data: [820, 932, 901, 934, 1290, 1330, 1320]
+            data: [520, 632, 601, 634, 990, 995, 1000]
           },
         ]
       };
