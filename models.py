@@ -247,6 +247,7 @@ class Product(db.Model):
     status = db.Column(DBEnum(ProductStatus), default=ProductStatus.Delisted)
     flight = db.Column(db.CHAR(50), nullable=True)
     url_3d = db.Column(db.CHAR(100), nullable=False, default=None)
+    video_url = db.Column(db.CHAR(250), nullable=True)
 
     comments = relationship('Comment', order_by='Comment.id', back_populates="product")
     trips = relationship('Trip', order_by='Trip.id', back_populates="product")

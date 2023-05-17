@@ -49,6 +49,9 @@ def add_product():
             url_3d = data["url_3d"]
             if url_3d:
                 product.url_3d = url_3d
+            video_url = data["video_link"]
+            if video_url:
+                product.video_url = video_url
             db.session.add(product)
             db.session.commit()
 
@@ -199,3 +202,15 @@ def get_trips():
         return jsonify(code="product not found")
     else:
         return jsonify(location=product.location(), trips=[trip.serialize() for trip in trips])
+
+
+@bp.route("/video", methods=["POST", "GET"])
+def get_video():
+    data = request.get_json(silent=True)
+    product_id = data['product_id']
+    product = Product.query.filter(Product.id == product_id).first()
+    video = product.video_url
+    if video:
+        return jsonify(video_link=video), 200
+    else:
+        return {}, 404
