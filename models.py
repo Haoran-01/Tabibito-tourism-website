@@ -221,7 +221,7 @@ class Order(db.Model):
             "name": self.product.name,
             "cover_url": self.product.get_cover(),
             "raw_loc": self.product.raw_loc,
-            "flight_num": self.product.flight.split(" ")
+            "flight_numbers": self.product.flight.split(" ")
         }
 
     def total(self):
