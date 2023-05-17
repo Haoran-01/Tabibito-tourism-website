@@ -1,10 +1,11 @@
 import datetime
 from flask import Blueprint, jsonify, request
+from flask_login import current_user, AnonymousUserMixin
 import os
 from exts import db
 from config import Config
 from werkzeug.utils import secure_filename
-from models import Product, ProductPicture, Tag, Trip, FeeDes, ProductType, Comment, PictureType
+from models import Product, ProductPicture, Tag, Trip, FeeDes, ProductType, Comment, PictureType, UserBrowse
 
 bp = Blueprint("Product", __name__, url_prefix="/product")
 
@@ -116,13 +117,16 @@ def add_product():
 def product_detail():
     product_id = request.json.get('product_id')
     product = Product.query.filter(Product.id == product_id).first()
+    if current_user.is_authenticated:
+        user_browse = UserBrowse(product_id=product_id, user_id=current_user.user_id, duration=3)
+        product.user_browses.append(user_browse)
+        db.session.commit()
     return jsonify(product=product.serialize_detail())
 
 
 @bp.route("/type_products", methods=["POST", "GET"])
 def get_type_products():
     product_type = request.json.get('type')
-
     products = Product.query.join(Product.types).filter(ProductType.type == product_type).all()
     return jsonify(products=[product.serialize() for product in products])
 
