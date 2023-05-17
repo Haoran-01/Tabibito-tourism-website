@@ -350,17 +350,14 @@ export default {
     const handleFinishCover = ({file,event}) => {
       let res = (event?.target).response;
       file.url = res;
-      coverImageList.value.push(file);
     };
     const handleFinishBanner = ({file,event}) => {
       let res = (event?.target).response;
       file.url = res;
-      bannerImageList.value.push(file);
     };
     const handleFinishGallery = ({file,event}) => {
       let res = (event?.target).response;
       file.url = res;
-      galleryImageList.value.push(file);
     };
     const handleRemoveImage = ({file, fileList}) => {
       let fileIndex = -1;
@@ -637,7 +634,6 @@ export default {
       this.chargeDatas.splice(index, 1);
     },
     submitForm(){
-      console.log("ese")
       const toast = useToast();
       if (this.tags[0].value === "" || this.tags[1].value === "" || this.tags[2].value === ""){
         this.tabValue = "Basic Information";
@@ -678,6 +674,16 @@ export default {
       description: this.chargeDatas[index].chargeDescription
     })
   }
+  let coverImage = this.coverImageList[0].url;
+  let bannerImages = [];
+  for (let file of this.bannerImageList){
+    bannerImages.push(file.url)
+  }
+  let galleryImages = [];
+  for (let file of this.bannerImageList){
+    galleryImages.push(file.url)
+  }
+
   this.axios.post('/product/add', {
     name: this.projectName,
     description: this.projectDescription,
@@ -692,9 +698,9 @@ export default {
     ori_price: this.originalPrice,
     currency: this.currencyType,
     tags: this.tags,
-    cover_image: this.coverImage,
-    banner_image: this.bannerImages,
-    gallery: this.galleryImages,
+    cover_image: coverImage,
+    banner_image: bannerImages,
+    gallery: galleryImages,
     start_time: this.startTime,
     end_time: this.endTime,
     app_ddl: this.cutoffDate,
