@@ -8,7 +8,7 @@ def index():
 
 @app.route('/pictures/<path:filename>')
 def get_picture(filename):
-    return send_from_directory('pictures', filename)
+    return send_from_directory('website/pictures', filename)
 
 if __name__ == '__main__':
     app.debug = True
