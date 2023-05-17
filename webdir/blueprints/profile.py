@@ -23,7 +23,7 @@ def get_user_info():
 
 @bp.route("/uploadavatar", methods=['POST'])
 def upload_avatar():
-    files = request.files.values()  # 获取上传的文件
+    files = request.files.values()
     file_paths = []
     filename = ""
     for file in files:

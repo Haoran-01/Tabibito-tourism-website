@@ -632,7 +632,7 @@ class UserProfile(db.Model):
     picture_address = db.Column(db.CHAR(200))
     job = db.Column(DBEnum(UserJob), default=UserJob.Customer)
     language = db.Column(DBEnum(Language), default=Language.en)
-    user_name = db.Column(db.CHAR(100), nullable=True, default="Tabibito_User")
+    user_name = db.Column(db.CHAR(100), nullable=True, default="Tabibito User")
     gender = db.Column(db.CHAR(100), nullable=True, default="unknown")
     phone_number = db.Column(db.CHAR(30), nullable=True)
     birthday = db.Column(db.Date, nullable=True, default=datetime.now().date())
