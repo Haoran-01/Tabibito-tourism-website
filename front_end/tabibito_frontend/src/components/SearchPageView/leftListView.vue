@@ -141,9 +141,11 @@
     </div>
 
     <n-pagination
+        class="pag"
         v-model:page="searchPage"
         :page-count="searchPages"
         v-model:page-size="searchPageSize"
+        size="small"
         @update:page="handleChangePage"></n-pagination>
 
   </div>
@@ -591,6 +593,9 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.pag{
+  margin-top: 30px;
+}
 .zup {
   position: fixed;
   top: 0;
@@ -955,6 +960,20 @@ export default defineComponent({
   width:auto
 }
 
+.col-md, .col-md-auto,
+.col-auto, .col-12 {
+  position: relative;
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+@media (min-width: 360px) {
+  .cardImage{
+    padding-left: 0;
+  }
+}
+
 @media (min-width:576px){
   .row-cols-sm-auto>*{
     flex:0 0 auto;width:auto
@@ -970,14 +989,6 @@ export default defineComponent({
     max-width: 50%;
   }
 }
-.col-md, .col-md-auto,
-.col-auto, .col-12 {
-  position: relative;
-  width: 100%;
-  padding-right: 15px;
-  padding-left: 15px;
-}
-
 @media (min-width: 768px) {
   .col-md {
     flex-basis: 0;

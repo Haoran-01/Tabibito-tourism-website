@@ -39,7 +39,7 @@
           </button>
 
           <button type="submit" class="TDmodel">
-            See Model
+            {{ $t('traveldetails.seeModel') }}
             <div class="icon_add"></div>
           </button>
           <button type="submit" class="TDmodel" @click="toggleModel" :disabled="!details.model">

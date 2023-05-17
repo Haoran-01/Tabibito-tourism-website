@@ -4,23 +4,23 @@
     <div class="container">
       <div class="titlePart">
         <div class="titleMain">
-          <h1 class="mainTitle">Personal Center</h1>
-          <div class="slogan">Manage all the information you need here</div>
+          <h1 class="mainTitle">{{ $t('profile.personalCenter') }}</h1>
+          <div class="slogan">{{ $t('profile.manageAllTheInformationYouNeedHere') }}</div>
         </div>
       </div>
       <div class="settings">
         <n-modal v-model:show="showModal">
           <div class="modalBody">
             <div class="orderBasic">
-              <div class="attrTitle">Travel Name</div>
+              <div class="attrTitle">{{ $t('profile.travelName') }}</div>
               <div class="attrValue">{{ modalData.name}}</div>
-              <div class="attrTitle">Start Date - End Date</div>
+              <div class="attrTitle">{{ $t('homepage.searchPart.stet') }}</div>
               <div class="attrValue">{{modalData.startTime + " - " + modalData.endTime}}</div>
-              <div class="attrTitle">Travel Detail</div>
-              <div class="attrValue link" @click="this.$router.push('/trip/' + modalData.trip_id)">Go to Travel Detail</div>
+              <div class="attrTitle">{{ $t('profile.travelDetail') }}</div>
+              <div class="attrValue link" @click="this.$router.push('/trip/' + modalData.trip_id)">{{ $t('profile.goToTravelDetail') }}</div>
             </div>
             <div class="itinerary">
-              <div class="attrTitle">Itinerary</div>
+              <div class="attrTitle">{{ $t('profile.itinerary') }}</div>
               <n-timeline v-for="step in modalData.trip" style="margin-left: 12px; margin-top: 12px;">
                 <n-timeline-item
                     :type="step.finished"
@@ -44,12 +44,12 @@
           <n-tab-pane name="Dashboard" tab="Dashboard" display-directive="show:lazy">
             <div class="helloSection">
               <img :src="basicInfo.avatar_url" class="helloAvatar">
-              <div class="greeting">{{'Hello, ' + basicInfo.username + '. Which trip do you want to enjoy today?'}}</div>
+              <div class="greeting">{{ $t('profile.hello', {expr: 'Hello, ' + basicInfo.username + '. Which trip do you want to enjoy today?'}) }}</div>
             </div>
             <div class="recentTrip" v-for="trip in recentTrips">
               <div class="recentTripTitleBar">
                 <div class="recentTripName">{{trip.name}}</div>
-                <div class="recentTripMore" @click="this.$router.push('/trip/' + trip.trip_id)">More</div>
+                <div class="recentTripMore" @click="this.$router.push('/trip/' + trip.trip_id)">{{ $t('hotLocation.more') }}</div>
               </div>
               <div class="recentTripBody">
                 <img class="tripCover" :src="trip.cover_url"/>
@@ -59,26 +59,26 @@
                 <div class="weatherPart">
                   <div class="city">{{trip.weather.city}}</div>
                   <div class="weatherMain">
-                    <div class="temperature">{{trip.weather.temp.toFixed(0) + '℃'}}</div>
+                    <div class="temperature">{{ $t('profile.temp', {expr: trip.weather.temp.toFixed(0) + '℃'}) }}</div>
                     <img :src="trip.weather.img_url" alt="" class="weatherImg">
                   </div>
                   <div class="forecast">
                     <div class="foreTemp">
-                      <div class="tempValue">{{trip.weather.max_temp.toFixed(0) + '℃'}}</div>
-                      <div class="tempType">Max</div>
+                      <div class="tempValue">{{ $t('profile.maxtemp', {expr: trip.weather.max_temp.toFixed(0) + '℃'}) }}</div>
+                      <div class="tempType">{{ $t('profile.max') }}</div>
                     </div>
                     <div class="foreTemp">
-                      <div class="tempValue">{{trip.weather.avg_temp.toFixed(0) + '℃'}}</div>
-                      <div class="tempType">Avg</div>
+                      <div class="tempValue">{{ $t('profile.avgtemp', {expr: trip.weather.avg_temp.toFixed(0) + '℃'}) }}</div>
+                      <div class="tempType">{{ $t('profile.avg') }}</div>
                     </div>
                     <div class="foreTemp">
-                      <div class="tempValue">{{trip.weather.min_temp.toFixed(0) + '℃'}}</div>
-                      <div class="tempType">Min</div>
+                      <div class="tempValue">{{ $t('profile.mintemp', {expr: trip.weather.min_temp.toFixed(0) + '℃'}) }}</div>
+                      <div class="tempType">{{ $t('profile.min') }}</div>
                     </div>
                   </div>
                 </div>
                 <div class="aeroPart">
-                  <div class="flightTitle">Flight Information</div>
+                  <div class="flightTitle">{{ $t('profile.flightInformation') }}</div>
                   <div class="flightStatus">{{trip.flightInfo.status}}</div>
                   <div class="infoColumn">
                     <div class="airportNo">{{trip.flightInfo.departure.airport_no}}</div>
@@ -89,8 +89,8 @@
                     <div class="airportLoc">{{trip.flightInfo.arrival.airport_loc}}</div>
                   </div>
                   <div class="infoColumn">
-                    <div class="airDes">takes off from</div>
-                    <div class="airDes">landing at</div>
+                    <div class="airDes">{{ $t('profile.takesOffFrom') }}</div>
+                    <div class="airDes">{{ $t('profile.landingAt') }}</div>
                   </div>
                   <div class="infoColumn">
                     <div class="airportName">{{trip.flightInfo.departure.airport_name}}</div>
@@ -117,19 +117,19 @@
                 <div class="nameBar">
                   <div class="userName">{{basicInfo.username}}</div>
                   <div class="edit" @click="this.$router.push(this.$route.path + '/edit')">
-                    edit info
+                    {{ $t('profile.editInfo') }}
                   </div>
                 </div>
                 <div class="userDescription">{{basicInfo.description}}</div>
               </div>
             </div>
-            <div class="attrTitle">Real Name</div>
+            <div class="attrTitle">{{ $t('profile.realName') }}</div>
             <div class="attrValue">{{basicInfo.first_name + ' ' + basicInfo.last_name}}</div>
-            <div class="attrTitle">Email</div>
+            <div class="attrTitle">{{ $t('login.email') }}</div>
             <div class="attrValue">{{basicInfo.email}}</div>
-            <div class="attrTitle">Phone Number</div>
+            <div class="attrTitle">{{ $t('profile.phoneNumber') }}</div>
             <div class="attrValue">{{basicInfo.phone_number}}</div>
-            <div class="attrTitle">Birthday</div>
+            <div class="attrTitle">{{ $t('profile.birthday') }}</div>
             <div class="attrValue">{{basicInfo.birthday}}</div>
           </n-tab-pane>
 
@@ -179,9 +179,9 @@
                     @positive-click="handleDeleteComment"
                 >
                   <template #trigger>
-                    <div class="commentAction">delete</div>
+                    <div class="commentAction">{{ $t('profile.delete') }}</div>
                   </template>
-                  Are you sure you want to delete your comment?
+                  {{ $t('profile.areYouSureYouWantToDeleteYourComment') }}
                 </n-popconfirm>
               </div>
               <div class="commentScore">{{comment.score}}</div>
@@ -209,7 +209,7 @@
                   <div class="noticeBadge"></div>
                   <div class="noticeTime">{{notice.time}}</div>
                 </div>
-                <div class="noticeCheckBt" @click="handleCheck(notice.id)">Check</div>
+                <div class="noticeCheckBt" @click="handleCheck(notice.id)">{{ $t('profile.check') }}</div>
               </div>
               <div class="noticeContent">{{notice.content}}</div>
             </div>
@@ -220,7 +220,7 @@
                   <div class="noticeType">{{ notice.type }}</div>
                   <div class="noticeTime">{{notice.time}}</div>
                 </div>
-                <div class="noticeCheckBt" @click="handleUncheck(notice.id)">Uncheck</div>
+                <div class="noticeCheckBt" @click="handleUncheck(notice.id)">{{ $t('profile.uncheck') }}</div>
               </div>
               <div class="noticeContent">{{notice.content}}</div>
             </div>
@@ -855,7 +855,7 @@ template{
   background-color: #F5F5F5;
 }
 .container{
-  width: 1260px;
+  max-width: 1260px;
   padding: 60px 0 0 0;
   margin: auto;
   box-sizing: border-box;
@@ -1311,5 +1311,11 @@ template{
   font-size: 15px;
   color: var(--secondary-text-color);
   margin-top: 10px;
+}
+@media screen and (max-width: 1300px) {
+  .container{
+    padding-left: 15px;
+    padding-right: 15px;
+  }
 }
 </style>

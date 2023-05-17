@@ -183,19 +183,19 @@
               <input type="text" v-model="totalDayNumber" :disabled="totalDayNumberDisabled" required @change="checkAddStepStatus" @blur="validateInteger($event, totalDayNumber, 'totalDayNumber')" @focus="resetInput($event)">
               <label class="input_label">{{ $t('reservationEdit.totalDayNumber') }}</label>
             </div>
-            <div class="inputTitle">Flight Number</div>
+            <div class="inputTitle">{{ $t('reservationEdit.flightNumber') }}</div>
             <div class="input_form" style="justify-content: space-between;">
               <div class="inner_input_form">
                 <input type="text" v-model="flight_numbers[0]" required>
-                <label class="input_label">Flight Number 1</label>
+                <label class="input_label">{{ $t('reservationEdit.flightNumber1') }}</label>
               </div>
               <div class="inner_input_form">
                 <input type="text" v-model="flight_numbers[1]" required>
-                <label class="input_label">Flight Number 2</label>
+                <label class="input_label">{{ $t('reservationEdit.flightNumber2') }}</label>
               </div>
               <div class="inner_input_form">
                 <input type="text" v-model="flight_numbers[2]" required>
-                <label class="input_label">Flight Number 3</label>
+                <label class="input_label">{{ $t('reservationEdit.flightNumber3') }}</label>
               </div>
 
             </div>
