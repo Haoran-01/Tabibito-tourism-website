@@ -45,9 +45,10 @@ def weather_forecast():
     else:
         return jsonify(error="No weather Data"), 304
 
+
 @bp.route("/flight", methods=['GET', 'POST'])
 def flight():
-    flight_number = request.json.get("flight_number")[0]
+    flight_number = request.json.get("flight_numbers")[0]
     flight_data = util.get_flight_data(flight_number)
     if flight_data is not None:
         departure = {
