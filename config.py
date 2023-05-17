@@ -10,8 +10,11 @@ class Config:
     FLASKY_ADMIN_E = ''
     FLASKY_ADMIN_F = ''
 
-    UPLOAD_FOLDER = 'pictures'
-    AVATAR_FOLDER = 'avatar'
+    UPLOAD_FOLDER = 'front_end/tabibito_frontend/dist/pictures'
+    UPLOAD_URL = 'http://csi420-01-vm1.ucd.ie/pictures/'
+    AVATAR_FOLDER = 'front_end/tabibito_frontend/dist/pictures'
+    AVATAR_URL = 'http://csi420-01-vm1.ucd.ie/avatar/'
+
 
     @staticmethod
     def init_app(app):

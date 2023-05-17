@@ -23,20 +23,15 @@ def get_user_info():
 
 @bp.route("/uploadavatar", methods=['POST'])
 def upload_avatar():
-    file = request.files.values()  # 获取上传的文件
-
-    if not os.path.exists(Config.AVATAR_FOLDER):
-        print("no")
-        os.makedirs(Config.AVATAR_FOLDER)
-
+    files = request.files.values()  # 获取上传的文件
     file_paths = []
     filename = ""
-    for file in request.files.values():
+    for file in files:
         filename = secure_filename(file.filename)
         file_path = os.path.join(Config.AVATAR_FOLDER, filename)
         file.save(file_path)
         file_paths.append(file_path)
-    return os.path.join(Config.AVATAR_FOLDER, filename)
+    return os.path.join(Config.AVATAR_URL, filename)
 
 
 @bp.route("/update_info", methods=['POST'])
