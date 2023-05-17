@@ -49,8 +49,9 @@ def add_product():
             video_url = data["video_link"]
             if video_url:
                 product.video_url = video_url
-            if "url_3d" in data:
-                product.url_3d = data["url_3d"]
+            url_3d = data["url_3d"]
+            if url_3d:
+                product.url_3d = url_3d
             db.session.add(product)
             db.session.commit()
 
