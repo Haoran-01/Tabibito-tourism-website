@@ -159,15 +159,15 @@ export default defineComponent({
     const loadingRef = ref(false);
     const message = useMessage();
     onMounted(() => {
-      const { value: paramValue, type: paramType } = route.params;
+      const paramValue = route.params.value ? JSON.parse(route.params.value) : null;
+      const paramType = route.params.type || null;
       value.value = paramValue;
       type.value = paramType;
+      console.log(value.value, type.value, "++++++++++++++++++++++++")
       axios.post('/homepage/more_program_list',
           {
-            type: type.value || "popular",
-            value: value.value || null,
-            // type: "type",
-            // value: "AdventureTour",
+            type: type.value,
+            value: value.value,
             page: morePage.value,
           }
       ).then((response) => {
