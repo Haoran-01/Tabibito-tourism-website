@@ -291,7 +291,7 @@ export default defineComponent({
 
 .filled {
   /* 选中状态的星星样式 */
-  color: yellow;
+  color: #FF8F00;
 }
 
 .star_wrap {
