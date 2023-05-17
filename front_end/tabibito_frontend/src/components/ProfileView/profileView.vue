@@ -744,14 +744,18 @@ export default {
                       trip.weather = res.data;
                     }
                   })
-              this.axios.post('/third/flight', {
-                flight_numbers: trip.flight_numbers
-              })
-                  .then((res) => {
-                    if (res.status === 200) {
-                      trip.flightInfo = res.data
-                    }
-                  })
+              console.log()
+              if (trip.flight_numbers !== null){
+                this.axios.post('/third/flight', {
+                  flight_numbers: trip.flight_numbers
+                })
+                    .then((res) => {
+                      if (res.status === 200) {
+                        trip.flightInfo = res.data
+                      }
+                    })
+              }
+
             }
           }
         })

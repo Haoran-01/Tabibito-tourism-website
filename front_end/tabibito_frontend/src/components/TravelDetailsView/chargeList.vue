@@ -1,17 +1,17 @@
 <template>
   <div class="container">
-    <div class="chargeListTitle">{{ $t('projectDetailPage.ChargeList.video')}}</div>
-    <iframe width="560" height="315" :src=" 'https://www.youtube.com/embed/' + videoLink" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-    <div class="divider"></div>
+    <div class="chargeListTitle" v-if="hasVideo">{{ $t('projectDetailPage.ChargeList.video')}}</div>
+    <iframe v-if="hasVideo" width="560" height="315" :src=" 'https://www.youtube.com/embed/' + videoLink" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    <div v-if="hasVideo" class="divider"></div>
     <div class="chargeListTitle">Weather Report</div>
     <div class="chargeList">
-      <div class="weatherPart" v-for="day in weather">
+      <div class="weatherPart" v-for="day in this.weather">
         <div class="weatherTitleBar">
           <div class="city">{{day.city}}</div>
           <div class="date">{{day.date}}</div>
         </div>
         <div class="weatherMain">
-          <div class="temperature">{{day.temp.toFixed(0) + '℃'}}</div>
+          <div class="temperature">{{day.avg_temp.toFixed(0) + '℃'}}</div>
           <img :src="day.img_url" alt="" class="weatherImg">
         </div>
         <div class="forecast">
@@ -75,7 +75,7 @@ export default {
                 })
                     .then((wres) => {
                       if (wres.status === 200) {
-                        this.weather = wres.data;
+                        this.weather = wres.data.weather;
                       }
                     })
               }
@@ -85,6 +85,7 @@ export default {
     })
         .then((res) => {
           if (res.status === 200){
+            this.hasVideo = true;
             this.videoLink = res.data.video_link
           }
         })
@@ -94,6 +95,7 @@ export default {
       chargeListData: [],
       weather: [],
       videoLink: "",
+      hasVideo: false
     }
   }
 }
