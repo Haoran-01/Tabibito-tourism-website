@@ -136,7 +136,7 @@ export default {
   margin: 15px;
 }
 .map{
-  width: 730px;
+  max-width: 730px;
   margin: 15px;
   background-color: #051036;
   border-radius: 4px;

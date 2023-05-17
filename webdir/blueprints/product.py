@@ -166,15 +166,10 @@ def get_comments():
 
 @bp.route("/uploadpicture", methods=["POST", "GET"])
 def upload_picture():
-    file = request.files.values()  # 获取上传的文件
-
-    if not os.path.exists(Config.UPLOAD_FOLDER):
-        print("no")
-        os.makedirs(Config.UPLOAD_FOLDER)
-
+    files = request.files.values()  # 获取上传的文件
     file_paths = []
     filename = ""
-    for file in request.files.values():
+    for file in files:
         filename = secure_filename(file.filename)
         file_path = os.path.join(Config.UPLOAD_FOLDER, filename)
         file.save(file_path)
@@ -182,7 +177,7 @@ def upload_picture():
     # filename = secure_filename(file.filename)  # 安全获取文件名
     # file.save(os.path.join(Config.UPLOAD_FOLDER, filename))  # 将文件保存到服务器的指定目录
     # 存入数据库的操作
-    return os.path.join(Config.UPLOAD_FOLDER, filename)
+    return os.path.join(Config.BASE_URL, Config.UPLOAD_URL, filename)
 
 
 @bp.route("/deletepicture", methods=["POST", "GET"])

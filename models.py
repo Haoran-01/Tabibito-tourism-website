@@ -212,7 +212,7 @@ class Order(db.Model):
             "name": self.product.name,
             "destination": self.product.raw_loc,
             "start_time": self.product.start_time.strftime('%Y-%m-%d'),
-            "end_time": self.product.end_time.strftime('%Y-%m-%d'),
+            "end_time": self.product.end_time.strftime('%Y-%m-%d')
         }
 
     def serialize_trip(self):
@@ -221,7 +221,18 @@ class Order(db.Model):
             "name": self.product.name,
             "cover_url": self.product.get_cover(),
             "raw_loc": self.product.raw_loc,
-            "flight_num": self.product.flight.split(" ")
+            "flight_numbers": self.product.flight.split(" ")
+        }
+
+    def serialize_status(self):
+        return {
+            "id": self.product_id,
+            "discount": self.product.discount,
+            "price": self.total(),
+            "res_time": self.create_time.strftime('%Y-%m-%d'),
+            "name": self.product.name,
+            "start_time": self.product.start_time.strftime('%Y-%m-%d'),
+            "end_time": self.product.end_time.strftime('%Y-%m-%d')
         }
 
     def total(self):

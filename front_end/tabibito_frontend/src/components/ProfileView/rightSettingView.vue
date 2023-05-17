@@ -36,8 +36,8 @@
         </div>
 
         <div class="col-auto">
-          <h4 class="avatar_title">Your avatar</h4>
-          <div class="avatar_text">PNG or JPG no bigger than 800px wide and tall.</div>
+          <h4 class="avatar_title">{{ $t('rightSetting.yourAvatar') }}</h4>
+          <div class="avatar_text">{{ $t('rightSetting.pngOrJpgNoBiggerThan800pxWideAndTall') }}</div>
         </div>
       </div>
 
@@ -49,7 +49,7 @@
 
             <div class="input_form">
               <input type="text" v-model="gender" :readonly="!isEditing" required>
-              <label class="label">Gender</label>
+              <label class="label">{{ $t('rightSetting.gender') }}</label>
             </div>
 
           </div>
@@ -58,7 +58,7 @@
 
             <div class="input_form">
               <input type="text" v-model="u_name" :readonly="!isEditing" required>
-              <label class="label">User Name</label>
+              <label class="label">{{ $t('rightSetting.userName') }}</label>
             </div>
 
           </div>
@@ -67,7 +67,7 @@
 
             <div class="input_form">
               <input type="text" v-model="f_name" :readonly="!isEditing" required>
-              <label class="label">First Name</label>
+              <label class="label">{{ $t('reg.fir') }}</label>
             </div>
 
           </div>
@@ -76,7 +76,7 @@
 
             <div class="input_form">
               <input type="text" v-model="l_name" :readonly="!isEditing" required>
-              <label class="label">Last Name</label>
+              <label class="label">{{ $t('reg.las') }}</label>
             </div>
 
           </div>
@@ -85,7 +85,7 @@
 
             <div class="input_form">
               <input type="text" v-model="email" :readonly="true" required>
-              <label class="label">Email</label>
+              <label class="label">{{ $t('login.email') }}</label>
             </div>
 
           </div>
@@ -94,7 +94,7 @@
 
             <div class="input_form">
               <input type="text" v-model="phone" :readonly="!isEditing" required>
-              <label class="label">Phone Number</label>
+              <label class="label">{{ $t('rightSetting.phoneNumber') }}</label>
             </div>
 
           </div>
@@ -103,7 +103,7 @@
 
             <div class="input_form">
               <input type="text" v-model="birthday" :readonly="!isEditing" required>
-              <label class="label">Birthday</label>
+              <label class="label">{{ $t('rightSetting.birthday') }}</label>
             </div>
 
           </div>
@@ -112,7 +112,7 @@
 
             <div class="input_form">
               <textarea v-model="about" :readonly="!isEditing" required rows="5"></textarea>
-              <label class="label">About Yourself</label>
+              <label class="label">{{ $t('rightSetting.aboutYourself') }}</label>
             </div>
 
           </div>
