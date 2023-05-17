@@ -64,7 +64,9 @@ export default {
   },
   methods: {
     handleClick(name) {
-      this.$router.push({ name: 'more', params: { value: name, type: 'location' } });
+      const value = JSON.stringify(name);
+      const type = 'location';
+      this.$router.push({ name: 'more', params: { value, type } });
     },
     handleMore() {
       this.$router.push({name: 'search'})

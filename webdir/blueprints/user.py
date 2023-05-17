@@ -5,7 +5,7 @@ from flask import Blueprint, request, render_template, jsonify, g, session, curr
 from config import DevelopmentConfig
 from forms import LoginFrom, RegisterForm, EmailCaptchaModel, ForgetFormPassword
 from flask_login import login_user, logout_user, login_required
-from models import User, Product, UserProfile, Order, Language, UserNotice, MessageStatus
+from models import User, Product, UserProfile, Order, Language, UserNotice, MessageStatus, OrderStatus
 from exts import db, mail
 from flask_mail import Message
 from datetime import datetime
@@ -199,6 +199,24 @@ def get_user_orders():
         return jsonify(code=200, all_orders=result)
     else:
         return jsonify(code=201, message="No orders for this user")
+
+
+@bp.route("/get_user_order", methods=['POST'])
+def get_user_order_by_status():
+    data = request.get_json(silent=True)
+    user_id = current_user.user_id
+    order_status = data["order_status"]
+    if order_status == "Completed":
+        order_status = OrderStatus.Completed
+    if order_status == "Processing":
+        order_status = OrderStatus.Processing
+    if order_status == "Cancelled":
+        order_status = OrderStatus.Cancelled
+    orders = Order.query.filter_by(user_id=user_id, order_status=order_status).all()
+    result = []
+    for order in orders:
+        result.append(order.serialize_status())
+    return jsonify(all_orders=result), 200
 
 
 @bp.route("/get_language", methods=['GET', 'POST'])

@@ -1,6 +1,10 @@
 from flask import Blueprint, request, render_template, jsonify, g, session, current_app
 from datetime import datetime
+
+from flask_login import current_user
+
 import util
+from models import Order, OrderStatus
 
 bp = Blueprint("Third", __name__, url_prefix="/third")
 
@@ -10,7 +14,11 @@ def weather():
     location = request.json.get("location")
     weather_data = util.get_weather_data(location)
     if weather_data is not None:
-        return jsonify(city=weather_data['location']['name'], temp=int(weather_data['current']['temp_c']), img_url="http:" + weather_data['current']['condition']['icon'], max_temp=int(weather_data['forecast']['forecastday'][0]['day']['maxtemp_c']), avg_temp=int(weather_data['forecast']['forecastday'][0]['day']['avgtemp_c']), min_temp=int(weather_data['forecast']['forecastday'][0]['day']['mintemp_c'])), 200
+        return jsonify(city=weather_data['location']['name'], temp=int(weather_data['current']['temp_c']),
+                       img_url="http:" + weather_data['current']['condition']['icon'],
+                       max_temp=int(weather_data['forecast']['forecastday'][0]['day']['maxtemp_c']),
+                       avg_temp=int(weather_data['forecast']['forecastday'][0]['day']['avgtemp_c']),
+                       min_temp=int(weather_data['forecast']['forecastday'][0]['day']['mintemp_c'])), 200
     else:
         return jsonify(error="No weather Data"), 304
 
@@ -40,7 +48,7 @@ def weather_forecast():
                  "avg_temp": int(weather_data['forecast']['forecastday'][2]['day']['avgtemp_c']),
                  "min_temp": int(weather_data['forecast']['forecastday'][2]['day']['mintemp_c']),
                  "date": weather_data['forecast']['forecastday'][2]['date']},
-                 ]
+            ]
         ), 200
     else:
         return jsonify(error="No weather Data"), 304
@@ -68,3 +76,14 @@ def flight():
         return jsonify(departure=departure, arrival=arrival, status=flight_data["status"]), 200
     else:
         return jsonify(error="No flight Data"), 404
+
+
+@bp.route("/getfootprint", methods=['POST', 'GET'])
+def get_foot_print():
+    user_id = current_user.user_id
+    orders = Order.query.filter_by(user_id=user_id, order_status=OrderStatus.Completed).all()
+    result = []
+    for order in orders:
+        result.append(order.product.raw_loc)
+    print(result)
+    return jsonify(locations=result), 200
