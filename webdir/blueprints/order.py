@@ -39,7 +39,7 @@ def add_order():
     group_number = data["groupNum"]
     old_order = Order.query.filter_by(user_id=user_id, product_id=product_id).first()
     if old_order:
-        return jsonify(code=400, message="cannotCreateOrder"), 400
+        return jsonify(code=400, message="cannotCreateOrder")
     order = Order(user_id=user_id, product_id=product_id, product_number=group_number)
     db.session.add(order)
     db.session.commit()

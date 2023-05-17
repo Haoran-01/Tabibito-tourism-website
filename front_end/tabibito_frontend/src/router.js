@@ -17,8 +17,10 @@ const forbiddenView = () => import("./components/ErrorViews/forbiddenView.vue");
 const reservationEdit = () => import("./components/ReservationView/reservationEdit.vue");
 const moreView = () => import("./components/SearchPageView/moreView.vue");
 const rightSettingView = () => import("./components/ProfileView/rightSettingView.vue");
-
 const chatView = () => import("./components/ChatView/chatView.vue");
+const chartsView = () => import("./components/ChartsView/chartsViewData.vue");
+const chartsView1 = () => import("./components/ChartsView/chartViewMaps.vue");
+const chartsView2 = () => import("./components/ChartsView/chartViewRates.vue");
 
 const routes = [
     { path: '/', component: homepageView, meta: {title: 'home - Tabibito'} },
@@ -49,6 +51,11 @@ const routes = [
     { path: '/user/profile/:uid/edit', component: rightSettingView, meta: {title: 'edit profile - Tabibito'}},
     { path: '/chat', component: chatView, meta: {title: 'chat - Tabibito'}},
     { path: '/moreView', name:'more', component: moreView, meta: {title: 'more View - Tabibito'}}
+    { path: '/moreView', component: moreView, meta: {title: 'more View - Tabibito'}},
+    { path: '/chartsData', component: chartsView, meta: {title: 'charts View - Tabibito'}},
+    { path: '/chartsMaps', component: chartsView1, meta: {title: 'charts View - Tabibito'}},
+    { path: '/chartsRates', component: chartsView2, meta: {title: 'charts View - Tabibito'}},
+
 ]
 
 const router = createRouter({

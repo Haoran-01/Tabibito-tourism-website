@@ -91,7 +91,10 @@ export default {
         button: "返回主页"
     },
     projectDetailPage:{
-        ChargeList: {title: "费用详细清单"},
+        ChargeList: {
+            video: "Youtube 视频",
+            title: "费用详细清单"
+        },
         itinerary: {
             title: "行程",
             seeDetail: "查看详情和照片",
@@ -373,6 +376,8 @@ export default {
         coverImage: '封面图片',
         bannerImage: '横幅图片',
         gallery: '画廊',
+        youtubeVideo: 'youtube视频',
+        videoLink: '视频ID',
         selectATagType: '选择标签类型',
         tagValue: '标签值',
         types: '类型',

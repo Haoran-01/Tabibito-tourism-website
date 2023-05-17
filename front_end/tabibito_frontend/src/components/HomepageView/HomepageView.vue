@@ -256,17 +256,17 @@ export default {
         },
         {
           label: "Adventure",
-          value: "value3",
+          value: "value4",
           type: "error"
         },
         {
           label: "Classic",
-          value: "value3",
+          value: "value5",
           type: "error"
         },
         {
           label: "City",
-          value: "value3",
+          value: "value6",
           type: "error"
         }
       ],

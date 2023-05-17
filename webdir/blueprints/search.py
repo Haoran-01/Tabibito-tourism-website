@@ -65,7 +65,6 @@ def search():
 def get_product_number():
     data = request.get_json(silent=True)
     products = db.session.query(Product).all()
-    print(data)
 
     # if "state" in data:
     #     if data["state"] == "hot":

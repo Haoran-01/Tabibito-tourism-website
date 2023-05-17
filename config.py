@@ -10,8 +10,8 @@ class Config:
     FLASKY_ADMIN_E = ''
     FLASKY_ADMIN_F = ''
 
-    UPLOAD_FOLDER = '/pictures'
-    AVATAR_FOLDER = '/avatar'
+    UPLOAD_FOLDER = 'pictures'
+    AVATAR_FOLDER = 'avatar'
 
     @staticmethod
     def init_app(app):
@@ -28,7 +28,8 @@ class DevelopmentConfig(Config):
     PORT = '3306'
     DATABASE = 'tabibito'
     USERNAME = 'root'
-    PASSWORD = 'l20011026'
+    # PASSWORD = 'Wangji1208'
+    PASSWORD = 'Wwj13049995918()'
     DB_URI = 'mysql+pymysql://{}:{}@{}:{}/{}?charset=utf8'.format(USERNAME, PASSWORD, HOSTNAME, PORT, DATABASE)
     SQLALCHEMY_DATABASE_URI = DB_URI
     SQLALCHEMY_TRACK_MODIFICATIONS = True

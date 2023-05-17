@@ -275,29 +275,38 @@ export default {
       id1,
 
       handleClickProject() {
-
-        if (store.user_id === 0){
-          self.toast.success("Please login first",{
-            position: "bottom-right",
-          });
-          }
-
         let self = this;
 
-        axios.post("/order/create_order",
-            {
-              product_id: this.id1,
-              groupNum: this.groupNum,
-              user_id: store.user_id
-            }
-        )
-            .then(function (response){
-              if (response.data.code === 200){
-                self.toast.success("Successfully Reservation",{
-                  position: "bottom-right",
-                });
+        if (store.user_id === 0){
+          self.toast.warning("Please login first",{
+            position: "bottom-right",
+          });
+          } else if (this.groupNum == null ) {
+          self.toast.warning("Please enter the number of the travelers first",{
+            position: "bottom-right",
+          });
+        } else {
+
+
+          axios.post("/order/create_order",
+              {
+                product_id: this.id1,
+                groupNum: this.groupNum,
+                user_id: store.user_id
               }
-            })
+          )
+              .then(function (response) {
+                if (response.data.code === 200) {
+                  self.toast.success("Successfully Reservation", {
+                    position: "bottom-right",
+                  });
+                } else {
+                  self.toast.warning("You have already booked this trip", {
+                    position: "bottom-right",
+                  });
+                }
+              })
+        }
     }
     }
   },

@@ -205,7 +205,6 @@ def get_user_orders():
 def get_language():
     if current_user is not None:
         if hasattr(current_user, "user_id"):
-            print(current_user.profile.language.name)
             return jsonify(language=current_user.profile.language.name)
         else:
             return jsonify(message="Not login")

@@ -1,13 +1,45 @@
 <template>
   <div class="container">
+    <div class="chargeListTitle">{{ $t('projectDetailPage.ChargeList.video')}}</div>
+    <iframe width="560" height="315" :src=" 'https://www.youtube.com/embed/' + videoLink" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    <div class="divider"></div>
+    <div class="chargeListTitle">Weather Report</div>
+    <div class="chargeList">
+      <div class="weatherPart" v-for="day in weather">
+        <div class="weatherTitleBar">
+          <div class="city">{{day.city}}</div>
+          <div class="date">{{day.date}}</div>
+        </div>
+        <div class="weatherMain">
+          <div class="temperature">{{day.temp.toFixed(0) + '℃'}}</div>
+          <img :src="day.img_url" alt="" class="weatherImg">
+        </div>
+        <div class="forecast">
+          <div class="foreTemp">
+            <div class="tempValue">{{day.max_temp.toFixed(0) + '℃'}}</div>
+            <div class="tempType">Max</div>
+          </div>
+          <div class="foreTemp">
+            <div class="tempValue">{{day.avg_temp.toFixed(0) + '℃'}}</div>
+            <div class="tempType">Avg</div>
+          </div>
+          <div class="foreTemp">
+            <div class="tempValue">{{day.min_temp.toFixed(0) + '℃'}}</div>
+            <div class="tempType">Min</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <div class="divider"></div>
     <div class="chargeListTitle">{{ $t('projectDetailPage.ChargeList.title')}}</div>
     <div class="chargeList">
       <n-card :title="item.name" hoverable v-for="item in this.chargeListData">
         {{item.description}}
       </n-card>
     </div>
-  </div>
   <div class="divider"></div>
+  </div>
   <itinerary-part></itinerary-part>
 </template>
 
@@ -29,15 +61,39 @@ export default {
         .then((res) => {
           if (res.status === 200){
             this.chargeListData = res.data.charges;
-            console.log(this.chargeListData)
           }else {
             router.push('/404');
+          }
+        })
+    this.axios.post('/product/detail', {
+      product_id: route.params.trip_id
+    })
+        .then((res) => {
+              if (res.status === 200){
+                this.axios.post('/third/weather_forecast', {
+                  location: res.data.location
+                })
+                    .then((wres) => {
+                      if (wres.status === 200) {
+                        this.weather = wres.data;
+                      }
+                    })
+              }
+        })
+    this.axios.post('/product/video', {
+      product_id: route.params.trip_id
+    })
+        .then((res) => {
+          if (res.status === 200){
+            this.videoLink = res.data.video_link
           }
         })
   },
   data(){
     return{
-      chargeListData: []
+      chargeListData: [],
+      weather: [],
+      videoLink: "",
     }
   }
 }
@@ -59,6 +115,77 @@ export default {
   justify-content: space-between;
   flex-wrap: wrap;
   width: 100%;
+}
+.weatherPart{
+  width: calc((100% - 200px - 48px - 48px) * 0.33);
+  height: 232px;
+  transition: .2s ease-in;
+  border-radius: 4px;
+  cursor: pointer;
+  box-sizing: border-box;
+  padding: 12px;
+  background-color: #2F80ED;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.weatherTitleBar{
+  display: flex;
+  align-items: flex-end;
+}
+.date{
+  color: white;
+}
+.city{
+  font-weight: bold;
+  color: white;
+  box-sizing: border-box;
+  padding-right: 12px;
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+}
+.weatherMain{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+.temperature {
+  font-size: 48px;
+  color: white;
+}
+.weatherImg{
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  object-position: center;
+}
+.forecast{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.foreTemp{
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 6px;
+  width: 30%;
+  height: 30px;
+  display: flex;
+  color: white;
+  align-items: center;
+  justify-content: space-around;
+}
+.tempValue{
+  font-size: 14px;
+}
+.tempType{
+  font-size: 10px;
+}
+.weatherPart:hover{
+  transition: .2s ease-out;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12) ;
 }
 .n-card{
   width: 270px;
