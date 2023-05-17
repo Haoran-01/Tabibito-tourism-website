@@ -176,6 +176,7 @@ import {
 } from "echarts/components";
 import VChart, { THEME_KEY } from "vue-echarts";
 import FooterView from "../GeneralComponents/footerView.vue";
+import {useRouter} from 'vue-router';
 
 import * as echarts from "echarts";
 
@@ -200,6 +201,7 @@ export default defineComponent({
     // 注释掉这一行才能正常显示，说明useMessage的值是空，我不知道为啥
     // const message = useMessage();
     const showDropdownRef = ref(false);
+    const route = useRouter();
     const scatter = ref({
       textStyle: {
         fontFamily: 'Inter, "Helvetica Neue", Arial, sans-serif'
@@ -228,28 +230,33 @@ export default defineComponent({
       },
     });
     return {
+      route,
+
       options: [
         {
-          label: "People Flow",
-          key: "Animation",
+          label: "Travel Types Visualisation",
+          key: "data",
           // disabled: true
         },
         {
-          label: "Seasonal Trends",
-          key: "Design"
+          label: "Tourist Areas Visualisation",
+          key: "Maps"
         },
         {
-          label: "Popular Attractions",
-          key: "Illustration"
+          label: "Reservation Rates Visualisation",
+          key: "Rates"
         },
-        {
-          label: "Top stream",
-          key: "Business"
-        }
       ],
       showDropdown: showDropdownRef,
       handleSelect(key) {
-        message.info(String(key));
+        if (key === 'data'){
+          route.push('/chartsData')
+        } else if (key === 'Maps'){
+          route.push('/chartsMaps')
+        } if (key === 'Rates'){
+          route.push('/chartsRates')
+        }
+
       },
       handleClick() {
         showDropdownRef.value = !showDropdownRef.value;
@@ -289,17 +296,25 @@ export default defineComponent({
       const chartDom = this.$refs.chart;
       const myChart = echarts.init(chartDom);
       const option = {
-        // ECharts 图表的配置项和数据
-        // ...
-
         title: {
-          text: 'Visitor Trends Diagram'
+          text: 'Visitors Trends Diagram'
         },
         tooltip: {
-          trigger: 'axis'
+          trigger: 'axis',
+          axisPointer: {
+            type: 'cross',
+            label: {
+              backgroundColor: '#6a7985'
+            }
+          }
         },
         legend: {
           data: ['Autumn', 'Winter', 'Spring', 'Summer']
+        },
+        toolbox: {
+          feature: {
+            saveAsImage: {}
+          }
         },
         grid: {
           left: '3%',
@@ -307,46 +322,62 @@ export default defineComponent({
           bottom: '3%',
           containLabel: true
         },
-        toolbox: {
-          feature: {
-            saveAsImage: {}
+        xAxis: [
+          {
+            type: 'category',
+            boundaryGap: false,
+            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
           }
-        },
-        xAxis: {
-          type: 'category',
-          boundaryGap: false,
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-        },
-        yAxis: {
-          type: 'value'
-        },
+        ],
+        yAxis: [
+          {
+            type: 'value'
+          }
+        ],
         series: [
           {
             name: 'Autumn',
             type: 'line',
             stack: 'Total',
+            areaStyle: {},
+            emphasis: {
+              focus: 'series'
+            },
             data: [220, 182, 191, 234, 290, 330, 310]
           },
           {
             name: 'Winter',
             type: 'line',
             stack: 'Total',
+            areaStyle: {},
+            emphasis: {
+              focus: 'series'
+            },
             data: [150, 232, 201, 154, 190, 330, 410]
           },
           {
             name: 'Spring',
             type: 'line',
             stack: 'Total',
+            areaStyle: {},
+            emphasis: {
+              focus: 'series'
+            },
             data: [320, 332, 301, 334, 390, 330, 320]
           },
           {
             name: 'Summer',
             type: 'line',
             stack: 'Total',
+            areaStyle: {},
+            emphasis: {
+              focus: 'series'
+            },
             data: [820, 932, 901, 934, 1290, 1330, 1320]
-          }
+          },
         ]
-      }
+      };
+
       myChart.setOption(option);
 
     }
