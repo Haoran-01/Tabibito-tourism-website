@@ -31,7 +31,7 @@ def upload_avatar():
         file_path = os.path.join(Config.AVATAR_FOLDER, filename)
         file.save(file_path)
         file_paths.append(file_path)
-    return os.path.join(Config.AVATAR_URL, filename)
+    return os.path.join(Config.BASE_URL, Config.AVATAR_URL, filename)
 
 
 @bp.route("/update_info", methods=['POST'])

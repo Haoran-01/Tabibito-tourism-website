@@ -177,7 +177,7 @@ def upload_picture():
     # filename = secure_filename(file.filename)  # 安全获取文件名
     # file.save(os.path.join(Config.UPLOAD_FOLDER, filename))  # 将文件保存到服务器的指定目录
     # 存入数据库的操作
-    return os.path.join(Config.UPLOAD_URL, filename)
+    return os.path.join(Config.BASE_URL, Config.UPLOAD_URL, filename)
 
 
 @bp.route("/deletepicture", methods=["POST", "GET"])
