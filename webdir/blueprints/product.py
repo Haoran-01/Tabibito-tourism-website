@@ -5,7 +5,7 @@ import os
 from exts import db
 from config import Config
 from werkzeug.utils import secure_filename
-from models import Product, ProductPicture, Tag, Trip, FeeDes, ProductType, Comment, PictureType, UserBrowse
+from models import Product, ProductPicture, Tag, Trip, FeeDes, ProductType, Comment, PictureType, UserBrowse, NoticeType
 
 bp = Blueprint("Product", __name__, url_prefix="/product")
 
@@ -18,7 +18,13 @@ def add_product():
         description = data['description']
         group_number = data['group_number']
         if name and description and group_number:
-            product = Product(name=name, description=description, group_number=group_number)
+            if "product_id" in data:
+                product = Product.query.filter_by(id=data['product_id']).first()
+                product.name = name
+                product.description =description
+                product.group_number = group_number
+            else:
+                product = Product(name=name, description=description, group_number=group_number)
             location = data['location']
             if location:
                 product.raw_loc = location['raw_loc']
@@ -28,6 +34,9 @@ def add_product():
             discount = data['discount']
             if discount:
                 product.discount = discount
+            total_day_number = data['total_day_number']
+            if total_day_number:
+                product.total_day_number = total_day_number
             ori_price = data['ori_price']
             if ori_price:
                 product.ori_price = ori_price
@@ -50,20 +59,22 @@ def add_product():
             video_url = data["video_link"]
             if video_url:
                 product.video_url = video_url
-            url_3d = data["url_3d"]
-            if url_3d:
-                product.url_3d = url_3d
-            db.session.add(product)
+            if "product_id" not in data:
+                db.session.add(product)
             db.session.commit()
 
             types = data['types']
             if types:
+                product.types = []
                 for i in types:
                     t = ProductType.query.filter(ProductType.type == i).first()
                     product.types.append(t)
 
             cover_image = data['cover_image']
             if cover_image:
+                if "product_id" in data:
+                    for i in product.pictures:
+                        db.session.delete(i)
                 p = ProductPicture(product_id=product.id, address=cover_image, type=PictureType.Cover)
                 db.session.add(p)
             banner_image = data['banner_image']
@@ -79,12 +90,18 @@ def add_product():
 
             tags = data['tags']
             if tags:
+                if "product_id" in data:
+                    for i in product.tags:
+                        db.session.delete(i)
                 for tag in tags:
                     if tag['key']:
                         t = Tag(key=tag["key"], value=tag['value'], product_id=product.id)
                         db.session.add(t)
             trips = data['trips']
             if trips:
+                if "product_id" in data:
+                    for i in product.trips:
+                        db.session.delete(i)
                 for trip in trips:
                     t = Trip(
                         product_id=product.id,
@@ -101,6 +118,9 @@ def add_product():
                     db.session.add(t)
             fee_des = data['fee_des']
             if fee_des:
+                if "product_id" in data:
+                    for i in product.fee_des:
+                        db.session.delete(i)
                 for f in fee_des:
                     fee = FeeDes(product_id=product.id, name=f['name'], description=f['description'])
                     db.session.add(fee)
@@ -219,5 +239,32 @@ def get_video():
     video = product.video_url
     if video:
         return jsonify(video_link=video), 200
+    else:
+        return {}, 404
+
+
+@bp.route("/add_notice_tag", methods=["POST", "GET"])
+def add_notice_tag():
+    data = request.get_json(silent=True)
+    tag = data['new_tag']
+    tag = NoticeType.query.filter_by(type=tag).first()
+    if tag:
+        return {}, 304
+    else:
+        tag = NoticeType(type=tag)
+        db.session.add(tag)
+        db.session.commit()
+        return {}, 204
+
+
+@bp.route("/get_edit_info", methods=["POST", "GET"])
+def get_edit_info():
+    product_id = request.json.get("product_id")
+    product = Product.query.filter_by(id=product_id).first()
+    if product:
+        result = product.serialize_edit_info()
+        types = NoticeType.query.all()
+        result['notice_tags'] = [type.type for type in types]
+        return result, 200
     else:
         return {}, 404

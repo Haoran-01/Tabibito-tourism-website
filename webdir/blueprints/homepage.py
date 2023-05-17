@@ -121,6 +121,7 @@ def get_inspiration():
     products = db.session.query(Product).limit(3).all()
     return jsonify(code=200, inspirations=[product.serialize_inspiration() for product in products])
 
+
 @bp.route("/more", methods=["GET", "POST"])
 def more_products():
     page_number = 0
@@ -155,4 +156,4 @@ def more_program_list():
     elif search_type == "location":
         products = Product.query.filter(Product.raw_loc == value).paginate(page=page, per_page=4)
 
-    return jsonify(products = [product.serialize_more() for product in products])
+    return jsonify(products=[product.serialize_more() for product in products])
