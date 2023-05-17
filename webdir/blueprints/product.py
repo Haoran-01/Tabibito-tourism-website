@@ -46,9 +46,8 @@ def add_product():
             if flight_numbers and len(flight_numbers) > 0:
                 flight_numbers = " ".join([str(n).strip() for n in data['flight_numbers']])
                 product.flight = flight_numbers
-            url_3d = data["url_3d"]
-            if url_3d:
-                product.url_3d = url_3d
+            if "url_3d" in data:
+                product.url_3d = data["url_3d"]
             db.session.add(product)
             db.session.commit()
 
