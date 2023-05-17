@@ -41,87 +41,99 @@
             style="margin: 0 -4px"
             pane-style="padding-left: 4px; padding-right: 4px; box-sizing: border-box;">
 
-          <n-tab-pane name="Dashboard" tab="Dashboard">
+          <n-tab-pane name="Dashboard" tab="Dashboard" display-directive="show:lazy">
             <div class="helloSection">
               <img :src="basicInfo.avatar_url" class="helloAvatar">
               <div class="greeting">{{'Hello, ' + basicInfo.username + '. Which trip do you want to enjoy today?'}}</div>
             </div>
-            <n-tabs
-                v-model:value = "dashboardValue"
-                class="card-tabs"
-                size="large"
-                animated
-                style="margin: 0 24px;"
-                pane-style="padding-left: 4px; padding-right: 4px; box-sizing: border-box;"
-              >
-              <n-tab-pane name="Recent Trips" tab="Recent Trips">
-                <div class="recentTrip" v-for="trip in recentTrips">
-                  <div class="recentTripTitleBar">
-                    <div class="recentTripName">{{trip.name}}</div>
-                    <div class="recentTripMore" @click="this.$router.push('/trip/' + trip.trip_id)">More</div>
-                  </div>
-                  <div class="recentTripBody">
-                    <img class="tripCover" :src="trip.cover_url"/>
-                    <n-modal v-model:show="showWeatherModel">
+            <div class="recentTrip" v-for="trip in recentTrips">
+              <div class="recentTripTitleBar">
+                <div class="recentTripName">{{trip.name}}</div>
+                <div class="recentTripMore" @click="this.$router.push('/trip/' + trip.trip_id)">More</div>
+              </div>
+              <div class="recentTripBody">
+                <img class="tripCover" :src="trip.cover_url"/>
+                <n-modal v-model:show="showWeatherModel">
 
-                    </n-modal>
-                    <div class="weatherPart">
-                      <div class="city">Shanghai</div>
-                      <div class="weatherMain">
-                        <div class="temperature">24℃</div>
-                        <img src="" alt="" class="weatherImg">
-                      </div>
-                      <div class="forecast">
-                        <div class="foreTemp">
-                          <div class="tempValue">24℃</div>
-                          <div class="tempType">Max</div>
-                        </div>
-                        <div class="foreTemp">
-                          <div class="tempValue">24℃</div>
-                          <div class="tempType">Avg</div>
-                        </div>
-                        <div class="foreTemp">
-                          <div class="tempValue">24℃</div>
-                          <div class="tempType">Min</div>
-                        </div>
-                      </div>
+                </n-modal>
+                <div class="weatherPart">
+                  <div class="city">{{trip.weather.city}}</div>
+                  <div class="weatherMain">
+                    <div class="temperature">{{trip.weather.temp.toFixed(0) + '℃'}}</div>
+                    <img :src="trip.weather.img_url" alt="" class="weatherImg">
+                  </div>
+                  <div class="forecast">
+                    <div class="foreTemp">
+                      <div class="tempValue">{{trip.weather.max_temp.toFixed(0) + '℃'}}</div>
+                      <div class="tempType">Max</div>
                     </div>
-                    <div class="aeroPart"></div>
+                    <div class="foreTemp">
+                      <div class="tempValue">{{trip.weather.avg_temp.toFixed(0) + '℃'}}</div>
+                      <div class="tempType">Avg</div>
+                    </div>
+                    <div class="foreTemp">
+                      <div class="tempValue">{{trip.weather.min_temp.toFixed(0) + '℃'}}</div>
+                      <div class="tempType">Min</div>
+                    </div>
                   </div>
                 </div>
-              </n-tab-pane>
-
-              <n-tab-pane name="Foot Print Wall" tab="Foot Print Wall">
-
-              </n-tab-pane>
-            </n-tabs>
+                <div class="aeroPart">
+                  <div class="flightTitle">Flight Information</div>
+                  <div class="flightStatus">{{trip.flightInfo.status}}</div>
+                  <div class="infoColumn">
+                    <div class="airportNo">{{trip.flightInfo.departure.airport_no}}</div>
+                    <div class="airportNo">{{trip.flightInfo.arrival.airport_no}}</div>
+                  </div>
+                  <div class="infoColumn">
+                    <div class="airportLoc">{{trip.flightInfo.departure.airport_loc}}</div>
+                    <div class="airportLoc">{{trip.flightInfo.arrival.airport_loc}}</div>
+                  </div>
+                  <div class="infoColumn">
+                    <div class="airDes">takes off from</div>
+                    <div class="airDes">landing at</div>
+                  </div>
+                  <div class="infoColumn">
+                    <div class="airportName">{{trip.flightInfo.departure.airport_name}}</div>
+                    <div class="airportName">{{trip.flightInfo.arrival.airport_name}}</div>
+                  </div>
+                  <div class="infoColumn">
+                    <div class="date">{{trip.flightInfo.departure.date}}</div>
+                    <div class="date">{{trip.flightInfo.arrival.date}}</div>
+                  </div>
+                  <div class="infoColumn">
+                    <div class="time">{{trip.flightInfo.departure.time}}</div>
+                    <div class="time">{{trip.flightInfo.arrival.time}}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="footPrintMap" id="map"></div>
           </n-tab-pane>
 
-          <n-tab-pane name="Profile" tab="Profile">
-            <right-setting-view />
-<!--            <div class="infoCard">-->
-<!--              <img class="avatar" :src="basicInfo.avatar_url">-->
-<!--              <div class="cardText">-->
-<!--                <div class="nameBar">-->
-<!--                  <div class="userName">{{basicInfo.username}}</div>-->
-<!--                  <div class="edit">-->
-<!--                    edit info-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--                <div class="userDescription">{{basicInfo.description}}</div>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--            <div class="attrTitle">Real Name</div>-->
-<!--            <div class="attrValue">{{basicInfo.first_name + ' ' + basicInfo.last_name}}</div>-->
-<!--            <div class="attrTitle">Email</div>-->
-<!--            <div class="attrValue">{{basicInfo.email}}</div>-->
-<!--            <div class="attrTitle">Phone Number</div>-->
-<!--            <div class="attrValue">{{basicInfo.phone_number}}</div>-->
-<!--            <div class="attrTitle">Birthday</div>-->
-<!--            <div class="attrValue">{{basicInfo.birthday}}</div>-->
+          <n-tab-pane name="Profile" tab="Profile" display-directive="show:lazy">
+            <div class="infoCard">
+              <img class="avatar" :src="basicInfo.avatar_url">
+              <div class="cardText">
+                <div class="nameBar">
+                  <div class="userName">{{basicInfo.username}}</div>
+                  <div class="edit" @click="this.$router.push(this.$route.path + '/edit')">
+                    edit info
+                  </div>
+                </div>
+                <div class="userDescription">{{basicInfo.description}}</div>
+              </div>
+            </div>
+            <div class="attrTitle">Real Name</div>
+            <div class="attrValue">{{basicInfo.first_name + ' ' + basicInfo.last_name}}</div>
+            <div class="attrTitle">Email</div>
+            <div class="attrValue">{{basicInfo.email}}</div>
+            <div class="attrTitle">Phone Number</div>
+            <div class="attrValue">{{basicInfo.phone_number}}</div>
+            <div class="attrTitle">Birthday</div>
+            <div class="attrValue">{{basicInfo.birthday}}</div>
           </n-tab-pane>
 
-          <n-tab-pane name="Orders" tab="Orders">
+          <n-tab-pane name="Orders" tab="Orders" display-directive="show:lazy">
             <n-tabs
                 v-model:value="orderType"
                 class="card-tabs"
@@ -153,7 +165,7 @@
             </n-tabs>
           </n-tab-pane>
 
-          <n-tab-pane name="Your Comments" tab="Your Comments">
+          <n-tab-pane name="Your Comments" tab="Your Comments" display-directive="show:lazy">
             <div v-for="comment in this.comments" class="comment">
               <div class="commentHead">
                 <div class="leftCommentHead">
@@ -188,7 +200,7 @@
                 :page-sizes="[10, 20, 30, 40]"></n-pagination>
           </n-tab-pane>
 
-          <n-tab-pane name="Notices" tab="Notices">
+          <n-tab-pane name="Notices" tab="Notices" display-directive="show:lazy">
             <div class="notice" v-for="notice in newNotices">
               <div class="noticeTitleBar">
                 <div class="noticeTitleLeft">
@@ -248,7 +260,10 @@
 import NavigationBar from "../GeneralComponents/navigationBar.vue";
 import {getCurrentInstance, h, ref} from "vue";
 import { NButton, useMessage } from "naive-ui";
-import RightSettingView from "./rightSettingView.vue";
+import {Loader} from "@googlemaps/js-api-loader";
+import * as regionLookupClient from "@googlemaps/region-lookup";
+import {useLangStore} from "../../store.js";
+import * as RegionLookup from "@googlemaps/region-lookup";
 
 const createInProgressColumns = ({ cancel, viewDetail }) => {
   return [
@@ -397,8 +412,13 @@ const createCancelledColumns = ({ viewDetail }) => {
 }
 export default {
   name: "profileView",
-  components: {RightSettingView, NavigationBar},
-  setup(){
+  components: {NavigationBar},
+  setup() {
+    const langStore = useLangStore();
+    let mapLanguage = 'en-US';
+    if (langStore.language === 'zh') {
+      mapLanguage = 'zh-CN'
+    }
     const axios = getCurrentInstance().appContext.config.globalProperties.axios;
     const inProgressData = ref([]);
     let modalData = ref({
@@ -423,8 +443,8 @@ export default {
       order_status: 'Processing'
     })
         .then((res) => {
-          if (res.status === 200){
-            for (const item of res.data.all_orders){
+          if (res.status === 200) {
+            for (const item of res.data.all_orders) {
               inProgressData.value.push({
                 id: item.id,
                 travelName: item.name,
@@ -436,7 +456,8 @@ export default {
             }
           }
         })
-    return{
+    return {
+      mapLanguage,
       inProgressData,
       showModal,
       modalData,
@@ -444,27 +465,27 @@ export default {
       dashboardValue: ref("Recent Trips"),
       orderType: ref("In Progress"),
       inProgressColumns: createInProgressColumns({
-        cancel(row){
+        cancel(row) {
 
           axios.post('/staff_portal/product_status?apifoxApiId=75345235', {
             id: row.id,
             operation: 'Cancelled',
           })
               .then((res) => {
-                for ( let item of inProgressData.value){
-                  if (item.id === row.id){
+                for (let item of inProgressData.value) {
+                  if (item.id === row.id) {
                     inProgressData.value.splice(inProgressData.value.indexOf(item), 1)
                   }
                 }
               })
         },
-        viewDetail(row){
+        viewDetail(row) {
 
           axios.post('/user/get_order_detail', {
             id: row.id
           })
               .then((res) => {
-                if (res.status === 200){
+                if (res.status === 200) {
                   modalData.value = res.data
                   console.log(modalData.value)
                 }
@@ -473,12 +494,12 @@ export default {
         }
       }),
       completedColumns: createCompletedColumns({
-        viewDetail(row){
+        viewDetail(row) {
           axios.post('/user/get_order_detail', {
             id: row.id
           })
               .then((res) => {
-                if (res.status === 200){
+                if (res.status === 200) {
                   modalData.value = res.data
                   console.log(modalData.value)
                 }
@@ -487,23 +508,131 @@ export default {
         }
       }),
       cancelledColumns: createCancelledColumns({
-        viewDetail(row){
+        viewDetail(row) {
           axios.post('/user/get_order_detail', {
             id: row.id
           })
               .then((res) => {
-                if (res.status === 200){
+                if (res.status === 200) {
                   modalData.value = res.data
                   console.log(modalData.value)
                 }
               })
           showModal.value = true;
         }
-      })
+      }),
+      /*loadMap() {
+        const headers = {
+          "X-Goog-Api-Key": "AIzaSyBctzU8ocpP_0j4IdTRqA-GABIAnaXd0ow",
+        };
+
+        const data = {
+          search_values: [
+            {
+              "address": "2627 N Hollywood Way, Burbank, CA",
+              "place_type": "ADMINISTRATIVE_AREA_LEVEL_1",
+              "region_code": "us"
+
+            },
+          ],
+        };
+        const response = regionLookupClient.searchRegion({headers, data});
+
+        let placeID;
+        response.then((res) => {
+          placeID = res.data.matches[0].matchedPlaceId;
+          console.log(placeID)
+          const loader = new Loader({
+            apiKey: "AIzaSyBctzU8ocpP_0j4IdTRqA-GABIAnaXd0ow",
+            version: "weekly",
+            libraries: ["marker", "drawing", "visualization", "geometry", "localContext", "places"],
+            language: mapLanguage
+          });
+          let featureLayer;
+          loader.load().then((google) => {
+            // const center = this.project_loc;
+            console.log(document.getElementById('map'));
+            let map = new google.maps.Map(document.getElementById("map"), {
+              center: {lat: 20.773, lng: -156.01},
+              zoom: 1,
+              mapId: "83a836f63edecc9b"
+            });
+            featureLayer = map.getFeatureLayer("ADMINISTRATIVE_AREA_LEVEL_1");
+            console.log(featureLayer)
+            const featureStyleOptions = {
+              strokeColor: "#810FCB",
+              strokeOpacity: 1.0,
+              strokeWeight: 3.0,
+              fillColor: "#810FCB",
+              fillOpacity: 0.5,
+            };
+            featureLayer.style = (options) => {
+              if (options.feature.placeId === "ChIJPV4oX_65j4ARVW8IJ6IJUYs") {
+                return featureStyleOptions;
+              }
+            };
+
+          });
+        })
+
+
+      },*/
+      initMap(){
+        const headers = {
+          "X-Goog-Api-Key": "AIzaSyBctzU8ocpP_0j4IdTRqA-GABIAnaXd0ow",
+        };
+
+        const data = {
+          search_values: [
+            {
+              "address": "2627 N Hollywood Way, Burbank, CA",
+              "place_type": "ADMINISTRATIVE_AREA_LEVEL_1",
+              "region_code": "us"
+
+            },
+            {
+              "address": "Statue of liberty",
+              "place_type": "ADMINISTRATIVE_AREA_LEVEL_1",
+              "region_code": "us"
+
+            },
+          ],
+        };
+        const response = regionLookupClient.searchRegion({headers, data});
+        let placeIDs;
+        response.then((res) => {
+          placeIDs = res.data.matches;
+          console.log(placeIDs)
+          let map;
+          map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: 20, lng: -156},
+            zoom: 10,
+            mapId: "353522139b1baa35",
+          })
+          let featureLayer = map.getFeatureLayer('ADMINISTRATIVE_AREA_LEVEL_1');
+          const featureStyleOptions = {
+            strokeColor: "#810FCB",
+            strokeOpacity: 1.0,
+            strokeWeight: 3.0,
+            fillColor: "#810FCB",
+            fillOpacity: 0.5,
+          };
+          featureLayer.style = (options) => {
+            for (let obj of placeIDs){
+
+              if (options.feature.placeId === obj.matchedPlaceId) {
+
+                return featureStyleOptions;
+              }
+            }
+          };
+
+        })
+      }
     }
   },
-  data(){
-    return{
+  data() {
+    return {
       recentTrips: [],
       basicInfo: {},
       completedData: [],
@@ -518,60 +647,60 @@ export default {
     }
   },
   methods: {
-    handleCancel(row){
+    handleCancel(row) {
 
     },
-    handleChangePageSize(pageSize){
+    handleChangePageSize(pageSize) {
       this.commentPages = Math.ceil(this.commentNumber / this.commentPageSize);
       this.axios.post('/comment/get_page', {
         page_number: this.commentPage,
         page_size: this.commentPageSize
       })
           .then((res) => {
-            if (res.status === 200){
+            if (res.status === 200) {
               this.comments = res.data.comments
             }
           })
     },
-    handleChangePage(){
+    handleChangePage() {
       this.axios.post('/comment/get_page', {
         page_number: this.commentPage,
         page_size: this.commentPageSize
       })
           .then((res) => {
-            if (res.status === 200){
+            if (res.status === 200) {
               this.comments = res.data.comments
             }
           })
     },
-    handleDeleteComment(id){
+    handleDeleteComment(id) {
       this.axios.post('/comment/delete', {
         id: id
       })
           .then((res) => {
-            if (res.status === 200){
+            if (res.status === 200) {
               this.axios.post('/comment/get_page', {
                 page_number: this.commentPage,
                 page_size: this.commentPageSize
               })
                   .then((res) => {
-                    if (res.status === 200){
+                    if (res.status === 200) {
                       this.comments = res.data.comments
                     }
                   })
             }
           })
     },
-    handleCheck(id){
+    handleCheck(id) {
       this.axios.post('/user/check_notice', {
         id: id,
         new_status: 'old'
       })
-          .then((res)=>{
-            if (res.status === 204){
+          .then((res) => {
+            if (res.status === 204) {
               let index = -1
-              for (let i = 0; i<this.newNotices.length; i++){
-                if (this.newNotices[i].id === id){
+              for (let i = 0; i < this.newNotices.length; i++) {
+                if (this.newNotices[i].id === id) {
                   index = i
                 }
               }
@@ -580,16 +709,16 @@ export default {
             }
           })
     },
-    handleUncheck(id){
+    handleUncheck(id) {
       this.axios.post('/user/check_notice', {
         id: id,
         new_status: 'new'
       })
-          .then((res)=>{
-            if (res.status === 204){
+          .then((res) => {
+            if (res.status === 204) {
               let index = -1
-              for (let i = 0; i<this.oldNotices.length; i++){
-                if (this.oldNotices[i].id === id){
+              for (let i = 0; i < this.oldNotices.length; i++) {
+                if (this.oldNotices[i].id === id) {
                   index = i
                 }
               }
@@ -600,21 +729,27 @@ export default {
     }
   },
   created() {
+
+    // this.loadMap();
     this.axios.post('/user/dashboard/get_recent_trips')
         .then((res) => {
-          if (res.status === 200){
+          if (res.status === 200) {
             this.recentTrips = res.data.recentTrips
-            for (let trip of this.recentTrips){
-              this.axios({
-                url: '/current.json',
-                baseURL: 'http://api.weatherapi.com/v1',
-                params: {
-                  key: '9fa81e39ed22488fa10104307230905',
-                  q: trip.raw_loc
-                }
+            for (let trip of this.recentTrips) {
+              this.axios.post('/third/weather', {
+                location: trip.raw_loc
               })
                   .then((res) => {
-                    if (res.status === 200){
+                    if (res.status === 200) {
+                      trip.weather = res.data;
+                    }
+                  })
+              this.axios.post('/third/flight', {
+                flight_numbers: trip.flight_numbers
+              })
+                  .then((res) => {
+                    if (res.status === 200) {
+                      trip.flightInfo = res.data
                     }
                   })
             }
@@ -623,13 +758,13 @@ export default {
     this.axios.post('/user/getprofile', {
       user_id: this.$route.params.uid
     })
-    .then((res) => {
-      this.basicInfo = res.data
-    })
+        .then((res) => {
+          this.basicInfo = res.data
+        })
 
     this.axios.post('/comment/user_all_number')
-        .then((res) =>{
-          if (res.status === 200){
+        .then((res) => {
+          if (res.status === 200) {
             this.commentNumber = res.data.number;
             this.commentPages = Math.ceil(this.commentNumber / this.commentPageSize)
           }
@@ -639,7 +774,7 @@ export default {
       page_size: this.commentPageSize
     })
         .then((res) => {
-          if (res.status === 200){
+          if (res.status === 200) {
             this.comments = res.data.comments
           }
         })
@@ -648,8 +783,8 @@ export default {
       order_status: 'Completed'
     })
         .then((res) => {
-          if (res.status === 200){
-            for (const item of res.data.all_orders){
+          if (res.status === 200) {
+            for (const item of res.data.all_orders) {
               this.completedData.push({
                 id: item.id,
                 travelName: item.name,
@@ -666,9 +801,8 @@ export default {
       order_status: 'Cancelled'
     })
         .then((res) => {
-          if (res.status === 200){
-            for (const item of res.data.all_orders){
-              console.log(item)
+          if (res.status === 200) {
+            for (const item of res.data.all_orders) {
               this.cancelledData.push({
                 id: item.id,
                 travelName: item.name,
@@ -683,19 +817,27 @@ export default {
     this.axios.post('/user/get_notices', {
       status: 'new'
     })
-        .then((res)=>{
-          if (res.status === 200){
+        .then((res) => {
+          if (res.status === 200) {
             this.newNotices = res.data.notices;
           }
         })
     this.axios.post('/user/get_notices', {
       status: 'old'
     })
-        .then((res)=>{
-          if (res.status === 200){
+        .then((res) => {
+          if (res.status === 200) {
             this.oldNotices = res.data.notices;
           }
         })
+
+  },
+  mounted() {
+    let script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBctzU8ocpP_0j4IdTRqA-GABIAnaXd0ow&callback=initMap&v=beta&language=' + this.mapLanguage;
+    document.body.appendChild(script);
+    window.initMap = this.initMap
   }
 }
 </script>
@@ -706,9 +848,10 @@ template{
 }
 .bg{
   width: 100%;
-  height: 100vh;
+  height: fit-content;
   box-sizing: border-box;
   padding-top: 90px;
+  padding-bottom: 90px;
   background-color: #F5F5F5;
 }
 .container{
@@ -775,10 +918,9 @@ template{
 }
 .recentTrip{
   margin: 24px;
-  height: 240px;
+  height: 340px;
   border-radius: 4px;
-  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.08) ;
-  margin-right: 48px;
+  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.08);
 }
 .recentTripTitleBar{
   width: 100%;
@@ -790,15 +932,16 @@ template{
   padding: 0 24px;
 }
 .recentTripName{
-  font-size: 20px;
+  font-size: 24px;
 }
 .recentTripMore{
+  font-size: 20px;
   color: var(--primary-color);
   text-decoration: underline;
   cursor: pointer;
 }
 .recentTripBody{
-  height: 180px;
+  height: 280px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -808,53 +951,52 @@ template{
 }
 .tripCover{
   width: 200px;
-  height: 132px;
+  height: 232px;
   object-fit: cover;
   object-position: center;
   border-radius: 4px;
 }
 .weatherPart{
   width: calc((100% - 200px - 48px - 48px) * 0.33);
-  height: 132px;
+  height: 232px;
   transition: .2s ease-in;
   border-radius: 4px;
   cursor: pointer;
   box-sizing: border-box;
-  padding: 6px;
-  display: grid;
-  grid-template-columns: 3fr 1fr;
-  grid-template-rows: 40px 80px;
+  padding: 12px;
   background-color: #2F80ED;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 .city{
-  grid-area: 1 / 1 / 2 / 2;
   font-weight: bold;
   color: white;
   box-sizing: border-box;
   padding-right: 12px;
+  display: flex;
+  align-items: center;
+  font-size: 20px;
 }
 .weatherMain{
-  grid-area: 2 / 1 / 3 / 2;
   display: flex;
   align-items: center;
   justify-content: space-between;
   box-sizing: border-box;
-  padding-right: 12px;
 }
+
 .temperature {
   font-size: 48px;
   color: white;
 }
 .weatherImg{
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   object-fit: contain;
   object-position: center;
 }
 .forecast{
-  grid-area: 1 / 2 / 3 / 3;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: space-between;
   width: 100%;
@@ -862,10 +1004,10 @@ template{
 .foreTemp{
   background-color: rgba(255, 255, 255, 0.4);
   border-radius: 6px;
-  width: 100%;
+  width: 30%;
   height: 30px;
   display: flex;
-  color: black;
+  color: white;
   align-items: center;
   justify-content: space-around;
 }
@@ -881,15 +1023,58 @@ template{
 }
 .aeroPart{
   width: calc((100% - 200px - 48px - 48px) * 0.67);
-  height: 132px;
+  height: 232px;
   border-radius: 4px;
   transition: .2s ease-in;
   cursor: pointer;
-  padding: 6px;
+  padding: 12px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 .aeroPart:hover{
   transition: .2s ease-out;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12) ;
+}
+.flightTitle{
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 4px;
+  position: relative;
+}
+.flightStatus{
+  width: fit-content;
+  padding: 0 6px;
+  background-color: #2F80ED;
+  border-radius: 4px;
+}
+.infoColumn{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 16px;
+}
+.airportNo{
+  font-size: 17px;
+}
+.airportLoc{
+  font-size: 16px;
+  font-weight: bold;
+}
+.airDes{
+  font-size: 12px;
+}
+.airportName{
+  text-decoration-line: underline;
+  color: #2F80ED;
+}
+.flightStatus{
+  font-size: 14px;
+}
+.footPrintMap{
+  margin: 24px;
+  height: 500px;
 }
 .infoCard{
   width: 100%;

@@ -92,7 +92,10 @@ export default {
         button: "Go back to homepage"
     },
     projectDetailPage:{
-        ChargeList: {title: "Detailed List for Charges"},
+        ChargeList: {
+            video: "Youtube Video",
+            title: "Detailed List for Charges"
+        },
         itinerary: {
             title: "itinerary",
             seeDetail: "See details & photo",
@@ -374,6 +377,8 @@ export default {
         coverImage: 'Cover Image',
         bannerImage: 'Banner Image',
         gallery: 'Gallery',
+        youtubeVideo: 'Youtube Video',
+        videoLink: 'Video ID',
         selectATagType: 'Select A Tag Type',
         tagValue: 'Tag Value',
         types: 'Types',
