@@ -194,12 +194,7 @@ export default {
       populars,
       route,
       handleSearchPopular() {
-        this.route.push({
-          path: '/search_result',
-          query: {
-            state: "popular"
-          }
-        })
+        this.$router.push({ name: 'more', params: { type: 'popular' } });
       }
     }
   },

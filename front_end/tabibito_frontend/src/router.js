@@ -48,7 +48,7 @@ const routes = [
     { path: '/user/profile/:uid', component: profileView, meta: {title: 'profile - Tabibito'}},
     { path: '/user/profile/:uid/edit', component: rightSettingView, meta: {title: 'edit profile - Tabibito'}},
     { path: '/chat', component: chatView, meta: {title: 'chat - Tabibito'}},
-    { path: '/moreView', component: moreView, meta: {title: 'more View - Tabibito'}}
+    { path: '/moreView', name:'more', component: moreView, meta: {title: 'more View - Tabibito'}}
 ]
 
 const router = createRouter({
