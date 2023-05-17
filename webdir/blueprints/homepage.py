@@ -143,6 +143,7 @@ def more_program_list():
     value = request.json.get('value')
     page = request.json.get('page')
     products = []
+    print(search_type, value, "++++++++++++++++++++++++++++")
     p = Product.query.filter().first()
     if search_type == "popular":
         products = Product.query.outerjoin(UserBrowse).group_by(Product.id).order_by(func.count(UserBrowse.id).desc()).paginate(page=page, per_page=4)

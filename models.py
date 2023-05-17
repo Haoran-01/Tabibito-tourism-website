@@ -226,7 +226,7 @@ class Order(db.Model):
 
     def serialize_status(self):
         return {
-            "id": self.id,
+            "id": self.product_id,
             "discount": self.product.discount,
             "price": self.total(),
             "res_time": self.create_time.strftime('%Y-%m-%d'),
