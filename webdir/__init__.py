@@ -14,7 +14,7 @@ from flask_cors import CORS
 
 def create_app(config_name):
     app = Flask(__name__, template_folder="../front_end/tabibito_frontend/dist2",
-                static_folder="../front_end/tabibito_frontend/dist2", static_url_path="../pictures")
+                static_folder="../pictures")
     app.config.from_object(config[config_name])
     config[config_name].init_app(app)
 
