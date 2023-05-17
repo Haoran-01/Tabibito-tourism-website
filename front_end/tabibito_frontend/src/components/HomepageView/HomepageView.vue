@@ -337,6 +337,11 @@ export default {
       }
     }
   },
+  methods: {
+    handleMore() {
+      this.$router.push({name: 'search'})
+    }
+  }
 }
 </script>
 

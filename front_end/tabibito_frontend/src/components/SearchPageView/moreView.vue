@@ -100,8 +100,11 @@
         </div>
       </div>
 
-      <n-pagination class="page" v-model:page="page" :on-update:page="pageChange"	:page-count="countPage"/>
-
+      <n-pagination
+          v-model:page="morePage"
+          :page-count="morePages"
+          v-model:page-size="morePageSize"
+          @update:page="handleChangePage"></n-pagination>
 
     </div>
 
@@ -115,6 +118,7 @@
 
 <script>
 import { defineComponent, ref, onMounted } from 'vue'
+import { useRoute } from "vue-router";
 import {Loader} from "@googlemaps/js-api-loader";
 import { useMessage } from "naive-ui";
 import { ArrowForward, Star, HeartOutline, LocationOutline, TodayOutline, CompassOutline, Search, StatsChartOutline } from "@vicons/ionicons5";
@@ -136,8 +140,13 @@ export default defineComponent({
     ArrowForward
   },
   setup () {
+    const morePage = ref(1);
+    const morePages = ref(1);
+    const moreNumber = 0;
+    const morePageSize = ref(3);
     const type = ref();
     const value = ref();
+    const route = useRoute();
     let project_loc = null;
     let project_zoom = 1;
     const locations = [];
@@ -150,11 +159,16 @@ export default defineComponent({
     const loadingRef = ref(false);
     const message = useMessage();
     onMounted(() => {
+      const { value: paramValue, type: paramType } = route.params;
+      value.value = paramValue;
+      type.value = paramType;
       axios.post('/homepage/more_program_list',
           {
-            type: type.value || null,
+            type: type.value || "popular",
             value: value.value || null,
-            page: 1
+            // type: "type",
+            // value: "AdventureTour",
+            page: morePage.value,
           }
       ).then((response) => {
             const code = response.status
@@ -201,7 +215,7 @@ export default defineComponent({
             const code = response.status
             if (code === 200){
               const count = response.data.page
-              self.countPage  = Math.floor(count / 3) + (count % 3 > 0 ? 1 : 0);
+              morePages.value = Math.ceil(count / 3);
             }
           })
     });
@@ -247,6 +261,10 @@ export default defineComponent({
       });
     };
     return {
+      morePage,
+      morePages,
+      moreNumber,
+      morePageSize,
       loadMap,
       type,
       value,
@@ -260,11 +278,47 @@ export default defineComponent({
           loadingRef.value = false
         }, 2000)
       },
-    }
-  },
-  data(){
-    return{
-      countPage: 0,
+      handleChangePage() {
+        axios.post("/homepage/more_program_list", {
+          type: type.value || null,
+          value: value.value || null,
+          page: morePage.value,
+        })
+            .then((response) => {
+              const code = response.status;
+              if (code === 200) {
+                products.value = response.data.products;
+                for(let i = 0; i < products.value.length; i++){
+                  let raw_time = products.value[i].duration;
+                  let hour = Math.round(raw_time/3600);
+                  let day = Math.round(hour/24);
+                  if (hour > 24 && day === 1){
+                    products.value[i].duration = '1 Day'
+                  }
+                  if (hour > 24 && day > 1){
+                    products.value[i].duration = day + ' Days'
+                  }
+                  if (hour === 1){
+                    products.value[i].duration = '1 Hour'
+                  }
+                  if (hour < 24 && hour !== 1){
+                    products.value[i].duration = hour + ' Hours'
+                  }
+                }
+                project_loc = {
+                  lat: products.value[0].map_latitude,
+                  lng: products.value[0].map_longitude
+                }
+                for (let i = 0; i < products.value.length; i++){
+                  locations.push({
+                    position: {lat: products.value[i].map_latitude, lng: products.value[i].map_longitude},
+                    title: products.value[i].title
+                  });
+                }
+                loadMap();
+              }
+            });
+      },
     }
   },
 })
