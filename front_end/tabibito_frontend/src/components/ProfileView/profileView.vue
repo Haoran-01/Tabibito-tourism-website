@@ -111,26 +111,27 @@
           </n-tab-pane>
 
           <n-tab-pane name="Profile" tab="Profile" display-directive="show:lazy">
-            <div class="infoCard">
-              <img class="avatar" :src="basicInfo.avatar_url">
-              <div class="cardText">
-                <div class="nameBar">
-                  <div class="userName">{{basicInfo.username}}</div>
-                  <div class="edit" @click="this.$router.push(this.$route.path + '/edit')">
-                    {{ $t('profile.editInfo') }}
-                  </div>
-                </div>
-                <div class="userDescription">{{basicInfo.description}}</div>
-              </div>
-            </div>
-            <div class="attrTitle">{{ $t('profile.realName') }}</div>
-            <div class="attrValue">{{basicInfo.first_name + ' ' + basicInfo.last_name}}</div>
-            <div class="attrTitle">{{ $t('login.email') }}</div>
-            <div class="attrValue">{{basicInfo.email}}</div>
-            <div class="attrTitle">{{ $t('profile.phoneNumber') }}</div>
-            <div class="attrValue">{{basicInfo.phone_number}}</div>
-            <div class="attrTitle">{{ $t('profile.birthday') }}</div>
-            <div class="attrValue">{{basicInfo.birthday}}</div>
+<!--            <div class="infoCard">-->
+<!--              <img class="avatar" :src="basicInfo.avatar_url">-->
+<!--              <div class="cardText">-->
+<!--                <div class="nameBar">-->
+<!--                  <div class="userName">{{basicInfo.username}}</div>-->
+<!--                  <div class="edit" @click="this.$router.push(this.$route.path + '/edit')">-->
+<!--                    {{ $t('profile.editInfo') }}-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--                <div class="userDescription">{{basicInfo.description}}</div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <div class="attrTitle">{{ $t('profile.realName') }}</div>-->
+<!--            <div class="attrValue">{{basicInfo.first_name + ' ' + basicInfo.last_name}}</div>-->
+<!--            <div class="attrTitle">{{ $t('login.email') }}</div>-->
+<!--            <div class="attrValue">{{basicInfo.email}}</div>-->
+<!--            <div class="attrTitle">{{ $t('profile.phoneNumber') }}</div>-->
+<!--            <div class="attrValue">{{basicInfo.phone_number}}</div>-->
+<!--            <div class="attrTitle">{{ $t('profile.birthday') }}</div>-->
+<!--            <div class="attrValue">{{basicInfo.birthday}}</div>-->
+            <right-setting-view></right-setting-view>
           </n-tab-pane>
 
           <n-tab-pane name="Orders" tab="Orders" display-directive="show:lazy">
@@ -264,6 +265,7 @@ import {Loader} from "@googlemaps/js-api-loader";
 import * as regionLookupClient from "@googlemaps/region-lookup";
 import {useLangStore} from "../../store.js";
 import * as RegionLookup from "@googlemaps/region-lookup";
+import RightSettingView from "./rightSettingView.vue";
 
 const createInProgressColumns = ({ cancel, viewDetail }) => {
   return [
@@ -412,7 +414,7 @@ const createCancelledColumns = ({ viewDetail }) => {
 }
 export default {
   name: "profileView",
-  components: {NavigationBar},
+  components: {RightSettingView, NavigationBar},
   setup() {
     const langStore = useLangStore();
     let mapLanguage = 'en-US';
