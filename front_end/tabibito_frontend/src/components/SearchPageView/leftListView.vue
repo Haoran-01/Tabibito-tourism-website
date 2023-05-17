@@ -67,23 +67,23 @@
       <div class="col-auto">
         <div class="property_text"><span class="property_num">{{ $t('searchPage.3269Properties') }}</span> {{ $t('searchPage.inEurope') }}</div>
       </div>
-      <div class="col-auto">
-          <n-dropdown
-              trigger="click"
-              placement="bottom-start"
-              :options="sortoptions"
-              @select="handleSelectSort"
-          >
-          <n-button strong ghost size="large" icon-placement="left">
-            <template #icon>
-              <n-icon>
-                <StatsChartOutline />
-              </n-icon>
-            </template>
-            {{ $t('searchPage.sort') }}
-          </n-button>
-        </n-dropdown>
-      </div>
+<!--      <div class="col-auto">-->
+<!--          <n-dropdown-->
+<!--              trigger="click"-->
+<!--              placement="bottom-start"-->
+<!--              :options="sortoptions"-->
+<!--              @select="handleSelectSort"-->
+<!--          >-->
+<!--          <n-button strong ghost size="large" icon-placement="left">-->
+<!--            <template #icon>-->
+<!--              <n-icon>-->
+<!--                <StatsChartOutline />-->
+<!--              </n-icon>-->
+<!--            </template>-->
+<!--            {{ $t('searchPage.sort') }}-->
+<!--          </n-button>-->
+<!--        </n-dropdown>-->
+<!--      </div>-->
     </div>
 
     <div class="row y-gap-20 contents_wrap">
@@ -180,7 +180,7 @@ export default defineComponent({
   },
   setup () {
     const searchPage = ref(1);
-    const searchPages = ref(20);
+    const searchPages = ref(1);
     const searchNumber = 0;
     const searchPageSize = ref(3);
     const currentLocation = ref();
@@ -406,8 +406,7 @@ export default defineComponent({
             })
       },
       handleChangePage() {
-        axios
-            .post("/search/product_list", {
+        axios.post("/search/product_list", {
               currentLocation: currentLocation.value || null,
               startTime: startTime.value || null,
               endTime: endTime.value || null,
@@ -419,8 +418,35 @@ export default defineComponent({
             .then((response) => {
               const code = response.status;
               if (code === 200) {
-                this.products = response.data.products;
-                // 更新其他相关的属性，例如搜索结果总页数和总数
+                products.value = response.data.products;
+                for(let i = 0; i < products.value.length; i++){
+                  let raw_time = products.value[i].duration;
+                  let hour = Math.round(raw_time/3600);
+                  let day = Math.round(hour/24);
+                  if (hour > 24 && day === 1){
+                    products.value[i].duration = '1 Day'
+                  }
+                  if (hour > 24 && day > 1){
+                    products.value[i].duration = day + ' Days'
+                  }
+                  if (hour === 1){
+                    products.value[i].duration = '1 Hour'
+                  }
+                  if (hour < 24 && hour !== 1){
+                    products.value[i].duration = hour + ' Hours'
+                  }
+                }
+                project_loc = {
+                  lat: products.value[0].map_latitude,
+                  lng: products.value[0].map_longitude
+                }
+                for (let i = 0; i < products.value.length; i++){
+                  locations.push({
+                    position: {lat: products.value[i].map_latitude, lng: products.value[i].map_longitude},
+                    title: products.value[i].title
+                  });
+                }
+                loadMap();
               }
             });
       },
