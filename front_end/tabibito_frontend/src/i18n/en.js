@@ -19,7 +19,10 @@ export default {
         profile: "Profile",
         logout: "Log out",
         signup: "Sign Up",
-        login: "Log In"
+        login: "Log In",
+        sear:"Tours",
+        chart:"Charts",
+        about:"Team",
     },
     homepage: {
         searchPart:{

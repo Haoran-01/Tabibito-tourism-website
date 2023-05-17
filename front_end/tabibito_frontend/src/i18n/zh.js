@@ -19,7 +19,10 @@ export default {
         profile: "个人资料",
         logout: "退出登录",
         signup: "注册",
-        login: "登录"
+        login: "登录",
+        sear:"旅行",
+        chart:"图表",
+        about:"团队",
     },
     homepage: {
         searchPart:{
