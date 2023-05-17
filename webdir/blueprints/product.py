@@ -166,7 +166,7 @@ def get_comments():
 
 @bp.route("/uploadpicture", methods=["POST", "GET"])
 def upload_picture():
-    files = request.files.values()  # 获取上传的文件
+    files = request.files.values()
     file_paths = []
     filename = ""
     for file in files:
@@ -174,9 +174,6 @@ def upload_picture():
         file_path = os.path.join(Config.UPLOAD_FOLDER, filename)
         file.save(file_path)
         file_paths.append(file_path)
-    # filename = secure_filename(file.filename)  # 安全获取文件名
-    # file.save(os.path.join(Config.UPLOAD_FOLDER, filename))  # 将文件保存到服务器的指定目录
-    # 存入数据库的操作
     return os.path.join(Config.BASE_URL, Config.UPLOAD_URL, filename)
 
 

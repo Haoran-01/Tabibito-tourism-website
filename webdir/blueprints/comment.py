@@ -23,7 +23,7 @@ def add_comment():
                           product_id=data["product_id"])
         db.session.add(comment)
         db.session.commit()
-        if data["pics"] != []:
+        if data["pics"]:
             for picture in data["pics"]:
                 comment_picture = CommentPicture(address=picture["pic_url"], comment_id=comment.id)
                 db.session.add(comment_picture)

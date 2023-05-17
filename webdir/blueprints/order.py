@@ -43,4 +43,4 @@ def add_order():
     order = Order(user_id=user_id, product_id=product_id, product_number=group_number)
     db.session.add(order)
     db.session.commit()
-    return jsonify(code=200, message="createOrderSuccess")
+    return jsonify(code=200, message="createOrderSuccess"), 200

@@ -1,8 +1,6 @@
 import random
 import string
-import requests
 from flask import Blueprint, request, render_template, jsonify, g, session, current_app
-from config import DevelopmentConfig
 from forms import LoginFrom, RegisterForm, EmailCaptchaModel, ForgetFormPassword
 from flask_login import login_user, logout_user, login_required
 from models import User, Product, UserProfile, Order, Language, UserNotice, MessageStatus, OrderStatus
@@ -235,6 +233,7 @@ def get_language():
 def set_language():
     if current_user is not None:
         language = Language(request.json.get("language"))
+        print(language)
         profile = UserProfile.query.filter(UserProfile.user_id == current_user.user_id).first()
         if language:
             profile.language = language
