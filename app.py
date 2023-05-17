@@ -1,6 +1,6 @@
 from webdir import app
 from flask import render_template, send_from_directory
-
+import os
 
 @app.route("/", methods=['POST', 'GET'])
 def index():
@@ -9,7 +9,7 @@ def index():
 
 @app.route('/pictures/<path:filename>')
 def get_picture(filename):
-    return send_from_directory(app.static_folder, filename, as_attachment=True)
+    return send_from_directory(os.path.join(app.static_folder, "pictures"), filename)
 
 
 if __name__ == '__main__':
