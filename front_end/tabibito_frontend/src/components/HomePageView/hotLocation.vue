@@ -7,7 +7,7 @@
           <p class="title2">{{ $t('hotLocation.choose')}}</p>
         </div>
         <div class="column">
-          <button class="moreBtn">
+          <button class="moreBtn" @click="handleMore()">
             {{ $t('hotLocation.more')}}
             <div class="icon"></div>
           </button>
@@ -19,9 +19,9 @@
       <div class="blocks" style="overflow: hidden">
         <div v-for="location in locations" :key="location.name">
         <div class="rect">
-          <a class="clickArea">
+          <a class="clickArea" @click="handleClick(location.name)">
             <div class="box">
-            <img class="image" :src="location.picture"  @click="this.$router.push({ name:'search', query: {state:'hot', hot: location.name}})" alt="">
+            <img class="image" :src="location.picture" @click="handleClick(location.name)" alt="">
             </div>
             <div class="text">
             <div class="text1" >{{ location.name }}</div>
@@ -61,6 +61,14 @@ export default {
         .catch(error => {
           console.error(error);
         });
+  },
+  methods: {
+    handleClick(name) {
+      this.$router.push({ name: 'more', params: { value: name, type: 'location' } });
+    },
+    handleMore() {
+      this.$router.push({name: 'search'})
+    }
   }
 }
 </script>

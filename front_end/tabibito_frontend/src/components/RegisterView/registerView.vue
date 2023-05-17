@@ -591,7 +591,7 @@ export default {
 
     /*height: calc(100vh - 300px);*/
 
-    height: 780px;
+    height: 850px;
 
     top: 40px;
 

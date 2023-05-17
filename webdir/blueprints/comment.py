@@ -1,5 +1,6 @@
 from datetime import datetime
 
+import flask
 import flask_login
 from flask import Blueprint, request, jsonify
 from flask_login import current_user
@@ -12,23 +13,24 @@ bp = Blueprint("Comment", __name__, url_prefix="/comment")
 
 @bp.route("/add_comment", methods=["POST"])
 def add_comment():
-    data = request.get_json(silent=True)
-    comment = Comment(location_grade=data["location_grade"], staff_grade=data["staff_grade"],
-                      cleanliness_grade=data["cleanliness_grade"]
-                      , value_for_money_grade=data["value_for_money_grade"], comfort_grade=data["comfort_grade"],
-                      facilities_grade=data["facilities_grade"], free_wifi_grade=data["free_wifi_grade"],
-                      datetime=datetime.now(), title=data["title"], des=data["des"], user_id=data["user_id"],
-                      product_id=data["product_id"])
-    db.session.add(comment)
-    db.session.commit()
-
-    if data["pics"] != []:
-        for picture in data["pics"]:
-            comment_picture = CommentPicture(address=picture["pic_url"], comment_id=comment.id)
-            db.session.add(comment_picture)
+    if current_user.is_authenticated:
+        data = request.get_json(silent=True)
+        comment = Comment(location_grade=data["location_grade"], staff_grade=data["staff_grade"],
+                          cleanliness_grade=data["cleanliness_grade"]
+                          , value_for_money_grade=data["value_for_money_grade"], comfort_grade=data["comfort_grade"],
+                          facilities_grade=data["facilities_grade"], free_wifi_grade=data["free_wifi_grade"],
+                          datetime=datetime.now(), title=data["title"], des=data["des"], user_id=data["user_id"],
+                          product_id=data["product_id"])
+        db.session.add(comment)
         db.session.commit()
-
-    return jsonify(code=200, message="add comment success")
+        if data["pics"] != []:
+            for picture in data["pics"]:
+                comment_picture = CommentPicture(address=picture["pic_url"], comment_id=comment.id)
+                db.session.add(comment_picture)
+            db.session.commit()
+        return jsonify(code=200, message="add comment success"), 200
+    else:
+        return jsonify(code=201, message="user need login"), 201
 
 
 @bp.route("/delete", methods=["POST"])

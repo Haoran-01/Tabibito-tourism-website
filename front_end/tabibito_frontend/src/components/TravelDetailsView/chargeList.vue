@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="chargeListTitle" v-if="hasVideo">{{ $t('projectDetailPage.ChargeList.video')}}</div>
-    <iframe v-if="hasVideo" width="560" height="315" :src=" 'https://www.youtube.com/embed/' + videoLink" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    <iframe v-if="hasVideo" class="iframe" :width=frame_width :height=frame_height :src=" 'https://www.youtube.com/embed/' + videoLink" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
     <div v-if="hasVideo" class="divider"></div>
     <div class="chargeListTitle">Weather Report</div>
     <div class="chargeList">
@@ -46,11 +46,38 @@
 <script>
 import ItineraryPart from "./itineraryPart.vue";
 import {useRoute, useRouter} from "vue-router";
+import {onMounted, ref} from "vue";
 export default {
   name: "chargeList",
   components: {ItineraryPart},
-  setup(){
-
+  setup() {
+    let frame_width = ref(560);
+    let frame_height = ref(315);
+    window.fullWidth = document.documentElement.clientWidth;
+    if (window.fullWidth < 700) {
+      frame_width.value = 340;
+      frame_height.value = 192;
+    } else if (window.fullWidth >= 700) {
+      frame_width.value = 560;
+      frame_height.value = 315;
+    }
+    onMounted(() => {
+      window.addEventListener('resize', () => {
+        window.fullWidth = document.documentElement.clientWidth;
+        // that.windowWidth = window.fullWidth; // 宽
+        if (window.fullWidth < 700) {
+          frame_width.value = 340;
+          frame_height.value = 192;
+        } else if (window.fullWidth >= 700) {
+          frame_width.value = 560;
+          frame_height.value = 315;
+        }
+      });
+    })
+    return {
+      frame_width,
+      frame_height,
+    }
   },
   created() {
     const route = useRoute();
@@ -198,6 +225,16 @@ export default {
   border-top: 1px solid #DDDDDD;
   margin: 40px auto;
 }
+@media (min-width:360px){
+  .container{
+    max-width:350px
+  }
+  /*.iframe{*/
+  /*  width: 330px;*/
+  /*  height: auto;*/
+  /*}*/
+}
+
 @media (min-width:576px){
   .container{
     max-width:540px

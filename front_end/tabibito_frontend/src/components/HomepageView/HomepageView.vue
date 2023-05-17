@@ -76,7 +76,7 @@
         <div class="discountCoverTextArea">
           <div class="discountCoverTitle1">{{ $t('homepage.discountPart.period')}}</div>
           <div class="discountCoverTitle2">{{ $t('homepage.discountPart.bookTitle')}}</div>
-          <div class="discountCoverBookButton">{{ $t('homepage.discountPart.button')}}</div>
+          <div class="discountCoverBookButton" @click="handleMore()">{{ $t('homepage.discountPart.button')}}</div>
         </div>
       </div>
       <discount-items :discount-data="discountData"></discount-items>
@@ -331,6 +331,11 @@ export default {
       }
     }
   },
+  methods: {
+    handleMore() {
+      this.$router.push({name: 'search'})
+    }
+  }
 }
 </script>
 
