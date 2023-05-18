@@ -1,8 +1,10 @@
+import math
+
 from sqlalchemy import func
 from flask import Blueprint, jsonify, request
 import datetime
 from exts import db
-from models import Product, ProductPicture, Tag, Trip, FeeDes, UserBrowse, Comment, User, Order, ProductType, PType
+from models import Product, Tag, UserBrowse, Comment, User, Order, ProductType, PType
 from collections import Counter
 from sqlalchemy import and_
 
@@ -39,22 +41,19 @@ def search():
 
 @bp.route("/location", methods=['GET'])
 def locations():
-    all_locations = [p.raw_loc for p in Product.query.all()]
+    products = Product.query.all()
+    all_locations = [product.raw_loc.split(",")[-1].strip() for product in products]
     location_counts = Counter(all_locations)
 
-    # 选出出现次数最多的8个location
     most_common_locations = location_counts.most_common(8)
     most_common_locations = [lc[0] for lc in most_common_locations]
 
-    # 为每个location选出一个对应的cover
     covers = {}
     for loc in most_common_locations:
-        # 找到该location的第一个product的第一张图片作为cover
-        product = Product.query.filter_by(raw_loc=loc).first()
+        product = Product.query.filter(Product.raw_loc.like("%"+loc+"%")).first()
         if product:
             covers[loc] = product.pictures[0].address
 
-    # 构造返回结果
     result = {
         "locations": [
             {
@@ -129,14 +128,14 @@ def more_products():
     value = request.json.get('value')
     print(search_type, value)
     if search_type == "popular":
-        page_number = 8
+        page_number = 2
     elif search_type == "type":
         print(value)
-        page_number = Product.query.filter(Product.types.any(ProductType.type == PType(value))).count()
+        page_number = math.ceil(Product.query.filter(Product.types.any(ProductType.type == PType(value))).count()/4)
     elif search_type == "location":
         print(value)
 
-        page_number = Product.query.filter(Product.raw_loc == value).count()
+        page_number = math.ceil(Product.query.filter(Product.raw_loc.like("%"+value+"%")).count() / 4)
     else:
         page_number = 0
     return jsonify(page_number=page_number, code=200)
@@ -153,7 +152,7 @@ def more_program_list():
     elif search_type == "type":
         products = Product.query.filter(Product.types.any(ProductType.type == PType(value))).paginate(page=page, per_page=4)
     elif search_type == "location":
-        products = Product.query.filter(value in Product.raw_loc).paginate(page=page, per_page=4)
+        products = Product.query.filter(Product.raw_loc.like("%"+value+"%")).paginate(page=page, per_page=4)
 
     return jsonify(products=[product.serialize_more() for product in products])
 

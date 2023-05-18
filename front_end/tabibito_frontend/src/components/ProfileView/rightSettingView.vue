@@ -8,18 +8,18 @@
               position: absolute;
               top: 30px;
               left: 30px;
-              width: 200px;
-              height: 200px;
+              width: 180px;
+              height: 180px;
               -o-object-fit: cover;
-              object-fit: cover;
+              /*object-fit: cover;*/
               border-radius: 4px;"
             />
             <n-upload
                 action="/profile/uploadavatar"
                 :default-file-list="coverImageList"
                 list-type="image-card"
-                style="position: absolute;
-                       top: 30px;
+                style="position: relative;
+                       top: -15px;
                        left: 30px;
                        width: 200px;
                        height: 200px;
@@ -276,7 +276,7 @@ export default defineComponent({
 }
 .avatar_container {
   display: flex !important;
-  padding-bottom: 100%;
+  padding-bottom: 0;
   width: 200px;
   max-width: 100%;
 }

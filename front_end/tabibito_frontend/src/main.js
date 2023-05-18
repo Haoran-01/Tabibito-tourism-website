@@ -11,6 +11,8 @@ import zhLocale from './i18n/zh.js'
 import axios from 'axios'
 
 
+
+
 const app = createApp(App);
 const pinia = createPinia();
 axios.defaults.baseURL = 'http://127.0.0.1:5000';
@@ -28,7 +30,6 @@ const i18n = createI18n({
     },
     legacy: false
 })
-
 app.use(router);
 app.use(pinia);
 app.use(Toast);

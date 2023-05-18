@@ -168,8 +168,8 @@ export default defineComponent({
   justify-content: center;
   align-items: center;
   position: fixed;
-  bottom: 20px;
-  right: 20px;
+  bottom: 15px;
+  right: 100px;
   z-index: 9999;
   width: 50px;
   height: 50px;

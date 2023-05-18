@@ -582,7 +582,7 @@ class Trip(db.Model):
 
     def serialize_edit(self):
         return {
-            "time": self.time.timestamp(),
+            "time": self.time.timestamp() % 86400,
             "location": {
                 "exact": self.exact,
                 "map_latitude": self.map_latitude,

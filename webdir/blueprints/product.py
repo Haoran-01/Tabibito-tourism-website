@@ -199,10 +199,14 @@ def upload_picture():
 
 @bp.route("/deletepicture", methods=["POST", "GET"])
 def delete_picture():
-    file_name = request.json.get("url")  # 获取上传的文件
-    if os.path.exists(file_name):
+    url = request.json.get("url")
+    file_name = os.path.join(Config.UPLOAD_FOLDER, os.path.split(url)[-1])
+    if os.path.isfile(file_name):
+        picture = ProductPicture.query.filter_by(address=url).first()
+        if picture:
+            db.session.delete(picture)
+            db.session.commit()
         os.remove(file_name)
-
         return {}, 204
     else:
         return {}, 404
