@@ -98,7 +98,6 @@ export default defineComponent( {
   padding: 10px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
 }
 
 .message {
