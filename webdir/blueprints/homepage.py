@@ -161,5 +161,5 @@ def more_program_list():
 @bp.route("/all_location", methods=["GET", "POST"])
 def all_locations():
     products = Product.query.all()
-    result = list(set([product.raw_loc.split(",")[-1].strip() for product in products]))
+    result = sorted(list(set([product.raw_loc.split(",")[-1].strip() for product in products])))
     return jsonify(locations=result), 200
