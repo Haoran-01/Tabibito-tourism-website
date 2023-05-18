@@ -61,7 +61,7 @@ def flight():
     if flight_data is not None:
         departure = {
             "airport_no": flight_data["origin"]["code"],
-            "airport_loxc": flight_data["origin"]["city"],
+            "airport_loc": flight_data["origin"]["city"],
             "airport_name": flight_data["origin"]["name"],
             "date": str(datetime.fromisoformat(flight_data["scheduled_off"][:-1]).date()),
             "time": str(datetime.fromisoformat(flight_data["scheduled_off"][:-1]).time())

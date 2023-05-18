@@ -205,28 +205,32 @@
               </div>
             </div>
 
-            <div class="comment_foot x-gap-20">
-              <n-button text :loading="loading" @click="handleClick">
-                <template #icon>
-                  <n-icon size="16px">
-                    <ThumbsUp />
-                  </n-icon>
-                </template>
-                {{ $t('helpful') }}
-              </n-button>
+<!--            <div class="comment_foot x-gap-20">-->
+<!--              <n-button text :loading="loading" @click="handleClick">-->
+<!--                <template #icon>-->
+<!--                  <n-icon size="16px">-->
+<!--                    <ThumbsUp />-->
+<!--                  </n-icon>-->
+<!--                </template>-->
+<!--                {{ $t('helpful') }}-->
+<!--              </n-button>-->
 
-              <n-button text :loading="loading" @click="handleClick">
-                <template #icon>
-                  <n-icon size="16px">
-                    <ThumbsDown />
-                  </n-icon>
-                </template>
-                {{ $t('notHelpful') }}
-              </n-button>
-            </div>
+<!--              <n-button text :loading="loading" @click="handleClick">-->
+<!--                <template #icon>-->
+<!--                  <n-icon size="16px">-->
+<!--                    <ThumbsDown />-->
+<!--                  </n-icon>-->
+<!--                </template>-->
+<!--                {{ $t('notHelpful') }}-->
+<!--              </n-button>-->
+<!--            </div>-->
           </div>
 
-          <n-pagination class="page" v-model:page="page" :on-update:page="pageChange"	:page-count="countPage"/>
+          <n-pagination
+              v-model:page="commentPage"
+              :page-count="commentPages"
+              v-model:page-size="commentPageSize"
+              @update:page="handleChangePage"></n-pagination>
 
 
         </div>
@@ -263,7 +267,9 @@ export default defineComponent({
   },
   data() {
     return {
-      countPage: ref(),
+      commentPage: ref(1),
+      commentPages: ref(20),
+      commentPageSize: ref(10),
       comments:[
         {
         },
@@ -275,12 +281,25 @@ export default defineComponent({
       },
     }
   },
+  methods: {
+    handleChangePage() {
+      this.axios.post('/product/get_comment', {
+        page_number: this.commentPage,
+        product_id: route.params.trip_id,
+      })
+          .then((res) => {
+            if (res.status === 200) {
+              this.comments = res.data.comments
+            }
+          })
+    },
+  },
   created() {
     var self = this;
     let route = useRoute();
     console.log(route.params.trip_id);
     this.axios.post('/product/get_comment',{
-      page: 1,
+      page: this.commentPage,
       product_id: route.params.trip_id,
     })
         .then((response)=>{
@@ -297,23 +316,10 @@ export default defineComponent({
         .then((response)=>{
           const code = response.status
           if (code === 200){
-            const count = response.data.number
-            self.countPage  = Math.floor(count / 10) + (count % 10 > 0 ? 1 : 0);
+            const count = response.number
+            this.commentPages  = Math.floor(count / 10) + (count % 10 > 0 ? 1 : 0);
           }
         })
-  },
-  methods:{
-    pageChange(newPage){
-      // console.log(`Current page is ${newPage}`);
-      this.axios.post('/product/get_comment',{
-        page: newPage
-      }).then(function (response){
-        this.comments = response.data.comments
-      }).catch(function (error){
-        console.log(error);
-      });
-    }
-
   },
   mounted() {
     let route = useRoute();

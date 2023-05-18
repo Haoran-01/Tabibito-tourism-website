@@ -19,7 +19,10 @@ export default {
         profile: "个人资料",
         logout: "退出登录",
         signup: "注册",
-        login: "登录"
+        login: "登录",
+        sear:"旅行",
+        chart:"图表",
+        about:"团队",
     },
     homepage: {
         searchPart:{
@@ -100,6 +103,14 @@ export default {
             seeDetail: "查看详情和照片",
             collapse: "收起"
         },
+        weatherReport: '天气报告',
+        temp: '{expr}',
+        maxtemp: '{expr}',
+        max: '最高',
+        avgtemp: '{expr}',
+        avg: '平均',
+        mintemp: '{expr}',
+        min: '最低'
     },
     footer: {
         journey1: "您的旅行之旅从这里开始",
@@ -272,7 +283,11 @@ export default {
         addCharge: '添加费用',
         reason: '原因',
         reasonsForChangingTheReservation: '更改预订的原因',
-        submit: '提交'
+        submit: '提交',
+        flightNumber: '航班号',
+        flightNumber1: '航班号1',
+        flightNumber2: '航班号2',
+        flightNumber3: '航班号3'
     },
     resView: {
         reservationList: '预订列表',
@@ -394,7 +409,8 @@ export default {
         newTag: '新标签',
         add: '添加',
         content: '内容',
-        submit: '提交'
+        submit: '提交',
+        seeModel: '看模型'
     },
     PMDV: {
         addTravelProject: '添加旅行项目',
@@ -403,5 +419,41 @@ export default {
     sidebarViewprograms: '项目',
     sidebarViewreservations: '预订',
     sidebarViewsettings: '设置',
-    sidebarViewlogout: '登出'
+    sidebarViewlogout: '登出',
+    profile: {
+        personalCenter: '个人中心',
+        manageAllTheInformationYouNeedHere: '在这里管理您所需的所有信息',
+        travelName: '旅行名称',
+        travelDetail: '旅行详情',
+        goToTravelDetail: '前往旅行详情',
+        itinerary: '行程',
+        hello: '{expr}',
+        temp: '{expr}',
+        maxtemp: '{expr}',
+        max: '最高',
+        avgtemp: '{expr}',
+        avg: '平均',
+        mintemp: '{expr}',
+        min: '最低',
+        flightInformation: '航班信息',
+        takesOffFrom: '从起飞',
+        landingAt: '降落在',
+        editInfo: '编辑信息',
+        realName: '真实姓名',
+        phoneNumber: '电话号码',
+        birthday: '生日',
+        delete: '删除',
+        areYouSureYouWantToDeleteYourComment: '确定要删除您的评论吗？',
+        check: '选中',
+        uncheck: '取消选中'
+    },
+    rightSetting: {
+        yourAvatar: '您的头像',
+        pngOrJpgNoBiggerThan800pxWideAndTall: 'PNG或JPG格式，大小不超过800像素宽和高。',
+        gender: '性别',
+        userName: '用户名',
+        phoneNumber: '电话号码',
+        birthday: '生日',
+        aboutYourself: '关于您自己'
+    }
 }

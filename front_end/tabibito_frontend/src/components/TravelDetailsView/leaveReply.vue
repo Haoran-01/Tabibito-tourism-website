@@ -20,11 +20,11 @@
                 {{ $t('homepage.searchPart.loc') }}
               </div>
               <div class="star_wrap">
-                <n-icon class="star"><star /></n-icon>
-                <n-icon class="star"><star /></n-icon>
-                <n-icon class="star"><star /></n-icon>
-                <n-icon class="star"><star /></n-icon>
-                <n-icon class="star"><star /></n-icon>
+                <template v-for="index in 10" :key="index">
+                  <n-icon class="star" @click="setRating('location', index)">
+                    <star :class="{ filled: isLocationActive(index) }" />
+                  </n-icon>
+                </template>
               </div>
             </div>
             <div class="col-sm-6">
@@ -32,11 +32,11 @@
                 {{ $t('leaveReply.staff2') }}
               </div>
               <div class="star_wrap">
-                <n-icon class="star"><star /></n-icon>
-                <n-icon class="star"><star /></n-icon>
-                <n-icon class="star"><star /></n-icon>
-                <n-icon class="star"><star /></n-icon>
-                <n-icon class="star"><star /></n-icon>
+                <template v-for="index in 10" :key="index">
+                  <n-icon class="star" @click="setRating('staff', index)">
+                    <star :class="{ filled: isStaffActive(index) }" />
+                  </n-icon>
+                </template>
               </div>
             </div>
             <div class="col-sm-6">
@@ -44,11 +44,11 @@
                 {{ $t('leaveReply.cleanliness2') }}
               </div>
               <div class="star_wrap">
-                <n-icon class="star"><star /></n-icon>
-                <n-icon class="star"><star /></n-icon>
-                <n-icon class="star"><star /></n-icon>
-                <n-icon class="star"><star /></n-icon>
-                <n-icon class="star"><star /></n-icon>
+                <template v-for="index in 10" :key="index">
+                  <n-icon class="star" @click="setRating('cleanliness', index)">
+                    <star :class="{ filled: isCleanlinessActive(index) }" />
+                  </n-icon>
+                </template>
               </div>
             </div>
             <div class="col-sm-6">
@@ -56,11 +56,11 @@
                 {{ $t('leaveReply.valueForMoney2') }}
               </div>
               <div class="star_wrap">
-                <n-icon class="star"><star /></n-icon>
-                <n-icon class="star"><star /></n-icon>
-                <n-icon class="star"><star /></n-icon>
-                <n-icon class="star"><star /></n-icon>
-                <n-icon class="star"><star /></n-icon>
+                <template v-for="index in 10" :key="index">
+                  <n-icon class="star" @click="setRating('value_for_money', index)">
+                    <star :class="{ filled: isValueForMoneyActive(index) }" />
+                  </n-icon>
+                </template>
               </div>
             </div>
             <div class="col-sm-6">
@@ -68,11 +68,11 @@
                 {{ $t('leaveReply.comfort2') }}
               </div>
               <div class="star_wrap">
-                <n-icon class="star"><star /></n-icon>
-                <n-icon class="star"><star /></n-icon>
-                <n-icon class="star"><star /></n-icon>
-                <n-icon class="star"><star /></n-icon>
-                <n-icon class="star"><star /></n-icon>
+                <template v-for="index in 10" :key="index">
+                  <n-icon class="star" @click="setRating('comfort', index)">
+                    <star :class="{ filled: isComfortActive(index) }" />
+                  </n-icon>
+                </template>
               </div>
             </div>
             <div class="col-sm-6">
@@ -80,11 +80,11 @@
                 {{ $t('leaveReply.facilities2') }}
               </div>
               <div class="star_wrap">
-                <n-icon class="star"><star /></n-icon>
-                <n-icon class="star"><star /></n-icon>
-                <n-icon class="star"><star /></n-icon>
-                <n-icon class="star"><star /></n-icon>
-                <n-icon class="star"><star /></n-icon>
+                <template v-for="index in 10" :key="index">
+                  <n-icon class="star" @click="setRating('facilities', index)">
+                    <star :class="{ filled: isFacilitiesActive(index) }" />
+                  </n-icon>
+                </template>
               </div>
             </div>
             <div class="col-sm-6">
@@ -92,11 +92,11 @@
                 {{ $t('leaveReply.freeWifi2') }}
               </div>
               <div class="star_wrap">
-                <n-icon class="star"><star /></n-icon>
-                <n-icon class="star"><star /></n-icon>
-                <n-icon class="star"><star /></n-icon>
-                <n-icon class="star"><star /></n-icon>
-                <n-icon class="star"><star /></n-icon>
+                <template v-for="index in 10" :key="index">
+                  <n-icon class="star" @click="setRating('free_wifi', index)">
+                    <star :class="{ filled: isFreeWifiActive(index) }" />
+                  </n-icon>
+                </template>
               </div>
             </div>
           </div>
@@ -122,7 +122,8 @@
                   :count-graphemes="countGraphemes"
               />
             </div>
-            <n-button strong secondary type="info" size="large" icon-placement="right" @click="handleComment">
+            <n-button strong secondary type="info" size="large" icon-placement="right" @click="handleComment"
+                      :disabled="isButtonDisabled || !locationRated || !staffRated || !cleanlinessRated || !valueForMoneyRated || !comfortRated || !facilitiesRated || !freeWifiRated">
               <template #icon>
                 <n-icon>
                   <ArrowForwardOutline />
@@ -141,7 +142,7 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, computed } from 'vue'
 import {StarHalf as star} from "@vicons/ionicons5";
 import {ArrowForwardOutline} from "@vicons/ionicons5";
 import axios from 'axios'
@@ -154,35 +155,119 @@ export default defineComponent({
   data() {
     return {
       value: ref(null),
+      locationRating: 0,
+      staffRating: 0,
+      cleanlinessRating: 0,
+      valueForMoneyRating: 0,
+      comfortRating: 0,
+      facilitiesRating: 0,
+      freeWifiRating: 0,
+      locationRated: false,
+      staffRated: false,
+      cleanlinessRated: false,
+      valueForMoneyRated: false,
+      comfortRated: false,
+      facilitiesRated: false,
+      freeWifiRated: false,
     }
+  },
+  methods: {
+    setRating(category, rating) {
+      // Update the corresponding rating property based on the category
+      switch (category) {
+        case 'location':
+          this.locationRating = rating;
+          this.locationRated = true;
+          break;
+        case 'staff':
+          this.staffRating = rating;
+          this.staffRated = true;
+          break;
+        case 'cleanliness':
+          this.cleanlinessRating = rating;
+          this.cleanlinessRated = true;
+          break;
+        case 'value_for_money':
+          this.valueForMoneyRating = rating;
+          this.valueForMoneyRated = true;
+          break;
+        case 'comfort':
+          this.comfortRating = rating;
+          this.comfortRated = true;
+          break;
+        case 'facilities':
+          this.facilitiesRating = rating;
+          this.facilitiesRated = true;
+          break;
+        case 'free_wifi':
+          this.freeWifiRating = rating;
+          this.freeWifiRated = true;
+          break;
+        default:
+          break;
+      }
+    },
+  },
+  computed: {
+    isLocationActive() {
+      return (index) => index <= this.locationRating;
+    },
+    isStaffActive() {
+      return (index) => index <= this.staffRating;
+    },
+    isCleanlinessActive() {
+      return (index) => index <= this.cleanlinessRating;
+    },
+    isValueForMoneyActive() {
+      return (index) => index <= this.valueForMoneyRating;
+    },
+    isComfortActive() {
+      return (index) => index <= this.comfortRating;
+    },
+    isFacilitiesActive() {
+      return (index) => index <= this.facilitiesRating;
+    },
+    isFreeWifiActive() {
+      return (index) => index <= this.freeWifiRating;
+    },
   },
   setup () {
     const title = ref("");
     const des = ref("");
 
+    const isButtonDisabled = computed(() => {
+      return !title.value || !des.value;
+    });
+
     const handleComment = async () => {
-      try {
-        const response = await axios.post("/comment/add_comment", {
-          title: title.value,
-          des: des.value,
-          user_id: null,
-          product_id: 9,
-          location_grade: 9,
-          staff_grade: 9,
-          cleanliness_grade: 9,
-          value_for_money_grade: 9,
-          comfort_grade: 9,
-          facilities_grade: 9,
-          free_wifi_grade: 9,
-          pics: [],
-        });
-        console.log(response.data); // 输出后端返回的数据
-      } catch (error) {
-        console.error(error);
-      }
+          if (!isButtonDisabled.value) {
+            try {
+              const response = await axios.post("/comment/add_comment", {
+                title: title.value,
+                des: des.value,
+                user_id: null,
+                product_id: 9,
+                location_grade: this.locationRating,
+                staff_grade: this.staffRating,
+                cleanliness_grade: this.cleanlinessRating,
+                value_for_money_grade: this.valueForMoneyRating,
+                comfort_grade: this.comfortRating,
+                facilities_grade: this.facilitiesRating,
+                free_wifi_grade: this.freeWifiRating,
+                pics: [],
+              });
+              console.log(response.data); // 输出后端返回的数据
+            } catch (error) {
+              console.error(error);
+            }
+          }
     };
 
-    return {title, des, handleComment}
+    return {
+      title,
+      isButtonDisabled,
+      des,
+      handleComment}
   },
 })
 </script>
@@ -200,8 +285,13 @@ export default defineComponent({
 }
 
 .star {
-  font-size: 10px;
-  color: #F8D448;
+  /* 未选中状态的星星样式 */
+  color: gray;
+}
+
+.filled {
+  /* 选中状态的星星样式 */
+  color: #FF8F00;
 }
 
 .star_wrap {

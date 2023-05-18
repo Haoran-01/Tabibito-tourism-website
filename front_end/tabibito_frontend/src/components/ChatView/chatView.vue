@@ -1,7 +1,5 @@
 <template>
 
-  <navigation-bar class="chatHead"></navigation-bar>
-
   <div class="CVImg">
   <div class="home-TUIKit-main">
     <div :class="env?.isH5 ? 'conversation-h5' : 'conversation'" v-show="!env?.isH5 || currentModel === 'conversation'">
@@ -97,7 +95,12 @@ export default defineComponent({
       // });
     }
   },
-
+  mounted() {
+    window.addEventListener('popstate', this.handleBackButton);
+  },
+  beforeDestroy() {
+    window.removeEventListener('popstate', this.handleBackButton);
+  },
   setup() {
     const data = reactive({
       env: TUIEnv(),
@@ -145,6 +148,9 @@ export default defineComponent({
   methods: {
     toggleGptChatView() {
       this.showGptChatView = !this.showGptChatView;
+    },
+    handleBackButton() {
+      this.$router.push('/load');
     }
   },
   data() {

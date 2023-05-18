@@ -1,7 +1,4 @@
-import os
-
 from flask import Blueprint, request, jsonify
-
 from datetime import datetime, timedelta
 from exts import db
 from models import Order, Product, OrderStatus, ProductStatus, User

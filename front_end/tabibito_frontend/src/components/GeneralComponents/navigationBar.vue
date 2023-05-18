@@ -16,10 +16,33 @@
      <div class="actions" :style="currencyColor">
        <div class="simpleSettings">
 <!--         @mouseenter="currency_is_shown = true" @mouseleave="currency_is_shown = false"-->
+         <div class="actionButton currencyButton" @click="this.$router.push('/search_result')">
+           <div class="actionIcon" id="currencyIcon" :style="currencyIcon1"></div>
+           <div class="actionText" id="currencyText">{{ $t('navi.sear') }}</div>
+         </div>
+         <div class="divider"></div>
+
+         <div class="actionButton currencyButton">
+
+
+           <div class="actionIcon" id="currencyIcon" :style="currencyIcon2"></div>
+           <n-dropdown trigger="click" style="z-index: 100000000 !important;" :options="options" @select="handleSelect">
+             {{ $t('navi.chart') }}
+           </n-dropdown>
+         </div>
+         <div class="divider"></div>
+
          <div class="actionButton currencyButton" @click="this.$router.push('/chat')">
            <div class="actionIcon" id="currencyIcon" :style="currencyIcon"></div>
            <div class="actionText" id="currencyText">{{ $t('navi.chat') }}</div>
          </div>
+         <div class="divider"></div>
+
+         <div class="actionButton currencyButton" @click="this.$router.push('/about')">
+           <div class="actionIcon" id="currencyIcon" :style="currencyIcon3"></div>
+           <div class="actionText" id="currencyText">{{ $t('navi.about') }}</div>
+         </div>
+
          <transition name="fade">
            <drop-down
                @mouseenter="currency_is_shown = true"
@@ -73,6 +96,8 @@ import DropDown from "./dropDown.vue";
 import userDropDown from "./userDropDown.vue";
 import {useStore, useLangStore} from "../../store.js";
 import {getCurrentInstance} from 'vue'
+import {useRouter} from 'vue-router';
+
 import {useI18n} from "vue-i18n";
 export default defineComponent({
   props: {
@@ -81,6 +106,7 @@ export default defineComponent({
   },
   components: {DropDown, userDropDown},
   setup(props) {
+    const route = useRouter();
     const store = useStore();
     let currency_is_shown = ref(false);
     let user_is_shown = ref(false);
@@ -96,6 +122,10 @@ export default defineComponent({
           store.user_login_status = user_is_logged_in.value;
         })
     let currencyIcon = ref("background-image:url('src/assets/chat.png')");
+    let currencyIcon1 = ref("background-image:url('src/assets/tour.png')");
+    let currencyIcon2 = ref("background-image:url('src/assets/chart.png')");
+    let currencyIcon3 = ref("background-image:url('src/assets/team.png')");
+
     let currencyText = ref('USD');
     let backgroundColor = ref("background-color: white;");
     let currencyColor = ref("")
@@ -130,11 +160,37 @@ export default defineComponent({
       currency_is_shown,
       user_is_shown,
       currencyIcon,
+      currencyIcon1,
+      currencyIcon2,
+      currencyIcon3,
       currencyText,
       user_is_logged_in,
       backgroundColor,
       currencyColor,
-      dropDownPosition
+      dropDownPosition,
+      options: [
+        {
+          label: "Reservation Rates",
+          key: "rate"
+        },
+        {
+          label: "Visual Travel Data",
+          key: "data"
+        },
+        {
+          label: "Tours Distribution",
+          key: "map"
+        }
+      ],
+      handleSelect(key) {
+        if (key === "data"){
+          route.push('/chartsData')
+        } else if (key === "map"){
+          route.push('/chartsMaps')
+        } else if (key === "rate"){
+          route.push('/chartsRates')
+        }
+      }
     };
   },
   data(){
@@ -252,10 +308,10 @@ export default defineComponent({
   justify-content: space-between;
 }
 .simpleSettings{
-  width: 240px;
+  width: 490px;
   height: 30px;
   display: grid;
-  grid-template-columns: 1fr 11px 1fr;
+  grid-template-columns: 1fr 11px 1fr 11px 1fr 11px 1fr 11px 1fr;
   grid-template-rows: 1fr;
   align-items: center;
   box-sizing: border-box;

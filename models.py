@@ -259,6 +259,7 @@ class Product(db.Model):
     flight = db.Column(db.CHAR(50), nullable=True)
     url_3d = db.Column(db.CHAR(250), nullable=True)
     video_url = db.Column(db.CHAR(250), nullable=True)
+    total_day_number = db.Column(db.Integer, nullable=False, default=5)
 
     comments = relationship('Comment', order_by='Comment.id', back_populates="product")
     trips = relationship('Trip', order_by='Trip.id', back_populates="product")
@@ -477,6 +478,35 @@ class Product(db.Model):
             "date": self.start_time.strftime("%A, %d %B %Y")
         }
 
+    def serialize_edit_info(self):
+        return {
+            'name': self.name,
+            'description': self.description,
+            'location': {
+                "raw_loc": self.raw_loc,
+                "map_latitude": self.map_latitude,
+                "map_longitude": self.map_longitude,
+                "map_zoom": self.map_zoom
+            },
+            'discount': self.discount,
+            'ori_price': self.ori_price,
+            'currency': self.currency,
+            'group_number': self.group_number,
+            'tags': [tag.serialize() for tag in self.tags],
+            'cover_image': self.get_cover(),
+            'gallery': self.gallery(),
+            'banner_image': self.banners(),
+            'start_time': self.start_time.timestamp(),
+            'end_time': self.end_time.timestamp(),
+            'app_ddl': self.app_ddl.timestamp(),
+            'trips': [trip.serialize_edit() for trip in self.trips],
+            "fee_des": [fee.serialize() for fee in self.fee_des],
+            'types': [type.type.value for type in self.types],
+            'flight_numbers': self.flight.split(" "),
+            'video_link': self.video_url,
+            'total_day_number': self.total_day_number
+        }
+
     def __repr__(self):
         return "<Product(name='%s', description='%s', group_number='%s')>" % (
             self.name, self.description, self.group_number
@@ -546,7 +576,22 @@ class Trip(db.Model):
             },
             "activity": self.activity,
             "picture": self.picture,
-            "day": self.day,
+            "day": int(self.day),
+            "time_of_day": self.time_of_day
+        }
+
+    def serialize_edit(self):
+        return {
+            "time": self.time.timestamp(),
+            "location": {
+                "exact": self.exact,
+                "map_latitude": self.map_latitude,
+                "map_longitude": self.map_longitude,
+                "map_zoom": self.map_zoom,
+            },
+            "activity": self.activity,
+            "picture": self.picture,
+            "day": int(self.day),
             "time_of_day": self.time_of_day
         }
 
@@ -632,7 +677,7 @@ class UserProfile(db.Model):
     picture_address = db.Column(db.CHAR(200))
     job = db.Column(DBEnum(UserJob), default=UserJob.Customer)
     language = db.Column(DBEnum(Language), default=Language.en)
-    user_name = db.Column(db.CHAR(100), nullable=True, default="Tabibito_User")
+    user_name = db.Column(db.CHAR(100), nullable=True, default="Tabibito User")
     gender = db.Column(db.CHAR(100), nullable=True, default="unknown")
     phone_number = db.Column(db.CHAR(30), nullable=True)
     birthday = db.Column(db.Date, nullable=True, default=datetime.now().date())
@@ -674,3 +719,9 @@ class UserNotice(db.Model):
             "id": self.id,
             "content": self.content
         }
+
+
+class NoticeType(db.Model):
+    __tablename__ = 'notice_type'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    type = db.Column(db.CHAR(50), nullable=False, default="")

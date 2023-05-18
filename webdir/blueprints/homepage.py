@@ -121,17 +121,21 @@ def get_inspiration():
     products = db.session.query(Product).limit(3).all()
     return jsonify(code=200, inspirations=[product.serialize_inspiration() for product in products])
 
+
 @bp.route("/more", methods=["GET", "POST"])
 def more_products():
     page_number = 0
     search_type = request.json.get('type')
     value = request.json.get('value')
-
+    print(search_type, value)
     if search_type == "popular":
         page_number = 8
     elif search_type == "type":
+        print(value)
         page_number = Product.query.filter(Product.types.any(ProductType.type == PType(value))).count()
     elif search_type == "location":
+        print(value)
+
         page_number = Product.query.filter(Product.raw_loc == value).count()
     else:
         page_number = 0
@@ -152,4 +156,4 @@ def more_program_list():
     elif search_type == "location":
         products = Product.query.filter(Product.raw_loc == value).paginate(page=page, per_page=4)
 
-    return jsonify(products = [product.serialize_more() for product in products])
+    return jsonify(products=[product.serialize_more() for product in products])

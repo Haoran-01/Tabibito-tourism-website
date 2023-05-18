@@ -3,7 +3,7 @@
     <div class="chargeListTitle" v-if="hasVideo">{{ $t('projectDetailPage.ChargeList.video')}}</div>
     <iframe v-if="hasVideo" class="iframe" :width=frame_width :height=frame_height :src=" 'https://www.youtube.com/embed/' + videoLink" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
     <div v-if="hasVideo" class="divider"></div>
-    <div class="chargeListTitle">Weather Report</div>
+    <div class="chargeListTitle">{{ $t('projectDetailPage.weatherReport') }}</div>
     <div class="chargeList">
       <div class="weatherPart" v-for="day in this.weather">
         <div class="weatherTitleBar">
@@ -17,15 +17,15 @@
         <div class="forecast">
           <div class="foreTemp">
             <div class="tempValue">{{day.max_temp.toFixed(0) + '℃'}}</div>
-            <div class="tempType">Max</div>
+            <div class="tempType">{{ $t('projectDetailPage.max') }}</div>
           </div>
           <div class="foreTemp">
             <div class="tempValue">{{day.avg_temp.toFixed(0) + '℃'}}</div>
-            <div class="tempType">Avg</div>
+            <div class="tempType">{{ $t('projectDetailPage.avg') }}</div>
           </div>
           <div class="foreTemp">
             <div class="tempValue">{{day.min_temp.toFixed(0) + '℃'}}</div>
-            <div class="tempType">Min</div>
+            <div class="tempType">{{ $t('projectDetailPage.min') }}</div>
           </div>
         </div>
       </div>
@@ -225,6 +225,16 @@ export default {
   border-top: 1px solid #DDDDDD;
   margin: 40px auto;
 }
+@media (min-width:360px){
+  .container{
+    max-width:350px
+  }
+  /*.iframe{*/
+  /*  width: 330px;*/
+  /*  height: auto;*/
+  /*}*/
+}
+
 @media (min-width:576px){
   .container{
     max-width:540px
