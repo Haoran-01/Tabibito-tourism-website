@@ -14,7 +14,7 @@ bp = Blueprint("Profile", __name__, url_prefix="/profile")
 
 @bp.route("/info", methods=['GET'])
 def get_user_info():
-    if hasattr(current_user, "user_id"):
+    if not hasattr(current_user, "user_id"):
         return {}, 200
     user_id = current_user.user_id
     user_profile = User.query.filter_by(user_id=user_id).first().profile
@@ -23,7 +23,7 @@ def get_user_info():
 
 @bp.route("/uploadavatar", methods=['POST'])
 def upload_avatar():
-    files = request.files.values()  # 获取上传的文件
+    files = request.files.values()
     file_paths = []
     filename = ""
     for file in files:

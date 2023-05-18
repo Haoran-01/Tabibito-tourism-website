@@ -1,8 +1,10 @@
+import math
+
 from sqlalchemy import func
 from flask import Blueprint, jsonify, request
 import datetime
 from exts import db
-from models import Product, ProductPicture, Tag, Trip, FeeDes, UserBrowse, Comment, User, Order, ProductType, PType
+from models import Product, Tag, UserBrowse, Comment, User, Order, ProductType, PType
 from collections import Counter
 from sqlalchemy import and_
 
@@ -39,22 +41,19 @@ def search():
 
 @bp.route("/location", methods=['GET'])
 def locations():
-    all_locations = [p.raw_loc for p in Product.query.all()]
+    products = Product.query.all()
+    all_locations = [product.raw_loc.split(",")[-1].strip() for product in products]
     location_counts = Counter(all_locations)
 
-    # 选出出现次数最多的8个location
     most_common_locations = location_counts.most_common(8)
     most_common_locations = [lc[0] for lc in most_common_locations]
 
-    # 为每个location选出一个对应的cover
     covers = {}
     for loc in most_common_locations:
-        # 找到该location的第一个product的第一张图片作为cover
-        product = Product.query.filter_by(raw_loc=loc).first()
+        product = Product.query.filter(Product.raw_loc.like("%"+loc+"%")).first()
         if product:
             covers[loc] = product.pictures[0].address
 
-    # 构造返回结果
     result = {
         "locations": [
             {
@@ -121,21 +120,26 @@ def get_inspiration():
     products = db.session.query(Product).limit(3).all()
     return jsonify(code=200, inspirations=[product.serialize_inspiration() for product in products])
 
+
 @bp.route("/more", methods=["GET", "POST"])
 def more_products():
     page_number = 0
     search_type = request.json.get('type')
     value = request.json.get('value')
-
+    print(search_type, value)
     if search_type == "popular":
-        page_number = 8
+        page_number = 2
     elif search_type == "type":
-        page_number = Product.query.filter(Product.types.any(ProductType.type == PType(value))).count()
+        print(value)
+        page_number = math.ceil(Product.query.filter(Product.types.any(ProductType.type == PType(value))).count()/4)
     elif search_type == "location":
-        page_number = Product.query.filter(Product.raw_loc == value).count()
+        print(value)
+
+        page_number = math.ceil(Product.query.filter(Product.raw_loc.like("%"+value+"%")).count() / 4)
     else:
         page_number = 0
     return jsonify(page_number=page_number, code=200)
+
 
 @bp.route("/more_program_list", methods=["GET", "POST"])
 def more_program_list():
@@ -143,13 +147,18 @@ def more_program_list():
     value = request.json.get('value')
     page = request.json.get('page')
     products = []
-    print(search_type, value, "++++++++++++++++++++++++++++")
-    p = Product.query.filter().first()
     if search_type == "popular":
         products = Product.query.outerjoin(UserBrowse).group_by(Product.id).order_by(func.count(UserBrowse.id).desc()).paginate(page=page, per_page=4)
     elif search_type == "type":
         products = Product.query.filter(Product.types.any(ProductType.type == PType(value))).paginate(page=page, per_page=4)
     elif search_type == "location":
-        products = Product.query.filter(Product.raw_loc == value).paginate(page=page, per_page=4)
+        products = Product.query.filter(Product.raw_loc.like("%"+value+"%")).paginate(page=page, per_page=4)
 
-    return jsonify(products = [product.serialize_more() for product in products])
+    return jsonify(products=[product.serialize_more() for product in products])
+
+
+@bp.route("/all_location", methods=["GET", "POST"])
+def all_locations():
+    products = Product.query.all()
+    result = sorted(list(set([product.raw_loc.split(",")[-1].strip() for product in products])))
+    return jsonify(locations=result), 200

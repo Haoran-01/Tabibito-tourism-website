@@ -13,7 +13,7 @@
 
                 <div class="content_left ratio ratio-1:1">
                   <div class="cardImage_content">
-                    <img class="cardImage col-12" :src="item.image">
+                    <img class="cardImage col-12" :src="item.cover">
                   </div>
 
                   <div class="cardImage_wish">
@@ -143,7 +143,7 @@ export default defineComponent({
     const morePage = ref(1);
     const morePages = ref(1);
     const moreNumber = 0;
-    const morePageSize = ref(3);
+    const morePageSize = ref(4);
     const type = ref();
     const value = ref();
     const route = useRoute();
@@ -158,67 +158,67 @@ export default defineComponent({
     }
     const loadingRef = ref(false);
     const message = useMessage();
-    onMounted(() => {
-      const paramValue = route.params.value ? JSON.parse(route.params.value) : null;
-      const paramType = route.params.type || null;
-      value.value = paramValue;
-      type.value = paramType;
-      console.log(value.value, type.value, "++++++++++++++++++++++++")
-      axios.post('/homepage/more_program_list',
-          {
-            type: type.value || 'popular',
-            value: value.value,
-            page: morePage.value,
+    const paramValue = route.params.value ? JSON.parse(route.params.value) : null;
+    const paramType = route.params.type || null;
+    value.value = paramValue;
+    type.value = paramType;
+    // console.log(morePage.value);
+    axios.post('/homepage/more_program_list',
+        {
+          type: 'location',
+          value: 'China',
+          page: morePage.value,
+        }
+    ).then((response) => {
+      const code = response.status
+      if (code === 200){
+        products.value = response.data.products;
+        for(let i = 0; i < products.length; i++){
+          let raw_time = products[i].duration;
+          let hour = Math.round(raw_time/3600);
+          let day = Math.round(hour/24);
+          if (hour > 24 && day === 1){
+            products[i].duration = '1 Day'
           }
-      ).then((response) => {
-            const code = response.status
-            if (code === 200){
-              products.value = response.data.products;
-              for(let i = 0; i < products.length; i++){
-                let raw_time = products[i].duration;
-                let hour = Math.round(raw_time/3600);
-                let day = Math.round(hour/24);
-                if (hour > 24 && day === 1){
-                  products[i].duration = '1 Day'
-                }
-                if (hour > 24 && day > 1){
-                  products[i].duration = day + ' Days'
-                }
-                if (hour === 1){
-                  products[i].duration = '1 Hour'
-                }
-                if (hour < 24 && hour !== 1){
-                  products[i].duration = hour + ' Hours'
-                }
-              }
-            }
-            project_loc = {
-              lat: products.value[0].latitude,
-              lng: products.value[0].longitude
-            }
-            for (let i = 0; i < products.value.length; i++){
-              locations.push({
-                position: {lat: products.value[i].latitude, lng: products.value[i].longitude},
-                title: products.value[i].title
-              });
-            }
-            loadMap();
-          })
+          if (hour > 24 && day > 1){
+            products[i].duration = day + ' Days'
+          }
+          if (hour === 1){
+            products[i].duration = '1 Hour'
+          }
+          if (hour < 24 && hour !== 1){
+            products[i].duration = hour + ' Hours'
+          }
+        }
+      }
+      project_loc = {
+        lat: products.value[0].latitude,
+        lng: products.value[0].longitude
+      }
+      for (let i = 0; i < products.value.length; i++){
+        locations.push({
+          position: {lat: products.value[i].latitude, lng: products.value[i].longitude},
+          title: products.value[i].title
+        });
+      }
+      loadMap();
+    })
 
-      axios.post("/homepage/more",
-          {
-            type: type.value || null,
-            value: value.value || null,
-          }
-      )
-          .then((response)=>{
-            const code = response.status
-            if (code === 200){
-              const count = response.data.page
-              morePages.value = Math.ceil(count / 3);
-            }
-          })
-    });
+    axios.post("/homepage/more",
+        {
+          type: 'location',
+          value: 'China',
+        }
+    )
+        .then((response)=>{
+          // const code = response.status
+          // if (code === 200){
+          // console.log("in number get")
+          const count = response.data.page_number
+          morePages.value = count;
+          // console.log(count, "+++", morePages.value)
+          // }
+        })
     const loadMap = () => {
       const loader = new Loader({
         apiKey: "AIzaSyBctzU8ocpP_0j4IdTRqA-GABIAnaXd0ow",
@@ -280,8 +280,8 @@ export default defineComponent({
       },
       handleChangePage() {
         axios.post("/homepage/more_program_list", {
-          type: type.value || null,
-          value: value.value || null,
+          type: 'location',
+          value: 'China',
           page: morePage.value,
         })
             .then((response) => {
@@ -486,9 +486,9 @@ export default defineComponent({
 }
 .cardImage {
   border-radius: 4px;
-  height: 500px;
-  width: 500px;
-  object-fit: cover;
+  height: auto;
+  width: 100%;
+  object-fit: contain;
 }
 .cardImage_content {
   position: absolute;

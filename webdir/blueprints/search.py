@@ -65,15 +65,6 @@ def search():
 def get_product_number():
     data = request.get_json(silent=True)
     products = db.session.query(Product).all()
-
-    # if "state" in data:
-    #     if data["state"] == "hot":
-    #         get_hot_product()
-    #     if data["state"] == "popular":
-    #         get_popular_product()
-    #     if data["state"] == "type":
-    #         get_type_product(data["tourType"])
-
     # 构造筛选条件
     filters = []
     if 'startTime' in data and data['startTime'] is not None:
@@ -135,9 +126,10 @@ def get_product_number():
                         break
             if match:
                 results.append(product)
+        print(results)
         return jsonify(code=200, number=len(results))
     else:
-        return jsonify(code=201, message='Wrong range')
+        return jsonify(code=201, message='Wrong range', number=len(products)), 201
 
 
 def get_hot_product():

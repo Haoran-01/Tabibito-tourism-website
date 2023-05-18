@@ -19,7 +19,10 @@ export default {
         profile: "Profile",
         logout: "Log out",
         signup: "Sign Up",
-        login: "Log In"
+        login: "Log In",
+        sear:"Tours",
+        chart:"Charts",
+        about:"Team",
     },
     homepage: {
         searchPart:{
@@ -248,7 +251,8 @@ export default {
     },
     hello: 'Hello',
     discount: {
-        from: 'From'
+        from: 'From',
+        review: ' reviews'
     },
     priceItem: {
         areYouSureYouWantToDeleteThisStepTheInformationWil: 'Are you sure you want to delete this step? The information will lost.',

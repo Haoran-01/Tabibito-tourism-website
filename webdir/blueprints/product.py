@@ -5,7 +5,7 @@ import os
 from exts import db
 from config import Config
 from werkzeug.utils import secure_filename
-from models import Product, ProductPicture, Tag, Trip, FeeDes, ProductType, Comment, PictureType, UserBrowse
+from models import Product, ProductPicture, Tag, Trip, FeeDes, ProductType, Comment, PictureType, UserBrowse, NoticeType, UserNotice
 
 bp = Blueprint("Product", __name__, url_prefix="/product")
 
@@ -18,7 +18,13 @@ def add_product():
         description = data['description']
         group_number = data['group_number']
         if name and description and group_number:
-            product = Product(name=name, description=description, group_number=group_number)
+            if "product_id" in data:
+                product = Product.query.filter_by(id=data['product_id']).first()
+                product.name = name
+                product.description =description
+                product.group_number = group_number
+            else:
+                product = Product(name=name, description=description, group_number=group_number)
             location = data['location']
             if location:
                 product.raw_loc = location['raw_loc']
@@ -28,6 +34,9 @@ def add_product():
             discount = data['discount']
             if discount:
                 product.discount = discount
+            total_day_number = data['total_day_number']
+            if total_day_number:
+                product.total_day_number = total_day_number
             ori_price = data['ori_price']
             if ori_price:
                 product.ori_price = ori_price
@@ -50,20 +59,22 @@ def add_product():
             video_url = data["video_link"]
             if video_url:
                 product.video_url = video_url
-            url_3d = data["url_3d"]
-            if url_3d:
-                product.url_3d = url_3d
-            db.session.add(product)
+            if "product_id" not in data:
+                db.session.add(product)
             db.session.commit()
 
             types = data['types']
             if types:
+                product.types = []
                 for i in types:
                     t = ProductType.query.filter(ProductType.type == i).first()
                     product.types.append(t)
 
             cover_image = data['cover_image']
             if cover_image:
+                if "product_id" in data:
+                    for i in product.pictures:
+                        db.session.delete(i)
                 p = ProductPicture(product_id=product.id, address=cover_image, type=PictureType.Cover)
                 db.session.add(p)
             banner_image = data['banner_image']
@@ -79,12 +90,18 @@ def add_product():
 
             tags = data['tags']
             if tags:
+                if "product_id" in data:
+                    for i in product.tags:
+                        db.session.delete(i)
                 for tag in tags:
                     if tag['key']:
                         t = Tag(key=tag["key"], value=tag['value'], product_id=product.id)
                         db.session.add(t)
             trips = data['trips']
             if trips:
+                if "product_id" in data:
+                    for i in product.trips:
+                        db.session.delete(i)
                 for trip in trips:
                     t = Trip(
                         product_id=product.id,
@@ -101,6 +118,9 @@ def add_product():
                     db.session.add(t)
             fee_des = data['fee_des']
             if fee_des:
+                if "product_id" in data:
+                    for i in product.fee_des:
+                        db.session.delete(i)
                 for f in fee_des:
                     fee = FeeDes(product_id=product.id, name=f['name'], description=f['description'])
                     db.session.add(fee)
@@ -166,7 +186,7 @@ def get_comments():
 
 @bp.route("/uploadpicture", methods=["POST", "GET"])
 def upload_picture():
-    files = request.files.values()  # 获取上传的文件
+    files = request.files.values()
     file_paths = []
     filename = ""
     for file in files:
@@ -174,18 +194,19 @@ def upload_picture():
         file_path = os.path.join(Config.UPLOAD_FOLDER, filename)
         file.save(file_path)
         file_paths.append(file_path)
-    # filename = secure_filename(file.filename)  # 安全获取文件名
-    # file.save(os.path.join(Config.UPLOAD_FOLDER, filename))  # 将文件保存到服务器的指定目录
-    # 存入数据库的操作
     return os.path.join(Config.BASE_URL, Config.UPLOAD_URL, filename)
 
 
 @bp.route("/deletepicture", methods=["POST", "GET"])
 def delete_picture():
-    file_name = request.json.get("url")  # 获取上传的文件
-    if os.path.exists(file_name):
+    url = request.json.get("url")
+    file_name = os.path.join(Config.UPLOAD_FOLDER, os.path.split(url)[-1])
+    if os.path.isfile(file_name):
+        picture = ProductPicture.query.filter_by(address=url).first()
+        if picture:
+            db.session.delete(picture)
+            db.session.commit()
         os.remove(file_name)
-
         return {}, 204
     else:
         return {}, 404
@@ -222,5 +243,52 @@ def get_video():
     video = product.video_url
     if video:
         return jsonify(video_link=video), 200
+    else:
+        return {}, 404
+
+
+@bp.route("/add_notice_tag", methods=["POST", "GET"])
+def add_notice_tag():
+    data = request.get_json(silent=True)
+    tag = data['new_tag']
+    tag = NoticeType.query.filter_by(type=tag).first()
+    if tag:
+        return {}, 304
+    else:
+        tag = NoticeType(type=tag)
+        db.session.add(tag)
+        db.session.commit()
+        return {}, 204
+
+
+@bp.route("/get_edit_info", methods=["POST", "GET"])
+def get_edit_info():
+    product_id = request.json.get("product_id")
+    product = Product.query.filter_by(id=product_id).first()
+    if product:
+        result = product.serialize_edit_info()
+        types = NoticeType.query.all()
+        result['notice_tags'] = [type.type for type in types]
+        return result, 200
+    else:
+        return {}, 404
+
+
+@bp.route("/send_notice", methods=["POST", "GET"])
+def send_notice():
+    product_id = request.json.get("product_id")
+    product = Product.query.filter_by(id=product_id).first()
+    if product:
+        notice_type = request.json.get("tag")
+        title = request.json.get("title")
+        content = request.json.get("content")
+
+        for order in product.orders:
+            customer = order.user
+            notice = UserNotice(type=notice_type, title=title, content=content)
+            notice.user = customer
+            db.session.add(notice)
+        db.session.commit()
+        return {}, 200
     else:
         return {}, 404

@@ -111,26 +111,27 @@
           </n-tab-pane>
 
           <n-tab-pane name="Profile" tab="Profile" display-directive="show:lazy">
-            <div class="infoCard">
-              <img class="avatar" :src="basicInfo.avatar_url">
-              <div class="cardText">
-                <div class="nameBar">
-                  <div class="userName">{{basicInfo.username}}</div>
-                  <div class="edit" @click="this.$router.push(this.$route.path + '/edit')">
-                    {{ $t('profile.editInfo') }}
-                  </div>
-                </div>
-                <div class="userDescription">{{basicInfo.description}}</div>
-              </div>
-            </div>
-            <div class="attrTitle">{{ $t('profile.realName') }}</div>
-            <div class="attrValue">{{basicInfo.first_name + ' ' + basicInfo.last_name}}</div>
-            <div class="attrTitle">{{ $t('login.email') }}</div>
-            <div class="attrValue">{{basicInfo.email}}</div>
-            <div class="attrTitle">{{ $t('profile.phoneNumber') }}</div>
-            <div class="attrValue">{{basicInfo.phone_number}}</div>
-            <div class="attrTitle">{{ $t('profile.birthday') }}</div>
-            <div class="attrValue">{{basicInfo.birthday}}</div>
+<!--            <div class="infoCard">-->
+<!--              <img class="avatar" :src="basicInfo.avatar_url">-->
+<!--              <div class="cardText">-->
+<!--                <div class="nameBar">-->
+<!--                  <div class="userName">{{basicInfo.username}}</div>-->
+<!--                  <div class="edit" @click="this.$router.push(this.$route.path + '/edit')">-->
+<!--                    {{ $t('profile.editInfo') }}-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--                <div class="userDescription">{{basicInfo.description}}</div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <div class="attrTitle">{{ $t('profile.realName') }}</div>-->
+<!--            <div class="attrValue">{{basicInfo.first_name + ' ' + basicInfo.last_name}}</div>-->
+<!--            <div class="attrTitle">{{ $t('login.email') }}</div>-->
+<!--            <div class="attrValue">{{basicInfo.email}}</div>-->
+<!--            <div class="attrTitle">{{ $t('profile.phoneNumber') }}</div>-->
+<!--            <div class="attrValue">{{basicInfo.phone_number}}</div>-->
+<!--            <div class="attrTitle">{{ $t('profile.birthday') }}</div>-->
+<!--            <div class="attrValue">{{basicInfo.birthday}}</div>-->
+            <right-setting-view></right-setting-view>
           </n-tab-pane>
 
           <n-tab-pane name="Orders" tab="Orders" display-directive="show:lazy">
@@ -169,7 +170,7 @@
             <div v-for="comment in this.comments" class="comment">
               <div class="commentHead">
                 <div class="leftCommentHead">
-                  <img class="commentAvatar">
+                  <img class="commentAvatar" :src="comment.user_portrait">
                   <div class="commentHeadTexts">
                     <div class="commentName">{{comment.user_name}}</div>
                     <div class="commentTime">{{comment.datetime}}</div>
@@ -264,6 +265,7 @@ import {Loader} from "@googlemaps/js-api-loader";
 import * as regionLookupClient from "@googlemaps/region-lookup";
 import {useLangStore} from "../../store.js";
 import * as RegionLookup from "@googlemaps/region-lookup";
+import RightSettingView from "./rightSettingView.vue";
 
 const createInProgressColumns = ({ cancel, viewDetail }) => {
   return [
@@ -412,7 +414,7 @@ const createCancelledColumns = ({ viewDetail }) => {
 }
 export default {
   name: "profileView",
-  components: {NavigationBar},
+  components: {RightSettingView, NavigationBar},
   setup() {
     const langStore = useLangStore();
     let mapLanguage = 'en-US';
@@ -577,58 +579,7 @@ export default {
 
 
       },*/
-      initMap(){
-        const headers = {
-          "X-Goog-Api-Key": "AIzaSyBctzU8ocpP_0j4IdTRqA-GABIAnaXd0ow",
-        };
 
-        const data = {
-          search_values: [
-            {
-              "address": "2627 N Hollywood Way, Burbank, CA",
-              "place_type": "ADMINISTRATIVE_AREA_LEVEL_1",
-              "region_code": "us"
-
-            },
-            {
-              "address": "Statue of liberty",
-              "place_type": "ADMINISTRATIVE_AREA_LEVEL_1",
-              "region_code": "us"
-
-            },
-          ],
-        };
-        const response = regionLookupClient.searchRegion({headers, data});
-        let placeIDs;
-        response.then((res) => {
-          placeIDs = res.data.matches;
-          console.log(placeIDs)
-          let map;
-          map = new google.maps.Map(document.getElementById('map'), {
-            center: {lat: 20, lng: -156},
-            zoom: 10,
-            mapId: "353522139b1baa35",
-          })
-          let featureLayer = map.getFeatureLayer('ADMINISTRATIVE_AREA_LEVEL_1');
-          const featureStyleOptions = {
-            strokeColor: "#810FCB",
-            strokeOpacity: 1.0,
-            strokeWeight: 3.0,
-            fillColor: "#810FCB",
-            fillOpacity: 0.5,
-          };
-          featureLayer.style = (options) => {
-            for (let obj of placeIDs){
-
-              if (options.feature.placeId === obj.matchedPlaceId) {
-
-                return featureStyleOptions;
-              }
-            }
-          };
-
-        })
-      }
     }
   },
   data() {
@@ -644,11 +595,54 @@ export default {
       comments: [],
       newNotices: ref([]),
       oldNotices: ref([]),
+      footPrints: {
+        search_values: [],
+      }
     }
   },
   methods: {
     handleCancel(row) {
 
+    },
+    initMap(){
+      const headers = {
+        "X-Goog-Api-Key": "AIzaSyBctzU8ocpP_0j4IdTRqA-GABIAnaXd0ow",
+      };
+
+      /*let instance = axios.create();
+      instance.headers = headers;
+      instance.data = d;
+      instance.defaults.withCredentials = false;*/
+      const data = this.footPrints;
+      const response = regionLookupClient.searchRegion({headers, data, withCredentials: false});
+      let placeIDs;
+      response.then((res) => {
+        placeIDs = res.data.matches;
+        let map;
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 20, lng: 0},
+          zoom: 2,
+          mapId: "353522139b1baa35",
+        })
+        let featureLayer = map.getFeatureLayer('ADMINISTRATIVE_AREA_LEVEL_1');
+        const featureStyleOptions = {
+          strokeColor: "#810FCB",
+          strokeOpacity: 1.0,
+          strokeWeight: 3.0,
+          fillColor: "#810FCB",
+          fillOpacity: 0.5,
+        };
+        featureLayer.style = (options) => {
+          for (let obj of placeIDs){
+
+            if (options.feature.placeId === obj.matchedPlaceId) {
+
+              return featureStyleOptions;
+            }
+          }
+        };
+
+      })
     },
     handleChangePageSize(pageSize) {
       this.commentPages = Math.ceil(this.commentNumber / this.commentPageSize);
@@ -744,14 +738,18 @@ export default {
                       trip.weather = res.data;
                     }
                   })
-              this.axios.post('/third/flight', {
-                flight_numbers: trip.flight_numbers
-              })
-                  .then((res) => {
-                    if (res.status === 200) {
-                      trip.flightInfo = res.data
-                    }
-                  })
+              console.log()
+              if (trip.flight_numbers !== null){
+                this.axios.post('/third/flight', {
+                  flight_numbers: trip.flight_numbers
+                })
+                    .then((res) => {
+                      if (res.status === 200) {
+                        trip.flightInfo = res.data
+                      }
+                    })
+              }
+
             }
           }
         })
@@ -830,7 +828,17 @@ export default {
             this.oldNotices = res.data.notices;
           }
         })
-
+    this.axios.get('/third/getfootprint')
+        .then((res) => {
+          if (res.status === 200){
+            for (let item of res.data.locations){
+              this.footPrints.search_values.push({
+                "address": item,
+                "place_type": "ADMINISTRATIVE_AREA_LEVEL_1",
+              })
+            }
+          }
+        })
   },
   mounted() {
     let script = document.createElement('script');
@@ -1032,6 +1040,7 @@ template{
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  background: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url("../../assets/airplane_bg.jpg") no-repeat 50% 50%/ cover;
 }
 .aeroPart:hover{
   transition: .2s ease-out;
@@ -1048,6 +1057,7 @@ template{
   padding: 0 6px;
   background-color: #2F80ED;
   border-radius: 4px;
+  color: white;
 }
 .infoColumn{
   display: flex;
@@ -1075,6 +1085,7 @@ template{
 .footPrintMap{
   margin: 24px;
   height: 500px;
+  border-radius: 4px;
 }
 .infoCard{
   width: 100%;

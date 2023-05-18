@@ -1,4 +1,5 @@
 <template>
+  <navigation-bar></navigation-bar>
   <div>
     <div v-if="isLoading" class="loading">
       <div class="logo_all">
@@ -7,45 +8,43 @@
       <div class="preloader_tit">Tabibito</div>
     </div>
     <div v-else>
-      sdadasdasdasdasdasdasdklaklsjd就去爱我的开机哦情景滴哦期待很久哦i
       <br>
       <br>
       <br>
       <br>
       <br>
       <br>
-      sdadasdasdasdasdasdasdklaklsjd就去爱我的开机哦情景滴哦期待很久哦i
-      sdadasdasdasdasdasdasdklaklsjd就去爱我的开机哦情景滴哦期待很久哦i
-      sdadasdasdasdasdasdasdklaklsjd就去爱我的开机哦情景滴哦期待很久哦i
-      sdadasdasdasdasdasdasdklaklsjd就去爱我的开机哦情景滴哦期待很久哦i
-      sdadasdasdasdasdasdasdklaklsjd就去爱我的开机哦情景滴哦期待很久哦i
-      sdadasdasdasdasdasdasdklaklsjd就去爱我的开机哦情景滴哦期待很久哦i
-
       <!-- 网页内容 -->
     </div>
   </div>
 </template>
 
 <script>
+import router from "../../router.js";
+import NavigationBar from "../GeneralComponents/navigationBar.vue";
+
 export default {
+  components: {NavigationBar},
   data() {
     return {
       isLoading: true,
+      isFirstLoad: true // 是否是第一次加载的标志变量
+
     };
   },
+
   mounted() {
-    this.$nextTick(() => {
-      // 子组件加载完成后，等待 3 秒钟再隐藏加载页面
-      setTimeout(() => {
-        this.isLoading = false
-      }, 15000)
-    })
-  }
-  // created() {
-  //   setTimeout(() => {
-  //     this.isLoading = false;
-  //   }, 900);
-  // },
+
+    setTimeout(() => {
+      this.$router.push('/');
+    }, 1400); // 延时5秒
+
+    if (window.location.href.indexOf("#reloaded") == -1) {
+      window.location.href = window.location.href + "#reloaded";
+      window.location.reload();
+    }
+
+  },
 };
 </script>
 

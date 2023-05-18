@@ -1,30 +1,30 @@
 <template>
   <div class="container">
-    <div class="chargeListTitle">{{ $t('projectDetailPage.ChargeList.video')}}</div>
-    <iframe class="iframe" :width=frame_width :height=frame_height :src=" 'https://www.youtube.com/embed/' + videoLink" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-    <div class="divider"></div>
+    <div class="chargeListTitle" v-if="hasVideo">{{ $t('projectDetailPage.ChargeList.video')}}</div>
+    <iframe v-if="hasVideo" class="iframe" :width=frame_width :height=frame_height :src=" 'https://www.youtube.com/embed/' + videoLink" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    <div v-if="hasVideo" class="divider"></div>
     <div class="chargeListTitle">{{ $t('projectDetailPage.weatherReport') }}</div>
     <div class="chargeList">
-      <div class="weatherPart" v-for="day in weather">
+      <div class="weatherPart" v-for="day in this.weather">
         <div class="weatherTitleBar">
           <div class="city">{{day.city}}</div>
           <div class="date">{{day.date}}</div>
         </div>
         <div class="weatherMain">
-          <div class="temperature">{{ $t('projectDetailPage.temp', {expr: day.temp.toFixed(0) + '℃'}) }}</div>
+          <div class="temperature">{{day.avg_temp.toFixed(0) + '℃'}}</div>
           <img :src="day.img_url" alt="" class="weatherImg">
         </div>
         <div class="forecast">
           <div class="foreTemp">
-            <div class="tempValue">{{ $t('projectDetailPage.maxtemp', {expr: day.max_temp.toFixed(0) + '℃'}) }}</div>
+            <div class="tempValue">{{day.max_temp.toFixed(0) + '℃'}}</div>
             <div class="tempType">{{ $t('projectDetailPage.max') }}</div>
           </div>
           <div class="foreTemp">
-            <div class="tempValue">{{ $t('projectDetailPage.avgtemp', {expr: day.avg_temp.toFixed(0) + '℃'}) }}</div>
+            <div class="tempValue">{{day.avg_temp.toFixed(0) + '℃'}}</div>
             <div class="tempType">{{ $t('projectDetailPage.avg') }}</div>
           </div>
           <div class="foreTemp">
-            <div class="tempValue">{{ $t('projectDetailPage.mintemp', {expr: day.min_temp.toFixed(0) + '℃'}) }}</div>
+            <div class="tempValue">{{day.min_temp.toFixed(0) + '℃'}}</div>
             <div class="tempType">{{ $t('projectDetailPage.min') }}</div>
           </div>
         </div>
@@ -102,7 +102,7 @@ export default {
                 })
                     .then((wres) => {
                       if (wres.status === 200) {
-                        this.weather = wres.data;
+                        this.weather = wres.data.weather;
                       }
                     })
               }
@@ -112,6 +112,7 @@ export default {
     })
         .then((res) => {
           if (res.status === 200){
+            this.hasVideo = true;
             this.videoLink = res.data.video_link
           }
         })
@@ -121,6 +122,7 @@ export default {
       chargeListData: [],
       weather: [],
       videoLink: "",
+      hasVideo: false
     }
   }
 }

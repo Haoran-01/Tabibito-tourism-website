@@ -62,7 +62,7 @@
 
                     </div>
 
-                    <div class="review">{{item.reviews + ' reviews'}} </div>
+                    <div class="review">{{item.reviews + $t('discount.review')}} </div>
                   </div>
                 </div>
 
