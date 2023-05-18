@@ -169,8 +169,14 @@ export default defineComponent({
         this.$i18n.locale = 'en';
         store.language = 'en'
       }
+      let language;
+      if (this.$i18n.locale === 'zh'){
+        language = 'ch'
+      }else {
+        language = 'en'
+      }
       this.axios.post('/user/set_language', {
-        language: this.$i18n.locale
+        language: language
       })
     }
   }

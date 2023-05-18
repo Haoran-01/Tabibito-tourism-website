@@ -225,16 +225,6 @@ export default {
   border-top: 1px solid #DDDDDD;
   margin: 40px auto;
 }
-@media (min-width:360px){
-  .container{
-    max-width:350px
-  }
-  /*.iframe{*/
-  /*  width: 330px;*/
-  /*  height: auto;*/
-  /*}*/
-}
-
 @media (min-width:576px){
   .container{
     max-width:540px

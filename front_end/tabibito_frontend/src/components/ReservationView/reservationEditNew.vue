@@ -6,8 +6,8 @@
     <div class="container">
       <div class="titlePart">
         <div class="titleMain">
-          <h1 class="mainTitle">{{ $t('PMDV.addTravelProject') }}</h1>
-          <div class="slogan">{{ $t('traveldetails.addANewTourismProject') }}</div>
+          <h1 class="mainTitle">{{ $t('reservationEdit.editReservation') }}</h1>
+          <div class="slogan">{{ $t('reservationEdit.editTheReservationDetailsAndAnnounceTheChangesToTh') }}</div>
         </div>
       </div>
       <div class="settings">
@@ -116,7 +116,7 @@
                   @remove="handleRemoveImage"
               />
               <div class="inputTitle">{{ $t('homepage.searchPart.tags') }}</div>
-
+              {{tags}}
               <div class="input_form" v-for="tag in tags">
                 <n-select
                     v-model:value="tag.key"
@@ -161,15 +161,15 @@
               </div>
               <div class="input_form" style="justify-content: space-between;">
                 <div class="inner_input_form">
-                  <input type="text" v-model="mapLatitude" required>
+                  <input type="text" v-model="mapLatitude" required @blur="validateInteger($event, mapLatitude, 'mapLatitude')" @focus="resetInput($event)">
                   <label class="input_label">{{ $t('routeStep.mapLatitude') }}</label>
                 </div>
                 <div class="inner_input_form">
-                  <input type="text" v-model="mapLongitude" required>
+                  <input type="text" v-model="mapLongitude" @blur="validateInteger($event, mapLongitude, 'mapLongitude')" required @focus="resetInput($event)">
                   <label class="input_label">{{ $t('routeStep.mapLongitude') }}</label>
                 </div>
                 <div class="inner_input_form">
-                  <input type="text" v-model="mapZoom" required>
+                  <input type="text" v-model="mapZoom" @blur="validateInteger($event, mapZoom, 'mapZoom')" required @focus="resetInput($event)">
                   <label class="input_label">{{ $t('routeStep.mapZoom') }}</label>
                 </div>
               </div>
@@ -239,7 +239,7 @@
           <n-tab-pane name="Notification" tab="5. Notification">
             <div class="inputTitle">{{ $t('traveldetails.title') }}</div>
             <div class="input_form">
-              <input type="text" @focus="resetInput($event)">
+              <input type="text" v-model="notice.title" @focus="resetInput($event)">
               <label class="input_label">{{ $t('traveldetails.title') }}</label>
             </div>
             <div class="inputTitle">{{ $t('homepage.searchPart.tags') }}</div>
@@ -250,16 +250,16 @@
                   v-model:value="tagValue"
                   multiple
                   :render-tag="renderTag"
-                  :options="tags"
+                  :options="noticeTags"
                   max-tag-count="1"
               />
-              <n-input :placeholder="$t('traveldetails.newTag')" style="margin-right: 20px"></n-input>
-              <n-button type="primary">{{ $t('traveldetails.add') }}</n-button>
+              <n-input :placeholder="$t('traveldetails.newTag')" v-model:value="newTag" style="margin-right: 20px"></n-input>
+              <n-button type="primary" @click="handleAddTag">{{ $t('traveldetails.add') }}</n-button>
             </div>
 
             <div class="inputTitle">{{ $t('traveldetails.content') }}</div>
             <div class="input_form">
-              <textarea v-model="projectDescription" required></textarea>
+              <textarea v-model="notice.content" required></textarea>
               <label class="input_label">{{ $t('traveldetails.content') }}</label>
             </div>
           </n-tab-pane>
@@ -321,6 +321,7 @@ export default {
   setup(){
     // General
     const axios = getCurrentInstance().appContext.config.globalProperties.axios;
+    const toast = useToast();
     let tabValue = ref("Basic Information");
     const message = useMessage();
     const baseURL = getCurrentInstance().appContext.config.globalProperties.axios.defaults.baseURL;
@@ -350,17 +351,14 @@ export default {
     const handleFinishCover = ({file,event}) => {
       let res = (event?.target).response;
       file.url = res;
-      coverImageList.value.push(file);
     };
     const handleFinishBanner = ({file,event}) => {
       let res = (event?.target).response;
       file.url = res;
-      bannerImageList.value.push(file);
     };
     const handleFinishGallery = ({file,event}) => {
       let res = (event?.target).response;
       file.url = res;
-      galleryImageList.value.push(file);
     };
     const handleRemoveImage = ({file, fileList}) => {
       let fileIndex = -1;
@@ -409,6 +407,7 @@ export default {
 
     return{
       // General
+      toast,
       tabValue,
       imageAPI,
       resetInput(e){
@@ -524,31 +523,87 @@ export default {
           label: "USD",
           value: "USD"
         },
-        {
-          label: "EUR",
-          value: "EUR"
-        },
-        {
-          label: "CNY",
-          value: "CNY"
-        },
       ]),
       addCharge(){
         chargeDatas.value.push({
-          chargeName: "",
-          chargeDescription: ""
+          name: "",
+          description: ""
         })
       },
 
       // Tab 5
       renderTag,
       tagValue: ref([]),
+      newTag: ref(''),
     }
   },
   created() {
     const route = useRoute();
     if (route.params.id !== null){
-      this.axios.post('', )
+      this.axios.post('/product/get_edit_info', {
+        product_id: route.params.id
+      })
+          .then((res) => {
+            if (res.status === 200){
+              this.projectName = res.data.name;
+              this.projectDescription = res.data.description;
+              this.groupNumber = res.data.groupNumber;
+              this.videoLink = res.data.video_link;
+              this.typeList = res.data.types;
+              this.cutoffDate = res.data.app_ddl;
+              this.locationText = res.data.location.raw_loc;
+              this.mapLatitude = res.data.location.map_latitude;
+              this.mapLongitude = res.data.location.map_longitude;
+              this.mapZoom = res.data.location.mapZoom;
+              this.flight_numbers = res.data.flight_numbers;
+              this.originalPrice = res.data.ori_price;
+              this.discount = res.data.discount;
+              this.noticeTags = res.data.notice_tags;
+              this.tags = res.data.tags;
+              this.startTime = res.data.start_time;
+              this.endTime = res.data.end_time;
+              this.chargeDatas = res.data.fee_des;
+              for (let item of res.data.trips){
+                this.routeDatas.push({
+                  activityName: item.activity,
+                  exactLocation: item.location.exact,
+                  mapLatitude: item.location.map_latitude,
+                  mapLongitude: item.location.map_longitude,
+                  mapZoom: item.location.map_zoom,
+                  dayNumber: item.location.day,
+                  periodValue: item.time_of_day,
+                  exactTime: item.time,
+                  activityPic: item.picture,
+                  totalDayNumber: item.total_day_number
+                })
+              };
+              if (res.data.cover_image !== null)
+                this.coverImageList.push({
+                  id: 'cover',
+                  name: 'cover',
+                  url: res.data.cover_image,
+                  status: 'finished'
+                })
+              if (res.data.banner_image !== null && res.data.banner_image.length > 0)
+                for (let i = 0; i < res.data.banner_image.length; i++){
+                  this.bannerImageList.push({
+                    id: 'banner' + i,
+                    name: 'banner' + i,
+                    url: res.data.banner_image[i],
+                    status: 'finished'
+                  })
+                }
+              if (res.data.gallery !== null && res.data.gallery.length > 0)
+                for (let i = 0; i < res.data.gallery.length; i++){
+                  this.galleryImageList.push({
+                    id: 'gallery' + i,
+                    name: 'gallery' + i,
+                    url: res.data.gallery[i],
+                    status: 'finished'
+                  })
+                }
+            }
+          })
     }
   },
   data() {
@@ -572,26 +627,35 @@ export default {
       originalPrice: null,
       discount: null,
       originalPriceStyle: null,
-      tags: [
-      {
-        label: "Flight Change",
-        value: "value1",
-        type: "success"
-      },
-      {
-        label: "Time Change",
-        value: "value2",
-        type: "warning"
-      },
-      {
-        label: "Other change",
-        value: "value3",
-        type: "error"
-      },
-    ]
+      noticeTags: ref([]),
+      notice: {
+        title: '',
+        content: ''
+      }
     }
   },
   methods:{
+    handleAddTag(){
+      this.axios.post('/product/add_notice_tag', {
+        new_tag: this.newTag
+      })
+          .then((res) => {
+            if (res.status === 204){
+              this.noticeTags.value.push({
+                label: this.newTag,
+                value: this.newTag,
+                type: 'success'
+              })
+              this.newTag = ''
+            }
+            else if (res.status === 304){
+              this.toast.error('The tag is already there.')
+            }
+            else {
+              this.toast.error('Add failed.')
+            }
+          })
+    },
     validateInteger(e, value, key){
       let pattern = new RegExp('\\D');
       if (pattern.test(value)){
@@ -637,7 +701,6 @@ export default {
       this.chargeDatas.splice(index, 1);
     },
     submitForm(){
-      console.log("ese")
       const toast = useToast();
       if (this.tags[0].value === "" || this.tags[1].value === "" || this.tags[2].value === ""){
         this.tabValue = "Basic Information";
@@ -674,11 +737,22 @@ export default {
   let fees = [];
   for (let index = 0; index < this.chargeDatas.length; index++){
     fees.push({
-      name: this.chargeDatas[index].chargeName,
-      description: this.chargeDatas[index].chargeDescription
+      name: this.chargeDatas[index].name,
+      description: this.chargeDatas[index].description
     })
   }
+  let coverImage = this.coverImageList[0].url;
+  let bannerImages = [];
+  for (let file of this.bannerImageList){
+    bannerImages.push(file.url)
+  }
+  let galleryImages = [];
+  for (let file of this.bannerImageList){
+    galleryImages.push(file.url)
+  }
+
   this.axios.post('/product/add', {
+    product_id: this.$route.params.id,
     name: this.projectName,
     description: this.projectDescription,
     group_number: this.groupNumber,
@@ -692,9 +766,9 @@ export default {
     ori_price: this.originalPrice,
     currency: this.currencyType,
     tags: this.tags,
-    cover_image: this.coverImage,
-    banner_image: this.bannerImages,
-    gallery: this.galleryImages,
+    cover_image: coverImage,
+    banner_image: bannerImages,
+    gallery: galleryImages,
     start_time: this.startTime,
     end_time: this.endTime,
     app_ddl: this.cutoffDate,
@@ -703,7 +777,20 @@ export default {
     types: this.typeList,
     flight_numbers: this.flight_numbers,
     video_link: this.videoLink,
+    url_3d: null
   })
+
+  this.axios.post('/product/send_notice', {
+    product_id: this.$route.params.id,
+    title: this.notice.title,
+    tag: this.tagValue,
+    content: this.notice.content
+  })
+      .then((res) => {
+        if (res.status === 200){
+          this.$router.push('/management')
+        }
+      })
 }
 }
 }

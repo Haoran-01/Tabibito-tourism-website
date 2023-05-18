@@ -116,7 +116,7 @@
                   @remove="handleRemoveImage"
               />
               <div class="inputTitle">{{ $t('homepage.searchPart.tags') }}</div>
-
+              {{tags}}
               <div class="input_form" v-for="tag in tags">
                 <n-select
                     v-model:value="tag.key"
@@ -161,15 +161,15 @@
               </div>
               <div class="input_form" style="justify-content: space-between;">
                 <div class="inner_input_form">
-                  <input type="text" v-model="mapLatitude" required>
+                  <input type="text" v-model="mapLatitude" required @blur="validateInteger($event, mapLatitude, 'mapLatitude')" @focus="resetInput($event)">
                   <label class="input_label">{{ $t('routeStep.mapLatitude') }}</label>
                 </div>
                 <div class="inner_input_form">
-                  <input type="text" v-model="mapLongitude" required>
+                  <input type="text" v-model="mapLongitude" @blur="validateInteger($event, mapLongitude, 'mapLongitude')" required @focus="resetInput($event)">
                   <label class="input_label">{{ $t('routeStep.mapLongitude') }}</label>
                 </div>
                 <div class="inner_input_form">
-                  <input type="text" v-model="mapZoom" required>
+                  <input type="text" v-model="mapZoom" @blur="validateInteger($event, mapZoom, 'mapZoom')" required @focus="resetInput($event)">
                   <label class="input_label">{{ $t('routeStep.mapZoom') }}</label>
                 </div>
               </div>
@@ -236,7 +236,7 @@
             </div>
           </n-tab-pane>
 
-          <n-tab-pane name="Notification" tab="5. Notification">
+<!--          <n-tab-pane name="Notification" tab="5. Notification">
             <div class="inputTitle">{{ $t('traveldetails.title') }}</div>
             <div class="input_form">
               <input type="text" @focus="resetInput($event)">
@@ -250,7 +250,7 @@
                   v-model:value="tagValue"
                   multiple
                   :render-tag="renderTag"
-                  :options="tags"
+                  :options="noticeTags"
                   max-tag-count="1"
               />
               <n-input :placeholder="$t('traveldetails.newTag')" style="margin-right: 20px"></n-input>
@@ -262,10 +262,10 @@
               <textarea v-model="projectDescription" required></textarea>
               <label class="input_label">{{ $t('traveldetails.content') }}</label>
             </div>
-          </n-tab-pane>
+          </n-tab-pane>-->
 
 
-          <n-tab-pane name="Submit" tab="6. Submit">
+          <n-tab-pane name="Submit" tab="5. Submit">
             <button type="submit" class="add_step_btn" @click="submitForm">
               {{ $t('traveldetails.submit') }}
               <div class="icon_submit"></div>
@@ -521,14 +521,6 @@ export default {
           label: "USD",
           value: "USD"
         },
-        {
-          label: "EUR",
-          value: "EUR"
-        },
-        {
-          label: "CNY",
-          value: "CNY"
-        },
       ]),
       addCharge(){
         chargeDatas.value.push({
@@ -569,7 +561,7 @@ export default {
       originalPrice: null,
       discount: null,
       originalPriceStyle: null,
-      tags: [
+      noticeTags: [
       {
         label: "Flight Change",
         value: "value1",
@@ -694,6 +686,7 @@ export default {
       map_longitude: this.mapLongitude,
       map_zoom: this.mapZoom
     },
+    total_day_number: this.totalDayNumber,
     discount: this.discount,
     ori_price: this.originalPrice,
     currency: this.currencyType,
@@ -709,6 +702,7 @@ export default {
     types: this.typeList,
     flight_numbers: this.flight_numbers,
     video_link: this.videoLink,
+    url_3d: null
   })
 }
 }
