@@ -202,68 +202,72 @@ export default defineComponent({
     }
     const loadingRef = ref(false);
     const message = useMessage();
-    onMounted(() => {
-      axios.post('/search/product_list',
-          {
-            page: searchPage.value,
-            currentLocation: null,
-            startTime: null,
-            endTime: null,
-            tourType: null,
-            price: null,
-            duration: null
+    axios.post('/search/product_list',
+        {
+          page: searchPage.value,
+          currentLocation: null,
+          startTime: null,
+          endTime: null,
+          tourType: null,
+          price: null,
+          duration: null
+        }
+    ).then(response => {
+      console.log("post list")
+      const code = response.status
+      if (code === 200){
+        products.value = response.data.products;
+        for(let i = 0; i < products.value.length; i++){
+          let raw_time = products.value[i].duration;
+          let hour = Math.round(raw_time/3600);
+          let day = Math.round(hour/24);
+          if (hour > 24 && day === 1){
+            products.value[i].duration = '1 Day'
           }
-      ).then(response => {
-        const code = response.status
-        if (code === 200){
-          products.value = response.data.products;
-          for(let i = 0; i < products.value.length; i++){
-            let raw_time = products.value[i].duration;
-            let hour = Math.round(raw_time/3600);
-            let day = Math.round(hour/24);
-            if (hour > 24 && day === 1){
-              products.value[i].duration = '1 Day'
-            }
-            if (hour > 24 && day > 1){
-              products.value[i].duration = day + ' Days'
-            }
-            if (hour === 1){
-              products.value[i].duration = '1 Hour'
-            }
-            if (hour < 24 && hour !== 1){
-              products.value[i].duration = hour + ' Hours'
-            }
+          if (hour > 24 && day > 1){
+            products.value[i].duration = day + ' Days'
+          }
+          if (hour === 1){
+            products.value[i].duration = '1 Hour'
+          }
+          if (hour < 24 && hour !== 1){
+            products.value[i].duration = hour + ' Hours'
           }
         }
-        project_loc = {
-          lat: products.value[0].map_latitude,
-          lng: products.value[0].map_longitude
+      }
+      project_loc = {
+        lat: products.value[0].map_latitude,
+        lng: products.value[0].map_longitude
+      }
+      for (let i = 0; i < products.value.length; i++){
+        locations.push({
+          position: {lat: products.value[i].map_latitude, lng: products.value[i].map_longitude},
+          title: products.value[i].title
+        });
+      }
+      loadMap();
+    })
+    axios.post("/search/product_number",
+        {
+          currentLocation: null,
+          startTime: null,
+          endTime: null,
+          tourType: null,
+          price: null,
+          duration: null
         }
-        for (let i = 0; i < products.value.length; i++){
-          locations.push({
-            position: {lat: products.value[i].map_latitude, lng: products.value[i].map_longitude},
-            title: products.value[i].title
-          });
-        }
-        loadMap();
-      })
-      axios.post("/search/product_number",
-          {
-            currentLocation: null,
-            startTime: null,
-            endTime: null,
-            tourType: null,
-            price: null,
-            duration: null
-          }
-      ).then((response)=>{
-            const code = response.status
-            if (code === 200){
-              const count = response.data.number;
-              searchPages.value = Math.ceil(count / 3);
-            }
-          })
-    });
+    ).then((response)=>{
+      // console.log("post number")
+      const code = response.status
+      if (code === 200 || code === 201){
+        const count = response.data.number;
+        searchPages.value = Math.ceil(count / 3);
+        // console.log("search pages now is", searchPages.value)
+      }
+    })
+    // onMounted(() => {
+    //
+    // });
     const loadMap = () => {
       const loader = new Loader({
         apiKey: "AIzaSyBctzU8ocpP_0j4IdTRqA-GABIAnaXd0ow",
@@ -751,9 +755,9 @@ export default defineComponent({
 }
 .cardImage {
   border-radius: 4px;
-  height: 500px;
-  width: 500px;
-  object-fit: cover;
+  height: auto;
+  width: 100%;
+  object-fit: contain;
 }
 .cardImage_content {
   position: absolute;
