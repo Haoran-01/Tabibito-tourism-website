@@ -49,12 +49,13 @@
         <div class="inputTitle">{{ $t('routeStep.activityImage') }}</div>
         <n-upload
             :action="imageAPI"
-            :default-file-list="picList"
+            v-model:file-list="picList"
             list-type="image-card"
             style="margin-left: 10px"
             @before-upload="beforeUpload"
             accept="image/*"
             @finish="handleFinishImage"
+            @remove="handleRemoveImage"
             :max="1"
         />
         <div style="height: 20px"></div>
@@ -70,10 +71,11 @@ import {getCurrentInstance, ref} from "vue";
 import {useMessage} from "naive-ui";
 
 export default {
-  props:['stepData', 'stepIndex'],
+  props: ['stepData', 'stepIndex'],
   name: "routeStep",
   emits: ['deleteStep'],
-  setup(props){
+  setup(props) {
+    const axios = getCurrentInstance().appContext.config.globalProperties.axios;
     const baseURL = getCurrentInstance().appContext.config.globalProperties.axios.defaults.baseURL;
     const imageAPI = baseURL + '/product/uploadpicture'
     const message = useMessage();
@@ -84,6 +86,15 @@ export default {
     let dayNumber = ref();
     let periodValue = ref();
     let exactTime = ref();
+    let picList = ref([]);
+    console.log(props.stepData)
+    if (props.stepData.picture !== null && props.stepData.picture !== '')
+    picList.value.push({
+      id: 'step_pic',
+      name: 'step_pic',
+      url: props.stepData.activityPic,
+      status: 'finished'
+    })
     let periodOptions = ref([
       {
         label: "Morning",
@@ -106,32 +117,50 @@ export default {
         value: "Midnight"
       }
     ])
-    if (props.stepData.totalDayNumber != null && props.stepData.totalDayNumber > 0){
+    if (props.stepData.totalDayNumber != null && props.stepData.totalDayNumber > 0) {
       isDayNumberDisabled.value = false;
-      for (let i = 0; i < parseInt(props.stepData.totalDayNumber); i++){
+      for (let i = 0; i < parseInt(props.stepData.totalDayNumber); i++) {
         dayOptions.value.push({
           label: 'day ' + (i + 1),
           value: 'day ' + (i + 1),
         })
       }
-    }else{
+    } else {
       isDayNumberDisabled.value = true;
     }
-    function handleExpand(){
-      if (show.value){
+    const handleRemoveImage = ({file, fileList}) => {
+      let fileIndex = -1;
+      for (let i = 0; i < fileList.length; i++){
+        if (file.id === fileList[i].id){
+          fileIndex = i
+        }
+      }
+      axios.post('/product/deletepicture', {
+        url: fileList[fileIndex].url
+      })
+          .then((res) => {
+            if (res.status === 200){
+              fileList.splice(fileIndex, 1);
+              return true;
+            }
+          })
+    };
+    function handleExpand() {
+      if (show.value) {
         expandButtonIcon.value = "expandIcon";
         show.value = false;
-      }else {
+      } else {
         expandButtonIcon.value = "collapseIcon";
         show.value = true;
       }
     }
-    const handleFinishImage = ({file,event}) => {
+
+    const handleFinishImage = ({file, event}) => {
       console.log(event);
       let res = (event?.target).response;
       props.stepData.activityPic = res;
     };
-    return{
+    return {
       show,
       imageAPI,
       expandButtonIcon,
@@ -142,8 +171,9 @@ export default {
       dayNumber,
       periodValue,
       exactTime,
+      picList,
       handleFinishImage,
-      picList: ref([]),
+      handleRemoveImage,
       async beforeUpload(data) {
         let reg = /image/
         let fileType = data.file.file?.type
@@ -153,41 +183,53 @@ export default {
         }
         return true;
       },
-      isHourDisabled(hour){
+      isHourDisabled(hour) {
         console.log(props.stepData.periodValue)
-        if (props.stepData.periodValue === "Morning"){
-          if (hour >= 11 || hour <= 6){
-            return hour
-            }
-        }
-        if (props.stepData.periodValue === "Noon"){
-          if (hour > 13 || hour < 11){
+        if (props.stepData.periodValue === "Morning") {
+          if (hour >= 11 || hour <= 6) {
             return hour
           }
         }
-        if (props.stepData.periodValue === "Afternoon"){
-          if (hour <= 13 || hour >= 19){
+        if (props.stepData.periodValue === "Noon") {
+          if (hour > 13 || hour < 11) {
             return hour
           }
         }
-        if (props.stepData.periodValue === "Night"){
-          if (hour < 19){
+        if (props.stepData.periodValue === "Afternoon") {
+          if (hour <= 13 || hour >= 19) {
             return hour
           }
         }
-        if (props.stepData.periodValue === "Midnight"){
-          if (hour > 6){
+        if (props.stepData.periodValue === "Night") {
+          if (hour < 19) {
+            return hour
+          }
+        }
+        if (props.stepData.periodValue === "Midnight") {
+          if (hour > 6) {
             return hour
           }
         }
       }
     }
   },
-  methods:{
-    handleDeleteStep(){
+  methods: {
+    handleDeleteStep() {
       this.$emit('deleteStep', this.stepIndex);
     }
-  }
+  },
+  /*mounted() {
+    console.log(this.$props.stepData)
+    if (this.$props.stepData.totalDayNumber != null && this.$props.stepData.totalDayNumber > 0) {
+      isDayNumberDisabled.value = false;
+      for (let i = 0; i < parseInt(props.stepData.totalDayNumber); i++) {
+        dayOptions.value.push({
+          label: 'day ' + (i + 1),
+          value: 'day ' + (i + 1),
+        })
+      }
+    }
+  }*/
 }
 </script>
 

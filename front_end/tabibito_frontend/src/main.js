@@ -9,6 +9,9 @@ import { createI18n } from 'vue-i18n'
 import enLocale from './i18n/en.js'
 import zhLocale from './i18n/zh.js'
 import axios from 'axios'
+import VueInsProgressBar from 'vue-ins-progress-bar'
+
+
 
 
 const app = createApp(App);
@@ -28,7 +31,7 @@ const i18n = createI18n({
     },
     legacy: false
 })
-
+app.use(VueInsProgressBar);
 app.use(router);
 app.use(pinia);
 app.use(Toast);
