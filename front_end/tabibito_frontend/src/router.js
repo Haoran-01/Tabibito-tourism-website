@@ -14,7 +14,7 @@ const leftListView = () => import("./components/SearchPageView/leftListView.vue"
 const StaffPortalView = () => import("./components/StaffPortalView/staffPortalView.vue");
 const notFoundView = () => import("./components/ErrorViews/notFoundView.vue");
 const forbiddenView = () => import("./components/ErrorViews/forbiddenView.vue");
-const reservationEdit = () => import("./components/ReservationView/reservationEdit.vue");
+const reservationEdit = () => import("./components/ReservationView/reservationEditNew.vue");
 const moreView = () => import("./components/SearchPageView/moreView.vue");
 const rightSettingView = () => import("./components/ProfileView/rightSettingView.vue");
 const chatView = () => import("./components/ChatView/chatView.vue");

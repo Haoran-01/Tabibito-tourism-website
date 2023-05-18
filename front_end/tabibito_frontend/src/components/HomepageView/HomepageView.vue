@@ -181,6 +181,22 @@ export default {
     let figures = ref({});
     const route = useRouter();
     const axios = getCurrentInstance().appContext.config.globalProperties.axios;
+    let locationOptions = [];
+    axios.get('/homepage/all_location')
+        .then((res) =>{
+          if (res.status === 200){
+            for (let loc of res.data.locations){
+              locationOptions.push(
+                  {
+                    label: loc,
+                    key: loc,
+                    icon: renderIcon(Location)
+                  }
+              )
+            }
+
+          }
+        })
     axios.get('/homepage/four_number')
         .then(function (response) {
           figures.value = response.data
@@ -208,7 +224,6 @@ export default {
             }
           }
         })
-    onBeforeMount(() =>{})
     let startTime = ref();
     let endTime = ref();
     let currentLocation = ref("select");
@@ -230,6 +245,7 @@ export default {
       );
     };
     return{
+      locationOptions,
       route,
       currentLocation,
       startTime,
@@ -240,54 +256,32 @@ export default {
       tagValue: ref([]),
       tags: [
         {
-          label: "Interesting",
-          value: "value1",
+          label: "Wild Life Tour",
+          value: "WildlifeTour",
           type: "success"
         },
         {
-          label: "Wild",
-          value: "value2",
+          label: "Adventure Tour",
+          value: "AdventureTour",
           type: "warning"
         },
         {
-          label: "Museum",
-          value: "value3",
+          label: "City Tour",
+          value: "CityTour",
+          type: "success"
+        },
+        {
+          label: "Museum Tour",
+          value: "MuseumTour",
           type: "error"
         },
         {
-          label: "Adventure",
-          value: "value4",
-          type: "error"
-        },
-        {
-          label: "Classic",
-          value: "value5",
-          type: "error"
-        },
-        {
-          label: "City",
-          value: "value6",
-          type: "error"
+          label: "Beaches Tour",
+          value: "BeachesTour",
+          type: "warning"
         }
       ],
       renderTag,
-      locationOptions: [
-        {
-          label: 'London',
-          key: 'London',
-          icon: renderIcon(Location)
-        },
-        {
-          label: 'Paris',
-          key: 'Paris',
-          icon: renderIcon(Location)
-        },
-        {
-          label: 'Rome',
-          key: 'Rome',
-          icon: renderIcon(Location)
-        },
-      ],
       handleSelectLocation(val){
         currentLocation.value = val;
       },

@@ -250,7 +250,8 @@ export default {
     },
     hello: '你好',
     discount: {
-        from: '起价'
+        from: '起价',
+        review: '个评论'
     },
     priceItem: {
         areYouSureYouWantToDeleteThisStepTheInformationWil: '您确定要删除此步骤吗？信息将会丢失。',

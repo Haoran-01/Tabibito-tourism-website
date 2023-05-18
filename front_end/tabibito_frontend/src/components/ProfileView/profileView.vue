@@ -170,7 +170,7 @@
             <div v-for="comment in this.comments" class="comment">
               <div class="commentHead">
                 <div class="leftCommentHead">
-                  <img class="commentAvatar">
+                  <img class="commentAvatar" :src="comment.user_portrait">
                   <div class="commentHeadTexts">
                     <div class="commentName">{{comment.user_name}}</div>
                     <div class="commentTime">{{comment.datetime}}</div>
@@ -579,58 +579,7 @@ export default {
 
 
       },*/
-      initMap(){
-        const headers = {
-          "X-Goog-Api-Key": "AIzaSyBctzU8ocpP_0j4IdTRqA-GABIAnaXd0ow",
-        };
 
-        const data = {
-          search_values: [
-            {
-              "address": "2627 N Hollywood Way, Burbank, CA",
-              "place_type": "ADMINISTRATIVE_AREA_LEVEL_1",
-              "region_code": "us"
-
-            },
-            {
-              "address": "Statue of liberty",
-              "place_type": "ADMINISTRATIVE_AREA_LEVEL_1",
-              "region_code": "us"
-
-            },
-          ],
-        };
-        const response = regionLookupClient.searchRegion({headers, data});
-        let placeIDs;
-        response.then((res) => {
-          placeIDs = res.data.matches;
-          console.log(placeIDs)
-          let map;
-          map = new google.maps.Map(document.getElementById('map'), {
-            center: {lat: 20, lng: -156},
-            zoom: 10,
-            mapId: "353522139b1baa35",
-          })
-          let featureLayer = map.getFeatureLayer('ADMINISTRATIVE_AREA_LEVEL_1');
-          const featureStyleOptions = {
-            strokeColor: "#810FCB",
-            strokeOpacity: 1.0,
-            strokeWeight: 3.0,
-            fillColor: "#810FCB",
-            fillOpacity: 0.5,
-          };
-          featureLayer.style = (options) => {
-            for (let obj of placeIDs){
-
-              if (options.feature.placeId === obj.matchedPlaceId) {
-
-                return featureStyleOptions;
-              }
-            }
-          };
-
-        })
-      }
     }
   },
   data() {
@@ -646,11 +595,54 @@ export default {
       comments: [],
       newNotices: ref([]),
       oldNotices: ref([]),
+      footPrints: {
+        search_values: [],
+      }
     }
   },
   methods: {
     handleCancel(row) {
 
+    },
+    initMap(){
+      const headers = {
+        "X-Goog-Api-Key": "AIzaSyBctzU8ocpP_0j4IdTRqA-GABIAnaXd0ow",
+      };
+
+      /*let instance = axios.create();
+      instance.headers = headers;
+      instance.data = d;
+      instance.defaults.withCredentials = false;*/
+      const data = this.footPrints;
+      const response = regionLookupClient.searchRegion({headers, data, withCredentials: false});
+      let placeIDs;
+      response.then((res) => {
+        placeIDs = res.data.matches;
+        let map;
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 20, lng: 0},
+          zoom: 2,
+          mapId: "353522139b1baa35",
+        })
+        let featureLayer = map.getFeatureLayer('ADMINISTRATIVE_AREA_LEVEL_1');
+        const featureStyleOptions = {
+          strokeColor: "#810FCB",
+          strokeOpacity: 1.0,
+          strokeWeight: 3.0,
+          fillColor: "#810FCB",
+          fillOpacity: 0.5,
+        };
+        featureLayer.style = (options) => {
+          for (let obj of placeIDs){
+
+            if (options.feature.placeId === obj.matchedPlaceId) {
+
+              return featureStyleOptions;
+            }
+          }
+        };
+
+      })
     },
     handleChangePageSize(pageSize) {
       this.commentPages = Math.ceil(this.commentNumber / this.commentPageSize);
@@ -746,14 +738,18 @@ export default {
                       trip.weather = res.data;
                     }
                   })
-              this.axios.post('/third/flight', {
-                flight_numbers: trip.flight_numbers
-              })
-                  .then((res) => {
-                    if (res.status === 200) {
-                      trip.flightInfo = res.data
-                    }
-                  })
+              console.log()
+              if (trip.flight_numbers !== null){
+                this.axios.post('/third/flight', {
+                  flight_numbers: trip.flight_numbers
+                })
+                    .then((res) => {
+                      if (res.status === 200) {
+                        trip.flightInfo = res.data
+                      }
+                    })
+              }
+
             }
           }
         })
@@ -832,7 +828,17 @@ export default {
             this.oldNotices = res.data.notices;
           }
         })
-
+    this.axios.get('/third/getfootprint')
+        .then((res) => {
+          if (res.status === 200){
+            for (let item of res.data.locations){
+              this.footPrints.search_values.push({
+                "address": item,
+                "place_type": "ADMINISTRATIVE_AREA_LEVEL_1",
+              })
+            }
+          }
+        })
   },
   mounted() {
     let script = document.createElement('script');
@@ -1034,6 +1040,7 @@ template{
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  background: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url("../../assets/airplane_bg.jpg") no-repeat 50% 50%/ cover;
 }
 .aeroPart:hover{
   transition: .2s ease-out;
@@ -1050,6 +1057,7 @@ template{
   padding: 0 6px;
   background-color: #2F80ED;
   border-radius: 4px;
+  color: white;
 }
 .infoColumn{
   display: flex;
@@ -1077,6 +1085,7 @@ template{
 .footPrintMap{
   margin: 24px;
   height: 500px;
+  border-radius: 4px;
 }
 .infoCard{
   width: 100%;

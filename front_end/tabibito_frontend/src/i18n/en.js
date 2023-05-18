@@ -251,7 +251,8 @@ export default {
     },
     hello: 'Hello',
     discount: {
-        from: 'From'
+        from: 'From',
+        review: ' reviews'
     },
     priceItem: {
         areYouSureYouWantToDeleteThisStepTheInformationWil: 'Are you sure you want to delete this step? The information will lost.',
