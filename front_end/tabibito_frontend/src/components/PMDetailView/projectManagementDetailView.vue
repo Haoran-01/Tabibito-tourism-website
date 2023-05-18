@@ -180,7 +180,7 @@
           <n-tab-pane name="Route" tab="3. Route">
             <div class="inputTitle">{{ $t('traveldetails.totalDayNumber') }}</div>
             <div class="input_form">
-              <input type="text" v-model="totalDayNumber" :disabled="totalDayNumberDisabled" required @change="checkAddStepStatus" @blur="validateInteger($event, totalDayNumber, 'totalDayNumber')" @focus="resetInput($event)">
+              <input type="text" v-model="totalDayNumber" :disabled="totalDayNumberDisabled" required @keyup="checkAddStepStatus" @blur="validateInteger($event, totalDayNumber, 'totalDayNumber')" @focus="resetInput($event)">
               <label class="input_label">{{ $t('reservationEdit.totalDayNumber') }}</label>
             </div>
             <div class="inputTitle">{{ $t('reservationEdit.flightNumber') }}</div>
@@ -480,7 +480,7 @@ export default {
       totalDayNumberDisabled,
       add_step_status,
       checkAddStepStatus(){
-        if (totalDayNumber.value !== null && totalDayNumber.value !== 0 && totalDayNumber.value !== '0'){
+        if (totalDayNumber.value !== null && totalDayNumber.value !== 0 && totalDayNumber.value !== '0' && totalDayNumber.value !== ''){
           let pattern = new RegExp('\\D');
           if (pattern.test(totalDayNumber.value)){
             add_step_status.value = "disabled_btn"

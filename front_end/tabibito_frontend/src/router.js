@@ -44,7 +44,7 @@ const routes = [
     { path: '/management/project_list', component: backListView, meta: {title: 'project list - Tabibito'}},
     { path: '/management/reservation_list', component: reservationView, meta: {title: 'reservation list - Tabibito'}},
     { path: '/management/reservation_detail/:id', component: reservationEdit, meta: {title: 'reservation detail - Tabibito'}},
-    { path: '/management/project_detail/:id', component: projectManagementDetailView, meta: {title: 'project detail - Tabibito'}},
+    { path: '/management/project_detail/:id', component: reservationEdit, meta: {title: 'project detail - Tabibito'}},
     { path: '/management/project_detail/add', component: projectManagementDetailView, meta: {title: 'add project - Tabibito'}},
     { path: '/trip/:trip_id', component: TravelDetailsView, meta: {title: 'project detail - Tabibito'}},
     { path: '/search_result', name: 'search', component: leftListView, meta: {title: 'search result - Tabibito'}},

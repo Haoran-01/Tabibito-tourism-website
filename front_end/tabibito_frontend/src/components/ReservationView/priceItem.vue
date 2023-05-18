@@ -1,7 +1,7 @@
 <template>
   <div class="stepContainer">
     <div class="stepTitleBar" @click="handleExpand">
-      <div class="stepTitle">{{"Pay Item " + (itemIndex + 1) + ": " + itemData.chargeName}}</div>
+      <div class="stepTitle">{{"Pay Item " + (itemIndex + 1) + ": " + itemData.name}}</div>
       <div class="actions">
         <n-popconfirm
             @positive-click="handleDeleteStep"
@@ -18,12 +18,12 @@
       <div class="stepContent">
         <div class="inputTitle">{{ $t('priceItem.chargeName') }}</div>
         <div class="input_form">
-          <input type="text" v-model="itemData.chargeName" required>
+          <input type="text" v-model="itemData.name" required>
           <label class="input_label">{{ $t('priceItem.chargeName') }}</label>
         </div>
         <div class="inputTitle">{{ $t('priceItem.chargeDescription') }}</div>
         <div class="input_form">
-          <textarea type="text" v-model="itemData.chargeDescription" required></textarea>
+          <textarea type="text" v-model="itemData.description" required></textarea>
           <label class="input_label">{{ $t('priceItem.chargeDescription') }}</label>
         </div>
       </div>

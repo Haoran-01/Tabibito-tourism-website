@@ -260,7 +260,7 @@
 <script>
 import NavigationBar from "../GeneralComponents/navigationBar.vue";
 import {getCurrentInstance, h, ref} from "vue";
-import { NButton, useMessage } from "naive-ui";
+import { NButton } from "naive-ui";
 import {Loader} from "@googlemaps/js-api-loader";
 import * as regionLookupClient from "@googlemaps/region-lookup";
 import {useLangStore} from "../../store.js";
@@ -415,6 +415,7 @@ const createCancelledColumns = ({ viewDetail }) => {
 export default {
   name: "profileView",
   components: {RightSettingView, NavigationBar},
+
   setup() {
     const langStore = useLangStore();
     let mapLanguage = 'en-US';

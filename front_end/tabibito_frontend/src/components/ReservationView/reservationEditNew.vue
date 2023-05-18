@@ -20,7 +20,7 @@
             pane-style="padding-left: 4px; padding-right: 4px; box-sizing: border-box;">
 
 
-          <n-tab-pane name="Basic Information" tab="1. Basic Information">
+          <n-tab-pane name="Basic Information" tab="1. Basic Information" display-directive="show:lazy">
             <div class="tabInnerContainer">
               <div class="inputTitle">{{ $t('traveldetails.introduction') }}</div>
               <div class="input_form">
@@ -132,27 +132,27 @@
               <div class="inputTitle">{{ $t('traveldetails.types') }}</div>
 
               <div class="typesContainer">
-                <div class="type" @click="handleChooseType('WildlifeTour', $event)">
+                <div class="type" id="WildlifeTour" @click="handleChooseType('WildlifeTour', $event)">
                   <div class="typeTitle">{{ $t('chooseTourTypes.wildlifeTour') }}</div>
                 </div>
-                <div class="type" @click="handleChooseType('AdventureTour', $event)">
+                <div class="type" id="AdventureTour" @click="handleChooseType('AdventureTour', $event)">
                   <div class="typeTitle">{{ $t('chooseTourTypes.adventureTour') }}</div>
                 </div>
-                <div class="type" @click="handleChooseType('CityTour', $event)">
+                <div class="type" id="CityTour" @click="handleChooseType('CityTour', $event)">
                   <div class="typeTitle">{{ $t('traveldetails.cityTour') }}</div>
                 </div>
-                <div class="type" @click="handleChooseType('MuseumTour', $event)">
+                <div class="type" id="MuseumTour" @click="handleChooseType('MuseumTour', $event)">
                   <div class="typeTitle">{{ $t('traveldetails.museumTour') }}</div>
                 </div>
-                <div class="type" @click="handleChooseType('BeachesTour', $event)">
+                <div class="type" id="BeachesTour" @click="handleChooseType('BeachesTour', $event)">
                   <div class="typeTitle">{{ $t('chooseTourTypes.beachesTour') }}</div>
                 </div>
               </div>
             </div>
-          </n-tab-pane>
+          </n-tab-pane  >
 
 
-          <n-tab-pane name="Location" tab="2. Location">
+          <n-tab-pane name="Location" tab="2. Location" display-directive="show:lazy">
             <div class="tabInnerContainer">
               <div class="inputTitle">{{ $t('homepage.searchPart.loc') }}</div>
               <div class="input_form">
@@ -177,10 +177,10 @@
           </n-tab-pane>
 
 
-          <n-tab-pane name="Route" tab="3. Route">
+          <n-tab-pane name="Route" tab="3. Route" display-directive="show:lazy">
             <div class="inputTitle">{{ $t('traveldetails.totalDayNumber') }}</div>
             <div class="input_form">
-              <input type="text" v-model="totalDayNumber" :disabled="totalDayNumberDisabled" required @change="checkAddStepStatus" @blur="validateInteger($event, totalDayNumber, 'totalDayNumber')" @focus="resetInput($event)">
+              <input type="text" v-model="totalDayNumber" :disabled="totalDayNumberDisabled" required @keyup="checkAddStepStatus" @blur="validateInteger($event, totalDayNumber, 'totalDayNumber')" @focus="resetInput($event)">
               <label class="input_label">{{ $t('reservationEdit.totalDayNumber') }}</label>
             </div>
             <div class="inputTitle">{{ $t('reservationEdit.flightNumber') }}</div>
@@ -209,7 +209,7 @@
           </n-tab-pane>
 
 
-          <n-tab-pane name="Price" tab="4. Price" >
+          <n-tab-pane name="Price" tab="4. Price" display-directive="show:lazy" >
             <div class="inputTitle">{{ $t('traveldetails.originalPrice') }}</div>
             <div class="input_form">
               <input type="text" v-model="originalPrice" required :style="originalPriceStyle" @blur="validateNumber($event, originalPrice, 'originalPrice')" @focus="resetInput($event)">
@@ -236,7 +236,8 @@
             </div>
           </n-tab-pane>
 
-          <n-tab-pane name="Notification" tab="5. Notification">
+
+          <n-tab-pane name="Notification" tab="5. Notification" display-directive="show:lazy">
             <div class="inputTitle">{{ $t('traveldetails.title') }}</div>
             <div class="input_form">
               <input type="text" v-model="notice.title" @focus="resetInput($event)">
@@ -265,7 +266,7 @@
           </n-tab-pane>
 
 
-          <n-tab-pane name="Submit" tab="6. Submit">
+          <n-tab-pane name="Submit" tab="6. Submit" display-directive="show:lazy">
             <button type="submit" class="add_step_btn" @click="submitForm">
               {{ $t('traveldetails.submit') }}
               <div class="icon_submit"></div>
@@ -279,7 +280,7 @@
 
 <script>
 import {h, ref} from "vue";
-import {NTag, useMessage} from "naive-ui";
+import {NTag, useMessage, useLoadingBar} from "naive-ui";
 import RouteStep from "./routeStep.vue";
 import PriceItem from "./priceItem.vue";
 import { useToast } from "vue-toastification";
@@ -320,6 +321,8 @@ export default {
   },*/
   setup(){
     // General
+    const loadingBar = useLoadingBar();
+    loadingBar.start();
     const axios = getCurrentInstance().appContext.config.globalProperties.axios;
     const toast = useToast();
     let tabValue = ref("Basic Information");
@@ -407,6 +410,7 @@ export default {
 
     return{
       // General
+      loadingBar,
       toast,
       tabValue,
       imageAPI,
@@ -482,7 +486,7 @@ export default {
       totalDayNumberDisabled,
       add_step_status,
       checkAddStepStatus(){
-        if (totalDayNumber.value !== null && totalDayNumber.value !== 0 && totalDayNumber.value !== '0'){
+        if (totalDayNumber.value !== null && totalDayNumber.value !== 0 && totalDayNumber.value !== '0' && totalDayNumber.value !== ''){
           let pattern = new RegExp('\\D');
           if (pattern.test(totalDayNumber.value)){
             add_step_status.value = "disabled_btn"
@@ -539,6 +543,7 @@ export default {
   },
   created() {
     const route = useRoute();
+    console.log(route.params.id)
     if (route.params.id !== null){
       this.axios.post('/product/get_edit_info', {
         product_id: route.params.id
@@ -547,22 +552,23 @@ export default {
             if (res.status === 200){
               this.projectName = res.data.name;
               this.projectDescription = res.data.description;
-              this.groupNumber = res.data.groupNumber;
+              this.groupNumber = res.data.group_number;
               this.videoLink = res.data.video_link;
               this.typeList = res.data.types;
-              this.cutoffDate = res.data.app_ddl;
+              this.cutoffDate = res.data.app_ddl * 1000;
               this.locationText = res.data.location.raw_loc;
               this.mapLatitude = res.data.location.map_latitude;
               this.mapLongitude = res.data.location.map_longitude;
-              this.mapZoom = res.data.location.mapZoom;
+              this.mapZoom = res.data.location.map_zoom;
               this.flight_numbers = res.data.flight_numbers;
               this.originalPrice = res.data.ori_price;
               this.discount = res.data.discount;
               this.noticeTags = res.data.notice_tags;
               this.tags = res.data.tags;
-              this.startTime = res.data.start_time;
-              this.endTime = res.data.end_time;
+              this.startTime = res.data.start_time * 1000;
+              this.endTime = res.data.end_time * 1000;
               this.chargeDatas = res.data.fee_des;
+              this.totalDayNumber = res.data.total_day_number;
               for (let item of res.data.trips){
                 this.routeDatas.push({
                   activityName: item.activity,
@@ -570,13 +576,16 @@ export default {
                   mapLatitude: item.location.map_latitude,
                   mapLongitude: item.location.map_longitude,
                   mapZoom: item.location.map_zoom,
-                  dayNumber: item.location.day,
+                  dayNumber: 'day ' + item.day,
                   periodValue: item.time_of_day,
-                  exactTime: item.time,
+                  exactTime: item.time / 1000,
                   activityPic: item.picture,
-                  totalDayNumber: item.total_day_number
+                  totalDayNumber: res.data.total_day_number,
                 })
               };
+              if (res.data.total_day_number > 0){
+                this.add_step_status = "";
+              }
               if (res.data.cover_image !== null)
                 this.coverImageList.push({
                   id: 'cover',
@@ -602,6 +611,10 @@ export default {
                     status: 'finished'
                   })
                 }
+              for (let type of this.typeList){
+                document.getElementById(type).classList.add('selectedType');
+              }
+              this.loadingBar.finish();
             }
           })
     }
@@ -641,7 +654,7 @@ export default {
       })
           .then((res) => {
             if (res.status === 204){
-              this.noticeTags.value.push({
+              this.noticeTags.push({
                 label: this.newTag,
                 value: this.newTag,
                 type: 'success'
@@ -777,7 +790,8 @@ export default {
     types: this.typeList,
     flight_numbers: this.flight_numbers,
     video_link: this.videoLink,
-    url_3d: null
+    url_3d: null,
+    total_day_number: this.totalDayNumber
   })
 
   this.axios.post('/product/send_notice', {
@@ -792,7 +806,7 @@ export default {
         }
       })
 }
-}
+},
 }
 </script>
 
