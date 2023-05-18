@@ -141,19 +141,25 @@ def more_products():
         page_number = 0
     return jsonify(page_number=page_number, code=200)
 
+
 @bp.route("/more_program_list", methods=["GET", "POST"])
 def more_program_list():
     search_type = request.json.get('type')
     value = request.json.get('value')
     page = request.json.get('page')
     products = []
-    print(search_type, value, "++++++++++++++++++++++++++++")
-    p = Product.query.filter().first()
     if search_type == "popular":
         products = Product.query.outerjoin(UserBrowse).group_by(Product.id).order_by(func.count(UserBrowse.id).desc()).paginate(page=page, per_page=4)
     elif search_type == "type":
         products = Product.query.filter(Product.types.any(ProductType.type == PType(value))).paginate(page=page, per_page=4)
     elif search_type == "location":
-        products = Product.query.filter(Product.raw_loc == value).paginate(page=page, per_page=4)
+        products = Product.query.filter(value in Product.raw_loc).paginate(page=page, per_page=4)
 
     return jsonify(products=[product.serialize_more() for product in products])
+
+
+@bp.route("/all_location", methods=["GET", "POST"])
+def all_locations():
+    products = Product.query.all()
+    result = list(set([product.raw_loc.split(",")[-1].strip() for product in products]))
+    return jsonify(locations=result), 200
