@@ -4,7 +4,7 @@ from sqlalchemy import func
 from flask import Blueprint, jsonify, request
 import datetime
 from exts import db
-from models import Product, ProductPicture, Tag, Trip, FeeDes, UserBrowse, Comment, User, Order, ProductType, PType
+from models import Product, Tag, UserBrowse, Comment, User, Order, ProductType, PType
 from collections import Counter
 from sqlalchemy import and_
 
@@ -45,19 +45,15 @@ def locations():
     all_locations = [product.raw_loc.split(",")[-1].strip() for product in products]
     location_counts = Counter(all_locations)
 
-    # 选出出现次数最多的8个location
     most_common_locations = location_counts.most_common(8)
     most_common_locations = [lc[0] for lc in most_common_locations]
 
-    # 为每个location选出一个对应的cover
     covers = {}
     for loc in most_common_locations:
-        # 找到该location的第一个product的第一张图片作为cover
         product = Product.query.filter(Product.raw_loc.like("%"+loc+"%")).first()
         if product:
             covers[loc] = product.pictures[0].address
 
-    # 构造返回结果
     result = {
         "locations": [
             {
