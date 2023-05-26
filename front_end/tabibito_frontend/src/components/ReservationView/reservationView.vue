@@ -248,7 +248,7 @@ export default {
     }
 
     function complete(row){
-      this.axios.post('/staff_portal/change_order_status',{
+      axios.post('/staff_portal/change_order_status',{
         operation: "Completed",
         id: `${row.id}`,
       }).then((response)=>{
@@ -269,7 +269,7 @@ export default {
     }
 
     function cancel(row){
-      this.axios.post('/staff_portal/change_order_status',{
+      axios.post('/staff_portal/change_order_status',{
         operation: "Cancelled",
         id: `${row.id}`,
       }).then((response)=>{
@@ -290,7 +290,7 @@ export default {
     }
 
     function deleteLine(row){
-      this.axios.post('/staff_portal/change_order_status',{
+      axios.post('/staff_portal/change_order_status',{
         operation: "Delete",
         id: `${row.id}`,
       }).then((response)=>{

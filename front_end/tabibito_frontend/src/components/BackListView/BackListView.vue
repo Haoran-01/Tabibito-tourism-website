@@ -86,6 +86,7 @@ import {useRouter} from 'vue-router';
 import {useToast} from "vue-toastification";
 import NavigationBar from "../GeneralComponents/navigationBar.vue";
 import SideBarView from "../StaffPortalView/sideBarView.vue";
+import axios from 'axios';
 
 export default {
   name: "staffView",
@@ -233,7 +234,7 @@ export default {
     }
 
     function launch(row){
-      this.axios.post('/staff_portal/product_status',{
+      axios.post('/staff_portal/product_status',{
         operation: "Launched",
         id: `${row.id}`,
       }).then((response)=>{
@@ -254,7 +255,7 @@ export default {
     }
 
     function delist(row){
-      this.axios.post('/staff_portal/product_status',{
+      axios.post('/staff_portal/product_status',{
         operation: "Delisted",
         id: `${row.id}`,
       }).then((response)=>{
