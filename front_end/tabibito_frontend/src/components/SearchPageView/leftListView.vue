@@ -525,9 +525,9 @@ export default defineComponent({
         }],
       locOptions: [
         {
-          label: 'London',
-          key: 'London',
-          value: 'London'
+          label: 'Australia',
+          key: 'Australia',
+          value: 'Australia'
         },
         {
           label: 'China',
@@ -535,15 +535,30 @@ export default defineComponent({
           value: "China"
         },
         {
-          label: 'England',
-          key: 'England',
-          value: "England"
+          label: 'United Kingdom',
+          key: 'United Kingdom',
+          value: "United Kingdom"
         },
         {
           label: 'Ireland',
           key: 'Ireland',
           value: "Ireland"
-        }
+        },
+        {
+          label: 'Italy',
+          key: 'Italy',
+          value: "Italy"
+        },
+        {
+          label: 'France',
+          key: 'France',
+          value: "France"
+        },
+        {
+          label: 'Japan',
+          key: 'Japan',
+          value: "Japan"
+        },
       ],
       typeOptions: [
         {
