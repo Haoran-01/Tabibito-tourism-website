@@ -54,7 +54,7 @@
                   <div class="days">{{ product.types[0] }}</div>
                 </div>
 
-                <h4 class="tourCardTitle" @click="this.$router.push('/trip/' + product.id)">
+                <h4 class="tourCardTitle" @click="navigateToProduct(product.id)">
                   <span>{{ product.name }}</span>
                 </h4>
 
@@ -106,6 +106,7 @@
 import { ArrowBack, ArrowForward } from '@vicons/ionicons5'
 import {defineComponent, onMounted, ref} from 'vue'
 import {getCurrentInstance} from 'vue'
+import { useRouter } from 'vue-router';
 export default {
   components: {
     ArrowBack,
@@ -119,6 +120,7 @@ export default {
     }
   },
   setup() {
+    const route = useRouter();
     let slides_per_view= ref(3);
     let space_between = ref(20);
     let recommends = ref({});
@@ -191,6 +193,16 @@ export default {
       space_between,
       recommends
     }
+  },
+  methods: {
+    navigateToProduct(id) {
+      this.$router.push('/trip/' + id);
+    },
+  },
+  watch: {
+    $route() {
+      this.$router.go(0);
+    },
   },
 }
 </script>

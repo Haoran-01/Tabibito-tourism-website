@@ -181,46 +181,46 @@ export default {
       space_between,
       handleWT() {
         this.route.push({
-          path: '/search_result',
+          path: '/moreView',
           query: {
-            state: "type",
-            tourType: "Wildlife Tour"
+            type: "type",
+            value: "WildlifeTour"
           }
         })
       },
       handleAT() {
         this.route.push({
-          path: '/search_result',
+          path: '/moreView',
           query: {
-            state: "type",
-            tourType: "Adventure Tour"
+            type: "type",
+            value: "AdventureTour"
           }
         })
       },
       handleCT() {
         this.route.push({
-          path: '/search_result',
+          path: '/moreView',
           query: {
-            state: "type",
-            tourType: "City Tours"
+            type: "type",
+            value: "CityTour"
           }
         })
       },
       handleMT() {
         this.route.push({
-          path: '/search_result',
+          path: '/moreView',
           query: {
-            state: "type",
-            tourType: "Museum Tours"
+            type: "type",
+            value: "MuseumTour"
           }
         })
       },
       handleBT() {
         this.route.push({
-          path: '/search_result',
+          path: '/moreView',
           query: {
-            state: "type",
-            tourType: "Beaches Tour"
+            type: "type",
+            value: "BeachesTour"
           }
         })
       },

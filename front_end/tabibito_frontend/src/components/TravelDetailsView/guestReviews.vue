@@ -35,7 +35,7 @@
                 <n-progress
                     type="line"
                     :show-indicator="false"
-                    :percentage="94"
+                    :percentage="percentages.location"
                     processing
                 />
               </div>
@@ -57,7 +57,7 @@
                 <n-progress
                     type="line"
                     :show-indicator="false"
-                    :percentage="94"
+                    :percentage="percentages.staff"
                     processing
                 />
               </div>
@@ -79,7 +79,7 @@
                 <n-progress
                     type="line"
                     :show-indicator="false"
-                    :percentage="94"
+                    :percentage="percentages.cleanliness"
                     processing
                 />
               </div>
@@ -101,7 +101,7 @@
                 <n-progress
                     type="line"
                     :show-indicator="false"
-                    :percentage="94"
+                    :percentage="percentages.value_for_money"
                     processing
                 />
               </div>
@@ -123,7 +123,7 @@
                 <n-progress
                     type="line"
                     :show-indicator="false"
-                    :percentage="94"
+                    :percentage="percentages.comfort"
                     processing
                 />
               </div>
@@ -145,7 +145,7 @@
                 <n-progress
                     type="line"
                     :show-indicator="false"
-                    :percentage="94"
+                    :percentage="percentages.facilities"
                     processing
                 />
               </div>
@@ -167,7 +167,7 @@
                 <n-progress
                     type="line"
                     :show-indicator="false"
-                    :percentage="94"
+                    :percentage="percentages.free_wifi"
                     processing
                 />
               </div>
@@ -267,6 +267,7 @@ export default defineComponent({
   },
   data() {
     return {
+      percentages: {},
       commentPage: ref(1),
       commentPages: ref(20),
       commentPageSize: ref(10),
@@ -335,6 +336,9 @@ export default defineComponent({
     )
         .then(function (response){
           self.scores = response.data;
+          for (const [key, value] of Object.entries(self.scores)) {
+            self.percentages[key] = Math.round(value * 20);
+          }
         })
         .catch(error => {
           console.error(error);
@@ -350,7 +354,7 @@ export default defineComponent({
         .catch(error => {
           console.error(error);
         });
-  }
+  },
 })
 </script>
 

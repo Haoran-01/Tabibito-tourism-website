@@ -44,6 +44,9 @@
 import CustomerReview from "./customerReview.vue";
 import Inspiration from "./inspiration.vue";
 import NotAMember from "./notMember.vue";
+import {useRouter} from "vue-router";
+import {defineComponent, onMounted, ref} from 'vue'
+
 
 export default {
   name: "hotLocation",
@@ -62,12 +65,22 @@ export default {
           console.error(error);
         });
   },
+  setup() {
+    const route = useRouter();
+    return{
+      route,
+      handleClick(name) {
+        this.route.push({
+          path: '/moreView',
+          query: {
+            type: "location",
+            value: JSON.stringify(name)
+          }
+        })
+      },
+    }
+  },
   methods: {
-    handleClick(name) {
-      const value = JSON.stringify(name);
-      const type = 'location';
-      this.$router.push({ name: 'more', params: { value, type } });
-    },
     handleMore() {
       this.$router.push({name: 'search'})
     }

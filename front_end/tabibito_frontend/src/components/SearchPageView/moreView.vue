@@ -144,9 +144,9 @@ export default defineComponent({
     const morePages = ref(1);
     const moreNumber = 0;
     const morePageSize = ref(4);
-    const type = ref();
-    const value = ref();
     const route = useRoute();
+    const type = ref(route.query.type);
+    const value = ref(route.query.value);
     let project_loc = null;
     let project_zoom = 1;
     const locations = [];
@@ -158,15 +158,11 @@ export default defineComponent({
     }
     const loadingRef = ref(false);
     const message = useMessage();
-    const paramValue = route.params.value ? JSON.parse(route.params.value) : null;
-    const paramType = route.params.type || null;
-    value.value = paramValue;
-    type.value = paramType;
     // console.log(morePage.value);
     axios.post('/homepage/more_program_list',
         {
-          type: 'location',
-          value: 'China',
+          type: type.value,
+          value: value.value,
           page: morePage.value,
         }
     ).then((response) => {
@@ -206,8 +202,8 @@ export default defineComponent({
 
     axios.post("/homepage/more",
         {
-          type: 'location',
-          value: 'China',
+          type: type.value,
+          value: value.value,
         }
     )
         .then((response)=>{
@@ -280,8 +276,8 @@ export default defineComponent({
       },
       handleChangePage() {
         axios.post("/homepage/more_program_list", {
-          type: 'location',
-          value: 'China',
+          type: type.value,
+          value: value.value,
           page: morePage.value,
         })
             .then((response) => {

@@ -153,7 +153,8 @@ def more_program_list():
         products = Product.query.filter(Product.types.any(ProductType.type == PType(value))).paginate(page=page, per_page=4)
     elif search_type == "location":
         products = Product.query.filter(Product.raw_loc.like("%"+value+"%")).paginate(page=page, per_page=4)
-
+        print(value)
+        print([product.serialize_more() for product in products])
     return jsonify(products=[product.serialize_more() for product in products])
 
 
