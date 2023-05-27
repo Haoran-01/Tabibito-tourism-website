@@ -1,4 +1,5 @@
 import math
+import string
 
 from sqlalchemy import func
 from flask import Blueprint, jsonify, request
@@ -143,8 +144,8 @@ def more_products():
 
 @bp.route("/more_program_list", methods=["GET", "POST"])
 def more_program_list():
-    search_type = request.json.get('type')
-    value = request.json.get('value')
+    search_type = request.json.get('type').strip(string.punctuation)
+    value = request.json.get('value').strip(string.punctuation)
     page = request.json.get('page')
     products = []
     if search_type == "popular":
@@ -153,7 +154,7 @@ def more_program_list():
         products = Product.query.filter(Product.types.any(ProductType.type == PType(value))).paginate(page=page, per_page=4)
     elif search_type == "location":
         products = Product.query.filter(Product.raw_loc.like("%"+value+"%")).paginate(page=page, per_page=4)
-        print(value)
+        print(search_type, value, page)
         print([product.serialize_more() for product in products])
     return jsonify(products=[product.serialize_more() for product in products])
 

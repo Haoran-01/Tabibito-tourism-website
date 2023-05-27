@@ -12,8 +12,8 @@ class Config:
 
     UPLOAD_FOLDER = 'front_end/tabibito_frontend/dist/pictures'
     UPLOAD_URL = 'pictures'
-    BASE_URL = "http://127.0.0.1:5000"
-    # BASE_URL = "http://csi420-01-vm1.ucd.ie/"
+    # BASE_URL = "http://127.0.0.1:5000"
+    BASE_URL = "http://csi420-01-vm1.ucd.ie/"
     AVATAR_FOLDER = 'front_end/tabibito_frontend/dist/pictures'
     AVATAR_URL = 'avatar'
 
@@ -35,7 +35,7 @@ class DevelopmentConfig(Config):
     DATABASE = 'tabibito'
     USERNAME = 'root'
     # PASSWORD = 'Wangji1208'
-    PASSWORD = 'l20011026'
+    PASSWORD = 'Wwj13049995918()'
     DB_URI = 'mysql+pymysql://{}:{}@{}:{}/{}?charset=utf8'.format(USERNAME, PASSWORD, HOSTNAME, PORT, DATABASE)
     SQLALCHEMY_DATABASE_URI = DB_URI
     SQLALCHEMY_TRACK_MODIFICATIONS = True
