@@ -51,11 +51,11 @@ const routes = [
     { path: '/user/profile/:uid', component: profileView, meta: {title: 'profile - Tabibito'}},
     { path: '/user/profile/:uid/edit', component: rightSettingView, meta: {title: 'edit profile - Tabibito'}},
     { path: '/chat', component: chatView, meta: {title: 'chat - Tabibito'}},
-    { path: '/moreView', name:'more', component: moreView, meta: {title: 'more View - Tabibito'}},
+    { path: '/moreView', name:'more', component: moreView, meta: {title: 'more programs - Tabibito'}},
     { path: '/chartsData', component: chartsView, meta: {title: 'charts View - Tabibito'}},
     { path: '/chartsMaps', component: chartsView1, meta: {title: 'charts View - Tabibito'}},
     { path: '/chartsRates', component: chartsView2, meta: {title: 'charts View - Tabibito'}},
-    { path: '/load', component: loadView, meta: {title: 'Loading View - Tabibito'}},
+    { path: '/load', component: loadView, meta: {title: 'Loading - Tabibito'}},
 ]
 
 const router = createRouter({
