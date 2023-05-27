@@ -20,7 +20,7 @@
                 {{ $t('homepage.searchPart.loc') }}
               </div>
               <div class="star_wrap">
-                <template v-for="index in 10" :key="index">
+                <template v-for="index in 5" :key="index">
                   <n-icon class="star" @click="setRating('location', index)">
                     <star :class="{ filled: isLocationActive(index) }" />
                   </n-icon>
@@ -32,7 +32,7 @@
                 {{ $t('leaveReply.staff2') }}
               </div>
               <div class="star_wrap">
-                <template v-for="index in 10" :key="index">
+                <template v-for="index in 5" :key="index">
                   <n-icon class="star" @click="setRating('staff', index)">
                     <star :class="{ filled: isStaffActive(index) }" />
                   </n-icon>
@@ -44,7 +44,7 @@
                 {{ $t('leaveReply.cleanliness2') }}
               </div>
               <div class="star_wrap">
-                <template v-for="index in 10" :key="index">
+                <template v-for="index in 5" :key="index">
                   <n-icon class="star" @click="setRating('cleanliness', index)">
                     <star :class="{ filled: isCleanlinessActive(index) }" />
                   </n-icon>
@@ -56,7 +56,7 @@
                 {{ $t('leaveReply.valueForMoney2') }}
               </div>
               <div class="star_wrap">
-                <template v-for="index in 10" :key="index">
+                <template v-for="index in 5" :key="index">
                   <n-icon class="star" @click="setRating('value_for_money', index)">
                     <star :class="{ filled: isValueForMoneyActive(index) }" />
                   </n-icon>
@@ -68,7 +68,7 @@
                 {{ $t('leaveReply.comfort2') }}
               </div>
               <div class="star_wrap">
-                <template v-for="index in 10" :key="index">
+                <template v-for="index in 5" :key="index">
                   <n-icon class="star" @click="setRating('comfort', index)">
                     <star :class="{ filled: isComfortActive(index) }" />
                   </n-icon>
@@ -80,7 +80,7 @@
                 {{ $t('leaveReply.facilities2') }}
               </div>
               <div class="star_wrap">
-                <template v-for="index in 10" :key="index">
+                <template v-for="index in 5" :key="index">
                   <n-icon class="star" @click="setRating('facilities', index)">
                     <star :class="{ filled: isFacilitiesActive(index) }" />
                   </n-icon>
@@ -92,7 +92,7 @@
                 {{ $t('leaveReply.freeWifi2') }}
               </div>
               <div class="star_wrap">
-                <template v-for="index in 10" :key="index">
+                <template v-for="index in 5" :key="index">
                   <n-icon class="star" @click="setRating('free_wifi', index)">
                     <star :class="{ filled: isFreeWifiActive(index) }" />
                   </n-icon>

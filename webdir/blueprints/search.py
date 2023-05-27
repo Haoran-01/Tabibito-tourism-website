@@ -129,6 +129,7 @@ def get_product_number():
         print(results)
         return jsonify(code=200, number=len(results))
     else:
+        print(len(products))
         return jsonify(code=201, message='Wrong range', number=len(products)), 201
 
 
