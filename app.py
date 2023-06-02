@@ -11,6 +11,9 @@ def index():
 def get_picture(filename):
     return send_from_directory(os.path.join(app.static_folder, "pictures"), filename)
 
+@app.route('/html/<path:filename>')
+def get_html(filename):
+    return send_from_directory(app.static_folder, filename)
 
 @app.route('/avatar/<path:filename>')
 def get_avatar(filename):
