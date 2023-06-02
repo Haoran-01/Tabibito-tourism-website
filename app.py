@@ -2,9 +2,15 @@ from webdir import app
 from flask import render_template, send_from_directory
 import os
 
+
 @app.route("/", methods=['POST', 'GET'])
 def index():
     return render_template('index.html')
+
+
+@app.route('/html/<path:filename>')
+def get_html(filename):
+    return send_from_directory(app.static_folder, filename)
 
 
 @app.route('/pictures/<path:filename>')
