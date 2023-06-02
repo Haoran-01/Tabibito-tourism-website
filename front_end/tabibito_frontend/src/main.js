@@ -15,9 +15,9 @@ import axios from 'axios'
 
 const app = createApp(App);
 const pinia = createPinia();
-axios.defaults.baseURL = 'http://127.0.0.1:5000';
+axios.defaults.baseURL = 'http://csi420-01-vm1.ucd.ie';
 axios.defaults.withCredentials = true;
-// http://127.0.0.1:5137
+// http://127.0.0.1:5000
 // http://127.0.0.1:4523/m1/2418665-0-default
 app.config.globalProperties.axios = axios;
 app.config.globalProperties.$myApp = app;
