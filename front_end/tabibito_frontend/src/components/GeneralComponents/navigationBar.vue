@@ -17,7 +17,8 @@
        <div class="simpleSettings">
 <!--         @mouseenter="currency_is_shown = true" @mouseleave="currency_is_shown = false"-->
          <div class="actionButton currencyButton" @click="this.$router.push('/search_result')">
-           <div class="actionIcon" id="currencyIcon" :style="currencyIcon1"></div>
+           <div class="actionIcon1"></div>
+
            <div class="actionText" id="currencyText">{{ $t('navi.sear') }}</div>
          </div>
          <div class="divider"></div>
@@ -25,7 +26,7 @@
          <div class="actionButton currencyButton">
 
 
-           <div class="actionIcon" id="currencyIcon" :style="currencyIcon2"></div>
+           <div class="actionIcon" id="chartIcon"></div>
            <n-dropdown trigger="click" style="z-index: 100000000 !important;" :options="options" @select="handleSelect">
              {{ $t('navi.chart') }}
            </n-dropdown>
@@ -33,13 +34,13 @@
          <div class="divider"></div>
 
          <div class="actionButton currencyButton" @click="this.$router.push('/chat')">
-           <div class="actionIcon" id="currencyIcon" :style="currencyIcon"></div>
+           <div class="actionIcon" id="chatIcon"></div>
            <div class="actionText" id="currencyText">{{ $t('navi.chat') }}</div>
          </div>
          <div class="divider"></div>
 
          <div class="actionButton currencyButton" @click="this.$router.push('/about')">
-           <div class="actionIcon" id="currencyIcon" :style="currencyIcon3"></div>
+           <div class="actionIcon" id="teamIcon"></div>
            <div class="actionText" id="currencyText">{{ $t('navi.about') }}</div>
          </div>
 
@@ -206,8 +207,10 @@ export default defineComponent({
         }
       ],
       login_item: [
-        {icon: "background-image:url('src/assets/login.svg')", text: this.$t('navi.login'), path: '/login'},
-        {icon: "background-image:url('src/assets/signup.svg')", text: this.$t('navi.signup'), path: '/register'}
+        // {icon: "background-image:url('src/assets/login.svg')", text: this.$t('navi.login'), path: '/login'},
+        // {icon: "background-image:url('src/assets/signup.svg')", text: this.$t('navi.signup'), path: '/register'}
+        {text: this.$t('navi.login'), path: '/login'},
+        {text: this.$t('navi.signup'), path: '/register'}
       ]
     }
   },
@@ -342,6 +345,44 @@ export default defineComponent({
   width: 24px;
   height: 24px;
 }
+
+.actionIcon1{
+  background-image: url('../../assets/tour.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 24px;
+  height: 24px;
+}
+
+#chatIcon{
+  background-image: url('../../assets/chat.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 24px;
+  height: 24px;
+}
+
+#chartIcon{
+  background-image: url('../../assets/chart.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 24px;
+  height: 24px;
+}
+
+#teamIcon{
+  background-image: url('../../assets/team.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 24px;
+  height: 24px;
+}
+
+
 .actionText{
   font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
 }

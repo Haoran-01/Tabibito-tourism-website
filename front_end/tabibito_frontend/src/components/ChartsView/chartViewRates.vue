@@ -20,10 +20,10 @@ export default {
     // 使用JavaScript将Pyecharts图表嵌入到容器中
 
     const chartContainer4 = document.getElementById("chart4");
-    chartContainer4.innerHTML = '<iframe src="../../../dist/reservation_rate_liquid.html" frameborder="0" style="width:100%;height:550px;margin-top:3%"></iframe>';
+    chartContainer4.innerHTML = '<iframe src="http://csi420-01-vm1.ucd.ie/html/reservation_rate_liquid.html" frameborder="0" style="width:100%;height:550px;margin-top:3%"></iframe>';
 
     const chartContainer5 = document.getElementById("chart5");
-    chartContainer5.innerHTML = '<iframe src="../../../dist/reservation_rate_guage.html" frameborder="0" style="width:100%;height:550px;margin-top: 10%"></iframe>';
+    chartContainer5.innerHTML = '<iframe src="http://csi420-01-vm1.ucd.ie/html/reservation_rate_guage.html" frameborder="0" style="width:100%;height:550px;margin-top: 10%"></iframe>';
   },
 }
 </script>

@@ -10,7 +10,7 @@ export default {
   mounted() {
     // 使用JavaScript将Pyecharts图表嵌入到容器中
     const chartContainer1 = document.getElementById("chart1");
-    chartContainer1.innerHTML = '<iframe src="../../../dist/orders_of_types_15.html" frameborder="0" style="width:100%;height:600px;"></iframe>';
+    chartContainer1.innerHTML = '<iframe src="http://csi420-01-vm1.ucd.ie/html/orders_of_types_15.html" frameborder="0" style="width:100%;height:600px;"></iframe>';
 
   },
 }

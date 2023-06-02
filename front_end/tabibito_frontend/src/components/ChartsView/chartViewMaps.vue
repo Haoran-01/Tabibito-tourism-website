@@ -20,10 +20,10 @@ export default {
     // 使用JavaScript将Pyecharts图表嵌入到容器中
 
     const chartContainer2 = document.getElementById("chart2");
-    chartContainer2.innerHTML = '<iframe src="../../../dist/map_world.html" frameborder="0" style="width:100%;height:600px;margin-top: 10%"></iframe>';
+    chartContainer2.innerHTML = '<iframe src="http://csi420-01-vm1.ucd.ie/html/map_world.html" frameborder="0" style="width:100%;height:600px;margin-top: 10%"></iframe>';
 
     const chartContainer3 = document.getElementById("chart3");
-    chartContainer3.innerHTML = '<iframe src="../../../dist/map_globe_3d.html" frameborder="0" style="width:100%;height:550px;margin-top: 3%"></iframe>';
+    chartContainer3.innerHTML = '<iframe src="http://csi420-01-vm1.ucd.ie/html/map_globe_3d.html" frameborder="0" style="width:100%;height:550px;margin-top: 3%"></iframe>';
 
   },
 }

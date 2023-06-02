@@ -368,7 +368,7 @@ export default {
     },
     simEx: {
         similarExperiences: '类似体验',
-        interdumEtMalesuadaFamesAcAnteIpsum: '类似体验'
+        interdumEtMalesuadaFamesAcAnteIpsum: '探索与更多相似的旅行'
     },
     traveldetails: {
         showOnMap: '在地图上显示',

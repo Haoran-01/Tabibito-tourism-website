@@ -369,7 +369,7 @@ export default {
     },
     simEx: {
         similarExperiences: 'Similar Experiences',
-        interdumEtMalesuadaFamesAcAnteIpsum: 'Interdum et malesuada fames ac ante ipsum'
+        interdumEtMalesuadaFamesAcAnteIpsum: 'Explore The Interesting Trips Similar with Your Experience'
     },
     traveldetails: {
         showOnMap: 'Show on map',
